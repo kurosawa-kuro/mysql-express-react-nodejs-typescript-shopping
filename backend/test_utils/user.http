@@ -1,0 +1,86 @@
+###
+# @name loginUser
+# @description Login to a user account
+POST http://localhost:5000/api/users/auth HTTP/1.1
+content-type: application/json
+
+{
+  "email": "new-user@example.com",
+  "password": "new-password"
+}
+
+###
+
+# @name getUserProfile
+# @description Fetch user profile
+GET http://localhost:5000/api/users/profile HTTP/1.1
+content-type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDc2MWRiZWRiMGExZDg2MTMxMTg3YjMiLCJpYXQiOjE2ODU0NjI1MzksImV4cCI6MTY4ODA1NDUzOX0.z99qxEzkVhqNQfox4WxXwV7cxAfXEz7njv4zY5rlNR0
+
+###
+
+# @name updateUserProfile
+# @description Update user profile
+PUT http://localhost:5000/api/users/profile HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{loginUser.response.body.token}}
+
+{
+  "name": "New name",
+  "email": "new-email@example.com",
+  "password": "new-password"
+}
+
+###
+
+# @name getUsers
+# @description Fetch all users (Admin only)
+GET http://localhost:5000/api/users HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{loginUser.response.body.token}}
+
+###
+
+# @name registerUser
+# @description Register a new user
+POST http://localhost:5000/api/users HTTP/1.1
+content-type: application/json
+
+{
+  "name": "New User",
+  "email": "new-user@example.com",
+  "password": "new-password"
+}
+
+###
+
+# @name getUserById
+# @description Fetch user by ID (Admin only)
+GET http://localhost:5000/api/users/1 HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{loginUser.response.body.token}}
+
+###
+
+# @name updateUser
+# @description Update user by ID (Admin only)
+PUT http://localhost:5000/api/users/1 HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{loginUser.response.body.token}}
+
+{
+  "name": "Updated User",
+  "email": "updated-user@example.com",
+  "password": "updated-password",
+  "isAdmin": false
+}
+
+###
+
+# @name deleteUser
+# @description Delete user by ID (Admin only)
+DELETE http://localhost:5000/api/users/1 HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{loginUser.response.body.token}}
+
+###
