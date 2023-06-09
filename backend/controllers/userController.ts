@@ -1,5 +1,5 @@
 // External Imports
-import { NextFunction, Response } from "express";
+import { Response } from "express";
 import bcrypt from "bcryptjs";
 import asyncHandler from "express-async-handler";
 

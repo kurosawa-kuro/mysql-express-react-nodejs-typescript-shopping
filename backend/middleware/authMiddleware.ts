@@ -28,8 +28,9 @@ export const protect = asyncHandler(
         jwtSecret
       ) as DecodedJwtPayloadWithUserId;
 
+      const id = Number(decoded.userId);
       const user = await db.user.findUnique({
-        where: { id: Number(decoded.userId) },
+        where: { id },
       });
 
       if (user) {
