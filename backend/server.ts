@@ -1,5 +1,8 @@
-import app from "./index"
+import app from "./index";
 
-app.listen(5000, () => // Use the imported 'app' here
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${5000}`)
+const port = process.env.PORT || 5000;
+
+app.listen(port, () =>
+  // Use the imported 'app' here
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`)
 );

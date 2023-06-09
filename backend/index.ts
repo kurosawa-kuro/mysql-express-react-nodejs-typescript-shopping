@@ -46,7 +46,8 @@ app.use("/api/upload", uploadRoutes);
 app.get("/", (req, res) => {
   res.send("API is running....");
 });
-// // PayPal Configuration Endpoint
+
+// PayPal Configuration Endpoint
 // app.get('/api/config/paypal', (req, res) =>
 //   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 // );
