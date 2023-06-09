@@ -10,8 +10,9 @@ export interface DecodedJwtPayloadWithUserId extends JwtPayload {
 
 export interface UserWithoutPassword extends Omit<UserType, "password"> {}
 
-// export type RequestUser = Request & { user?: UserWithoutPassword };
-export type RequestUser = Request & { user?: UserWithoutPassword };
+export interface RequestUser extends Request {
+  user?: UserWithoutPassword;
+}
 
 export interface OrderItems {
   id: number;
