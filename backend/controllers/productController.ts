@@ -7,7 +7,7 @@ import { Request, Response } from "express";
 // Internal Imports
 import { db } from "../database/prisma/prismaClient";
 import { Prisma, Product } from "@prisma/client";
-import { ReqUser } from "../interfaces";
+import { RequestUser } from "../interfaces";
 
 const pageSize: number = Number(process.env.PAGINATION_LIMIT);
 
@@ -47,7 +47,7 @@ const getProductById = asyncHandler(async (req: Request, res: Response) => {
   res.json(handleNotFoundProduct(product));
 });
 
-const createProduct = asyncHandler(async (req: ReqUser, res: Response) => {
+const createProduct = asyncHandler(async (req: RequestUser, res: Response) => {
   if (!req.user?.id) {
     res.status(401);
     throw new Error("Not authorized");
@@ -70,7 +70,7 @@ const createProduct = asyncHandler(async (req: ReqUser, res: Response) => {
   res.status(201).json(product);
 });
 
-const updateProduct = asyncHandler(async (req: ReqUser, res: Response) => {
+const updateProduct = asyncHandler(async (req: RequestUser, res: Response) => {
   req.body.image = req.body.image
     .replace(/\\/g, "/")
     .replace("/frontend/public", "");
@@ -83,7 +83,7 @@ const updateProduct = asyncHandler(async (req: ReqUser, res: Response) => {
   res.json(handleNotFoundProduct(product));
 });
 
-const deleteProduct = asyncHandler(async (req: ReqUser, res: Response) => {
+const deleteProduct = asyncHandler(async (req: RequestUser, res: Response) => {
   await db.product.delete({
     where: { id: Number(req.params.id) },
   });

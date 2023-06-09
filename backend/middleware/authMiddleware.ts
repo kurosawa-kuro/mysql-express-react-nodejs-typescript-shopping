@@ -7,13 +7,13 @@ import asyncHandler from "express-async-handler";
 // Internal Imports
 import { db } from "../database/prisma/prismaClient";
 import {
-  DecodedJwtPayload,
-  ReqUser,
+  DecodedJwtPayloadWithUserId,
+  RequestUser,
   UserWithoutPassword,
 } from "../interfaces/index";
 
 export const protect = asyncHandler(
-  async (req: ReqUser, res: Response, next: NextFunction) => {
+  async (req: RequestUser, res: Response, next: NextFunction) => {
     let token = req.cookies.jwt;
 
     if (!token) {
@@ -23,7 +23,10 @@ export const protect = asyncHandler(
 
     try {
       const jwtSecret: Secret = process.env.JWT_SECRET!;
-      const decoded = jwt.verify(token, jwtSecret) as DecodedJwtPayload;
+      const decoded = jwt.verify(
+        token,
+        jwtSecret
+      ) as DecodedJwtPayloadWithUserId;
 
       const user = await db.user.findUnique({
         where: { id: Number(decoded.userId) },
@@ -49,7 +52,7 @@ export const protect = asyncHandler(
 );
 
 export const admin = asyncHandler(
-  async (req: ReqUser, res: Response, next: NextFunction) => {
+  async (req: RequestUser, res: Response, next: NextFunction) => {
     if (req.user && req.user.isAdmin) {
       next();
     } else {

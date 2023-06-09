@@ -7,7 +7,7 @@ import { NextFunction, Response } from "express";
 // Internal Imports
 import { db } from "../database/prisma/prismaClient";
 import { Order } from "@prisma/client";
-import { ReqUser, OrderItems } from "../interfaces";
+import { RequestUser, OrderItems } from "../interfaces";
 
 const findOrderById = async (id: number): Promise<Order | null> => {
   return db.order.findUnique({
@@ -16,7 +16,7 @@ const findOrderById = async (id: number): Promise<Order | null> => {
   });
 };
 
-const checkAuth = (req: ReqUser, res: Response) => {
+const checkAuth = (req: RequestUser, res: Response) => {
   if (!req.user || !req.user.id) {
     res.status(401);
     throw new Error("Not authorized");
@@ -24,7 +24,7 @@ const checkAuth = (req: ReqUser, res: Response) => {
 };
 
 const addOrderItems = asyncHandler(
-  async (req: ReqUser, res: Response, next: NextFunction) => {
+  async (req: RequestUser, res: Response, next: NextFunction) => {
     checkAuth(req, res);
 
     const {
@@ -67,7 +67,7 @@ const addOrderItems = asyncHandler(
 );
 
 const getMyOrders = asyncHandler(
-  async (req: ReqUser, res: Response, next: NextFunction) => {
+  async (req: RequestUser, res: Response, next: NextFunction) => {
     checkAuth(req, res);
 
     const userId = Number(req.user?.id);
@@ -82,44 +82,46 @@ const getMyOrders = asyncHandler(
   }
 );
 
-const getOrderById = asyncHandler(async (req: ReqUser, res: Response) => {
+const getOrderById = asyncHandler(async (req: RequestUser, res: Response) => {
   const order = await findOrderById(Number(req.params.id));
   order
     ? res.json(order)
     : res.status(404).json({ message: "Order not found" });
 });
 
-const updateOrderToPaid = asyncHandler(async (req: ReqUser, res: Response) => {
-  const order = await findOrderById(Number(req.params.id));
-  if (!order) {
-    res.status(404);
-    throw new Error("Order not found");
+const updateOrderToPaid = asyncHandler(
+  async (req: RequestUser, res: Response) => {
+    const order = await findOrderById(Number(req.params.id));
+    if (!order) {
+      res.status(404);
+      throw new Error("Order not found");
+    }
+
+    const {
+      id,
+      status,
+      update_time,
+      payer: { email_address },
+    } = req.body;
+
+    const updatedOrder: Order = await db.order.update({
+      where: { id: order.id },
+      data: {
+        isPaid: true,
+        paidAt: new Date(),
+        paymentResultId: id,
+        paymentResultStatus: status,
+        paymentResultUpdateTime: update_time,
+        paymentResultEmail: email_address,
+      },
+    });
+
+    res.json(updatedOrder);
   }
-
-  const {
-    id,
-    status,
-    update_time,
-    payer: { email_address },
-  } = req.body;
-
-  const updatedOrder: Order = await db.order.update({
-    where: { id: order.id },
-    data: {
-      isPaid: true,
-      paidAt: new Date(),
-      paymentResultId: id,
-      paymentResultStatus: status,
-      paymentResultUpdateTime: update_time,
-      paymentResultEmail: email_address,
-    },
-  });
-
-  res.json(updatedOrder);
-});
+);
 
 const updateOrderToDelivered = asyncHandler(
-  async (req: ReqUser, res: Response) => {
+  async (req: RequestUser, res: Response) => {
     const order = await findOrderById(Number(req.params.id));
     order
       ? res.json(
@@ -135,7 +137,7 @@ const updateOrderToDelivered = asyncHandler(
   }
 );
 
-const getOrders = asyncHandler(async (req: ReqUser, res: Response) => {
+const getOrders = asyncHandler(async (req: RequestUser, res: Response) => {
   const orders: Order[] = await db.order.findMany({
     include: {
       user: true,
