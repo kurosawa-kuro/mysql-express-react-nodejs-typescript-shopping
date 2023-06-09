@@ -62,8 +62,9 @@ const logoutUser = (req: RequestUser, res: Response) => {
 };
 
 const getUserProfile = asyncHandler(async (req: RequestUser, res: Response) => {
-  if (!req.user) {
-    throw new Error("Not authenticated");
+  if (!req.user || !req.user.id) {
+    res.status(401);
+    throw new Error("Not authorized");
   }
 
   const id = req.user.id;
@@ -79,8 +80,9 @@ const getUserProfile = asyncHandler(async (req: RequestUser, res: Response) => {
 
 const updateUserProfile = asyncHandler(
   async (req: RequestUser, res: Response) => {
-    if (!req.user) {
-      throw new Error("Not authenticated");
+    if (!req.user || !req.user.id) {
+      res.status(401);
+      throw new Error("Not authorized");
     }
 
     const id = req.user.id;

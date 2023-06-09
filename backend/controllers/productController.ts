@@ -49,7 +49,7 @@ const getProductById = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const createProduct = asyncHandler(async (req: RequestUser, res: Response) => {
-  if (!req.user?.id) {
+  if (!req.user || !req.user.id) {
     res.status(401);
     throw new Error("Not authorized");
   }

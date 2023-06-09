@@ -16,16 +16,12 @@ const findOrderById = async (id: number): Promise<Order | null> => {
   });
 };
 
-const checkAuth = (req: RequestUser, res: Response) => {
-  if (!req.user || !req.user.id) {
-    res.status(401);
-    throw new Error("Not authorized");
-  }
-};
-
 const addOrderItems = asyncHandler(
   async (req: RequestUser, res: Response, next: NextFunction) => {
-    checkAuth(req, res);
+    if (!req.user || !req.user.id) {
+      res.status(401);
+      throw new Error("Not authorized");
+    }
 
     const {
       orderItems,
@@ -44,7 +40,7 @@ const addOrderItems = asyncHandler(
 
     const createdOrder: Order = await db.order.create({
       data: {
-        userId: Number(req.user?.id),
+        userId: Number(req.user.id),
         address: shippingAddress.address,
         city: shippingAddress.city,
         postalCode: shippingAddress.postalCode,
@@ -68,9 +64,12 @@ const addOrderItems = asyncHandler(
 
 const getMyOrders = asyncHandler(
   async (req: RequestUser, res: Response, next: NextFunction) => {
-    checkAuth(req, res);
+    if (!req.user || !req.user.id) {
+      res.status(401);
+      throw new Error("Not authorized");
+    }
 
-    const userId = Number(req.user?.id);
+    const userId = Number(req.user.id);
     const orders = await db.order.findMany({
       where: { userId },
       include: {
