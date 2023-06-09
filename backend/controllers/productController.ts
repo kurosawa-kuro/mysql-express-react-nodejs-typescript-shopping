@@ -6,11 +6,8 @@ import { Request, Response } from "express";
 
 // Internal Imports
 import { db } from "../database/prisma/prismaClient";
-import { Prisma, Product, User } from "@prisma/client";
-
-interface ReqUser extends Request {
-  user?: User & { id: string };
-}
+import { Prisma, Product } from "@prisma/client";
+import { ReqUser } from "../interfaces";
 
 const pageSize: number = Number(process.env.PAGINATION_LIMIT);
 

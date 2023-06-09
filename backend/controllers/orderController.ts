@@ -2,20 +2,12 @@
 
 // External Imports
 import asyncHandler from "express-async-handler";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 
 // Internal Imports
 import { db } from "../database/prisma/prismaClient";
-import { Order, User } from "@prisma/client";
-
-interface ReqUser extends Request {
-  user?: User & { id: string };
-}
-
-interface OrderItems {
-  id: number;
-  qty: number;
-}
+import { Order } from "@prisma/client";
+import { ReqUser, OrderItems } from "../interfaces";
 
 const findOrderById = async (id: number): Promise<Order | null> => {
   return db.order.findUnique({
