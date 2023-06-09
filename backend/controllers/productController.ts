@@ -41,8 +41,9 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const getProductById = asyncHandler(async (req: Request, res: Response) => {
+  const id: number = Number(req.params.id);
   const product: Product | null = await db.product.findUnique({
-    where: { id: Number(req.params.id) },
+    where: { id },
   });
   res.json(handleNotFoundProduct(product));
 });
@@ -71,12 +72,13 @@ const createProduct = asyncHandler(async (req: RequestUser, res: Response) => {
 });
 
 const updateProduct = asyncHandler(async (req: RequestUser, res: Response) => {
+  const id: number = Number(req.params.id);
   req.body.image = req.body.image
     .replace(/\\/g, "/")
     .replace("/frontend/public", "");
 
   const product: Product | null = await db.product.update({
-    where: { id: Number(req.params.id) },
+    where: { id },
     data: req.body as Prisma.ProductUpdateInput,
   });
 
@@ -84,8 +86,9 @@ const updateProduct = asyncHandler(async (req: RequestUser, res: Response) => {
 });
 
 const deleteProduct = asyncHandler(async (req: RequestUser, res: Response) => {
+  const id: number = Number(req.params.id);
   await db.product.delete({
-    where: { id: Number(req.params.id) },
+    where: { id },
   });
   res.json({ message: "Product removed" });
 });
