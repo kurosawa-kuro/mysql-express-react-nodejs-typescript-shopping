@@ -8,7 +8,7 @@
         "moduleResolution": "node",
         "esModuleInterop": true
     },
-    "include": ["**/*.ts", "backend/index.js"],
+    "include": ["**/*.ts", "backend/index.ts"],
     "exclude": ["node_modules", "**/*.test.ts"]
   }
   
