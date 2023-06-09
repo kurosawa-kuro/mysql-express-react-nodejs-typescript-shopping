@@ -81,13 +81,17 @@ const createProduct = asyncHandler(async (req: ReqUser, res: Response) => {
 
 const updateProduct = asyncHandler(async (req: ReqUser, res: Response) => {
   const id: number = Number(req.params.id);
-  const updatedProduct: Product | null = await db.product.update({
+  req.body.image = req.body.image
+    .replace(/\\/g, "/")
+    .replace("/frontend/public", "");
+
+  const product: Product | null = await db.product.update({
     where: { id },
     data: req.body as Prisma.ProductUpdateInput,
   });
 
-  if (updatedProduct) {
-    res.json(updatedProduct);
+  if (product) {
+    res.json(product);
   } else {
     res.status(404);
     throw new Error("Product not found");

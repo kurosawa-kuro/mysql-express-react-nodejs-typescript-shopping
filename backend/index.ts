@@ -1,19 +1,19 @@
 // backend\index.js
 
 // External Imports
-import path from 'path';
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import cookieParser from 'cookie-parser';
-import morgan from 'morgan';
+import path from "path";
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import morgan from "morgan";
 
 // // Internal Imports
-import productRoutes from './routes/productRoutes';
-import userRoutes from './routes/userRoutes';
-import orderRoutes from './routes/orderRoutes';
-import uploadRoutes from './routes/uploadRoutes';
-import { notFound, errorHandler } from './middleware/errorMiddleware';
+import productRoutes from "./routes/productRoutes";
+import userRoutes from "./routes/userRoutes";
+import orderRoutes from "./routes/orderRoutes";
+import uploadRoutes from "./routes/uploadRoutes";
+import { notFound, errorHandler } from "./middleware/errorMiddleware";
 
 // Load Environment Variables
 dotenv.config();
@@ -21,8 +21,8 @@ dotenv.config();
 // Create Express Application
 const app = express();
 
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
 }
 
 // Middleware Configuration
@@ -31,18 +31,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // CORS Configuration
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 // // Express Routes
-app.use('/api/products', productRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/upload', uploadRoutes);
-app.get('/', (req, res) => {
-  res.send('API is running....');
+app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/upload", uploadRoutes);
+app.get("/", (req, res) => {
+  res.send("API is running....");
 });
 // // PayPal Configuration Endpoint
 // app.get('/api/config/paypal', (req, res) =>
@@ -51,7 +53,7 @@ app.get('/', (req, res) => {
 
 // // File Upload Endpoint
 // const __dirname = path.resolve();
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 // // Serve Static Files in Production
 // if (process.env.NODE_ENV === 'production') {

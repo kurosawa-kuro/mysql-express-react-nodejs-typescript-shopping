@@ -29,3 +29,4 @@ uploads/*jpg
 frontend/screenshot.png
 frontend/src/tests/screenshot/*
 screenshot.png
+frontend/public/images/*
