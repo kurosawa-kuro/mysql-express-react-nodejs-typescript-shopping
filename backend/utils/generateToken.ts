@@ -1,9 +1,9 @@
-// backend\utils\generateToken.js
-
 import jwt from 'jsonwebtoken';
+import { Response } from 'express';
+import { User as UserType } from "@prisma/client";
 
-const generateToken = (res, userId) => {
-  const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+const generateToken = (res: Response, userId: UserType['id']): void => {
+  const token = jwt.sign({ userId }, process.env.JWT_SECRET!, {
     expiresIn: '30d',
   });
 

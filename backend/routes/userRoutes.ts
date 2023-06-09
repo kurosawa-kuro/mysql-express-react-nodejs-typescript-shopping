@@ -1,7 +1,7 @@
 // backend\routes\userRoutes.js
 
 // External Imports
-import express from 'express';
+import express from "express";
 
 // Internal Imports
 import {
@@ -14,34 +14,34 @@ import {
   deleteUser,
   getUserById,
   updateUser,
-} from '../controllers/userController.js';
-import { protect, admin } from '../middleware/authMiddleware.js';
+} from "../controllers/userController";
+import { protect, admin } from "../middleware/authMiddleware";
 
 // Create Router
 const router = express.Router();
 
 // User Registration Route
-router.route('/register').post(registerUser);
+router.route("/register").post(registerUser);
 
 // User Login and Logout Routes
-router.post('/login', loginUser);
-router.post('/logout', logoutUser);
+router.post("/login", loginUser);
+router.post("/logout", logoutUser);
 
 // User Profile Routes (Get and Update)
 router
-  .route('/profile')
+  .route("/profile")
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
 
 // User Management Routes (Admin Access Only)
 router
-  .route('/:id')
+  .route("/:id")
   .delete(protect, admin, deleteUser)
   .get(protect, admin, getUserById)
   .put(protect, admin, updateUser);
 
 // Get Users Route (Admin Access Only)
-router.route('/').get(protect, admin, getUsers);
+router.route("/").get(protect, admin, getUsers);
 
 // Export Router
 export default router;

@@ -9,11 +9,11 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 
 // // Internal Imports
-// import productRoutes from './routes/productRoutes.js';
-// import userRoutes from './routes/userRoutes.js';
-// import orderRoutes from './routes/orderRoutes.js';
-// import uploadRoutes from './routes/uploadRoutes.js';
-// import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+import productRoutes from './routes/productRoutes';
+import userRoutes from './routes/userRoutes';
+import orderRoutes from './routes/orderRoutes';
+import uploadRoutes from './routes/uploadRoutes';
+import { notFound, errorHandler } from './middleware/errorMiddleware';
 
 // Load Environment Variables
 dotenv.config();
@@ -37,10 +37,10 @@ app.use(cors({
 }));
 
 // // Express Routes
-// app.use('/api/products', productRoutes);
-// app.use('/api/users', userRoutes);
-// app.use('/api/orders', orderRoutes);
-// app.use('/api/upload', uploadRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/upload', uploadRoutes);
 app.get('/', (req, res) => {
   res.send('API is running....');
 });
@@ -51,7 +51,7 @@ app.get('/', (req, res) => {
 
 // // File Upload Endpoint
 // const __dirname = path.resolve();
-// app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 // // Serve Static Files in Production
 // if (process.env.NODE_ENV === 'production') {
@@ -65,8 +65,8 @@ app.get('/', (req, res) => {
 //   });
 // }
 
-// // Error Handlers
-// app.use(notFound);
-// app.use(errorHandler);
+// Error Handlers
+app.use(notFound);
+app.use(errorHandler);
 
 export default app;
