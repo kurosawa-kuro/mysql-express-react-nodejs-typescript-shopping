@@ -10,13 +10,13 @@ import asyncHandler from "express-async-handler";
 import { db } from "../database/prisma/prismaClient";
 import { User as UserType } from "@prisma/client";
 
-interface DecodedData extends JwtPayload {
+interface DecodedJwtPayload extends JwtPayload {
   userId: string;
 }
 
 // Omit 'id' and 'password' from UserType as we are going to use a string id instead
 export interface ReqUser extends Request {
-  user: Omit<UserType, "id" | "password"> & { id: string };
+  user: Omit<UserType, "password">;
 }
 
 export const protect = asyncHandler(
@@ -30,7 +30,7 @@ export const protect = asyncHandler(
 
     try {
       const jwtSecret: Secret = process.env.JWT_SECRET!;
-      const decoded = jwt.verify(token, jwtSecret) as DecodedData;
+      const decoded = jwt.verify(token, jwtSecret) as DecodedJwtPayload;
 
       const user = await db.user.findUnique({
         where: { id: Number(decoded.userId) },
@@ -42,7 +42,7 @@ export const protect = asyncHandler(
         // Then we construct req.user with our new 'id' of string type and the rest of the user data
         (req as ReqUser).user = {
           ...userWithoutPassword,
-          id: decoded.userId,
+          id: Number(decoded.userId),
         };
       }
 
