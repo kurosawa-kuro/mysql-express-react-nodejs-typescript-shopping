@@ -71,7 +71,7 @@ const createProduct = asyncHandler(async (req: RequestUser, res: Response) => {
   res.status(201).json(product);
 });
 
-const updateProduct = asyncHandler(async (req: RequestUser, res: Response) => {
+const updateProduct = asyncHandler(async (req: Request, res: Response) => {
   const id: number = Number(req.params.id);
   req.body.image = req.body.image
     .replace(/\\/g, "/")
@@ -85,7 +85,7 @@ const updateProduct = asyncHandler(async (req: RequestUser, res: Response) => {
   res.json(handleNotFoundProduct(product));
 });
 
-const deleteProduct = asyncHandler(async (req: RequestUser, res: Response) => {
+const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
   const id: number = Number(req.params.id);
   await db.product.delete({
     where: { id },
