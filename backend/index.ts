@@ -1,19 +1,19 @@
-// backend\index.js
+// backend/index.ts
 
 // External Imports
-import path from "path";
-import express from "express";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
+import express from "express";
 import morgan from "morgan";
+import path from "path";
 
-// // Internal Imports
-import productRoutes from "./routes/productRoutes";
-import userRoutes from "./routes/userRoutes";
+// Internal Imports
+import { errorHandler, notFound } from "./middleware/errorMiddleware";
 import orderRoutes from "./routes/orderRoutes";
+import productRoutes from "./routes/productRoutes";
 import uploadRoutes from "./routes/uploadRoutes";
-import { notFound, errorHandler } from "./middleware/errorMiddleware";
+import userRoutes from "./routes/userRoutes";
 
 // Load Environment Variables
 dotenv.config();
@@ -21,14 +21,14 @@ dotenv.config();
 // Create Express Application
 const app = express();
 
-if (process.env.NODE_ENV === "development") {
+const { NODE_ENV } = process.env;
+
+if (NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
 // Middleware Configuration
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(express.json(), express.urlencoded({ extended: true }), cookieParser());
 
 // CORS Configuration
 app.use(
@@ -38,38 +38,28 @@ app.use(
   })
 );
 
-// // Express Routes
+// Express Routes
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/upload", uploadRoutes);
-app.get("/", (req, res) => {
-  res.send("API is running....");
-});
 
-// PayPal Configuration Endpoint
-// app.get('/api/config/paypal', (req, res) =>
-//   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
-// );
-
-// // File Upload Endpoint
-// const __dirname = path.resolve();
+// File Upload Endpoint
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
-// // Serve Static Files in Production
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(express.static(path.join(__dirname, '/frontend/build')));
-//   app.get('*', (req, res) =>
-//     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-//   );
-// } else {
-//   app.get('/', (req, res) => {
-//     res.send('API is running....');
-//   });
-// }
+// Serve Static Files in Production
+if (NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running....");
+  });
+}
 
 // Error Handlers
-app.use(notFound);
-app.use(errorHandler);
+app.use(notFound, errorHandler);
 
 export default app;

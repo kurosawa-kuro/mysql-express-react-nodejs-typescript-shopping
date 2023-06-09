@@ -1,5 +1,6 @@
-// backend\src\database\prisma\prismaClient.ts
+// backend/src/database/prisma/prismaClient.ts
 
+// External Imports
 import { PrismaClient } from "@prisma/client";
 
 declare global {

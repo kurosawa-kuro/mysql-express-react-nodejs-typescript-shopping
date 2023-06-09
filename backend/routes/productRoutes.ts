@@ -1,26 +1,28 @@
-// backend\routes\productRoutes.js
+// backend/routes/productRoutes.js
 
 // External Imports
 import express from "express";
 
-// Internal Imports
-import {
-  getProducts,
-  getProductById,
-  createProduct,
-  updateProduct,
-  deleteProduct,
-  getTopProducts,
-} from "../controllers/productController";
+// Middleware Imports
 import { protect, admin } from "../middleware/authMiddleware";
+
+// Controller Imports
+import {
+  createProduct,
+  deleteProduct,
+  getProductById,
+  getProducts,
+  getTopProducts,
+  updateProduct,
+} from "../controllers/productController";
 
 // Router Initialization
 const router = express.Router();
 
-// Product Routes
 // Top Products Route
 router.get("/top", getTopProducts);
 
+// Product Routes
 router.route("/").get(getProducts).post(protect, admin, createProduct);
 
 router

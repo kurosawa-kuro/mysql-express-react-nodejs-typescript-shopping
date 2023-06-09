@@ -1,14 +1,18 @@
-// backend\routes\uploadRoutes.ts
+// backend/routes/uploadRoutes.ts
 
-import path from "path";
+// External Imports
 import express, { Request, Response, Router } from "express";
-import multer, { diskStorage } from "multer";
+import { diskStorage } from "multer";
+import path from "path";
+
+// Middleware Initialization
+import multer from "multer";
 
 const router: Router = express.Router();
+const { NODE_ENV } = process.env;
 
-// If production, use Render server's data folder, else use local uploads folder
 const uploadFolder: string =
-  process.env.NODE_ENV === "production" ? "var/data/" : "uploads";
+  NODE_ENV === "production" ? "var/data/" : "uploads";
 
 const storage = diskStorage({
   destination(req, file, cb) {
@@ -43,16 +47,12 @@ function checkFileType(
   }
 }
 
-const upload = multer({
-  storage,
-});
+const upload = multer({ storage });
 
 router.post("/", upload.single("image"), (req: Request, res: Response) => {
   if (!req.file) {
     return res.status(400).send({ message: "No file uploaded" });
   }
-
-  console.log("req.file", req.file);
 
   res.send({
     message: "Image uploaded successfully",

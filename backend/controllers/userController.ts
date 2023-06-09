@@ -1,10 +1,14 @@
+// backend\controllers\userController.ts
+
+// External Imports
 import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import asyncHandler from "express-async-handler";
-import generateToken from "../utils/generateToken";
-import { PrismaClient, User as UserType } from "@prisma/client";
 
-const db = new PrismaClient();
+// Internal Imports
+import generateToken from "../utils/generateToken";
+import { User as UserType } from "@prisma/client";
+import { db } from "../database/prisma/prismaClient";
 
 interface RequestWithUser extends Request {
   user: UserType;

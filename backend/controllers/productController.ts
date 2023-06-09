@@ -1,7 +1,12 @@
+// backend\controllers\productController.ts
+
+// External Imports
 import asyncHandler from "express-async-handler";
+import { Request, Response } from "express";
+
+// Internal Imports
 import { db } from "../database/prisma/prismaClient";
 import { Prisma, Product, User } from "@prisma/client";
-import { Request, Response } from "express";
 
 interface ReqUser extends Request {
   user?: User & { id: string };
@@ -11,14 +16,16 @@ const pageSize: number = Number(process.env.PAGINATION_LIMIT);
 
 const getKeywordFilter = (
   keyword: string | undefined
-): Prisma.ProductWhereInput =>
-  keyword
-    ? {
-        name: {
-          contains: keyword,
-        },
-      }
-    : {};
+): Prisma.ProductWhereInput => (keyword ? { name: { contains: keyword } } : {});
+
+const handleNotFoundProduct = (product: Product | null) => {
+  if (!product) {
+    const err: any = new Error("Resource not found");
+    err.statusCode = 404;
+    throw err;
+  }
+  return product;
+};
 
 const getProducts = asyncHandler(async (req: Request, res: Response) => {
   const page: number = Number(req.query.pageNumber) || 1;
@@ -37,79 +44,53 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const getProductById = asyncHandler(async (req: Request, res: Response) => {
-  const id: number = Number(req.params.id);
   const product: Product | null = await db.product.findUnique({
-    where: { id },
+    where: { id: Number(req.params.id) },
   });
-
-  if (product) {
-    res.json(product);
-  } else {
-    res.status(404);
-    throw new Error("Resource not found");
-  }
+  res.json(handleNotFoundProduct(product));
 });
 
 const createProduct = asyncHandler(async (req: ReqUser, res: Response) => {
-  if (!req.user || !req.user.id) {
+  if (!req.user?.id) {
     res.status(401);
     throw new Error("Not authorized");
   }
 
-  // 以下は元のコードをそのまま使っています
-  const productData: Prisma.ProductCreateInput = {
-    name: "Sample name",
-    price: 0,
-    user: {
-      connect: {
-        id: Number(req.user.id),
-      },
+  const product: Product = await db.product.create({
+    data: {
+      name: "Sample name",
+      price: 0,
+      user: { connect: { id: Number(req.user.id) } },
+      image: "/images/sample.jpg",
+      brand: "Sample brand",
+      category: "Sample category",
+      countInStock: 0,
+      numReviews: 0,
+      description: "Sample description",
     },
-    image: "/images/sample.jpg",
-    brand: "Sample brand",
-    category: "Sample category",
-    countInStock: 0,
-    numReviews: 0,
-    description: "Sample description",
-  };
-
-  const createdProduct: Product = await db.product.create({
-    data: productData,
   });
-  res.status(201).json(createdProduct);
+
+  res.status(201).json(product);
 });
 
 const updateProduct = asyncHandler(async (req: ReqUser, res: Response) => {
-  const id: number = Number(req.params.id);
   req.body.image = req.body.image
     .replace(/\\/g, "/")
     .replace("/frontend/public", "");
 
   const product: Product | null = await db.product.update({
-    where: { id },
+    where: { id: Number(req.params.id) },
     data: req.body as Prisma.ProductUpdateInput,
   });
 
-  if (product) {
-    res.json(product);
-  } else {
-    res.status(404);
-    throw new Error("Product not found");
-  }
+  res.json(handleNotFoundProduct(product));
 });
 
 const deleteProduct = asyncHandler(async (req: ReqUser, res: Response) => {
-  const id: number = Number(req.params.id);
-  const deletedProduct: Product = await db.product.delete({
-    where: { id },
+  await db.product.delete({
+    where: { id: Number(req.params.id) },
   });
-
-  if (deletedProduct) {
-    res.json({ message: "Product removed" });
-  } else {
-    res.status(404);
-    throw new Error("Product not found");
-  }
+  res.json({ message: "Product removed" });
 });
 
 const getTopProducts = asyncHandler(async (req: Request, res: Response) => {
