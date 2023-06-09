@@ -8,7 +8,7 @@ import generateToken from "../utils/generateToken";
 import { db } from "../database/prisma/prismaClient";
 import { RequestUser, UserWithoutPassword } from "../interfaces";
 
-const removePasswordFromUserObject = (user: any): UserWithoutPassword => {
+const sanitizeUser = (user: any): UserWithoutPassword => {
   const { password, ...userWithoutPassword } = user;
   return userWithoutPassword;
 };
@@ -19,7 +19,7 @@ const loginUser = asyncHandler(async (req: RequestUser, res: Response) => {
 
   if (user && (await bcrypt.compare(password, user.password))) {
     generateToken(res, user.id);
-    res.json(removePasswordFromUserObject(user));
+    res.json(sanitizeUser(user));
   } else {
     res.status(401);
     throw new Error("Invalid email or password");
@@ -46,7 +46,7 @@ const registerUser = asyncHandler(async (req: RequestUser, res: Response) => {
 
   if (user) {
     generateToken(res, user.id);
-    res.status(201).json(removePasswordFromUserObject(user));
+    res.status(201).json(sanitizeUser(user));
   } else {
     res.status(400);
     throw new Error("Invalid user data");
@@ -70,7 +70,7 @@ const getUserProfile = asyncHandler(async (req: RequestUser, res: Response) => {
   const user = await db.user.findUnique({ where: { id } });
 
   if (user) {
-    res.json(removePasswordFromUserObject(user));
+    res.json(sanitizeUser(user));
   } else {
     res.status(404);
     throw new Error("User not found");
@@ -98,7 +98,7 @@ const updateUserProfile = asyncHandler(
         },
       });
 
-      res.json(removePasswordFromUserObject(updatedUser));
+      res.json(sanitizeUser(updatedUser));
     } else {
       res.status(404);
       throw new Error("User not found");
@@ -108,7 +108,7 @@ const updateUserProfile = asyncHandler(
 
 const getUsers = asyncHandler(async (req: RequestUser, res: Response) => {
   const users = await db.user.findMany();
-  res.json(users.map((user) => removePasswordFromUserObject(user)));
+  res.json(users.map((user) => sanitizeUser(user)));
 });
 
 const deleteUser = asyncHandler(async (req: RequestUser, res: Response) => {
@@ -134,7 +134,7 @@ const getUserById = asyncHandler(async (req: RequestUser, res: Response) => {
   const user = await db.user.findUnique({ where: { id } });
 
   if (user) {
-    res.json(removePasswordFromUserObject(user));
+    res.json(sanitizeUser(user));
   } else {
     res.status(404);
     throw new Error("User not found");
@@ -155,7 +155,7 @@ const updateUser = asyncHandler(async (req: RequestUser, res: Response) => {
       },
     });
 
-    res.json(removePasswordFromUserObject(updatedUser));
+    res.json(sanitizeUser(updatedUser));
   } else {
     res.status(404);
     throw new Error("User not found");
