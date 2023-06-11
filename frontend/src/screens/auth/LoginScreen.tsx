@@ -1,17 +1,47 @@
 // LoginScreen.tsx
 
 import { FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import FormContainer from "../../components/forms/FormContainer";
+import Loader from "../../components/common/Loader";
+import { loginUserApi } from "../../services/api";
+import { useAuthStore } from "../../state/store"; // Add this line
+// import { User } from "../../interfaces";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const setCredentials = useAuthStore((state) => state.setCredentials);
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+      const credentials = {
+        email: email,
+        password: password,
+      };
+      const user = await loginUserApi(credentials);
+      console.log({ user });
+      setCredentials(user);
+      toast.success("success login");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      toast.error("error login");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <FormContainer>

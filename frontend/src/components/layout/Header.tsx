@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import {
   FaUser,
   FaChevronDown,
@@ -8,23 +9,16 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import { useAuthStore } from "../../state/store";
+import { logoutUserApi } from "../../services/api";
 
 export const Header: React.FC = () => {
+  const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false);
   const [adminIsOpen, setAdminIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const adminDropdownRef = useRef<HTMLDivElement | null>(null);
-  const { userInfo, setCredentials } = useAuthStore();
-
-  useEffect(() => {
-    setCredentials({
-      id: 2,
-      name: "John Doe",
-      email: "john@email.com",
-      token: "JohnJohnJohn",
-      isAdmin: true,
-    });
-  }, [setCredentials]);
+  const { userInfo, logout } = useAuthStore();
 
   useEffect(() => {
     const closeDropdown = (e: MouseEvent) => {
@@ -89,7 +83,6 @@ export const Header: React.FC = () => {
           >
             Login
           </Link>
-
           <Link
             to="/register"
             className="block px-4 py-2 text-custom-blue-lightest hover:bg-custom-blue-lighter hover:text-custom-blue-extra-darkest"
@@ -137,6 +130,11 @@ export const Header: React.FC = () => {
                       Profile
                     </Link>
                     <button
+                      onClick={async () => {
+                        await logoutUserApi();
+                        logout();
+                        navigate("/login");
+                      }}
                       className="block w-full px-4 py-2 text-left text-sm text-custom-blue-lighter hover:bg-custom-blue-darkest"
                       role="menuitem"
                     >

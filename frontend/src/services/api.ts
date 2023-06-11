@@ -1,65 +1,14 @@
 // frontend\src\services\api.ts
 
-import { getApiClient } from "./apiClient";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  isAdmin: boolean;
-}
-
-interface Product {
-  id: number;
-  userId: number;
-  name: string;
-  image: string;
-  brand: string;
-  category: string;
-  description: string;
-  rating: number;
-  numReviews: number;
-  price: number;
-  countInStock: number;
-}
-
-interface Order {
-  id: number;
-  userId: number;
-  address: string;
-  city: string;
-  postalCode: string;
-  paymentMethod: string;
-  itemsPrice: number;
-  taxPrice: number;
-  shippingPrice: number;
-  totalPrice: number;
-  isPaid: boolean;
-  isDelivered: boolean;
-}
-
-interface PaymentDetails {
-  paymentResultId: string;
-  paymentResultStatus: string;
-  paymentResultUpdateTime: string;
-  paymentResultEmail: string;
-}
-
-interface ProductSearchParams {
-  keyword: string;
-  pageNumber: string;
-}
-
-interface ReviewData {
-  rating: number;
-  comment: string;
-}
-
-interface ErrorMessage {
-  message: string;
-}
+import { getApiClient } from "./apiClient";
+import {
+  User,
+  ProductSearchParams,
+  Product,
+  ErrorMessage,
+} from "../interfaces";
 
 const apiClient = getApiClient();
 

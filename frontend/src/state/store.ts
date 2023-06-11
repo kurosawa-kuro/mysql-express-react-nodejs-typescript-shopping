@@ -23,6 +23,7 @@ export const useAuthStore = create<AuthStore>((set) => {
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
       const expirationTime = new Date().getTime() + 30 * 24 * 60 * 60 * 1000; // 30 days
       localStorage.setItem("expirationTime", expirationTime.toString());
+      console.log({ userInfo });
 
       set({ userInfo });
     },
