@@ -1,18 +1,5 @@
 import { create } from "zustand";
-
-interface AuthStore {
-  userInfo: UserInfo | null;
-  setCredentials: (userInfo: UserInfo) => void;
-  logout: () => void;
-}
-
-interface UserInfo {
-  id: number;
-  name: string;
-  email: string;
-  token: string;
-  isAdmin: boolean;
-}
+import { AuthStore } from "../interfaces";
 
 export const useAuthStore = create<AuthStore>((set) => {
   const storedUserInfo = localStorage.getItem("userInfo");

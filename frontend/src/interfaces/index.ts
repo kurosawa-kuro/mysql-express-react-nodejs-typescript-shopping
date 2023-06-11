@@ -1,9 +1,30 @@
+// frontend\src\interfaces\index.ts
+
 export interface User {
   id: number;
   name: string;
   email: string;
   password: string;
   isAdmin: boolean;
+}
+
+export interface UserInfo {
+  id: number;
+  name: string;
+  email: string;
+  token: string;
+  isAdmin: boolean;
+}
+
+export interface Credentials {
+  email: string;
+  password: string;
+}
+
+export interface AuthStore {
+  userInfo: UserInfo | null;
+  setCredentials: (userInfo: UserInfo) => void;
+  logout: () => void;
 }
 
 export interface Product {
@@ -18,6 +39,16 @@ export interface Product {
   numReviews: number;
   price: number;
   countInStock: number;
+}
+
+export interface ProductSearchParams {
+  keyword: string;
+  pageNumber: string;
+}
+
+export interface ReviewData {
+  rating: number;
+  comment: string;
 }
 
 export interface Order {
@@ -40,16 +71,6 @@ export interface PaymentDetails {
   paymentResultStatus: string;
   paymentResultUpdateTime: string;
   paymentResultEmail: string;
-}
-
-export interface ProductSearchParams {
-  keyword: string;
-  pageNumber: string;
-}
-
-export interface ReviewData {
-  rating: number;
-  comment: string;
 }
 
 export interface ErrorMessage {

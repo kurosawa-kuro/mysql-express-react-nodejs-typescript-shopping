@@ -8,7 +8,7 @@ import FormContainer from "../../components/forms/FormContainer";
 import Loader from "../../components/common/Loader";
 import { loginUserApi } from "../../services/api";
 import { useAuthStore } from "../../state/store"; // Add this line
-// import { User } from "../../interfaces";
+import { Credentials } from "../../interfaces";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -22,12 +22,11 @@ const LoginScreen = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const credentials = {
+      const credentials: Credentials = {
         email: email,
         password: password,
       };
       const user = await loginUserApi(credentials);
-      console.log({ user });
       setCredentials(user);
       toast.success("success login");
       navigate("/");
