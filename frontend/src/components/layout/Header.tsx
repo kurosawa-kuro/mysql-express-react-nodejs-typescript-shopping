@@ -54,7 +54,6 @@ export const Header: React.FC = () => {
           </button>
         </div>
         <div className={`space-x-8 ${isOpen ? "block" : "hidden"} sm:flex`}>
-          {/* The remaining part of your navigation items go here */}
           <Link
             to="/"
             className="block px-4 py-2 text-custom-blue-lightest hover:bg-custom-blue-lighter hover:text-custom-blue-extra-darkest"

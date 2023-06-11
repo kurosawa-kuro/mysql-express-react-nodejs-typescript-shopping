@@ -24,9 +24,16 @@ export interface UserInfo {
   isAdmin: boolean;
 }
 
-export interface Credentials {
+export interface LoginUserCredentials {
   email: string;
   password: string;
+}
+
+export interface RegisterUserCredentials {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export interface UserAuthStore {
@@ -52,6 +59,12 @@ export interface Product {
 export interface ProductSearchParams {
   keyword: string;
   pageNumber: string;
+}
+
+export interface ProductResponse {
+  products: Product[];
+  page: number;
+  pages: number;
 }
 
 export interface ReviewData {

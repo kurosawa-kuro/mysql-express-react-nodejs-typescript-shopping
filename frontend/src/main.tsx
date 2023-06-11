@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import App from "./App.tsx";
 import "./index.css";
-import { HomeScreen } from "./screens/HomeScreen";
+import { HomeScreen } from "./screens/product/HomeScreen";
 import { InformationGetScreen } from "./screens/InformationGetScreen.tsx";
 import { InformationPostScreen } from "./screens/InformationPostScreen.tsx";
 import LoginScreen from "./screens/auth/LoginScreen.tsx";
