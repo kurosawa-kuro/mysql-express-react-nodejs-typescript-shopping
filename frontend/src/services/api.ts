@@ -4,7 +4,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 
 import { getApiClient } from "./apiClient";
 import {
-  User,
+  OptionalUser,
   ProductSearchParams,
   Product,
   ErrorMessage,
@@ -35,7 +35,7 @@ const performRequest = async (request: Promise<AxiosResponse<any>>) => {
   }
 };
 
-export const registerUserApi = (user: User) =>
+export const registerUserApi = (user: OptionalUser) =>
   performRequest(apiClient.post("/api/users/register", user));
 
 export const loginUserApi = (credentials: {
@@ -46,7 +46,7 @@ export const loginUserApi = (credentials: {
 export const fetchUserProfileApi = () =>
   performRequest(apiClient.get("/api/users/profile"));
 
-export const updateUserProfileApi = (user: User) =>
+export const updateUserProfileApi = (user: OptionalUser) =>
   performRequest(apiClient.put("/api/users/profile", user));
 
 export const logoutUserApi = () =>
@@ -60,7 +60,7 @@ export const deleteUserApi = (id: number) =>
 export const getUserDetailsApi = (userId: number) =>
   performRequest(apiClient.get(`/api/users/${userId}`));
 
-export const updateUserApi = (user: User) =>
+export const updateUserApi = (user: OptionalUser) =>
   performRequest(apiClient.put(`/api/users/${user.id}`, user));
 
 export const getProductsApi = ({ keyword, pageNumber }: ProductSearchParams) =>

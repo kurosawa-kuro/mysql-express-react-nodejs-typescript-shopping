@@ -1,12 +1,12 @@
 import { create } from "zustand";
-import { AuthStore } from "../interfaces";
+import { UserAuthStore } from "../interfaces";
 
-export const useAuthStore = create<AuthStore>((set) => {
+export const useAuthStore = create<UserAuthStore>((set) => {
   const storedUserInfo = localStorage.getItem("userInfo");
 
   return {
     userInfo: storedUserInfo ? JSON.parse(storedUserInfo) : null,
-    setCredentials: (userInfo) => {
+    setUserInfo: (userInfo) => {
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
       const expirationTime = new Date().getTime() + 30 * 24 * 60 * 60 * 1000; // 30 days
       localStorage.setItem("expirationTime", expirationTime.toString());

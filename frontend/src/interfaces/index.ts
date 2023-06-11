@@ -1,10 +1,18 @@
 // frontend\src\interfaces\index.ts
 
-export interface User {
+export interface FullUser {
   id: number;
   name: string;
   email: string;
   password: string;
+  isAdmin: boolean;
+}
+
+export interface OptionalUser {
+  id?: number;
+  name: string;
+  email: string;
+  password?: string;
   isAdmin: boolean;
 }
 
@@ -21,9 +29,9 @@ export interface Credentials {
   password: string;
 }
 
-export interface AuthStore {
+export interface UserAuthStore {
   userInfo: UserInfo | null;
-  setCredentials: (userInfo: UserInfo) => void;
+  setUserInfo: (userInfo: UserInfo) => void;
   logout: () => void;
 }
 

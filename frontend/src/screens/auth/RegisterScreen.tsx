@@ -1,18 +1,54 @@
 // frontend\src\screens\auth\RegisterScreen.tsx
 
 import { useState, ChangeEvent, FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import FormContainer from "../../components/forms/FormContainer";
+import Loader from "../../components/common/Loader";
+import { registerUserApi } from "../../services/api";
+import { useAuthStore } from "../../state/store";
+import { OptionalUser, UserInfo } from "../../interfaces";
 
 const RegisterScreen = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const setCredentials = useAuthStore((state) => state.setUserInfo);
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const user: OptionalUser = {
+        name: name,
+        email: email,
+        password: password,
+        isAdmin: false,
+      };
+      const registeredUser: UserInfo = await registerUserApi(user);
+      setCredentials(registeredUser);
+      toast.success("Registration successful");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      toast.error("Registration failed");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <FormContainer>

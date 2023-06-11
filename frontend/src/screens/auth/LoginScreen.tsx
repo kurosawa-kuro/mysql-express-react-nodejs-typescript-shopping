@@ -1,38 +1,42 @@
-// LoginScreen.tsx
+// src/screens/auth/LoginScreen.tsx
 
+// External Imports
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+// Internal Imports
 import FormContainer from "../../components/forms/FormContainer";
 import Loader from "../../components/common/Loader";
 import { loginUserApi } from "../../services/api";
-import { useAuthStore } from "../../state/store"; // Add this line
-import { Credentials } from "../../interfaces";
+import { useAuthStore } from "../../state/store";
+import { Credentials, UserInfo } from "../../interfaces";
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [credentials, setCredentials] = useState<Credentials>({
+    email: "",
+    password: "",
+  });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const setCredentials = useAuthStore((state) => state.setCredentials);
+  const setUserInfo = useAuthStore((state) => state.setUserInfo);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      const credentials: Credentials = {
-        email: email,
-        password: password,
-      };
-      const user = await loginUserApi(credentials);
-      setCredentials(user);
-      toast.success("success login");
+      const user: UserInfo = await loginUserApi(credentials);
+      setUserInfo(user);
+      toast.success("Successfully logged in");
       navigate("/");
     } catch (error) {
-      console.log(error);
-      toast.error("error login");
+      toast.error("Failed to log in");
     } finally {
       setLoading(false);
     }
@@ -42,34 +46,27 @@ const LoginScreen = () => {
     return <Loader />;
   }
 
+  const fields = ["email", "password"] as const;
+
   return (
     <FormContainer>
       <h1 className="mb-6 text-3xl font-bold text-custom-blue-dark">Log in</h1>
       <form onSubmit={submitHandler}>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-custom-blue-dark">
-            Email Address
-          </label>
-          <input
-            type="email"
-            placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block h-10 w-full rounded-md border-custom-blue-dark px-2 shadow-sm focus:border-custom-blue-darker"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-custom-blue-dark">
-            Password
-          </label>
-          <input
-            type="password"
-            placeholder="Enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 block h-10 w-full rounded-md border-custom-blue-dark px-2 shadow-sm focus:border-custom-blue-darker"
-          />
-        </div>
+        {fields.map((field, index) => (
+          <div className="mb-4" key={index}>
+            <label className="block text-sm font-medium text-custom-blue-dark">
+              {field}
+            </label>
+            <input
+              name={field}
+              type={field}
+              placeholder={`Enter ${field}`}
+              value={credentials[field]}
+              onChange={handleChange}
+              className="mt-1 block h-10 w-full rounded-md border-custom-blue-dark px-2 shadow-sm focus:border-custom-blue-darker"
+            />
+          </div>
+        ))}
         <button
           data-testid="login"
           type="submit"
