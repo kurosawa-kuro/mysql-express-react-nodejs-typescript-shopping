@@ -80,3 +80,12 @@ export const updateProductApi = (product: Product) =>
 
 export const createOrderApi = (order: Order) =>
   performRequest(apiClient.post("/api/orders", order));
+
+export const getOrderDetailsApi = (id: number) =>
+  performRequest(apiClient.get(`/api/orders/${id}`));
+
+export const payOrderApi = (orderId: number, details: any) =>
+  performRequest(apiClient.put(`/api/orders/${orderId}/pay`, details));
+
+export const deliverOrderApi = (orderId: number) =>
+  performRequest(apiClient.put(`/api/orders/${orderId}/deliver`));

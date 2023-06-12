@@ -24,35 +24,36 @@ const addOrderItems = asyncHandler(
     }
 
     const {
-      orderItems,
-      shippingAddress,
+      orderProducts,
+      address,
+      city,
+      postalCode,
       paymentMethod,
       itemsPrice,
       taxPrice,
       shippingPrice,
       totalPrice,
     } = req.body;
+    // console.log("req.body", req.body);
 
-    if (!orderItems || orderItems.length === 0) {
+    if (!orderProducts || orderProducts.length === 0) {
       res.status(400);
       throw new Error("No order items");
     }
 
-    console.log("req.body", req.body);
-
     const createdOrder: Order = await db.order.create({
       data: {
         userId: Number(req.user.id),
-        address: shippingAddress.address,
-        city: shippingAddress.city,
-        postalCode: shippingAddress.postalCode,
+        address,
+        city,
+        postalCode,
         paymentMethod: paymentMethod,
         itemsPrice: parseFloat(itemsPrice),
         taxPrice: parseFloat(taxPrice),
         shippingPrice: parseFloat(shippingPrice),
         totalPrice: parseFloat(totalPrice),
         orderProducts: {
-          create: orderItems.map((item: OrderItems) => ({
+          create: orderProducts.map((item: OrderItems) => ({
             productId: item.id,
             qty: item.qty,
           })),
@@ -84,7 +85,10 @@ const getMyOrders = asyncHandler(
 );
 
 const getOrderById = asyncHandler(async (req: RequestUser, res: Response) => {
+  console.log("cccccccc");
   const order = await findOrderById(Number(req.params.id));
+
+  console.dir({ order: order }, { depth: null });
   order
     ? res.json(order)
     : res.status(404).json({ message: "Order not found" });

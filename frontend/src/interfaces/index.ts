@@ -79,19 +79,30 @@ export interface CartItem {
   price: number;
   countInStock: number;
   qty: number;
+  product: Product;
 }
 export interface Order {
   id?: number;
   userId?: number;
-  orderItems: CartItem[];
-  shippingAddress: { address: string; city: string; postalCode: string };
+  user?: {
+    id: number;
+    name: string;
+    email: string;
+    isAdmin: boolean;
+  };
+  orderProducts: CartItem[];
+  address: string;
+  city: string;
+  postalCode: string;
   paymentMethod: string;
   itemsPrice: number;
   taxPrice: number;
   shippingPrice: number;
   totalPrice: number;
   isPaid?: boolean;
+  paidAt?: string;
   isDelivered?: boolean;
+  deliveredAt?: string;
 }
 
 export interface PaymentDetails {

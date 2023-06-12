@@ -7,6 +7,7 @@ import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
 import { createOrderApi } from "../../services/api";
 import { useCartStore, CartStore } from "../../state/store";
 import { Order } from "../../interfaces";
+import { json } from "stream/consumers";
 
 export const PlaceOrderScreen: FC = () => {
   const navigate = useNavigate();
@@ -36,12 +37,10 @@ export const PlaceOrderScreen: FC = () => {
     try {
       setLoading(true);
       const order: Order = {
-        orderItems: cartItems,
-        shippingAddress: {
-          address: shippingAddress.address,
-          postalCode: shippingAddress.city,
-          city: shippingAddress.postalCode,
-        },
+        orderProducts: cartItems,
+        address: shippingAddress.address,
+        postalCode: shippingAddress.city,
+        city: shippingAddress.postalCode,
         paymentMethod: paymentMethod,
         itemsPrice: itemsPrice,
         shippingPrice: shippingPrice,
@@ -81,6 +80,7 @@ export const PlaceOrderScreen: FC = () => {
               <Message>Your cart is empty</Message>
             ) : (
               <div>
+                {/* {cartItems} */}
                 {cartItems.map((item, index) => (
                   <div key={index}>
                     <div className="flex items-center">

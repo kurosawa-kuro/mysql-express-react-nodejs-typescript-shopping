@@ -21,6 +21,7 @@ const OrderScreen = () => {
     try {
       setLoading(true);
       const data = await getOrderDetailsApi(orderId);
+      console.log("fetchOrder -> data", data)
       setOrder(data);
     } catch (err) {
       setError(err.message);
@@ -116,18 +117,18 @@ const OrderScreen = () => {
               {order.orderProducts.length === 0 ? (
                 <Message>Order is empty</Message>
               ) : (
-                order.orderProducts.map((item, index) => (
+                order.orderProducts.product.map((item, index) => (
                   <div key={index} className="flex items-center mb-4">
                     <div className="w-1/5">
                       <img
                         className="w-full rounded"
-                        src={item.product.image}
-                        alt={item.product.name}
+                        src={item.image}
+                        alt={item.name}
                       />
                     </div>
                     <div className="w-3/5 px-4">
-                      <Link to={`/product/${item.product.id}`}>
-                        {item.product.name}
+                      <Link to={`/product/${item.id}`}>
+                        {item.name}
                       </Link>
                     </div>
                     <div className="w-1/5 text-right">
