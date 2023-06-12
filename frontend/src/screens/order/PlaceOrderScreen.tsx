@@ -19,11 +19,9 @@ export const PlaceOrderScreen: FC = () => {
   );
   const shippingPrice = itemsPrice > 100 ? 0 : 10;
   const taxPrice = Number((0.15 * itemsPrice).toFixed(2));
-  const totalPrice = (
-    Number(itemsPrice) +
-    Number(shippingPrice) +
-    Number(taxPrice)
-  ).toFixed(2);
+  const totalPrice: number = Number(
+    (Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice)).toFixed(2)
+  );
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -50,7 +48,7 @@ export const PlaceOrderScreen: FC = () => {
         itemsPrice: itemsPrice,
         shippingPrice: shippingPrice,
         taxPrice: taxPrice,
-        totalPrice: Number(totalPrice),
+        totalPrice: totalPrice,
       };
       const res = await createOrderApi(order);
       clearCartItems();
