@@ -19,9 +19,7 @@ export const PlaceOrderScreen: FC = () => {
   );
   const shippingPrice = itemsPrice > 100 ? 0 : 10;
   const taxPrice = Number((0.15 * itemsPrice).toFixed(2));
-  const totalPrice: number = Number(
-    (Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice)).toFixed(2)
-  );
+  const totalPrice: number = itemsPrice + shippingPrice + taxPrice;
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -94,7 +92,7 @@ export const PlaceOrderScreen: FC = () => {
                         />
                       </div>
                       <div className="ml-4 flex-1">
-                        {/* <Link to={`/product/${item.product}`}>{item.name}</Link> */}
+                        <Link to={`/product/${item.id}`}>{item.name}</Link>
                       </div>
                       <div className="ml-auto">
                         {item.qty} x ${item.price} = ${item.qty * item.price}
