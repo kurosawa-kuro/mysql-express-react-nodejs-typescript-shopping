@@ -13,7 +13,7 @@ import Product from "../../components/features/Product";
 import { getProductsApi } from "../../services/api";
 
 // Component Definition
-export const HomeScreen = () => {
+export const HomeScreen: React.FC = () => {
   // State Variables
   const params = useParams();
   const pageNumber = (params.pageNumber as string) || "1";

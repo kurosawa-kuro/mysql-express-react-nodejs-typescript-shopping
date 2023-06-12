@@ -38,6 +38,8 @@ const addOrderItems = asyncHandler(
       throw new Error("No order items");
     }
 
+    console.log("req.body", req.body);
+
     const createdOrder: Order = await db.order.create({
       data: {
         userId: Number(req.user.id),

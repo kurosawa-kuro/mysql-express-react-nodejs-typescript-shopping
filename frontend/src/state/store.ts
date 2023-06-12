@@ -1,5 +1,11 @@
 import { create } from "zustand";
-import { UserAuthStore } from "../interfaces";
+import {
+  UserAuthStore,
+  CartStoreState,
+  CartStoreActions,
+  CartItem,
+  ShippingAddress,
+} from "../interfaces";
 
 export const useAuthStore = create<UserAuthStore>((set) => {
   const storedUserInfo = localStorage.getItem("userInfo");
@@ -22,3 +28,74 @@ export const useAuthStore = create<UserAuthStore>((set) => {
     },
   };
 });
+
+export type CartStore = CartStoreState & CartStoreActions;
+
+export const useCartStore = create<CartStore>((set) => ({
+  cartItems: localStorage.getItem("cartItems")
+    ? JSON.parse(localStorage.getItem("cartItems") || "[]")
+    : [],
+  shippingAddress: localStorage.getItem("shippingAddress")
+    ? JSON.parse(localStorage.getItem("shippingAddress") || "{}")
+    : {},
+  paymentMethod: localStorage.getItem("paymentMethod")
+    ? JSON.parse(localStorage.getItem("paymentMethod") || '"PayPal"')
+    : "PayPal",
+  addToCart: (item: CartItem) => {
+    set((state) => {
+      const existItem = state.cartItems.find((x) => x.id === item.id);
+      let newCartItems;
+      if (existItem) {
+        newCartItems = state.cartItems.map((x) =>
+          x.id === existItem.id ? item : x
+        );
+      } else {
+        newCartItems = [...state.cartItems, item];
+      }
+
+      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+
+      return {
+        ...state,
+        cartItems: newCartItems,
+      };
+    });
+  },
+  removeFromCart: (id: number) => {
+    set((state) => {
+      const newCartItems = state.cartItems.filter((x) => x.id !== id);
+      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+      return {
+        ...state,
+        cartItems: newCartItems,
+      };
+    });
+  },
+  saveShippingAddress: (address: ShippingAddress) => {
+    set((state) => {
+      localStorage.setItem("shippingAddress", JSON.stringify(address));
+      return {
+        ...state,
+        shippingAddress: address,
+      };
+    });
+  },
+  savePaymentMethod: (method: string) => {
+    set((state) => {
+      localStorage.setItem("paymentMethod", JSON.stringify(method));
+      return {
+        ...state,
+        paymentMethod: method,
+      };
+    });
+  },
+  clearCartItems: () => {
+    set((state) => {
+      localStorage.setItem("cartItems", JSON.stringify([]));
+      return {
+        ...state,
+        cartItems: [],
+      };
+    });
+  },
+}));

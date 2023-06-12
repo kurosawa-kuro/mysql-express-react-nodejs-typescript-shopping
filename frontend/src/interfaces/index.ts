@@ -72,19 +72,26 @@ export interface ReviewData {
   comment: string;
 }
 
-export interface Order {
+export interface CartItem {
   id: number;
-  userId: number;
-  address: string;
-  city: string;
-  postalCode: string;
+  name: string;
+  image: string;
+  price: number;
+  countInStock: number;
+  qty: number;
+}
+export interface Order {
+  id?: number;
+  userId?: number;
+  orderItems: CartItem[];
+  shippingAddress: { address: string; city: string; postalCode: string };
   paymentMethod: string;
   itemsPrice: number;
   taxPrice: number;
   shippingPrice: number;
   totalPrice: number;
-  isPaid: boolean;
-  isDelivered: boolean;
+  isPaid?: boolean;
+  isDelivered?: boolean;
 }
 
 export interface PaymentDetails {
@@ -96,4 +103,33 @@ export interface PaymentDetails {
 
 export interface ErrorMessage {
   message: string;
+}
+
+export interface CartItem {
+  id: number;
+  name: string;
+  image: string;
+  price: number;
+  countInStock: number;
+  qty: number;
+}
+
+export interface ShippingAddress {
+  address: string;
+  city: string;
+  postalCode: string;
+}
+
+export interface CartStoreState {
+  cartItems: CartItem[];
+  shippingAddress: ShippingAddress;
+  paymentMethod: string;
+}
+
+export interface CartStoreActions {
+  addToCart: (item: CartItem) => void;
+  removeFromCart: (id: number) => void;
+  saveShippingAddress: (address: ShippingAddress) => void;
+  savePaymentMethod: (method: string) => void;
+  clearCartItems: () => void;
 }

@@ -8,13 +8,13 @@ import { toast } from "react-toastify";
 import Loader from "../../components/common/Loader";
 import Message from "../../components/common/Message";
 // import Meta from '../../components/helpers/Meta';
-// import { useCartStore } from '../../state/store';
+import { useCartStore } from "../../state/store";
 import { getProductDetailsApi } from "../../services/api";
 import { Product, ErrorMessage } from "../../interfaces";
 
-const ProductScreen = () => {
+export const ProductScreen: React.FC = () => {
   const { id: productId } = useParams();
-  //   const { addToCart } = useCartStore();
+  const { addToCart } = useCartStore();
   const navigate = useNavigate();
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -44,8 +44,16 @@ const ProductScreen = () => {
   }, [fetchProductDetails]);
 
   const addToCartHandler = () => {
+    console.log("product", product);
     if (product) {
-      //   addToCart({ ...product, qty });
+      addToCart({
+        id: product.id,
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        countInStock: product.countInStock,
+        qty,
+      });
       navigate("/cart");
     }
   };
@@ -147,5 +155,3 @@ const ProductScreen = () => {
     </div>
   );
 };
-
-export default ProductScreen;

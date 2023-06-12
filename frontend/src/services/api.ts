@@ -8,6 +8,7 @@ import {
   ProductSearchParams,
   Product,
   ErrorMessage,
+  Order,
 } from "../interfaces";
 
 const apiClient = getApiClient();
@@ -76,3 +77,6 @@ export const createProductApi = (product: Product) =>
 
 export const updateProductApi = (product: Product) =>
   performRequest(apiClient.put(`/api/products/${product.id}`, product));
+
+export const createOrderApi = (order: Order) =>
+  performRequest(apiClient.post("/api/orders", order));
