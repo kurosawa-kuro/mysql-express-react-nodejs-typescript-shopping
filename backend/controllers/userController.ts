@@ -80,6 +80,7 @@ const getUserProfile = asyncHandler(async (req: RequestUser, res: Response) => {
 
 const updateUserProfile = asyncHandler(
   async (req: RequestUser, res: Response) => {
+    console.log("CCCCCCCCCCCCCCCCCCC");
     if (!req.user || !req.user.id) {
       res.status(401);
       throw new Error("Not authorized");
@@ -144,7 +145,9 @@ const getUserById = asyncHandler(async (req: RequestUser, res: Response) => {
 });
 
 const updateUser = asyncHandler(async (req: RequestUser, res: Response) => {
+  console.log("DDDDDDDDDDDDD");
   const id = Number(req.params.id);
+  console.log({ id });
   const user = await db.user.findUnique({ where: { id } });
 
   if (user) {
