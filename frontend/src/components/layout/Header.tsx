@@ -99,6 +99,16 @@ export const Header: React.FC = () => {
                     aria-orientation="vertical"
                     aria-labelledby="options-menu"
                   >
+                    {!userInfo.isAdmin && (
+                      <Link
+                        to="/orders"
+                        className="block px-4 py-2 text-sm text-custom-blue-lighter hover:bg-custom-blue-darkest"
+                        role="menuitem"
+                      >
+                        Orders
+                      </Link>
+                    )}
+
                     <Link
                       to="/profile"
                       className="block px-4 py-2 text-sm text-custom-blue-lighter hover:bg-custom-blue-darkest"

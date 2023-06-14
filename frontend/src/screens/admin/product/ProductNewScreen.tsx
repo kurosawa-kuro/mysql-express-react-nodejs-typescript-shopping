@@ -34,8 +34,12 @@ export const ProductNewScreen: React.FC = () => {
       });
       toast.success("Product created");
       navigate("/admin/products/");
-    } catch (err) {
-      // toast.error(err?.data?.message || err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("An error occurred.");
+      }
     }
   };
 
@@ -50,8 +54,12 @@ export const ProductNewScreen: React.FC = () => {
       const res = await uploadProductImageApi(formData);
       toast.success(res.message);
       setImage(res.image);
-    } catch (err) {
-      // toast.error(err?.data?.message || err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("An error occurred.");
+      }
     }
   };
 

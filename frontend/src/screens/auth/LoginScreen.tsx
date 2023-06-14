@@ -35,8 +35,12 @@ export const LoginScreen = () => {
       setUserInfo(user);
       toast.success("Successfully logged in");
       navigate("/");
-    } catch (error) {
-      toast.error("Failed to log in");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("An error occurred.");
+      }
     } finally {
       setLoading(false);
     }

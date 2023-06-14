@@ -81,7 +81,7 @@ export interface Order extends ShippingAddress {
   id?: number;
   userId?: number;
   user?: BaseUser;
-  cartItems: CartItem[];
+  orderProducts: CartItem[];
   paymentMethod: string;
   itemsPrice: number;
   taxPrice: number;

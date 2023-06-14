@@ -87,7 +87,6 @@ const createProduct = asyncHandler(async (req: RequestUser, res: Response) => {
 });
 
 const updateProduct = asyncHandler(async (req: Request, res: Response) => {
-  throw new Error("debug");
   const id: number = Number(req.params.id);
   req.body.image = req.body.image
     .replace(/\\/g, "/")

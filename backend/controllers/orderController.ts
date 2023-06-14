@@ -24,7 +24,7 @@ const addOrderItems = asyncHandler(
     }
 
     const {
-      cartItems,
+      orderProducts,
       address,
       city,
       postalCode,
@@ -35,9 +35,9 @@ const addOrderItems = asyncHandler(
       totalPrice,
     } = req.body;
     console.log("req.body", req.body);
-    console.log("cartItems", cartItems);
+    console.log("cartItems", orderProducts);
 
-    if (!cartItems || cartItems.length === 0) {
+    if (!orderProducts || orderProducts.length === 0) {
       res.status(400);
       throw new Error("No order items");
     }
@@ -54,7 +54,7 @@ const addOrderItems = asyncHandler(
         shippingPrice: parseFloat(shippingPrice),
         totalPrice: parseFloat(totalPrice),
         orderProducts: {
-          create: cartItems.map((item: OrderItems) => ({
+          create: orderProducts.map((item: OrderItems) => ({
             productId: item.id,
             qty: item.qty,
           })),
@@ -86,9 +86,9 @@ const getMyOrders = asyncHandler(
 );
 
 const getOrderById = asyncHandler(async (req: RequestUser, res: Response) => {
+  console.log("getOrderById");
   const order = await findOrderById(Number(req.params.id));
-
-  // console.dir({ order: order }, { depth: null });
+  console.log({ order });
   order
     ? res.json(order)
     : res.status(404).json({ message: "Order not found" });

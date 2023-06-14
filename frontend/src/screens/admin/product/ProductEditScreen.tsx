@@ -8,7 +8,6 @@ import {
   updateProductApi,
   uploadProductImageApi,
 } from "../../../services/api";
-import { ErrorMessage } from "../../../interfaces";
 
 export const ProductEditScreen: React.FC = () => {
   const { id: productId } = useParams();

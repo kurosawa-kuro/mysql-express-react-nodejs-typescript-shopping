@@ -18,8 +18,12 @@ export const UserListScreen: React.FC = () => {
       try {
         const data = await getUsersApi();
         setUsers(data);
-      } catch (err) {
-        // toast.error(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          toast.error(err.message);
+        } else {
+          toast.error("An error occurred.");
+        }
       } finally {
         setLoading(false);
       }
@@ -34,8 +38,12 @@ export const UserListScreen: React.FC = () => {
         await deleteUserApi(id);
         setUsers(users.filter((user) => user.id !== id));
         toast.success("User deleted successfully");
-      } catch (err) {
-        // toast.error(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          toast.error(err.message);
+        } else {
+          toast.error("An error occurred.");
+        }
       }
     }
   };

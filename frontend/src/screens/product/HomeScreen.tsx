@@ -16,7 +16,7 @@ import { getProductsApi } from "../../services/api";
 export const HomeScreen: React.FC = () => {
   // State Variables
   const params = useParams();
-  const pageNumber = (params.pageNumber as string) || "1";
+  const pageNumber = Number(params.pageNumber);
   const keyword = (params.keyword as string) || "";
 
   const [productsData, setProductsData] = useState<ProductResponse | null>(
@@ -31,8 +31,10 @@ export const HomeScreen: React.FC = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const data = await getProductsApi({ keyword, pageNumber });
-        console.log({ data });
+        const data = await getProductsApi({
+          keyword,
+          pageNumber,
+        });
         setProductsData(data);
         setLoading(false);
       } catch (err) {

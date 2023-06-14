@@ -36,7 +36,7 @@ export const PlaceOrderScreen: FC = () => {
     try {
       setLoading(true);
       const order: Order = {
-        cartItems: cartItems,
+        orderProducts: cartItems,
         address: shippingAddress.address,
         postalCode: shippingAddress.city,
         city: shippingAddress.postalCode,
@@ -50,10 +50,14 @@ export const PlaceOrderScreen: FC = () => {
       clearCartItems();
       setLoading(false);
       navigate(`/orders/${res.id}`); // Assuming res is of type Order and Order has a property _id
-    } catch (err) {
+    } catch (err: unknown) {
       setLoading(false);
-      setError("An error occurred. Please try again.");
-      toast.error("An error occurred. Please try again.");
+      if (err instanceof Error) {
+        setError("An error occurred. Please try again.");
+        toast.error("An error occurred. Please try again.");
+      } else {
+        toast.error("An error occurred.");
+      }
     }
   };
 

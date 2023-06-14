@@ -42,9 +42,12 @@ export const RegisterScreen = () => {
       setUserInfo(user);
       toast.success("Registration successful");
       navigate("/");
-    } catch (error) {
-      console.log(error);
-      toast.error("Registration failed");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("An error occurred.");
+      }
     } finally {
       setLoading(false);
     }

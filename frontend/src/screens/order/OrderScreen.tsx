@@ -36,7 +36,7 @@ export const OrderScreen = () => {
         console.log("data.orderProducts[0]", data.orderProducts[0]);
         console.log(
           "data.orderProducts[0].product.id",
-          data.orderProducts[0].product.id
+          data.orderProducts[0].id
         );
         setOrder(data);
         console.log(data);
@@ -152,18 +152,15 @@ export const OrderScreen = () => {
                     <div className="w-1/5">
                       <img
                         className="w-full rounded"
-                        src={item.product.image}
-                        alt={item.product.name}
+                        src={item.image}
+                        alt={item.name}
                       />
                     </div>
                     <div className="w-3/5 px-4">
-                      <Link to={`/products/${item.product.id}`}>
-                        {item.product.name}
-                      </Link>
+                      <Link to={`/products/${item.id}`}>{item.name}</Link>
                     </div>
                     <div className="w-1/5 text-right">
-                      {item.qty} x ${item.product.price} = $
-                      {item.qty * item.product.price}
+                      {item.qty} x ${item.price} = ${item.qty * item.price}
                     </div>
                   </div>
                 ))

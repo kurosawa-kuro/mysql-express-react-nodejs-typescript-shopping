@@ -8,6 +8,7 @@ import Loader from "../../../components/common/Loader";
 import Paginate from "../../../components/utils/Paginate";
 import { getProductsApi, deleteProductApi } from "../../../services/api";
 import { ProductResponse, Product } from "../../../interfaces";
+import { toast } from "react-toastify";
 
 export const ProductListScreen: React.FC = () => {
   const { pageNumber } = useParams();
@@ -48,8 +49,12 @@ export const ProductListScreen: React.FC = () => {
           keyword: "",
         });
         setProductsData(newProductsData);
-      } catch (err) {
-        // toast.error(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          toast.error(err.message);
+        } else {
+          toast.error("An error occurred.");
+        }
       }
     }
   };

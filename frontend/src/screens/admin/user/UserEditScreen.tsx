@@ -25,8 +25,12 @@ export const UserEditScreen: React.FC = () => {
         setName(user.name);
         setEmail(user.email);
         setIsAdmin(user.isAdmin);
-      } catch (err: any) {
-        toast.error(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          toast.error(err.message);
+        } else {
+          toast.error("An error occurred.");
+        }
       } finally {
         setLoading(false);
       }
@@ -42,8 +46,12 @@ export const UserEditScreen: React.FC = () => {
       await updateUserApi({ id: userId, name, email, isAdmin });
       toast.success("User updated successfully");
       navigate("/admin/users");
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("An error occurred.");
+      }
     } finally {
       setLoading(false);
     }
