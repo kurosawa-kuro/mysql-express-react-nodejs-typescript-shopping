@@ -5,12 +5,14 @@ import { toast } from "react-toastify";
 import Loader from "../../components/common/Loader";
 import { updateUserProfileApi } from "../../services/api"; // Import the api functions
 import { useAuthStore } from "../../state/store";
+import Message from "../../components/common/Message";
 export const ProfileScreen: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const { userInfo, setUserInfo } = useAuthStore();
 
@@ -25,11 +27,13 @@ export const ProfileScreen: React.FC = () => {
     e.preventDefault();
     if (!userInfo) {
       toast.error("User info is not available");
+      setError("User info is not available");
       return;
     }
 
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
+      setError("Passwords do not match");
       return;
     }
 
@@ -47,13 +51,23 @@ export const ProfileScreen: React.FC = () => {
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(err.message);
+        setError(err.message);
       } else {
         toast.error("An error occurred.");
+        setError("An error occurred.");
       }
     } finally {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <Message>{error}</Message>;
+  }
 
   return (
     <div className="container mx-auto px-4">
@@ -138,7 +152,6 @@ export const ProfileScreen: React.FC = () => {
             >
               Update
             </button>
-            {loading && <Loader />}
           </div>
         </form>
       </div>

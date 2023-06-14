@@ -78,82 +78,89 @@ export const ProductScreen: React.FC = () => {
     // }
   };
 
+  if (!product) {
+    return null;
+  }
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <Message>{error}</Message>;
+  }
+
   return (
     <div className="container mx-auto px-4">
       <Link className="my-3 text-blue-500" to="/">
         Go Back
       </Link>
-      {loading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant="danger">{error || "An error occurred."}</Message>
-      ) : product ? (
-        <>
-          {/* <Meta title={product.name} description={product.description} /> */}
-          <div className="-mx-2 flex flex-wrap">
-            <div className="w-full px-2 md:w-1/2">
-              <img src={product.image} alt={product.name} className="w-full" />
-            </div>
-            <div className="w-full px-2 md:w-1/4">
-              <div className="rounded-lg bg-white p-4 shadow-md">
-                <h3 className="mb-2 text-2xl font-bold">{product.name}</h3>
-                {/* <Rating
+
+      <>
+        {/* <Meta title={product.name} description={product.description} /> */}
+        <div className="-mx-2 flex flex-wrap">
+          <div className="w-full px-2 md:w-1/2">
+            <img src={product.image} alt={product.name} className="w-full" />
+          </div>
+          <div className="w-full px-2 md:w-1/4">
+            <div className="rounded-lg bg-white p-4 shadow-md">
+              <h3 className="mb-2 text-2xl font-bold">{product.name}</h3>
+              {/* <Rating
                   value={product.rating}
                   text={`${product.numReviews} reviews`}
                 /> */}
-                <p className="mt-2 font-bold">Price: ${product.price}</p>
-                <p>Description: {product.description}</p>
-              </div>
-            </div>
-            <div className="w-full px-2 md:w-1/4">
-              <div className="rounded-lg bg-white p-4 shadow-md">
-                <div className="flex justify-between">
-                  <div>Price:</div>
-                  <div>
-                    <strong>${product.price}</strong>
-                  </div>
-                </div>
-                <div className="my-2 flex justify-between">
-                  <div>Status:</div>
-                  <div>
-                    {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
-                  </div>
-                </div>
-                {product.countInStock > 0 && (
-                  <div className="my-2 flex justify-between">
-                    <div>Qty</div>
-                    <div>
-                      <select
-                        className="form-select block w-full"
-                        value={qty}
-                        onChange={(e) => setQty(Number(e.target.value))}
-                      >
-                        {[...Array(product.countInStock).keys()].map((x) => (
-                          <option key={x + 1} value={x + 1}>
-                            {x + 1}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                )}
-                <button
-                  className={`focus:shadow-outline w-full rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none ${
-                    product.countInStock === 0
-                      ? "cursor-not-allowed opacity-50"
-                      : ""
-                  }`}
-                  type="button"
-                  disabled={product.countInStock === 0}
-                  onClick={addToCartHandler}
-                >
-                  Add To Cart
-                </button>
-              </div>
+              <p className="mt-2 font-bold">Price: ${product.price}</p>
+              <p>Description: {product.description}</p>
             </div>
           </div>
-        </>
-      ) : null}
+          <div className="w-full px-2 md:w-1/4">
+            <div className="rounded-lg bg-white p-4 shadow-md">
+              <div className="flex justify-between">
+                <div>Price:</div>
+                <div>
+                  <strong>${product.price}</strong>
+                </div>
+              </div>
+              <div className="my-2 flex justify-between">
+                <div>Status:</div>
+                <div>
+                  {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
+                </div>
+              </div>
+              {product.countInStock > 0 && (
+                <div className="my-2 flex justify-between">
+                  <div>Qty</div>
+                  <div>
+                    <select
+                      className="form-select block w-full"
+                      value={qty}
+                      onChange={(e) => setQty(Number(e.target.value))}
+                    >
+                      {[...Array(product.countInStock).keys()].map((x) => (
+                        <option key={x + 1} value={x + 1}>
+                          {x + 1}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              )}
+              <button
+                className={`focus:shadow-outline w-full rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none ${
+                  product.countInStock === 0
+                    ? "cursor-not-allowed opacity-50"
+                    : ""
+                }`}
+                type="button"
+                disabled={product.countInStock === 0}
+                onClick={addToCartHandler}
+              >
+                Add To Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </>
     </div>
   );
 };

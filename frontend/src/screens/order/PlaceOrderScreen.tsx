@@ -60,6 +60,14 @@ export const PlaceOrderScreen: FC = () => {
     }
   };
 
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <Message>{error}</Message>;
+  }
+
   return (
     <div className="container mx-auto px-4">
       <CheckoutSteps step1 step2 step3 step4 />
@@ -126,10 +134,6 @@ export const PlaceOrderScreen: FC = () => {
               <div className="flex justify-between">
                 <div>Total</div>
                 <div>${totalPrice}</div>
-              </div>
-              <div>
-                {loading && <Loader />}
-                {error && <Message variant="danger">{error}</Message>}
               </div>
               <button
                 type="button"

@@ -46,11 +46,12 @@ export const LoginScreen = () => {
     }
   };
 
+  const fields = ["email", "password"] as const;
+
+  // Conditional Rendering
   if (loading) {
     return <Loader />;
   }
-
-  const fields = ["email", "password"] as const;
 
   return (
     <FormContainer>

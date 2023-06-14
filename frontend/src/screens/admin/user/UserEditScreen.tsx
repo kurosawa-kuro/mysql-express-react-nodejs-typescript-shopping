@@ -6,6 +6,7 @@ import { FullUser } from "../../../interfaces/index";
 import Loader from "../../../components/common/Loader";
 import { toast } from "react-toastify";
 import { getUserDetailsApi, updateUserApi } from "../../../services/api"; // Import the api functions
+import Message from "../../../components/common/Message";
 
 export const UserEditScreen: React.FC = () => {
   const { id } = useParams();
@@ -14,6 +15,7 @@ export const UserEditScreen: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -28,8 +30,10 @@ export const UserEditScreen: React.FC = () => {
       } catch (err: unknown) {
         if (err instanceof Error) {
           toast.error(err.message);
+          setError(err.message);
         } else {
           toast.error("An error occurred.");
+          setError("An error occurred.");
         }
       } finally {
         setLoading(false);
@@ -57,6 +61,15 @@ export const UserEditScreen: React.FC = () => {
     }
   };
 
+  // Conditional Rendering
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <Message variant="danger">{error}</Message>;
+  }
+
   return (
     <>
       <Link
@@ -67,76 +80,72 @@ export const UserEditScreen: React.FC = () => {
       </Link>
       <div className="mx-auto w-full max-w-xs">
         <h1 className="mb-3 text-2xl font-bold">Edit User</h1>
-        {loading ? (
-          <Loader />
-        ) : (
-          <form
-            onSubmit={submitHandler}
-            className="mb-4 rounded bg-white px-8 pb-8 pt-6 shadow-md"
-          >
-            <div className="mb-4">
-              <label
-                className="mb-2 block text-sm font-bold text-gray-700"
-                htmlFor="name"
-              >
-                Name
-              </label>
-              <input
-                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-                id="name"
-                type="text"
-                placeholder="Enter name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
+        <form
+          onSubmit={submitHandler}
+          className="mb-4 rounded bg-white px-8 pb-8 pt-6 shadow-md"
+        >
+          <div className="mb-4">
+            <label
+              className="mb-2 block text-sm font-bold text-gray-700"
+              htmlFor="name"
+            >
+              Name
+            </label>
+            <input
+              className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+              id="name"
+              type="text"
+              placeholder="Enter name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
 
-            <div className="mb-4">
-              <label
-                className="mb-2 block text-sm font-bold text-gray-700"
-                htmlFor="email"
-              >
-                Email Address
-              </label>
-              <input
-                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-                id="email"
-                type="email"
-                placeholder="Enter email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+          <div className="mb-4">
+            <label
+              className="mb-2 block text-sm font-bold text-gray-700"
+              htmlFor="email"
+            >
+              Email Address
+            </label>
+            <input
+              className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+              id="email"
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-            <div className="mb-4">
-              <label
-                className="mb-2 block text-sm font-bold text-gray-700"
-                htmlFor="isadmin"
-              >
-                Is Admin
-              </label>
-              <input
-                className="mr-2 leading-tight"
-                type="checkbox"
-                id="isadmin"
-                checked={isAdmin}
-                onChange={(e) => setIsAdmin(e.target.checked)}
-              />
-              <span className="text-sm">
-                Check if the user is an administrator
-              </span>
-            </div>
+          <div className="mb-4">
+            <label
+              className="mb-2 block text-sm font-bold text-gray-700"
+              htmlFor="isadmin"
+            >
+              Is Admin
+            </label>
+            <input
+              className="mr-2 leading-tight"
+              type="checkbox"
+              id="isadmin"
+              checked={isAdmin}
+              onChange={(e) => setIsAdmin(e.target.checked)}
+            />
+            <span className="text-sm">
+              Check if the user is an administrator
+            </span>
+          </div>
 
-            <div className="flex items-center justify-between">
-              <button
-                className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
-                type="submit"
-              >
-                Update
-              </button>
-            </div>
-          </form>
-        )}
+          <div className="flex items-center justify-between">
+            <button
+              className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+              type="submit"
+            >
+              Update
+            </button>
+          </div>
+        </form>
       </div>
     </>
   );

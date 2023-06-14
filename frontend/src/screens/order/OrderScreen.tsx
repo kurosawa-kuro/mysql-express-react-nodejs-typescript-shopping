@@ -87,16 +87,16 @@ export const OrderScreen = () => {
     fetchOrder();
   }, [orderId]);
 
+  if (!order) {
+    return null;
+  }
+
   if (loading) {
     return <Loader />;
   }
 
   if (error) {
     return <Message>{error}</Message>;
-  }
-
-  if (!order) {
-    return null;
   }
 
   return (

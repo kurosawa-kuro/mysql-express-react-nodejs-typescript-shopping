@@ -68,6 +68,15 @@ export const ProductListScreen: React.FC = () => {
     navigate("/admin/products/new");
   };
 
+  // Conditional Rendering
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <Message variant="danger">{error}</Message>;
+  }
+
   return (
     <>
       <div className="mb-6 flex items-center justify-between">
@@ -80,72 +89,66 @@ export const ProductListScreen: React.FC = () => {
         </button>
       </div>
 
-      {loading ? (
-        <Loader />
-      ) : error ? (
-        <Message>{error}</Message>
-      ) : (
-        <>
-          <div className="overflow-x-auto">
-            <table className="w-full whitespace-nowrap">
-              <thead>
-                <tr className="border-b bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  <th className="px-4 py-3">ID</th>
-                  <th className="px-4 py-3">NAME</th>
-                  <th className="px-4 py-3">PRICE</th>
-                  <th className="px-4 py-3">CATEGORY</th>
-                  <th className="px-4 py-3">BRAND</th>
-                  <th className="px-4 py-3"></th>
-                </tr>
-              </thead>
-              <tbody className="divide-y bg-white">
-                {productsData &&
-                  productsData.products.map((product: Product) => (
-                    <tr key={product.id} className="text-gray-700">
-                      <td className="px-4 py-3">
+      <>
+        <div className="overflow-x-auto">
+          <table className="w-full whitespace-nowrap">
+            <thead>
+              <tr className="border-b bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <th className="px-4 py-3">ID</th>
+                <th className="px-4 py-3">NAME</th>
+                <th className="px-4 py-3">PRICE</th>
+                <th className="px-4 py-3">CATEGORY</th>
+                <th className="px-4 py-3">BRAND</th>
+                <th className="px-4 py-3"></th>
+              </tr>
+            </thead>
+            <tbody className="divide-y bg-white">
+              {productsData &&
+                productsData.products.map((product: Product) => (
+                  <tr key={product.id} className="text-gray-700">
+                    <td className="px-4 py-3">
+                      <Link
+                        to={`/admin/products/${product.id}/edit`}
+                        className="text-indigo-600 hover:text-indigo-900"
+                      >
+                        {product.id}
+                      </Link>
+                    </td>
+                    <td className="px-4 py-3">{product.name}</td>
+                    <td className="px-4 py-3">${product.price}</td>
+                    <td className="px-4 py-3">{product.category}</td>
+                    <td className="px-4 py-3">{product.brand}</td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center space-x-4 text-sm">
                         <Link
                           to={`/admin/products/${product.id}/edit`}
-                          className="text-indigo-600 hover:text-indigo-900"
+                          className="rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
                         >
-                          {product.id}
+                          <FaEdit />
                         </Link>
-                      </td>
-                      <td className="px-4 py-3">{product.name}</td>
-                      <td className="px-4 py-3">${product.price}</td>
-                      <td className="px-4 py-3">{product.category}</td>
-                      <td className="px-4 py-3">{product.brand}</td>
-                      <td className="px-4 py-3">
-                        <div className="flex items-center space-x-4 text-sm">
-                          <Link
-                            to={`/admin/products/${product.id}/edit`}
-                            className="rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
-                          >
-                            <FaEdit />
-                          </Link>
-                          <button
-                            onClick={() =>
-                              product.id && deleteHandler(product.id)
-                            }
-                            className="rounded bg-red-500 px-2 py-1 text-white hover:bg-red-600"
-                          >
-                            <FaTrash />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-          {productsData && (
-            <Paginate
-              pages={productsData.pages}
-              page={productsData.page}
-              isAdmin={true}
-            />
-          )}
-        </>
-      )}
+                        <button
+                          onClick={() =>
+                            product.id && deleteHandler(product.id)
+                          }
+                          className="rounded bg-red-500 px-2 py-1 text-white hover:bg-red-600"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+        {productsData && (
+          <Paginate
+            pages={productsData.pages}
+            page={productsData.page}
+            isAdmin={true}
+          />
+        )}
+      </>
     </>
   );
 };

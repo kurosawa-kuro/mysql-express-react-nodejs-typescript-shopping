@@ -53,11 +53,11 @@ export const RegisterScreen = () => {
     }
   };
 
+  const fields = ["name", "email", "password", "confirmPassword"] as const;
+
   if (loading) {
     return <Loader />;
   }
-
-  const fields = ["name", "email", "password", "confirmPassword"] as const;
 
   return (
     <FormContainer>
