@@ -1,10 +1,13 @@
 // frontend\src\screens\order\ShippingScreen.tsx
 
+// External Imports
 import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+
+// Internal Imports
 import FormContainer from "../../components/forms/FormContainer";
 import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
-import { useCartStore } from "../../state/store"; // import useCartStore
+import { useCartStore } from "../../state/store";
 
 interface ShippingAddress {
   address: string;
@@ -13,15 +16,17 @@ interface ShippingAddress {
 }
 
 export const ShippingScreen: React.FC = () => {
-  const { shippingAddress, saveShippingAddress } = useCartStore(); // get state and action from useCartStore
-
-  const [address, setAddress] = useState<string>(shippingAddress.address || "");
-  const [city, setCity] = useState<string>(shippingAddress.city || "");
-  const [postalCode, setPostalCode] = useState<string>(
-    shippingAddress.postalCode || ""
-  );
-
   const navigate = useNavigate();
+  const { shippingAddress, saveShippingAddress } = useCartStore();
+  const {
+    address: savedAddress,
+    city: savedCity,
+    postalCode: savedPostalCode,
+  } = shippingAddress;
+
+  const [address, setAddress] = useState<string>(savedAddress || "");
+  const [city, setCity] = useState<string>(savedCity || "");
+  const [postalCode, setPostalCode] = useState<string>(savedPostalCode || "");
 
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();

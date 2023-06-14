@@ -1,5 +1,6 @@
 // src\main.tsx
 
+// External Imports
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {
@@ -8,6 +9,8 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+
+// Internal Imports
 import App from "./App.tsx";
 import "./index.css";
 import { LoginScreen } from "./screens/auth/LoginScreen.tsx";

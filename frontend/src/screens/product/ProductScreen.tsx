@@ -1,44 +1,38 @@
 // frontend\src\screens\product\ProductScreen.tsx
 
+// External Imports
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-// import Rating from '../../components/features/Rating';
+
+// Internal Imports
 import Loader from "../../components/common/Loader";
 import Message from "../../components/common/Message";
-// import Meta from '../../components/helpers/Meta';
 import { useCartStore } from "../../state/store";
 import { getProductDetailsApi } from "../../services/api";
-import { Product } from "../../interfaces";
+import { ProductDetail } from "../../interfaces";
 
 export const ProductScreen: React.FC = () => {
-  const { id: productId } = useParams();
+  const { id: productId = "" } = useParams();
   const { addToCart } = useCartStore();
   const navigate = useNavigate();
 
-  const [product, setProduct] = useState<Product | null>(null);
+  const [product, setProduct] = useState<ProductDetail | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [qty, setQty] = useState<number>(1);
 
   const fetchProductDetails = useCallback(async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      let product;
-      if (productId) {
-        product = await getProductDetailsApi(Number(productId));
-      }
+      const product = productId
+        ? await getProductDetailsApi(Number(productId))
+        : null;
       setProduct(product);
-      setLoading(false);
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        toast.error(err.message);
-        setError(err.message);
-      } else {
-        toast.error("An error occurred.");
-        setError("An error occurred.");
-      }
+      const message = err instanceof Error ? err.message : "An error occurred.";
+      toast.error(message);
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -61,22 +55,6 @@ export const ProductScreen: React.FC = () => {
       navigate("/cart");
     }
   };
-
-  // const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     await createReviewApi({
-  //       productId,
-  //       rating,
-  //       comment,
-  //     });
-  //     fetchProductDetails();
-  //     toast.success("Review created successfully");
-  //   } catch (err) {
-  //     toast.error(err?.data?.message || err.message);
-  //   }
-  // };
 
   if (!product) {
     return null;

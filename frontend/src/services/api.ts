@@ -8,7 +8,7 @@ import {
   UserCredentials,
   RegisterUserCredentials,
   ProductSearchParams,
-  Product,
+  ProductDetail,
   ErrorMessage,
   Order,
 } from "../interfaces";
@@ -74,10 +74,10 @@ export const getProductsApi = ({ keyword, pageNumber }: ProductSearchParams) =>
 export const getProductDetailsApi = (productId: number) =>
   performRequest(apiClient.get(`/api/products/${productId}`));
 
-export const createProductApi = (product: Product | null) =>
+export const createProductApi = (product: ProductDetail | null) =>
   performRequest(apiClient.post("/api/products", product));
 
-export const updateProductApi = (product: Product) =>
+export const updateProductApi = (product: ProductDetail) =>
   performRequest(apiClient.put(`/api/products/${product.id}`, product));
 
 export const uploadProductImageApi = async (imageData: FormData) =>

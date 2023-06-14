@@ -1,16 +1,19 @@
 // frontend\src\screens\order\PaymentScreen.jsx
 
+// External Imports
 import { useState, useEffect, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+
+// Internal Imports
+import { useCartStore } from "../../state/store";
 import FormContainer from "../../components/forms/FormContainer";
 import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
-import { useCartStore } from "../../state/store"; // import useCartStore
 
 export const PaymentScreen: React.FC = () => {
   const navigate = useNavigate();
+  const { shippingAddress, savePaymentMethod } = useCartStore();
 
-  const { shippingAddress, savePaymentMethod } = useCartStore(); // get state and actions from useCartStore
-
+  // Redirect if shipping address is not set
   useEffect(() => {
     if (!shippingAddress.address) {
       navigate("/shipping");
@@ -21,7 +24,7 @@ export const PaymentScreen: React.FC = () => {
 
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
-    savePaymentMethod(paymentMethod); // use the action from useCartStore
+    savePaymentMethod(paymentMethod);
     navigate("/place-order");
   };
 

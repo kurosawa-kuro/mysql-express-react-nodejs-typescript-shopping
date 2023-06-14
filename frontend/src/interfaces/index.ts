@@ -37,18 +37,26 @@ export interface UserAuthStore {
 }
 
 // Product interfaces
-export interface Product {
-  id?: number;
-  userId?: number;
+export interface ProductBase {
+  id: number;
   name: string;
   image: string;
+  price: number;
+  countInStock: number;
+}
+
+export interface ProductDetail extends ProductBase {
+  userId?: number;
   brand: string;
   category: string;
   description: string;
   rating?: number;
   numReviews?: number;
-  price: number;
-  countInStock: number;
+}
+
+export interface ProductInCart {
+  product: ProductBase;
+  qty: number;
 }
 
 export interface ProductSearchParams {
@@ -57,7 +65,7 @@ export interface ProductSearchParams {
 }
 
 export interface ProductResponse {
-  products: Product[];
+  products: ProductDetail[];
   page: number;
   pages: number;
 }
@@ -68,20 +76,12 @@ export interface ReviewData {
 }
 
 // Cart and Order interfaces
-export interface CartItem {
-  id: number;
-  name: string;
-  image: string;
-  price: number;
-  countInStock: number;
-  qty: number;
-}
 
 export interface Order extends ShippingAddress {
   id?: number;
   userId?: number;
   user?: BaseUser;
-  orderProducts: CartItem[];
+  orderProducts: ProductInCart[];
   paymentMethod: string;
   itemsPrice: number;
   taxPrice: number;
@@ -113,13 +113,13 @@ export interface ShippingAddress {
 }
 
 export interface CartStoreState {
-  cartItems: CartItem[];
+  cartItems: ProductInCart[];
   shippingAddress: ShippingAddress;
   paymentMethod: string;
 }
 
 export interface CartStoreActions {
-  addToCart: (item: CartItem) => void;
+  addToCart: (item: ProductInCart) => void;
   removeFromCart: (id: number) => void;
   saveShippingAddress: (address: ShippingAddress) => void;
   savePaymentMethod: (method: string) => void;

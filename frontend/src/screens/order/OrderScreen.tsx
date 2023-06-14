@@ -1,18 +1,20 @@
 // frontend\src\screens\order\OrderScreen.tsx
 
-import { useState, useEffect } from "react";
+// External Imports
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { useAuthStore } from "../../state/store";
-import Message from "../../components/common/Message";
-import Loader from "../../components/common/Loader";
+// Internal Imports
 import {
+  deliverOrderApi,
   getOrderDetailsApi,
   payOrderApi,
-  deliverOrderApi,
 } from "../../services/api";
+import Loader from "../../components/common/Loader";
+import Message from "../../components/common/Message";
 import { Order } from "../../interfaces";
+import { useAuthStore } from "../../state/store";
 
 export const OrderScreen = () => {
   const { id: orderId } = useParams();
@@ -22,29 +24,30 @@ export const OrderScreen = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const orderIdNumber = Number(orderId); // orderIdを数値に変換します。
+  const orderIdNumber = Number(orderId);
+
+  const handleError = (err: unknown) => {
+    if (err instanceof Error) {
+      toast.error(err.message);
+      setError(err.message);
+    } else {
+      toast.error("An error occurred.");
+      setError("An error occurred.");
+    }
+  };
 
   const fetchOrder = async () => {
-    console.log("check");
     if (!isNaN(orderIdNumber)) {
-      // orderIdが数値であることを確認します。
       try {
         setLoading(true);
         const data: Order = await getOrderDetailsApi(orderIdNumber);
+        console.log("data", data);
         setOrder(data);
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          toast.error(err.message);
-          setError(err.message);
-        } else {
-          toast.error("An error occurred.");
-          setError("An error occurred.");
-        }
+      } catch (err) {
+        handleError(err);
       } finally {
         setLoading(false);
       }
-    } else {
-      //   setError("Invalid order ID");
     }
   };
 
@@ -54,38 +57,28 @@ export const OrderScreen = () => {
       await payOrderApi(orderIdNumber, { payer: {} });
       toast.success("Order is paid");
       fetchOrder();
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        toast.error(err.message);
-      } else {
-        toast.error("An error occurred.");
-      }
+    } catch (err) {
+      handleError(err);
     } finally {
       setLoading(false);
     }
   };
 
   const deliverHandler = async () => {
-    if (!isNaN(orderIdNumber)) {
-      try {
-        setLoading(true);
-        await deliverOrderApi(orderIdNumber);
-        fetchOrder();
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          toast.error(err.message);
-        } else {
-          toast.error("An error occurred.");
-        }
-      } finally {
-        setLoading(false);
-      }
+    try {
+      setLoading(true);
+      await deliverOrderApi(orderIdNumber);
+      fetchOrder();
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchOrder();
-  }, [orderId]);
+  }, [orderIdNumber]);
 
   if (!order) {
     return null;
@@ -153,15 +146,18 @@ export const OrderScreen = () => {
                     <div className="w-1/5">
                       <img
                         className="w-full rounded"
-                        src={item.image}
-                        alt={item.name}
+                        src={item.product.image}
+                        alt={item.product.name}
                       />
                     </div>
                     <div className="w-3/5 px-4">
-                      <Link to={`/products/${item.id}`}>{item.name}</Link>
+                      <Link to={`/products/${item.product.id}`}>
+                        {item.product.name}
+                      </Link>
                     </div>
                     <div className="w-1/5 text-right">
-                      {item.qty} x ${item.price} = ${item.qty * item.price}
+                      {item.qty} x ${item.product.price} = $
+                      {item.qty * item.product.price}
                     </div>
                   </div>
                 ))

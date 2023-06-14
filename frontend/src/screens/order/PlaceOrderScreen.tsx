@@ -1,6 +1,11 @@
+// frontend\src\screens\order\PlaceOrderScreen.tsx
+
+// External Imports
 import { useState, useEffect, FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
+// Internal Imports
 import Loader from "../../components/common/Loader";
 import Message from "../../components/common/Message";
 import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
@@ -12,7 +17,10 @@ export const PlaceOrderScreen: FC = () => {
   const navigate = useNavigate();
   const { cartItems, shippingAddress, paymentMethod, clearCartItems } =
     useCartStore() as CartStore;
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
+  // Calculate prices
   const itemsPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.qty,
     0
@@ -20,9 +28,6 @@ export const PlaceOrderScreen: FC = () => {
   const shippingPrice = itemsPrice > 100 ? 0 : 10;
   const taxPrice = Number((0.15 * itemsPrice).toFixed(2));
   const totalPrice: number = itemsPrice + shippingPrice + taxPrice;
-
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!shippingAddress.address) {
@@ -33,8 +38,8 @@ export const PlaceOrderScreen: FC = () => {
   }, [paymentMethod, shippingAddress.address, navigate]);
 
   const placeOrderHandler = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const order: Order = {
         orderProducts: cartItems,
         address: shippingAddress.address,
@@ -48,18 +53,17 @@ export const PlaceOrderScreen: FC = () => {
       };
       const res = await createOrderApi(order);
       clearCartItems();
-      setLoading(false);
-      navigate(`/orders/${res.id}`); // Assuming res is of type Order and Order has a property _id
+      navigate(`/orders/${res.id}`);
     } catch (err: unknown) {
-      setLoading(false);
       if (err instanceof Error) {
         setError(err.message);
       } else {
         toast.error("An error occurred.");
       }
+    } finally {
+      setLoading(false);
     }
   };
-
   return (
     <div className="container mx-auto px-4">
       <CheckoutSteps step1 step2 step3 step4 />
