@@ -10,7 +10,7 @@ import Message from "../../components/common/Message";
 // import Meta from '../../components/helpers/Meta';
 import { useCartStore } from "../../state/store";
 import { getProductDetailsApi } from "../../services/api";
-import { Product, ErrorMessage } from "../../interfaces";
+import { Product } from "../../interfaces";
 
 export const ProductScreen: React.FC = () => {
   const { id: productId } = useParams();
@@ -19,7 +19,7 @@ export const ProductScreen: React.FC = () => {
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<ErrorMessage | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [qty, setQty] = useState<number>(1);
 
   const fetchProductDetails = useCallback(async () => {
@@ -34,8 +34,10 @@ export const ProductScreen: React.FC = () => {
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(err.message);
+        setError(err.message);
       } else {
         toast.error("An error occurred.");
+        setError("An error occurred.");
       }
     } finally {
       setLoading(false);
@@ -84,9 +86,7 @@ export const ProductScreen: React.FC = () => {
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">
-          {error.message || "An error occurred."}
-        </Message>
+        <Message variant="danger">{error || "An error occurred."}</Message>
       ) : product ? (
         <>
           {/* <Meta title={product.name} description={product.description} /> */}

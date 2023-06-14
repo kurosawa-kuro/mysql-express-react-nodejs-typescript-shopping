@@ -10,7 +10,7 @@ import { getTopProductsApi } from '../../services/api';
 const ProductCarousel = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState < string | null > (null);
 
   useEffect(() => {
     const fetchTopProducts = async () => {

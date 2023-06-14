@@ -28,11 +28,15 @@ export const ProductListScreen: React.FC = () => {
           pageNumber: Number(pageNumber),
           keyword: "",
         });
-        console.log({ data });
         setProductsData(data);
         setLoading(false);
       } catch (err) {
-        // setError(err.message);
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An error occurred.");
+        }
+      } finally {
         setLoading(false);
       }
     };

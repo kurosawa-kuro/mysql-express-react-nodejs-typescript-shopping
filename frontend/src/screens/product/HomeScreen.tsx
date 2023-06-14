@@ -6,7 +6,7 @@ import { useParams, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // Internal Imports
-import { ProductResponse, ErrorMessage } from "../../interfaces";
+import { ProductResponse } from "../../interfaces";
 import Loader from "../../components/common/Loader";
 import Message from "../../components/common/Message";
 import Paginate from "../../components/utils/Paginate";
@@ -25,7 +25,7 @@ export const HomeScreen: React.FC = () => {
   );
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<ErrorMessage | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Effect
   useEffect(() => {
@@ -41,8 +41,10 @@ export const HomeScreen: React.FC = () => {
       } catch (err: unknown) {
         if (err instanceof Error) {
           toast.error(err.message);
+          setError(err.message);
         } else {
           toast.error("An error occurred.");
+          setError("An error occurred.");
         }
       } finally {
         setLoading(false);
@@ -58,7 +60,7 @@ export const HomeScreen: React.FC = () => {
   }
 
   if (error) {
-    return <Message variant="danger">{error.message}</Message>;
+    return <Message variant="danger">{error}</Message>;
   }
 
   // Component Render

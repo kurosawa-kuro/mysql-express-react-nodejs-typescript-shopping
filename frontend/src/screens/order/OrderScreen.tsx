@@ -20,7 +20,7 @@ export const OrderScreen = () => {
 
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const orderIdNumber = Number(orderId); // orderIdを数値に変換します。
 
@@ -35,8 +35,10 @@ export const OrderScreen = () => {
       } catch (err: unknown) {
         if (err instanceof Error) {
           toast.error(err.message);
+          setError(err.message);
         } else {
           toast.error("An error occurred.");
+          setError("An error occurred.");
         }
       } finally {
         setLoading(false);
