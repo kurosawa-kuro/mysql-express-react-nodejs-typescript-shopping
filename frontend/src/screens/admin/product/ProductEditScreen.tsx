@@ -1,6 +1,4 @@
-// frontend\src\screens\admin\product\ProductEditScreen.tsx
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -25,31 +23,35 @@ export const ProductEditScreen: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        if (productId) {
-          setLoading(true);
-          const data = await getProductDetailsApi(Number(productId));
-          setName(data.name);
-          setPrice(data.price);
-          setImage(data.image);
-          setBrand(data.brand);
-          setCategory(data.category);
-          setCountInStock(data.countInStock);
-          setDescription(data.description);
-          setLoading(false);
-        }
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("An error occurred.");
-        }
+  const handleError = (err: unknown) => {
+    if (err instanceof Error) {
+      setError(err.message);
+    } else {
+      setError("An error occurred.");
+    }
+    setLoading(false);
+  };
+
+  const fetchProduct = async () => {
+    try {
+      if (productId) {
+        setLoading(true);
+        const data = await getProductDetailsApi(Number(productId));
+        setName(data.name);
+        setPrice(data.price);
+        setImage(data.image);
+        setBrand(data.brand);
+        setCategory(data.category);
+        setCountInStock(data.countInStock);
+        setDescription(data.description);
         setLoading(false);
       }
-    };
+    } catch (err: unknown) {
+      handleError(err);
+    }
+  };
 
+  useEffect(() => {
     fetchProduct();
   }, [productId]);
 
@@ -69,19 +71,15 @@ export const ProductEditScreen: React.FC = () => {
       toast.success("Product updated");
       navigate("/admin/products/");
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        toast.error(err.message);
-      } else {
-        toast.error("An error occurred.");
-      }
+      handleError(err);
+      toast.error(error || "An error occurred.");
     }
   };
 
-  const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadFileHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
     const file = e.target.files[0];
-    console.log({ file });
     const formData = new FormData();
     formData.append("image", file);
     try {
@@ -89,13 +87,13 @@ export const ProductEditScreen: React.FC = () => {
       toast.success(res.message);
       setImage(res.image);
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        toast.error(err.message);
-      } else {
-        toast.error("An error occurred.");
-      }
+      handleError(err);
+      toast.error(error || "An error occurred.");
     }
   };
+
+  const inputStyle =
+    "relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm";
 
   return (
     <>
@@ -120,7 +118,7 @@ export const ProductEditScreen: React.FC = () => {
                 name="name"
                 type="name"
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className={inputStyle}
                 placeholder="Enter name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -135,7 +133,7 @@ export const ProductEditScreen: React.FC = () => {
                 name="price"
                 type="number"
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className={inputStyle}
                 placeholder="Enter price"
                 value={price}
                 onChange={(e) => setPrice(Number(e.target.value))}
@@ -150,7 +148,7 @@ export const ProductEditScreen: React.FC = () => {
                 name="image"
                 type="text"
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className={inputStyle}
                 placeholder="Enter image url"
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
@@ -159,7 +157,7 @@ export const ProductEditScreen: React.FC = () => {
                 id="image-file"
                 name="image-file"
                 type="file"
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className={inputStyle}
                 onChange={uploadFileHandler}
               />
             </div>
@@ -172,7 +170,7 @@ export const ProductEditScreen: React.FC = () => {
                 name="brand"
                 type="text"
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className={inputStyle}
                 placeholder="Enter brand"
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
@@ -187,7 +185,7 @@ export const ProductEditScreen: React.FC = () => {
                 name="countInStock"
                 type="number"
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className={inputStyle}
                 placeholder="Enter countInStock"
                 value={countInStock}
                 onChange={(e) => setCountInStock(Number(e.target.value))}
@@ -202,7 +200,7 @@ export const ProductEditScreen: React.FC = () => {
                 name="category"
                 type="text"
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className={inputStyle}
                 placeholder="Enter category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
@@ -217,7 +215,7 @@ export const ProductEditScreen: React.FC = () => {
                 name="description"
                 type="text"
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className={inputStyle}
                 placeholder="Enter description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
