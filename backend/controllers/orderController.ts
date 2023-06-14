@@ -24,7 +24,7 @@ const addOrderItems = asyncHandler(
     }
 
     const {
-      orderProducts,
+      cartItems,
       address,
       city,
       postalCode,
@@ -34,9 +34,10 @@ const addOrderItems = asyncHandler(
       shippingPrice,
       totalPrice,
     } = req.body;
-    // console.log("req.body", req.body);
+    console.log("req.body", req.body);
+    console.log("cartItems", cartItems);
 
-    if (!orderProducts || orderProducts.length === 0) {
+    if (!cartItems || cartItems.length === 0) {
       res.status(400);
       throw new Error("No order items");
     }
@@ -53,7 +54,7 @@ const addOrderItems = asyncHandler(
         shippingPrice: parseFloat(shippingPrice),
         totalPrice: parseFloat(totalPrice),
         orderProducts: {
-          create: orderProducts.map((item: OrderItems) => ({
+          create: cartItems.map((item: OrderItems) => ({
             productId: item.id,
             qty: item.qty,
           })),
