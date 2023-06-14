@@ -54,15 +54,6 @@ export const HomeScreen: React.FC = () => {
     fetchProducts();
   }, [pageNumber, keyword]);
 
-  // Conditional Rendering
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <Message variant="danger">{error}</Message>;
-  }
-
   // Component Render
   return (
     <>
@@ -81,6 +72,10 @@ export const HomeScreen: React.FC = () => {
         <h1 className="mt-4 text-2xl font-semibold text-gray-700">
           Latest Products
         </h1>
+
+        {loading && <Loader />}
+        {error && <Message variant="danger">{error}</Message>}
+
         <div className="m-4 flex flex-wrap">
           {productsData &&
             productsData.products.map((product) => (

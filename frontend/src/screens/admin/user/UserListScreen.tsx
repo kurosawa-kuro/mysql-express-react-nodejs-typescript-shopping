@@ -52,18 +52,11 @@ export const UserListScreen: React.FC = () => {
     }
   };
 
-  // Conditional Rendering
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <Message variant="danger">{error}</Message>;
-  }
-
   return (
     <>
       <h1 className="mb-4 text-3xl font-bold">Users</h1>
+      {loading && <Loader />}
+      {error && <Message variant="danger">{error}</Message>}
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>

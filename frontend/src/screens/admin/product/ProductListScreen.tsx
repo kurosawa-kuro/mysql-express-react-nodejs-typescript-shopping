@@ -68,19 +68,11 @@ export const ProductListScreen: React.FC = () => {
     navigate("/admin/products/new");
   };
 
-  // Conditional Rendering
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <Message variant="danger">{error}</Message>;
-  }
-
   return (
     <>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-3xl font-bold">Products</h1>
+        {loading && <Loader />}
         <button
           onClick={createProductHandler}
           className="rounded-md bg-indigo-600 p-2 text-white transition duration-150 hover:bg-indigo-500"

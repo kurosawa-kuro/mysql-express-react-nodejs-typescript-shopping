@@ -91,17 +91,11 @@ export const OrderScreen = () => {
     return null;
   }
 
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <Message>{error}</Message>;
-  }
-
   return (
     <div className="py-6">
       <h1 className="mb-6 text-3xl font-bold">Order {order.id}</h1>
+      {loading && <Loader />}
+      {error && <Message variant="danger">{error}</Message>}
       <div className="-mx-4 flex flex-wrap">
         <div className="mb-4 w-full px-4 lg:mb-0 lg:w-2/3">
           <div className="rounded-lg bg-white p-6 shadow">

@@ -61,15 +61,6 @@ export const UserEditScreen: React.FC = () => {
     }
   };
 
-  // Conditional Rendering
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <Message variant="danger">{error}</Message>;
-  }
-
   return (
     <>
       <Link
@@ -80,6 +71,8 @@ export const UserEditScreen: React.FC = () => {
       </Link>
       <div className="mx-auto w-full max-w-xs">
         <h1 className="mb-3 text-2xl font-bold">Edit User</h1>
+        {loading && <Loader />}
+        {error && <Message variant="danger">{error}</Message>}
         <form
           onSubmit={submitHandler}
           className="mb-4 rounded bg-white px-8 pb-8 pt-6 shadow-md"

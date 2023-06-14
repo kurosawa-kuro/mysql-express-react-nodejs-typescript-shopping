@@ -60,17 +60,11 @@ export const PlaceOrderScreen: FC = () => {
     }
   };
 
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <Message>{error}</Message>;
-  }
-
   return (
     <div className="container mx-auto px-4">
       <CheckoutSteps step1 step2 step3 step4 />
+      {loading && <Loader />}
+      {error && <Message variant="danger">{error}</Message>}
       <div className="-mx-2 flex flex-wrap">
         <div className="mb-4 w-full px-2 md:w-2/3">
           <div className="rounded-lg bg-white p-4 shadow-md">

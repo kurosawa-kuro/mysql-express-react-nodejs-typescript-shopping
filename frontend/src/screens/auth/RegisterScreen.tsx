@@ -55,15 +55,12 @@ export const RegisterScreen = () => {
 
   const fields = ["name", "email", "password", "confirmPassword"] as const;
 
-  if (loading) {
-    return <Loader />;
-  }
-
   return (
     <FormContainer>
       <h1 className="mb-6 text-3xl font-bold text-custom-blue-dark">
         Register
       </h1>
+      {loading && <Loader />}
       <form onSubmit={submitHandler}>
         {fields.map((field, index) => (
           <div className="mb-4" key={index}>

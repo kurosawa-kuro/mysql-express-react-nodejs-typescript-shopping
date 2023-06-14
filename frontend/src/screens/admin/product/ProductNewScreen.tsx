@@ -70,15 +70,6 @@ export const ProductNewScreen: React.FC = () => {
     }
   };
 
-  // Conditional Rendering
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <Message variant="danger">{error}</Message>;
-  }
-
   return (
     <>
       <Link to="/admin/products/" className="btn btn-light my-3">
@@ -88,6 +79,7 @@ export const ProductNewScreen: React.FC = () => {
         <h1 className="mb-4 text-center text-2xl font-semibold">
           Create Product
         </h1>
+        {loading && <Loader />}
         <form className="mt-8 space-y-6" onSubmit={submitHandler}>
           <input type="hidden" name="remember" value="true" />
           <div className="-space-y-px rounded-md shadow-sm">

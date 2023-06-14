@@ -48,14 +48,10 @@ export const LoginScreen = () => {
 
   const fields = ["email", "password"] as const;
 
-  // Conditional Rendering
-  if (loading) {
-    return <Loader />;
-  }
-
   return (
     <FormContainer>
       <h1 className="mb-6 text-3xl font-bold text-custom-blue-dark">Log in</h1>
+      {loading && <Loader />}
       <form onSubmit={submitHandler}>
         {fields.map((field, index) => (
           <div className="mb-4" key={index}>

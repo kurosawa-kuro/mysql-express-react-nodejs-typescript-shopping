@@ -82,14 +82,6 @@ export const ProductScreen: React.FC = () => {
     return null;
   }
 
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <Message>{error}</Message>;
-  }
-
   return (
     <div className="container mx-auto px-4">
       <Link className="my-3 text-blue-500" to="/">
@@ -99,6 +91,8 @@ export const ProductScreen: React.FC = () => {
       <>
         {/* <Meta title={product.name} description={product.description} /> */}
         <div className="-mx-2 flex flex-wrap">
+          {loading && <Loader />}
+          {error && <Message variant="danger">{error}</Message>}
           <div className="w-full px-2 md:w-1/2">
             <img src={product.image} alt={product.name} className="w-full" />
           </div>

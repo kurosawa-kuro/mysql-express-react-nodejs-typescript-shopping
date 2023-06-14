@@ -36,18 +36,11 @@ const OrderListScreen: React.FC = () => {
     fetchOrders();
   }, []);
 
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <Message>{error}</Message>;
-  }
-
   return (
     <>
       <h1 className="mb-4 text-2xl font-semibold">Orders</h1>
-
+      {loading && <Loader />}
+      {error && <Message variant="danger">{error}</Message>}
       <div className="overflow-x-auto">
         <table className="w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
