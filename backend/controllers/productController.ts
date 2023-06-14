@@ -49,6 +49,21 @@ const getProductById = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const createProduct = asyncHandler(async (req: RequestUser, res: Response) => {
+  req.body.image = req.body.image
+    .replace(/\\/g, "/")
+    .replace("/frontend/public", "");
+
+  const {
+    name,
+    price,
+    image,
+    brand,
+    category,
+    countInStock,
+    numReviews,
+    description,
+  } = req.body;
+
   if (!req.user || !req.user.id) {
     res.status(401);
     throw new Error("Not authorized");
@@ -56,15 +71,15 @@ const createProduct = asyncHandler(async (req: RequestUser, res: Response) => {
 
   const product: Product = await db.product.create({
     data: {
-      name: "Sample name",
-      price: 0,
+      name,
+      price,
       user: { connect: { id: Number(req.user.id) } },
-      image: "/images/sample.jpg",
-      brand: "Sample brand",
-      category: "Sample category",
-      countInStock: 0,
-      numReviews: 0,
-      description: "Sample description",
+      image,
+      brand,
+      category,
+      countInStock, // Change to variable
+      numReviews, // Change to variable
+      description, // Add variable
     },
   });
 

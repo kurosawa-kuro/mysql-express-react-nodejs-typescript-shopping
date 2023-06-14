@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, FC } from "react";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Message from "../../../components/common/Message";
 import Loader from "../../../components/common/Loader";
 import Paginate from "../../../components/utils/Paginate";
@@ -22,6 +22,7 @@ const ProductListScreen: FC = () => {
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -59,18 +60,8 @@ const ProductListScreen: FC = () => {
   };
 
   const createProductHandler = async () => {
-    if (window.confirm("Are you sure you want to create a new product?")) {
-      try {
-        await createProductApi(null);
-        const newProductsData = await getProductsApi({
-          pageNumber: Number(pageNumber),
-          keyword: "",
-        });
-        setProductsData(newProductsData);
-      } catch (err) {
-        // toast.error(err.message);
-      }
-    }
+    // "/admin/product/new"に遷移
+    navigate("/admin/product/new");
   };
 
   return (
