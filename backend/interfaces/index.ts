@@ -26,3 +26,26 @@ export interface OrderItems {
   product: ProductBase;
   qty: number;
 }
+
+export interface OrderDetails {
+  id: number;
+  orderProducts: {
+    product: {
+      id: number;
+      name: string;
+      image: string;
+      price: number;
+      countInStock: number;
+    };
+    qty: number;
+  }[];
+  itemsPrice: number;
+  taxPrice: number;
+  shippingPrice: number;
+  totalPrice: number;
+  isPaid: boolean;
+  paidAt: Date | null;
+  isDelivered: boolean;
+  deliveredAt: Date | null;
+  createdAt: Date;
+}

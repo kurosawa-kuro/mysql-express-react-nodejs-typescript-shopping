@@ -7,23 +7,9 @@ import { Request, NextFunction, Response } from "express";
 // Internal Imports
 import { db } from "../database/prisma/prismaClient";
 import { Order } from "@prisma/client";
-import { RequestUser, OrderItems } from "../interfaces";
+import { RequestUser, OrderItems, OrderDetails } from "../interfaces";
 
-const findOrderById = async (
-  id: number
-): Promise<{
-  id: number;
-  orderProducts: any[];
-  itemsPrice: number;
-  taxPrice: number;
-  shippingPrice: number;
-  totalPrice: number;
-  isPaid: boolean;
-  paidAt: Date | null;
-  isDelivered: boolean;
-  deliveredAt: Date | null;
-  createdAt: Date;
-} | null> => {
+const findOrderById = async (id: number): Promise<OrderDetails | null> => {
   return db.order.findUnique({
     where: { id },
     include: { user: true, orderProducts: { include: { product: true } } },
@@ -61,8 +47,6 @@ const addOrderItems = asyncHandler(
       },
     });
 
-    // console.log("CCCCCCCCCCCCC");
-    // console.dir(orderProducts, { depth: null });
     orderProducts.forEach(async (orderProduct: OrderItems) => {
       await db.orderProduct.create({
         data: {
@@ -97,10 +81,7 @@ const getMyOrders = asyncHandler(
 );
 
 const getOrderById = asyncHandler(async (req: RequestUser, res: Response) => {
-  console.log("getOrderById");
   const order = await findOrderById(Number(req.params.id));
-  console.log({ order });
-  // console.log("order?.orderProducts", order?.orderProducts);
   order
     ? res.json({
         id: order.id,
