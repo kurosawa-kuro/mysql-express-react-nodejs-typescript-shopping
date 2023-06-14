@@ -3,30 +3,20 @@
 import React, { useState, useEffect, FC } from "react";
 import { Link } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
-import Message from "../../../components/common/Message";
-import Loader from "../../../components/common/Loader";
-import { getOrdersApi, getMyOrdersApi } from "../../../services/api";
-import { Order } from "../../../interfaces";
-import { useAuthStore } from "../../../state/store";
-import { FullUser, UserAuthStore } from "../../../interfaces/index";
+import Message from "../../components/common/Message";
+import Loader from "../../components/common/Loader";
+import { getOrdersApi } from "../../services/api";
+import { Order } from "../../interfaces";
 
-const OrderListScreen: FC = () => {
+const OrderListScreen: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { userInfo } = useAuthStore() as UserAuthStore;
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        let data;
-        if (userInfo?.isAdmin) {
-          data = await getOrdersApi();
-        } else {
-          data = await getMyOrdersApi();
-        }
-        console.log({ data });
-
+        const data = await getOrdersApi();
         setOrders(data);
         setLoading(false);
       } catch (err) {
@@ -53,13 +43,9 @@ const OrderListScreen: FC = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   ID
                 </th>
-
-                {userInfo?.isAdmin && (
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                    USER
-                  </th>
-                )}
-
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  USER
+                </th>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   DATE
                 </th>
@@ -80,11 +66,9 @@ const OrderListScreen: FC = () => {
                 orders.map((order: Order) => (
                   <tr key={order.id}>
                     <td className="whitespace-nowrap px-6 py-4">{order.id}</td>
-                    {userInfo?.isAdmin && (
-                      <td className="whitespace-nowrap px-6 py-4">
-                        {order.user && order.user.name}
-                      </td>
-                    )}
+                    <td className="whitespace-nowrap px-6 py-4">
+                      {order.user && order.user.name}
+                    </td>
                     <td className="whitespace-nowrap px-6 py-4">
                       {order.createdAt?.substring(0, 10)}
                     </td>

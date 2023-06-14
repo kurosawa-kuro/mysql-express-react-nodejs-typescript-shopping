@@ -75,7 +75,7 @@ export const ProfileScreen: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4">
-      <div className="-mx-2 flex flex-wrap">
+      <div className="-mx-2 mx-auto flex flex-wrap">
         <div className="w-full px-2 md:w-1/3">
           <h2 className="mb-4 text-2xl font-bold">User Profile</h2>
           <form
@@ -160,84 +160,6 @@ export const ProfileScreen: React.FC = () => {
               {loading && <Loader />}
             </div>
           </form>
-        </div>
-        <div className="w-full px-2 md:w-2/3">
-          <h2 className="mb-4 text-2xl font-bold">My Orders</h2>
-          {loadingOrders ? (
-            <Loader />
-          ) : error ? (
-            <Message variant="danger">
-              {/* {error?.data?.message || error.error} */}
-            </Message>
-          ) : (
-            <div className="mb-4 overflow-x-auto rounded bg-white px-8 pb-8 pt-6 shadow-md">
-              <table className="min-w-full leading-normal">
-                <thead className="">
-                  <tr>
-                    <th>ID</th>
-                    <th>DATE</th>
-                    <th>TOTAL</th>
-                    <th>PAID</th>
-                    <th>DELIVERED</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders.map((order) => (
-                    <tr
-                      key={order.id}
-                      style={{ height: "45px", padding: "5px 0" }}
-                    >
-                      <td>{order.id}</td>
-                      <td>
-                        {order.createdAt
-                          ? order.createdAt.substring(0, 10)
-                          : ""}
-                      </td>
-                      <td>{order.totalPrice}</td>
-                      <td>
-                        {order.isPaid ? (
-                          order.paidAt ? (
-                            order.paidAt.substring(0, 10)
-                          ) : (
-                            ""
-                          )
-                        ) : (
-                          <FaTimes style={{ color: "red" }} />
-                        )}
-                      </td>
-                      <td
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          height: "inherit",
-                        }}
-                      >
-                        {order.isDelivered ? (
-                          order.deliveredAt ? (
-                            order.deliveredAt.substring(0, 10)
-                          ) : (
-                            ""
-                          )
-                        ) : (
-                          <FaTimes style={{ color: "red" }} />
-                        )}
-                      </td>
-                      <td>
-                        <Link
-                          to={`/order/${order.id}`}
-                          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                        >
-                          Details
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
         </div>
       </div>
     </div>
