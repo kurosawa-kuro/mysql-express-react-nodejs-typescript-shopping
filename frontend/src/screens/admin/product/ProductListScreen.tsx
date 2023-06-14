@@ -7,7 +7,7 @@ import Message from "../../../components/common/Message";
 import Loader from "../../../components/common/Loader";
 import Paginate from "../../../components/utils/Paginate";
 import { getProductsApi, deleteProductApi } from "../../../services/api";
-import { ProductResponse, Product } from "../../../interfaces";
+import { ProductResponse, ProductDetail } from "../../../interfaces";
 import { toast } from "react-toastify";
 
 export const ProductListScreen: React.FC = () => {
@@ -73,6 +73,7 @@ export const ProductListScreen: React.FC = () => {
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-3xl font-bold">Products</h1>
         {loading && <Loader />}
+        {error && <Message variant="danger">{error}</Message>}
         <button
           onClick={createProductHandler}
           className="rounded-md bg-indigo-600 p-2 text-white transition duration-150 hover:bg-indigo-500"
@@ -96,7 +97,7 @@ export const ProductListScreen: React.FC = () => {
             </thead>
             <tbody className="divide-y bg-white">
               {productsData &&
-                productsData.products.map((product: Product) => (
+                productsData.products.map((product: ProductDetail) => (
                   <tr key={product.id} className="text-gray-700">
                     <td className="px-4 py-3">
                       <Link

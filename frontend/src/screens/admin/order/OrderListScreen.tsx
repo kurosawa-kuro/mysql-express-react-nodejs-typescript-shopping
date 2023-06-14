@@ -1,46 +1,36 @@
 // frontend\src\screens\admin\order\OrderListScreen.tsx
 
-import React, { useState, useEffect, FC } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
-import Message from "../../../components/common/Message";
-import Loader from "../../../components/common/Loader";
-import { getOrdersApi, getMyOrdersApi } from "../../../services/api";
-import { Order } from "../../../interfaces";
+import { Order, UserAuthStore } from "../../../interfaces";
+import { getMyOrdersApi, getOrdersApi } from "../../../services/api";
 import { useAuthStore } from "../../../state/store";
-import { UserAuthStore } from "../../../interfaces/index";
+import Loader from "../../../components/common/Loader";
+import Message from "../../../components/common/Message";
 
 export const OrderListScreen: React.FC = () => {
+  const { userInfo } = useAuthStore() as UserAuthStore;
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { userInfo } = useAuthStore() as UserAuthStore;
-
-  const fetchOrders = async () => {
-    try {
-      let data;
-      if (userInfo?.isAdmin) {
-        data = await getOrdersApi();
-      } else {
-        data = await getMyOrdersApi();
-      }
-      console.log({ data });
-
-      setOrders(data);
-      setLoading(false);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("An error occurred.");
-      }
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const data = userInfo?.isAdmin
+          ? await getOrdersApi()
+          : await getMyOrdersApi();
+        setOrders(data);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "An error occurred.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchOrders();
-  }, []);
+  }, [userInfo?.isAdmin]);
 
   return (
     <>
