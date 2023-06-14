@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 import Loader from "../../../components/common/Loader";
 import { toast } from "react-toastify";
-import { useAuthStore } from "../../../state/store";
 import { deleteUserApi, getUsersApi } from "../../../services/api";
+import { useAuthStore } from "../../../state/store";
 import { FullUser, UserAuthStore } from "../../../interfaces/index";
 
 export const UserListScreen: React.FC = () => {

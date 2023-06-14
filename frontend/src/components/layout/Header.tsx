@@ -3,12 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 
 import {
   FaUser,
+  FaShoppingCart,
   FaChevronDown,
   FaChevronUp,
   FaBars,
   FaTimes,
 } from "react-icons/fa";
-import { useAuthStore } from "../../state/store";
+import { useAuthStore, useCartStore } from "../../state/store";
 import { logoutUserApi } from "../../services/api";
 
 export const Header: React.FC = () => {
@@ -19,6 +20,7 @@ export const Header: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const adminDropdownRef = useRef<HTMLDivElement | null>(null);
   const { userInfo, logout } = useAuthStore();
+  const { cartItems } = useCartStore();
 
   useEffect(() => {
     const closeDropdown = (e: MouseEvent) => {
@@ -54,41 +56,17 @@ export const Header: React.FC = () => {
           </button>
         </div>
         <div className={`space-x-8 ${isOpen ? "block" : "hidden"} sm:flex`}>
-          <Link
-            to="/"
-            className="block px-4 py-2 text-custom-blue-lightest hover:bg-custom-blue-lighter hover:text-custom-blue-extra-darkest"
-            role="menuitem"
-          >
-            Home
-          </Link>
-          <Link
-            to="/information-get"
-            className="block px-4 py-2 text-custom-blue-lightest hover:bg-custom-blue-lighter hover:text-custom-blue-extra-darkest"
-            role="menuitem"
-          >
-            InformationGet
-          </Link>
-          <Link
-            to="/information-post"
-            className="block px-4 py-2 text-custom-blue-lightest hover:bg-custom-blue-lighter hover:text-custom-blue-extra-darkest"
-            role="menuitem"
-          >
-            InformationPost
-          </Link>
-          <Link
-            to="/login"
-            className="block px-4 py-2 text-custom-blue-lightest hover:bg-custom-blue-lighter hover:text-custom-blue-extra-darkest"
-            role="menuitem"
-          >
-            Login
-          </Link>
-          <Link
-            to="/register"
-            className="block px-4 py-2 text-custom-blue-lightest hover:bg-custom-blue-lighter hover:text-custom-blue-extra-darkest"
-            role="menuitem"
-          >
-            Register
-          </Link>
+          {!userInfo?.isAdmin && (
+            <Link to="/cart" className="flex items-center space-x-2">
+              <FaShoppingCart className="h-5 w-5" />
+              <span>Cart</span>
+              {cartItems.length > 0 && (
+                <span className="inline-block rounded-full bg-green-500 px-2 text-sm">
+                  {cartItems.reduce((a, c) => a + c.qty, 0)}
+                </span>
+              )}
+            </Link>
+          )}
 
           {userInfo ? (
             <div className="relative inline-block text-left" ref={dropdownRef}>
