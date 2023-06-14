@@ -69,14 +69,33 @@ const getMyOrders = asyncHandler(
     }
 
     const userId = Number(req.user.id);
-    const orders = await db.order.findMany({
+
+    // const orders: OrderDetails[] = await db.order.findMany({
+    //   include: {
+    //     user: true,
+    //     orderProducts: { include: { product: true } },
+    //   },
+    // });
+
+    const orders: OrderDetails[] = await db.order.findMany({
       where: { userId },
       include: {
         orderProducts: { include: { product: true } },
       },
     });
 
-    res.json(orders);
+    console.log("CCCCCCCCCCCCCCobject");
+    res.json(
+      orders.map((order) => ({
+        ...order,
+        price: {
+          itemsPrice: order.itemsPrice,
+          shippingPrice: order.shippingPrice,
+          taxPrice: order.taxPrice,
+          totalPrice: order.totalPrice,
+        },
+      }))
+    );
   }
 );
 
@@ -148,14 +167,24 @@ const updateOrderToDelivered = asyncHandler(
 );
 
 const getOrders = asyncHandler(async (req: Request, res: Response) => {
-  const orders: Order[] = await db.order.findMany({
+  const orders: OrderDetails[] = await db.order.findMany({
     include: {
       user: true,
       orderProducts: { include: { product: true } },
     },
   });
 
-  res.json(orders);
+  res.json(
+    orders.map((order) => ({
+      ...order,
+      price: {
+        itemsPrice: order.itemsPrice,
+        shippingPrice: order.shippingPrice,
+        taxPrice: order.taxPrice,
+        totalPrice: order.totalPrice,
+      },
+    }))
+  );
 });
 
 export {

@@ -100,7 +100,7 @@ export const deliverOrderApi = (orderId: number) =>
   performRequest(apiClient.put(`/api/orders/${orderId}/deliver`));
 
 export const getMyOrdersApi = () =>
-  performRequest(apiClient.get<Order[]>("/api/orders/mine"));
+  performRequest(apiClient.get("/api/orders/mine"));
 
 export const getOrdersApi = async () =>
   performRequest(apiClient.get("/api/orders"));

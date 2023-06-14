@@ -80,7 +80,7 @@ export const OrderListScreen: React.FC = () => {
                     {order.createdAt?.substring(0, 10)}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    ${order.totalPrice}
+                    ${order.price.totalPrice}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
                     {order.isPaid ? (
