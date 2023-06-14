@@ -11,7 +11,29 @@ import Message from "../../components/common/Message";
 import Paginate from "../../components/utils/Paginate";
 import Product from "../../components/features/Product";
 import { getProductsApi } from "../../services/api";
-import { ProductResponse } from "../../interfaces";
+import {
+  ProductDetail as ProductType,
+  ProductResponse,
+} from "../../interfaces";
+
+interface ProductsFetchParams {
+  keyword: string;
+  pageNumber: number;
+}
+
+const fetchProducts = async ({
+  keyword,
+  pageNumber,
+}: ProductsFetchParams): Promise<ProductResponse | null> => {
+  try {
+    const data = await getProductsApi({ keyword, pageNumber });
+    return data;
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "An error occurred.";
+    toast.error(message);
+    return null;
+  }
+};
 
 export const HomeScreen: React.FC = () => {
   const { pageNumber = "1", keyword = "" } = useParams();
@@ -21,25 +43,12 @@ export const HomeScreen: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchProducts = async () => {
-    setLoading(true);
-    try {
-      const data = await getProductsApi({
-        keyword,
-        pageNumber: Number(pageNumber),
-      });
-      setProductsData(data);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "An error occurred.";
-      toast.error(message);
-      setError(message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchProducts();
+    setLoading(true);
+    fetchProducts({ keyword, pageNumber: Number(pageNumber) })
+      .then((data) => setProductsData(data))
+      .catch((err) => setError(err))
+      .finally(() => setLoading(false));
   }, [pageNumber, keyword]);
 
   return (
@@ -61,7 +70,7 @@ export const HomeScreen: React.FC = () => {
       {error && <Message variant="danger">{error}</Message>}
 
       <div className="m-4 flex flex-wrap">
-        {productsData?.products.map((product) => (
+        {productsData?.products.map((product: ProductType) => (
           <div
             key={product.id}
             className="w-full p-4 sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3"
