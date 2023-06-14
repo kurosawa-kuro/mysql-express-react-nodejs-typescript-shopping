@@ -44,8 +44,12 @@ export const ProfileScreen: React.FC = () => {
       });
       setUserInfo({ ...res });
       toast.success("Profile updated successfully");
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("An error occurred.");
+      }
     } finally {
       setLoading(false);
     }

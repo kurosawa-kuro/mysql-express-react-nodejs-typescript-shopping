@@ -53,8 +53,7 @@ export const PlaceOrderScreen: FC = () => {
     } catch (err: unknown) {
       setLoading(false);
       if (err instanceof Error) {
-        setError("An error occurred. Please try again.");
-        toast.error("An error occurred. Please try again.");
+        setError(err.message);
       } else {
         toast.error("An error occurred.");
       }

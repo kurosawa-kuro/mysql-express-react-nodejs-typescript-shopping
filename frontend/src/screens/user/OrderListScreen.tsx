@@ -7,6 +7,7 @@ import Message from "../../components/common/Message";
 import Loader from "../../components/common/Loader";
 import { getOrdersApi } from "../../services/api";
 import { Order } from "../../interfaces";
+import { toast } from "react-toastify";
 
 const OrderListScreen: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -19,8 +20,13 @@ const OrderListScreen: React.FC = () => {
         const data = await getOrdersApi();
         setOrders(data);
         setLoading(false);
-      } catch (err) {
-        // setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          toast.error(err.message);
+        } else {
+          toast.error("An error occurred.");
+        }
+      } finally {
         setLoading(false);
       }
     };

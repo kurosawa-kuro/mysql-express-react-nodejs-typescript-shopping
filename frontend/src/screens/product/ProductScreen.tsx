@@ -21,8 +21,6 @@ export const ProductScreen: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<ErrorMessage | null>(null);
   const [qty, setQty] = useState<number>(1);
-  const [rating, setRating] = useState<number>(0);
-  const [comment, setComment] = useState<string>("");
 
   const fetchProductDetails = useCallback(async () => {
     try {
@@ -33,8 +31,13 @@ export const ProductScreen: React.FC = () => {
       }
       setProduct(product);
       setLoading(false);
-    } catch (err) {
-      setError({ message: (err as Error).message });
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("An error occurred.");
+      }
+    } finally {
       setLoading(false);
     }
   }, [productId]);
@@ -44,8 +47,7 @@ export const ProductScreen: React.FC = () => {
   }, [fetchProductDetails]);
 
   const addToCartHandler = () => {
-    console.log("product", product);
-    if (product) {
+    if (product && product.id !== undefined) {
       addToCart({
         id: product.id,
         name: product.name,
@@ -83,7 +85,7 @@ export const ProductScreen: React.FC = () => {
         <Loader />
       ) : error ? (
         <Message variant="danger">
-          {/* {error?.data?.message || error.error} */}
+          {error.message || "An error occurred."}
         </Message>
       ) : product ? (
         <>

@@ -3,6 +3,7 @@
 // External Imports
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // Internal Imports
 import { ProductResponse, ErrorMessage } from "../../interfaces";
@@ -37,8 +38,13 @@ export const HomeScreen: React.FC = () => {
         });
         setProductsData(data);
         setLoading(false);
-      } catch (err) {
-        setError({ message: (err as Error).message });
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          toast.error(err.message);
+        } else {
+          toast.error("An error occurred.");
+        }
+      } finally {
         setLoading(false);
       }
     };

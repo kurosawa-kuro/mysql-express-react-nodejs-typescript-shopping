@@ -31,18 +31,13 @@ export const OrderScreen = () => {
       try {
         setLoading(true);
         const data: Order = await getOrderDetailsApi(orderIdNumber);
-        console.log("data", data);
-        console.log("data.orderProducts", data.orderProducts);
-        console.log("data.orderProducts[0]", data.orderProducts[0]);
-        console.log(
-          "data.orderProducts[0].product.id",
-          data.orderProducts[0].id
-        );
         setOrder(data);
-        console.log(data);
-        console.log("order", order);
-      } catch (err) {
-        // setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          toast.error(err.message);
+        } else {
+          toast.error("An error occurred.");
+        }
       } finally {
         setLoading(false);
       }
@@ -57,8 +52,13 @@ export const OrderScreen = () => {
       await payOrderApi(orderIdNumber, { payer: {} });
       toast.success("Order is paid");
       fetchOrder();
-    } catch (err) {
-      //   setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("An error occurred.");
+      }
+    } finally {
       setLoading(false);
     }
   };
@@ -69,8 +69,13 @@ export const OrderScreen = () => {
         setLoading(true);
         await deliverOrderApi(orderIdNumber);
         fetchOrder();
-      } catch (err) {
-        //   setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          toast.error(err.message);
+        } else {
+          toast.error("An error occurred.");
+        }
+      } finally {
         setLoading(false);
       }
     }
