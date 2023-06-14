@@ -1,6 +1,6 @@
 // frontend\src\screens\user\ProfileScreen.tsx
 
-import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import React, { useEffect, useState, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -8,9 +8,9 @@ import Message from "../../components/common/Message";
 import Loader from "../../components/common/Loader";
 import { updateUserProfileApi, getMyOrdersApi } from "../../services/api"; // Import the api functions
 import { useAuthStore } from "../../state/store";
-import { UserInfo, Order, ErrorMessage } from "../../interfaces";
+import { Order, ErrorMessage } from "../../interfaces";
 
-export const ProfileScreen = () => {
+export const ProfileScreen: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
