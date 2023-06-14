@@ -80,6 +80,7 @@ export const ProductNewScreen: React.FC = () => {
           Create Product
         </h1>
         {loading && <Loader />}
+        {error && <Message variant="danger">{error}</Message>}
         <form className="mt-8 space-y-6" onSubmit={submitHandler}>
           <input type="hidden" name="remember" value="true" />
           <div className="-space-y-px rounded-md shadow-sm">
