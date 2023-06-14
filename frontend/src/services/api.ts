@@ -98,3 +98,6 @@ export const uploadProductImageApi = async (imageData: FormData) =>
 
 export const deleteProductApi = async (productId: number) =>
   performRequest(apiClient.delete(`/api/products/${productId}`));
+
+export const getOrdersApi = async () =>
+  performRequest(apiClient.get("/api/orders"));
