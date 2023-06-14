@@ -5,6 +5,8 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { getApiClient } from "./apiClient";
 import {
   OptionalUser,
+  LoginUserCredentials,
+  RegisterUserCredentials,
   ProductSearchParams,
   Product,
   ErrorMessage,
@@ -36,13 +38,12 @@ const performRequest = async (request: Promise<AxiosResponse<any>>) => {
   }
 };
 
-export const registerUserApi = (user: OptionalUser) =>
+// User related APIs
+export const registerUserApi = (user: RegisterUserCredentials) =>
   performRequest(apiClient.post("/api/users/register", user));
 
-export const loginUserApi = (credentials: {
-  email: string;
-  password: string;
-}) => performRequest(apiClient.post("/api/users/login", credentials));
+export const loginUserApi = (credentials: LoginUserCredentials) =>
+  performRequest(apiClient.post("/api/users/login", credentials));
 
 export const fetchUserProfileApi = () =>
   performRequest(apiClient.get("/api/users/profile"));
@@ -64,6 +65,7 @@ export const getUserDetailsApi = (userId: number) =>
 export const updateUserApi = (user: OptionalUser) =>
   performRequest(apiClient.put(`/api/users/${user.id}`, user));
 
+// Product related APIs
 export const getProductsApi = ({ keyword, pageNumber }: ProductSearchParams) =>
   performRequest(
     apiClient.get("/api/products", { params: { keyword, pageNumber } })
@@ -78,6 +80,13 @@ export const createProductApi = (product: Product | null) =>
 export const updateProductApi = (product: Product) =>
   performRequest(apiClient.put(`/api/products/${product.id}`, product));
 
+export const uploadProductImageApi = async (imageData: FormData) =>
+  performRequest(apiClient.post("/api/upload", imageData));
+
+export const deleteProductApi = async (productId: number) =>
+  performRequest(apiClient.delete(`/api/products/${productId}`));
+
+// Order related APIs
 export const createOrderApi = (order: Order) =>
   performRequest(apiClient.post("/api/orders", order));
 
@@ -92,12 +101,6 @@ export const deliverOrderApi = (orderId: number) =>
 
 export const getMyOrdersApi = () =>
   performRequest(apiClient.get<Order[]>("/api/orders/mine"));
-
-export const uploadProductImageApi = async (imageData: FormData) =>
-  performRequest(apiClient.post("/api/upload", imageData));
-
-export const deleteProductApi = async (productId: number) =>
-  performRequest(apiClient.delete(`/api/products/${productId}`));
 
 export const getOrdersApi = async () =>
   performRequest(apiClient.get("/api/orders"));

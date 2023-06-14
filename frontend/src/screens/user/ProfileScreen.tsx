@@ -211,6 +211,7 @@ export const ProfileScreen: React.FC = () => {
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
+                          height: "inherit",
                         }}
                       >
                         {order.isDelivered ? (
