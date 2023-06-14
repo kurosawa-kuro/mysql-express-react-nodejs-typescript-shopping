@@ -61,7 +61,7 @@ const ProductEditScreen: React.FC = () => {
         countInStock: Number(countInStock),
       });
       toast.success("Product updated");
-      navigate("/admin/product-list");
+      navigate("/admin/products/");
     } catch (err) {
       // toast.error(err?.data?.message || err.message);
     }
@@ -85,7 +85,7 @@ const ProductEditScreen: React.FC = () => {
 
   return (
     <>
-      <Link to="/admin/product-list" className="btn btn-light my-3">
+      <Link to="/admin/products/" className="btn btn-light my-3">
         Go Back
       </Link>
       <div className="mx-auto mt-4 w-full max-w-md">

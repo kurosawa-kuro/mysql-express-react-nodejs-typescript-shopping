@@ -88,7 +88,7 @@ export const UserListScreen: React.FC = () => {
                   {userInfo && userInfo.isAdmin && (
                     <>
                       <Link
-                        to={`/admin/user/${user.id}/edit`}
+                        to={`/admin/users/${user.id}/edit`}
                         className="mr-2 inline-flex items-center rounded bg-gray-200 px-4 py-2 font-bold text-gray-800 hover:bg-gray-300"
                       >
                         <FaEdit size={18} className="mr-1" />

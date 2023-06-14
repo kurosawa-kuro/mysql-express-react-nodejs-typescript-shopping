@@ -159,21 +159,21 @@ export const Header: React.FC = () => {
                     aria-labelledby="options-menu"
                   >
                     <Link
-                      to="/admin/user-list"
+                      to="/admin/users"
                       className="block px-4 py-2 text-sm text-custom-blue-lighter hover:bg-custom-blue-darkest"
                       role="menuitem"
                     >
                       Users
                     </Link>
                     <Link
-                      to="/admin/product-list"
+                      to="/admin/products/"
                       className="block px-4 py-2 text-sm text-custom-blue-lighter hover:bg-custom-blue-darkest"
                       role="menuitem"
                     >
                       Products
                     </Link>
                     <Link
-                      to="/admin/order-list"
+                      to="/admin/orders/"
                       className="block px-4 py-2 text-sm text-custom-blue-lighter hover:bg-custom-blue-darkest"
                       role="menuitem"
                     >

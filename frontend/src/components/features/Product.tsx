@@ -11,7 +11,7 @@ interface ProductProps {
 const Product: React.FC<ProductProps> = ({ product }) => {
   return (
     <div className="my-3 rounded bg-white p-3 shadow">
-      <Link to={`/product/${product.id}`}>
+      <Link to={`/products/${product.id}`}>
         <img
           className="h-64 w-full rounded-t object-contain"
           src={product.image}
@@ -20,7 +20,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
       </Link>
 
       <div className="p-4">
-        <Link to={`/product/${product.id}`}>
+        <Link to={`/products/${product.id}`}>
           <h2 className="text-lg font-semibold text-gray-700">
             {product.name}
           </h2>

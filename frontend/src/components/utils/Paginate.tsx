@@ -29,7 +29,7 @@ const Paginate: FC<PaginateProps> = ({
                     ? keyword
                       ? `/search/${keyword}/page/${x + 1}`
                       : `/page/${x + 1}`
-                    : `/admin/product-list/${x + 1}`
+                    : `/admin/products//${x + 1}`
                 }
                 className={`block px-4 py-2 text-center text-white ${
                   x + 1 === page ? "bg-blue-500" : "bg-gray-200"

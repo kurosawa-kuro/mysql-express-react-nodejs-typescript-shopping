@@ -47,7 +47,7 @@ export const CartScreen: React.FC = () => {
                       alt={item.name}
                       className="h-16 w-16 rounded"
                     />
-                    <Link to={`/product/${item.id}`} className="text-lg">
+                    <Link to={`/products/${item.id}`} className="text-lg">
                       {item.name}
                     </Link>
                   </div>

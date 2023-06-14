@@ -157,7 +157,7 @@ export const OrderScreen = () => {
                       />
                     </div>
                     <div className="w-3/5 px-4">
-                      <Link to={`/product/${item.product.id}`}>
+                      <Link to={`/products/${item.product.id}`}>
                         {item.product.name}
                       </Link>
                     </div>

@@ -41,7 +41,7 @@ export const UserEditScreen: React.FC = () => {
     try {
       await updateUserApi({ id: userId, name, email, isAdmin });
       toast.success("User updated successfully");
-      navigate("/admin/user-list");
+      navigate("/admin/users");
     } catch (err: any) {
       toast.error(err.message);
     } finally {
@@ -52,7 +52,7 @@ export const UserEditScreen: React.FC = () => {
   return (
     <>
       <Link
-        to="/admin/user-list"
+        to="/admin/users"
         className="my-3 inline-flex items-center rounded bg-gray-200 px-4 py-2 font-bold text-gray-800 hover:bg-gray-300"
       >
         Go Back

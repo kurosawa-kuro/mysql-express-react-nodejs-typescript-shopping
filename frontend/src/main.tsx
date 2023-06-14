@@ -38,24 +38,24 @@ const router = createBrowserRouter(
       <Route path="/login" element={<LoginScreen />} />
 
       <Route path="/cart" element={<CartScreen />} />
-      <Route path="/order/:id" element={<OrderScreen />} />
-      <Route path="/order-list" element={<OrderListScreen />} />
+      <Route path="/orders/:id" element={<OrderScreen />} />
+      <Route path="/orders/" element={<OrderListScreen />} />
       <Route path="/payment" element={<PaymentScreen />} />
       <Route path="/place-order" element={<PlaceOrderScreen />} />
-      <Route path="/product/:id" element={<ProductScreen />} />
+      <Route path="/products/:id" element={<ProductScreen />} />
       <Route path="/profile" element={<ProfileScreen />} />
       <Route path="/shipping" element={<ShippingScreen />} />
 
-      <Route path="/admin/order-list" element={<OrderListScreen />} />
-      <Route path="/admin/product-list" element={<ProductListScreen />} />
+      <Route path="/admin/orders/" element={<OrderListScreen />} />
+      <Route path="/admin/products/" element={<ProductListScreen />} />
       <Route
-        path="/admin/product-list/:pageNumber"
+        path="/admin/products//:pageNumber"
         element={<ProductListScreen />}
       />
-      <Route path="/admin/product/new" element={<ProductNewScreen />} />
-      <Route path="/admin/product/:id/edit" element={<ProductEditScreen />} />
-      <Route path="/admin/user-list" element={<UserListScreen />} />
-      <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
+      <Route path="/admin/products/new" element={<ProductNewScreen />} />
+      <Route path="/admin/products/:id/edit" element={<ProductEditScreen />} />
+      <Route path="/admin/users" element={<UserListScreen />} />
+      <Route path="/admin/users/:id/edit" element={<UserEditScreen />} />
     </Route>
   )
 );

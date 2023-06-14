@@ -61,7 +61,7 @@ const ProductListScreen: FC = () => {
 
   const createProductHandler = async () => {
     // "/admin/product/new"に遷移
-    navigate("/admin/product/new");
+    navigate("/admin/products/new");
   };
 
   return (
@@ -100,7 +100,7 @@ const ProductListScreen: FC = () => {
                     <tr key={product.id} className="text-gray-700">
                       <td className="px-4 py-3">
                         <Link
-                          to={`/admin/product/${product.id}/edit`}
+                          to={`/admin/products/${product.id}/edit`}
                           className="text-indigo-600 hover:text-indigo-900"
                         >
                           {product.id}
@@ -113,7 +113,7 @@ const ProductListScreen: FC = () => {
                       <td className="px-4 py-3">
                         <div className="flex items-center space-x-4 text-sm">
                           <Link
-                            to={`/admin/product/${product.id}/edit`}
+                            to={`/admin/products/${product.id}/edit`}
                             className="rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
                           >
                             <FaEdit />

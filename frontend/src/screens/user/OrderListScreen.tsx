@@ -91,7 +91,7 @@ const OrderListScreen: React.FC = () => {
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                       <Link
-                        to={`/order/${order.id}`}
+                        to={`/orders/${order.id}`}
                         className="text-indigo-600 hover:text-indigo-900"
                       >
                         Details

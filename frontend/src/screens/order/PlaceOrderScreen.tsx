@@ -49,7 +49,7 @@ export const PlaceOrderScreen: FC = () => {
       const res = await createOrderApi(order);
       clearCartItems();
       setLoading(false);
-      navigate(`/order/${res.id}`); // Assuming res is of type Order and Order has a property _id
+      navigate(`/orders/${res.id}`); // Assuming res is of type Order and Order has a property _id
     } catch (err) {
       setLoading(false);
       setError("An error occurred. Please try again.");
@@ -91,7 +91,7 @@ export const PlaceOrderScreen: FC = () => {
                         />
                       </div>
                       <div className="ml-4 flex-1">
-                        <Link to={`/product/${item.id}`}>{item.name}</Link>
+                        <Link to={`/products/${item.id}`}>{item.name}</Link>
                       </div>
                       <div className="ml-auto">
                         {item.qty} x ${item.price} = ${item.qty * item.price}
