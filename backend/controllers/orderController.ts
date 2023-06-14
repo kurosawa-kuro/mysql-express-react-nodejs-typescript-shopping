@@ -9,7 +9,21 @@ import { db } from "../database/prisma/prismaClient";
 import { Order } from "@prisma/client";
 import { RequestUser, OrderItems } from "../interfaces";
 
-const findOrderById = async (id: number): Promise<Order | null> => {
+const findOrderById = async (
+  id: number
+): Promise<{
+  id: number;
+  orderProducts: any[];
+  itemsPrice: number;
+  taxPrice: number;
+  shippingPrice: number;
+  totalPrice: number;
+  isPaid: boolean;
+  paidAt: Date | null;
+  isDelivered: boolean;
+  deliveredAt: Date | null;
+  createdAt: Date;
+} | null> => {
   return db.order.findUnique({
     where: { id },
     include: { user: true, orderProducts: { include: { product: true } } },
@@ -23,17 +37,8 @@ const addOrderItems = asyncHandler(
       throw new Error("Not authorized");
     }
 
-    const {
-      orderProducts,
-      address,
-      city,
-      postalCode,
-      paymentMethod,
-      itemsPrice,
-      taxPrice,
-      shippingPrice,
-      totalPrice,
-    } = req.body;
+    const { orderProducts, address, city, postalCode, paymentMethod, price } =
+      req.body;
     console.log("req.body", req.body);
     console.log("cartItems", orderProducts);
 
@@ -49,17 +54,23 @@ const addOrderItems = asyncHandler(
         city,
         postalCode,
         paymentMethod: paymentMethod,
-        itemsPrice: parseFloat(itemsPrice),
-        taxPrice: parseFloat(taxPrice),
-        shippingPrice: parseFloat(shippingPrice),
-        totalPrice: parseFloat(totalPrice),
-        orderProducts: {
-          create: orderProducts.map((item: OrderItems) => ({
-            productId: item.id,
-            qty: item.qty,
-          })),
-        },
+        itemsPrice: parseFloat(price.itemsPrice),
+        taxPrice: parseFloat(price.taxPrice),
+        shippingPrice: parseFloat(price.shippingPrice),
+        totalPrice: parseFloat(price.totalPrice),
       },
+    });
+
+    // console.log("CCCCCCCCCCCCC");
+    // console.dir(orderProducts, { depth: null });
+    orderProducts.forEach(async (orderProduct: OrderItems) => {
+      await db.orderProduct.create({
+        data: {
+          orderId: createdOrder.id,
+          productId: orderProduct.product.id,
+          qty: orderProduct.qty,
+        },
+      });
     });
 
     res.status(201).json(createdOrder);
@@ -89,8 +100,23 @@ const getOrderById = asyncHandler(async (req: RequestUser, res: Response) => {
   console.log("getOrderById");
   const order = await findOrderById(Number(req.params.id));
   console.log({ order });
+  // console.log("order?.orderProducts", order?.orderProducts);
   order
-    ? res.json(order)
+    ? res.json({
+        id: order.id,
+        orderProducts: order.orderProducts,
+        price: {
+          itemsPrice: order.itemsPrice,
+          taxPrice: order.taxPrice,
+          shippingPrice: order.shippingPrice,
+          totalPrice: order.totalPrice,
+        },
+        isPaid: order.isPaid,
+        paidAt: order.paidAt,
+        isDelivered: order.isDelivered,
+        deliveredAt: order.deliveredAt,
+        createdAt: order.createdAt,
+      })
     : res.status(404).json({ message: "Order not found" });
 });
 

@@ -83,10 +83,12 @@ export interface Order extends ShippingAddress {
   user?: BaseUser;
   orderProducts: ProductInCart[];
   paymentMethod: string;
-  itemsPrice: number;
-  taxPrice: number;
-  shippingPrice: number;
-  totalPrice: number;
+  price: {
+    itemsPrice: number;
+    taxPrice: number;
+    shippingPrice: number;
+    totalPrice: number;
+  };
   isPaid?: boolean;
   paidAt?: string;
   isDelivered?: boolean;

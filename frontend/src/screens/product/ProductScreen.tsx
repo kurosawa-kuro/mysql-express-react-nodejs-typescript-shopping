@@ -45,11 +45,7 @@ export const ProductScreen: React.FC = () => {
   const addToCartHandler = () => {
     if (product && product.id !== undefined) {
       addToCart({
-        id: product.id,
-        name: product.name,
-        image: product.image,
-        price: product.price,
-        countInStock: product.countInStock,
+        product: { ...product },
         qty,
       });
       navigate("/cart");

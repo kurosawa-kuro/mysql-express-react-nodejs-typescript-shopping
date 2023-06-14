@@ -14,7 +14,15 @@ export interface RequestUser extends Request {
   user?: UserWithoutPassword;
 }
 
-export interface OrderItems {
+export interface ProductBase {
   id: number;
+  name: string;
+  image: string;
+  price: number;
+  countInStock: number;
+}
+
+export interface OrderItems {
+  product: ProductBase;
   qty: number;
 }

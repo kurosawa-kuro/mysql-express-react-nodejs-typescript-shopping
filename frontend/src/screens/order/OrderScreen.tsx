@@ -41,7 +41,7 @@ export const OrderScreen = () => {
       try {
         setLoading(true);
         const data: Order = await getOrderDetailsApi(orderIdNumber);
-        console.log("data", data);
+        console.log("fetchOrder data", data);
         setOrder(data);
       } catch (err) {
         handleError(err);
@@ -172,25 +172,25 @@ export const OrderScreen = () => {
             {/* Items */}
             <div className="mb-4 flex items-center justify-between">
               <span>Items</span>
-              <span>${order.itemsPrice}</span>
+              <span>${order.price.itemsPrice}</span>
             </div>
 
             {/* Shipping */}
             <div className="mb-4 flex items-center justify-between">
               <span>Shipping</span>
-              <span>${order.shippingPrice}</span>
+              <span>${order.price.shippingPrice}</span>
             </div>
 
             {/* Tax */}
             <div className="mb-4 flex items-center justify-between">
               <span>Tax</span>
-              <span>${order.taxPrice}</span>
+              <span>${order.price.taxPrice}</span>
             </div>
 
             {/* Total */}
             <div className="mb-6 flex items-center justify-between">
               <span>Total</span>
-              <span>${order.totalPrice}</span>
+              <span>${order.price.totalPrice}</span>
             </div>
 
             {/* Payment and Delivery */}
@@ -199,7 +199,7 @@ export const OrderScreen = () => {
                 {loading && <Loader />}
                 {!userInfo ? (
                   <Message>
-                    Please <Link to="/login">sign in</Link> to pay
+                    Please <Link to="/login">Log in</Link> to pay
                   </Message>
                 ) : (
                   <button

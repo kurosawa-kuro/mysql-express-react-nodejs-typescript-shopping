@@ -28,7 +28,7 @@ export const CartScreen: React.FC = () => {
 
   const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
   const totalPrice = cartItems
-    .reduce((acc, item) => acc + item.qty * item.price, 0)
+    .reduce((acc, item) => acc + item.qty * item.product.price, 0)
     .toFixed(2);
 
   return (
@@ -44,20 +44,23 @@ export const CartScreen: React.FC = () => {
             <div className="space-y-4">
               {cartItems.map((item: ProductInCart) => (
                 <div
-                  key={item.id}
+                  key={item.product.id}
                   className="flex items-center justify-between rounded border border-gray-200 p-2"
                 >
                   <div className="flex items-center space-x-4">
                     <img
-                      src={item.image}
-                      alt={item.name}
+                      src={item.product.image}
+                      alt={item.product.name}
                       className="h-16 w-16 rounded"
                     />
-                    <Link to={`/products/${item.id}`} className="text-lg">
-                      {item.name}
+                    <Link
+                      to={`/products/${item.product.id}`}
+                      className="text-lg"
+                    >
+                      {item.product.name}
                     </Link>
                   </div>
-                  <div className="text-lg">${item.price}</div>
+                  <div className="text-lg">${item.product.price}</div>
                   <select
                     className="form-select mt-1 block w-20"
                     value={item.qty}
@@ -65,7 +68,7 @@ export const CartScreen: React.FC = () => {
                       handleQtyChange(item, Number(e.target.value))
                     }
                   >
-                    {[...Array(item.countInStock).keys()].map((x) => (
+                    {[...Array(item.product.countInStock).keys()].map((x) => (
                       <option key={x + 1} value={x + 1}>
                         {x + 1}
                       </option>
@@ -73,12 +76,12 @@ export const CartScreen: React.FC = () => {
                   </select>
                   <button
                     className="text-red-500 hover:text-red-700"
-                    onClick={() => handleRemoveItem(item.id)}
+                    onClick={() => handleRemoveItem(item.product.id)}
                   >
                     <FaTrash />
                   </button>
                   <div className="text-lg">
-                    Subtotal: ${item.qty * item.price}
+                    Subtotal: ${item.qty * item.product.price}
                   </div>
                 </div>
               ))}

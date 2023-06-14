@@ -3,7 +3,7 @@ import {
   UserAuthStore,
   CartStoreState,
   CartStoreActions,
-  CartItem,
+  ProductInCart,
   ShippingAddress,
 } from "../interfaces";
 
@@ -41,13 +41,16 @@ export const useCartStore = create<CartStore>((set) => ({
   paymentMethod: localStorage.getItem("paymentMethod")
     ? JSON.parse(localStorage.getItem("paymentMethod") || '"PayPal"')
     : "PayPal",
-  addToCart: (item: CartItem) => {
+  addToCart: (item: ProductInCart) => {
+    console.log({ item });
     set((state) => {
-      const existItem = state.cartItems.find((x) => x.id === item.id);
+      const existItem = state.cartItems.find(
+        (x) => x.product.id === item.product.id
+      );
       let newCartItems;
       if (existItem) {
         newCartItems = state.cartItems.map((x) =>
-          x.id === existItem.id ? item : x
+          x.product.id === existItem.product.id ? item : x
         );
       } else {
         newCartItems = [...state.cartItems, item];
@@ -63,7 +66,7 @@ export const useCartStore = create<CartStore>((set) => ({
   },
   removeFromCart: (id: number) => {
     set((state) => {
-      const newCartItems = state.cartItems.filter((x) => x.id !== id);
+      const newCartItems = state.cartItems.filter((x) => x.product.id !== id);
       localStorage.setItem("cartItems", JSON.stringify(newCartItems));
       return {
         ...state,

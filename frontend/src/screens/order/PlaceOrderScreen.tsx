@@ -21,10 +21,14 @@ export const PlaceOrderScreen: FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   // Calculate prices
-  const itemsPrice = cartItems.reduce(
-    (acc, item) => acc + item.price * item.qty,
-    0
-  );
+  const itemsPrice = cartItems.reduce((acc, item) => {
+    if (!item.product) {
+      console.error(`Product not found for item with id ${item.product.id}`);
+      return acc;
+    }
+
+    return acc + item.product.price * item.qty;
+  }, 0);
   const shippingPrice = itemsPrice > 100 ? 0 : 10;
   const taxPrice = Number((0.15 * itemsPrice).toFixed(2));
   const totalPrice: number = itemsPrice + shippingPrice + taxPrice;
@@ -46,10 +50,12 @@ export const PlaceOrderScreen: FC = () => {
         postalCode: shippingAddress.city,
         city: shippingAddress.postalCode,
         paymentMethod: paymentMethod,
-        itemsPrice: itemsPrice,
-        shippingPrice: shippingPrice,
-        taxPrice: taxPrice,
-        totalPrice: totalPrice,
+        price: {
+          itemsPrice,
+          taxPrice,
+          shippingPrice,
+          totalPrice,
+        },
       };
       const res = await createOrderApi(order);
       clearCartItems();
@@ -94,16 +100,19 @@ export const PlaceOrderScreen: FC = () => {
                     <div className="mb-2 flex items-center">
                       <div className="w-20 flex-none">
                         <img
-                          src={item.image}
-                          alt={item.name}
+                          src={item.product.image}
+                          alt={item.product.name}
                           className="rounded-lg"
                         />
                       </div>
                       <div className="ml-4 flex-1">
-                        <Link to={`/products/${item.id}`}>{item.name}</Link>
+                        <Link to={`/products/${item.product.id}`}>
+                          {item.product.name}
+                        </Link>
                       </div>
                       <div className="ml-auto">
-                        {item.qty} x ${item.price} = ${item.qty * item.price}
+                        {item.qty} x ${item.product.price} = $
+                        {item.qty * item.product.price}
                       </div>
                     </div>
                   </div>
