@@ -16,25 +16,29 @@ export const OrderListScreen: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const { userInfo } = useAuthStore() as UserAuthStore;
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        let data;
-        if (userInfo?.isAdmin) {
-          data = await getOrdersApi();
-        } else {
-          data = await getMyOrdersApi();
-        }
-        console.log({ data });
-
-        setOrders(data);
-        setLoading(false);
-      } catch (err) {
-        // setError(err.message);
-        setLoading(false);
+  const fetchOrders = async () => {
+    try {
+      let data;
+      if (userInfo?.isAdmin) {
+        data = await getOrdersApi();
+      } else {
+        data = await getMyOrdersApi();
       }
-    };
+      console.log({ data });
 
+      setOrders(data);
+      setLoading(false);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An error occurred.");
+      }
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchOrders();
   }, []);
 

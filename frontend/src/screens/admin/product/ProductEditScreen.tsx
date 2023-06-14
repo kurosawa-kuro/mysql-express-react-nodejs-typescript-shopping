@@ -8,6 +8,7 @@ import {
   updateProductApi,
   uploadProductImageApi,
 } from "../../../services/api";
+import { ErrorMessage } from "../../../interfaces";
 
 export const ProductEditScreen: React.FC = () => {
   const { id: productId } = useParams();
@@ -21,7 +22,7 @@ export const ProductEditScreen: React.FC = () => {
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -38,8 +39,12 @@ export const ProductEditScreen: React.FC = () => {
           setDescription(data.description);
           setLoading(false);
         }
-      } catch (err) {
-        // setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An error occurred.");
+        }
         setLoading(false);
       }
     };
@@ -62,8 +67,12 @@ export const ProductEditScreen: React.FC = () => {
       });
       toast.success("Product updated");
       navigate("/admin/products/");
-    } catch (err) {
-      // toast.error(err?.data?.message || err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("An error occurred.");
+      }
     }
   };
 
@@ -78,8 +87,12 @@ export const ProductEditScreen: React.FC = () => {
       const res = await uploadProductImageApi(formData);
       toast.success(res.message);
       setImage(res.image);
-    } catch (err) {
-      // toast.error(err?.data?.message || err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("An error occurred.");
+      }
     }
   };
 
