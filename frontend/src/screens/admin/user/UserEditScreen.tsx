@@ -1,6 +1,6 @@
 // frontend\src\screens\admin\user\UserEditScreen.tsx
 
-import React, { useEffect, useState, FormEvent, ChangeEvent } from "react";
+import React, { useEffect, useState, FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FullUser } from "../../../interfaces/index";
 import Loader from "../../../components/common/Loader";
