@@ -7,7 +7,6 @@ import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
 import { createOrderApi } from "../../services/api";
 import { useCartStore, CartStore } from "../../state/store";
 import { Order } from "../../interfaces";
-import { json } from "stream/consumers";
 
 export const PlaceOrderScreen: FC = () => {
   const navigate = useNavigate();
@@ -37,7 +36,7 @@ export const PlaceOrderScreen: FC = () => {
     try {
       setLoading(true);
       const order: Order = {
-        orderProducts: cartItems,
+        cartItems: cartItems,
         address: shippingAddress.address,
         postalCode: shippingAddress.city,
         city: shippingAddress.postalCode,
@@ -83,7 +82,7 @@ export const PlaceOrderScreen: FC = () => {
                 {/* {cartItems} */}
                 {cartItems.map((item, index) => (
                   <div key={index}>
-                    <div className="flex items-center">
+                    <div className="mb-2 flex items-center">
                       <div className="w-20 flex-none">
                         <img
                           src={item.image}

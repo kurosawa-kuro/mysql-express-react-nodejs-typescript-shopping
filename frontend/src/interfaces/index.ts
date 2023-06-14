@@ -79,7 +79,6 @@ export interface CartItem {
   price: number;
   countInStock: number;
   qty: number;
-  product: Product;
 }
 export interface Order {
   id?: number;
@@ -90,7 +89,7 @@ export interface Order {
     email: string;
     isAdmin: boolean;
   };
-  orderProducts: CartItem[];
+  cartItems: CartItem[];
   address: string;
   city: string;
   postalCode: string;
@@ -114,15 +113,6 @@ export interface PaymentDetails {
 
 export interface ErrorMessage {
   message: string;
-}
-
-export interface CartItem {
-  id: number;
-  name: string;
-  image: string;
-  price: number;
-  countInStock: number;
-  qty: number;
 }
 
 export interface ShippingAddress {
