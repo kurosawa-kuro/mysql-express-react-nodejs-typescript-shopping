@@ -128,7 +128,9 @@ const ProductListScreen: FC = () => {
                             <FaEdit />
                           </Link>
                           <button
-                            onClick={() => deleteHandler(product.id)}
+                            onClick={() =>
+                              product.id && deleteHandler(product.id)
+                            }
                             className="rounded bg-red-500 px-2 py-1 text-white hover:bg-red-600"
                           >
                             <FaTrash />
