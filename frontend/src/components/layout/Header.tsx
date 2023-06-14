@@ -181,7 +181,7 @@ export const Header: React.FC = () => {
                     aria-labelledby="options-menu"
                   >
                     <Link
-                      to="/admin/users"
+                      to="/admin/user-list"
                       className="block px-4 py-2 text-sm text-custom-blue-lighter hover:bg-custom-blue-darkest"
                       role="menuitem"
                     >
