@@ -1,24 +1,16 @@
 // frontend\src\screens\user\ProfileScreen.tsx
 
 import React, { useEffect, useState, FormEvent } from "react";
-import { Link } from "react-router-dom";
-import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
-import Message from "../../components/common/Message";
 import Loader from "../../components/common/Loader";
-import { updateUserProfileApi, getMyOrdersApi } from "../../services/api"; // Import the api functions
+import { updateUserProfileApi } from "../../services/api"; // Import the api functions
 import { useAuthStore } from "../../state/store";
-import { Order, ErrorMessage } from "../../interfaces";
-
 export const ProfileScreen: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [loadingOrders, setLoadingOrders] = useState(false);
-  const [error, setError] = useState<ErrorMessage | null>(null);
 
   const { userInfo, setUserInfo } = useAuthStore();
 
@@ -27,20 +19,6 @@ export const ProfileScreen: React.FC = () => {
 
     setName(userInfo.name);
     setEmail(userInfo.email);
-
-    const fetchOrders = async () => {
-      setLoadingOrders(true);
-      try {
-        const data = await getMyOrdersApi();
-        setOrders(data);
-      } catch (err: any) {
-        setError({ message: err.message });
-      } finally {
-        setLoadingOrders(false);
-      }
-    };
-
-    fetchOrders();
   }, [userInfo]);
 
   const submitHandler = async (e: FormEvent) => {
