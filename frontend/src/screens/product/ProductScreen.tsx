@@ -62,21 +62,21 @@ export const ProductScreen: React.FC = () => {
     }
   };
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
 
-    // try {
-    //   await createReviewApi({
-    //     productId,
-    //     rating,
-    //     comment,
-    //   });
-    //   fetchProductDetails();
-    //   toast.success("Review created successfully");
-    // } catch (err) {
-    //   toast.error(err?.data?.message || err.message);
-    // }
-  };
+  //   try {
+  //     await createReviewApi({
+  //       productId,
+  //       rating,
+  //       comment,
+  //     });
+  //     fetchProductDetails();
+  //     toast.success("Review created successfully");
+  //   } catch (err) {
+  //     toast.error(err?.data?.message || err.message);
+  //   }
+  // };
 
   if (!product) {
     return null;
