@@ -30,3 +30,4 @@ frontend/screenshot.png
 frontend/src/tests/screenshot/*
 screenshot.png
 frontend/public/images/*
+frontend_js/public/images/*

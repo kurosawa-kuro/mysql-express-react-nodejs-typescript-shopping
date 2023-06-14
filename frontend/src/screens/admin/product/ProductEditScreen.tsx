@@ -1,6 +1,6 @@
 // frontend\src\screens\admin\product\ProductEditScreen.tsx
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -26,18 +26,20 @@ const ProductEditScreen: React.FC = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        setLoading(true);
-        const data = await getProductDetailsApi(productId);
-        setName(data.name);
-        setPrice(data.price);
-        setImage(data.image);
-        setBrand(data.brand);
-        setCategory(data.category);
-        setCountInStock(data.countInStock);
-        setDescription(data.description);
-        setLoading(false);
+        if (productId) {
+          setLoading(true);
+          const data = await getProductDetailsApi(Number(productId));
+          setName(data.name);
+          setPrice(data.price);
+          setImage(data.image);
+          setBrand(data.brand);
+          setCategory(data.category);
+          setCountInStock(data.countInStock);
+          setDescription(data.description);
+          setLoading(false);
+        }
       } catch (err) {
-        setError(err.message);
+        // setError(err.message);
         setLoading(false);
       }
     };
@@ -45,35 +47,39 @@ const ProductEditScreen: React.FC = () => {
     fetchProduct();
   }, [productId]);
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
       await updateProductApi({
-        productId,
+        id: Number(productId),
         name,
-        price,
         image,
         brand,
         category,
         description,
-        countInStock,
+        price: Number(price),
+        countInStock: Number(countInStock),
       });
       toast.success("Product updated");
       navigate("/admin/product-list");
     } catch (err) {
-      toast.error(err?.data?.message || err.message);
+      // toast.error(err?.data?.message || err.message);
     }
   };
 
-  const uploadFileHandler = async (e) => {
+  const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+
+    const file = e.target.files[0];
+    console.log({ file });
     const formData = new FormData();
-    formData.append("image", e.target.files[0]);
+    formData.append("image", file);
     try {
       const res = await uploadProductImageApi(formData);
       toast.success(res.message);
       setImage(res.image);
     } catch (err) {
-      toast.error(err?.data?.message || err.message);
+      // toast.error(err?.data?.message || err.message);
     }
   };
 
@@ -122,7 +128,7 @@ const ProductEditScreen: React.FC = () => {
                   className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Enter price"
                   value={price}
-                  onChange={(e) => setPrice(e.target.value)}
+                  onChange={(e) => setPrice(Number(e.target.value))}
                 />
               </div>
               <div>
@@ -174,7 +180,7 @@ const ProductEditScreen: React.FC = () => {
                   className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Enter countInStock"
                   value={countInStock}
-                  onChange={(e) => setCountInStock(e.target.value)}
+                  onChange={(e) => setCountInStock(Number(e.target.value))}
                 />
               </div>
               <div>

@@ -43,15 +43,15 @@ export interface UserAuthStore {
 }
 
 export interface Product {
-  id: number;
-  userId: number;
+  id?: number;
+  userId?: number;
   name: string;
   image: string;
   brand: string;
   category: string;
   description: string;
-  rating: number;
-  numReviews: number;
+  rating?: number;
+  numReviews?: number;
   price: number;
   countInStock: number;
 }
