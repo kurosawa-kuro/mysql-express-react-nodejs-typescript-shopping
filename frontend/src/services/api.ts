@@ -89,3 +89,6 @@ export const payOrderApi = (orderId: number, details: any) =>
 
 export const deliverOrderApi = (orderId: number) =>
   performRequest(apiClient.put(`/api/orders/${orderId}/deliver`));
+
+export const getMyOrdersApi = () =>
+  performRequest(apiClient.get<Order[]>("/api/orders/mine"));

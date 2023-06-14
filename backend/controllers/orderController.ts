@@ -85,10 +85,9 @@ const getMyOrders = asyncHandler(
 );
 
 const getOrderById = asyncHandler(async (req: RequestUser, res: Response) => {
-  console.log("cccccccc");
   const order = await findOrderById(Number(req.params.id));
 
-  console.dir({ order: order }, { depth: null });
+  // console.dir({ order: order }, { depth: null });
   order
     ? res.json(order)
     : res.status(404).json({ message: "Order not found" });

@@ -21,6 +21,7 @@ import { InformationPostScreen } from "./screens/InformationPostScreen.tsx";
 import LoginScreen from "./screens/auth/LoginScreen.tsx";
 import RegisterScreen from "./screens/auth/RegisterScreen.tsx";
 import { OrderScreen } from "./screens/order/OrderScreen.tsx";
+import { ProfileScreen } from "./screens/user/ProfileScreen";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,6 +38,7 @@ const router = createBrowserRouter(
       <Route path="/payment" element={<PaymentScreen />} />
       <Route path="/place-order" element={<PlaceOrderScreen />} />
       <Route path="/order/:id" element={<OrderScreen />} />
+      <Route path="/profile" element={<ProfileScreen />} />
       {/* <Route path="information-post" element={<InformationPostScreen />} /> */}
       {/* Registered users */}
       {/* <Route path="" element={<PrivateRoute />}>

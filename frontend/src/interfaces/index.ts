@@ -102,6 +102,7 @@ export interface Order {
   paidAt?: string;
   isDelivered?: boolean;
   deliveredAt?: string;
+  createdAt?: string;
 }
 
 export interface PaymentDetails {
