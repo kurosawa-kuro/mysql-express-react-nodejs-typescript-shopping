@@ -5,7 +5,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { getApiClient } from "./apiClient";
 import {
   OptionalUser,
-  LoginUserCredentials,
+  UserCredentials,
   RegisterUserCredentials,
   ProductSearchParams,
   Product,
@@ -42,7 +42,7 @@ const performRequest = async (request: Promise<AxiosResponse<any>>) => {
 export const registerUserApi = (user: RegisterUserCredentials) =>
   performRequest(apiClient.post("/api/users/register", user));
 
-export const loginUserApi = (credentials: LoginUserCredentials) =>
+export const loginUserApi = (credentials: UserCredentials) =>
   performRequest(apiClient.post("/api/users/login", credentials));
 
 export const fetchUserProfileApi = () =>

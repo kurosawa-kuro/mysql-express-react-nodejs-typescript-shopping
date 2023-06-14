@@ -1,38 +1,32 @@
 // frontend\src\interfaces\index.ts
 
-export interface FullUser {
+// Define common User properties
+export interface BaseUser {
   id: number;
   name: string;
   email: string;
-  password: string;
   isAdmin: boolean;
 }
 
-export interface OptionalUser {
-  id?: number;
-  name: string;
-  email: string;
+export interface FullUser extends BaseUser {
+  password: string;
+}
+
+export interface OptionalUser extends BaseUser {
   password?: string;
-  isAdmin: boolean;
 }
 
-export interface UserInfo {
-  id: number;
-  name: string;
-  email: string;
+export interface UserInfo extends BaseUser {
   token: string;
-  isAdmin: boolean;
 }
 
-export interface LoginUserCredentials {
+export interface UserCredentials {
   email: string;
   password: string;
 }
 
-export interface RegisterUserCredentials {
+export interface RegisterUserCredentials extends UserCredentials {
   name: string;
-  email: string;
-  password: string;
   confirmPassword?: string;
 }
 
@@ -42,6 +36,7 @@ export interface UserAuthStore {
   logout: () => void;
 }
 
+// Product interfaces
 export interface Product {
   id?: number;
   userId?: number;
@@ -72,6 +67,7 @@ export interface ReviewData {
   comment: string;
 }
 
+// Cart and Order interfaces
 export interface CartItem {
   id: number;
   name: string;
@@ -80,19 +76,12 @@ export interface CartItem {
   countInStock: number;
   qty: number;
 }
-export interface Order {
+
+export interface Order extends ShippingAddress {
   id?: number;
   userId?: number;
-  user?: {
-    id: number;
-    name: string;
-    email: string;
-    isAdmin: boolean;
-  };
+  user?: BaseUser;
   cartItems: CartItem[];
-  address: string;
-  city: string;
-  postalCode: string;
   paymentMethod: string;
   itemsPrice: number;
   taxPrice: number;
@@ -105,6 +94,7 @@ export interface Order {
   createdAt?: string;
 }
 
+// Other interfaces
 export interface PaymentDetails {
   paymentResultId: string;
   paymentResultStatus: string;
