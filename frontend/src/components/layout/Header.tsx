@@ -188,7 +188,7 @@ export const Header: React.FC = () => {
                       Users
                     </Link>
                     <Link
-                      to="/admin/products"
+                      to="/admin/product-list"
                       className="block px-4 py-2 text-sm text-custom-blue-lighter hover:bg-custom-blue-darkest"
                       role="menuitem"
                     >

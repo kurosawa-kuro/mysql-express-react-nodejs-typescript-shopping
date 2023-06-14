@@ -72,7 +72,7 @@ export const getProductsApi = ({ keyword, pageNumber }: ProductSearchParams) =>
 export const getProductDetailsApi = (productId: number) =>
   performRequest(apiClient.get(`/api/products/${productId}`));
 
-export const createProductApi = (product: Product) =>
+export const createProductApi = (product: Product | null) =>
   performRequest(apiClient.post("/api/products", product));
 
 export const updateProductApi = (product: Product) =>
@@ -92,3 +92,9 @@ export const deliverOrderApi = (orderId: number) =>
 
 export const getMyOrdersApi = () =>
   performRequest(apiClient.get<Order[]>("/api/orders/mine"));
+
+export const uploadProductImageApi = async (imageData: FormData) =>
+  performRequest(apiClient.post("/api/upload", imageData));
+
+export const deleteProductApi = async (productId: number) =>
+  performRequest(apiClient.delete(`/api/products/${productId}`));

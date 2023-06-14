@@ -58,7 +58,7 @@ export interface Product {
 
 export interface ProductSearchParams {
   keyword: string;
-  pageNumber: string;
+  pageNumber: number;
 }
 
 export interface ProductResponse {
