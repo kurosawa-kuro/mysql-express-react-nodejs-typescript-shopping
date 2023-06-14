@@ -34,22 +34,19 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} path="/" element={<HomeScreen />} />
-      <Route path="/product/:id" element={<ProductScreen />} />
-      <Route path="/cart" element={<CartScreen />} />
-      <Route path="information-get" element={<InformationGetScreen />} />
-      <Route path="information-post" element={<InformationPostScreen />} />
-      <Route path="login" element={<LoginScreen />} />
-      <Route path="register" element={<RegisterScreen />} />
+      <Route path="/register" element={<RegisterScreen />} />
+      <Route path="/login" element={<LoginScreen />} />
 
-      <Route path="/shipping" element={<ShippingScreen />} />
+      <Route path="/cart" element={<CartScreen />} />
+      <Route path="/order/:id" element={<OrderScreen />} />
+      <Route path="/order-list" element={<OrderListScreen />} />
       <Route path="/payment" element={<PaymentScreen />} />
       <Route path="/place-order" element={<PlaceOrderScreen />} />
-      <Route path="/order/:id" element={<OrderScreen />} />
+      <Route path="/product/:id" element={<ProductScreen />} />
       <Route path="/profile" element={<ProfileScreen />} />
-      <Route path="/order-list" element={<OrderListScreen />} />
+      <Route path="/shipping" element={<ShippingScreen />} />
 
-      <Route path="/admin/user-list" element={<UserListScreen />} />
-      <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
+      <Route path="/admin/order-list" element={<OrderListScreen />} />
       <Route path="/admin/product-list" element={<ProductListScreen />} />
       <Route
         path="/admin/product-list/:pageNumber"
@@ -57,7 +54,8 @@ const router = createBrowserRouter(
       />
       <Route path="/admin/product/new" element={<ProductNewScreen />} />
       <Route path="/admin/product/:id/edit" element={<ProductEditScreen />} />
-      <Route path="/admin/order-list" element={<OrderListScreen />} />
+      <Route path="/admin/user-list" element={<UserListScreen />} />
+      <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
     </Route>
   )
 );
