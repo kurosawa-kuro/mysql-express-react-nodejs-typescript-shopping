@@ -1,16 +1,11 @@
 // frontend\src\screens\admin\product\ProductEditScreen.tsx
 
-import { useState, useEffect, FormEvent } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import {
-  getProductDetailsApi,
-  updateProductApi,
-  uploadProductImageApi,
-  createProductApi,
-} from "../../../services/api";
+import { uploadProductImageApi, createProductApi } from "../../../services/api";
 
-const ProductNewScreen: React.FC = () => {
+export const ProductNewScreen: React.FC = () => {
   const { id: productId } = useParams();
   const navigate = useNavigate();
 
@@ -206,5 +201,3 @@ const ProductNewScreen: React.FC = () => {
     </>
   );
 };
-
-export default ProductNewScreen;

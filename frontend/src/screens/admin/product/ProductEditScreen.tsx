@@ -1,6 +1,6 @@
 // frontend\src\screens\admin\product\ProductEditScreen.tsx
 
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -9,7 +9,7 @@ import {
   uploadProductImageApi,
 } from "../../../services/api";
 
-const ProductEditScreen: React.FC = () => {
+export const ProductEditScreen: React.FC = () => {
   const { id: productId } = useParams();
   const navigate = useNavigate();
 
@@ -229,5 +229,3 @@ const ProductEditScreen: React.FC = () => {
     </>
   );
 };
-
-export default ProductEditScreen;

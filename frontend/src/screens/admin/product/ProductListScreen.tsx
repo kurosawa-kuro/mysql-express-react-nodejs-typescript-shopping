@@ -1,20 +1,15 @@
 // frontend\src\screens\admin\product\ProductListScreen.tsx
 
-import React, { useState, useEffect, FC } from "react";
+import React, { useState, useEffect } from "react";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Message from "../../../components/common/Message";
 import Loader from "../../../components/common/Loader";
 import Paginate from "../../../components/utils/Paginate";
-import { toast } from "react-toastify";
-import {
-  getProductsApi,
-  deleteProductApi,
-  createProductApi,
-} from "../../../services/api";
+import { getProductsApi, deleteProductApi } from "../../../services/api";
 import { ProductResponse, Product } from "../../../interfaces";
 
-const ProductListScreen: FC = () => {
+export const ProductListScreen: React.FC = () => {
   const { pageNumber } = useParams();
 
   const [productsData, setProductsData] = useState<ProductResponse | null>(
@@ -145,5 +140,3 @@ const ProductListScreen: FC = () => {
     </>
   );
 };
-
-export default ProductListScreen;

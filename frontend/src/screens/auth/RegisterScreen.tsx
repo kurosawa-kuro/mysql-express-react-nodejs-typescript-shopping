@@ -9,7 +9,7 @@ import { registerUserApi } from "../../services/api";
 import { useAuthStore } from "../../state/store";
 import { UserInfo, RegisterUserCredentials } from "../../interfaces";
 
-const RegisterScreen = () => {
+export const RegisterScreen = () => {
   const [credentials, setCredentials] = useState<RegisterUserCredentials>({
     name: "",
     email: "",
@@ -38,7 +38,6 @@ const RegisterScreen = () => {
         name: credentials.name,
         email: credentials.email,
         password: credentials.password,
-        isAdmin: false,
       });
       setUserInfo(user);
       toast.success("Registration successful");
@@ -101,5 +100,3 @@ const RegisterScreen = () => {
     </FormContainer>
   );
 };
-
-export default RegisterScreen;

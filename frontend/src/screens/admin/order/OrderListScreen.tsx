@@ -8,9 +8,9 @@ import Loader from "../../../components/common/Loader";
 import { getOrdersApi, getMyOrdersApi } from "../../../services/api";
 import { Order } from "../../../interfaces";
 import { useAuthStore } from "../../../state/store";
-import { FullUser, UserAuthStore } from "../../../interfaces/index";
+import { UserAuthStore } from "../../../interfaces/index";
 
-const OrderListScreen: FC = () => {
+export const OrderListScreen: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -122,5 +122,3 @@ const OrderListScreen: FC = () => {
     </>
   );
 };
-
-export default OrderListScreen;

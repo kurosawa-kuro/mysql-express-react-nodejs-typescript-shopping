@@ -10,25 +10,22 @@ import {
 } from "react-router-dom";
 import App from "./App.tsx";
 import "./index.css";
-import { HomeScreen } from "./screens/product/HomeScreen";
-import { ProductScreen } from "./screens/product/ProductScreen";
+import { LoginScreen } from "./screens/auth/LoginScreen.tsx";
+import { RegisterScreen } from "./screens/auth/RegisterScreen.tsx";
 import { CartScreen } from "./screens/order/CartScreen.tsx";
 import { ShippingScreen } from "./screens/order/ShippingScreen.tsx";
 import { PaymentScreen } from "./screens/order/PaymentScreen.tsx";
 import { PlaceOrderScreen } from "./screens/order/PlaceOrderScreen.tsx";
-import { InformationGetScreen } from "./screens/InformationGetScreen.tsx";
-import { InformationPostScreen } from "./screens/InformationPostScreen.tsx";
-import LoginScreen from "./screens/auth/LoginScreen.tsx";
-import RegisterScreen from "./screens/auth/RegisterScreen.tsx";
 import { OrderScreen } from "./screens/order/OrderScreen.tsx";
+import { HomeScreen } from "./screens/product/HomeScreen";
+import { ProductScreen } from "./screens/product/ProductScreen";
 import { ProfileScreen } from "./screens/user/ProfileScreen";
 import { UserListScreen } from "./screens/admin/user/UserListScreen";
 import { UserEditScreen } from "./screens/admin/user/UserEditScreen";
-import ProductListScreen from "./screens/admin/product/ProductListScreen";
-import ProductNewScreen from "./screens/admin/product/ProductNewScreen";
-import ProductEditScreen from "./screens/admin/product/ProductEditScreen";
-
-import OrderListScreen from "./screens/admin/order/OrderListScreen";
+import { ProductListScreen } from "./screens/admin/product/ProductListScreen";
+import { ProductNewScreen } from "./screens/admin/product/ProductNewScreen";
+import { ProductEditScreen } from "./screens/admin/product/ProductEditScreen";
+import { OrderListScreen } from "./screens/admin/order/OrderListScreen";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
