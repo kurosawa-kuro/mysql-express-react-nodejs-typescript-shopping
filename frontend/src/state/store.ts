@@ -5,7 +5,7 @@ import {
   CartStoreActions,
   ProductInCart,
   ShippingAddress,
-} from "../interfaces";
+} from "../../../backend/interfaces";
 
 export const useAuthStore = create<UserAuthStore>((set) => {
   const storedUserInfo = localStorage.getItem("userInfo");
