@@ -18,7 +18,7 @@ import { useAuthStore } from "../../state/store";
 
 export const OrderScreen = () => {
   const { id: orderId } = useParams();
-  const { UserInformation } = useAuthStore();
+  const { userInformation } = useAuthStore();
 
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(false);
@@ -199,7 +199,7 @@ export const OrderScreen = () => {
             {!order.isPaid && (
               <div className="mb-4">
                 {loading && <Loader />}
-                {!UserInformation ? (
+                {!userInformation ? (
                   <Message>
                     Please <Link to="/login">Log in</Link> to pay
                   </Message>
@@ -217,8 +217,8 @@ export const OrderScreen = () => {
             )}
 
             {loading && <Loader />}
-            {UserInformation &&
-              UserInformation.isAdmin &&
+            {userInformation &&
+              userInformation.isAdmin &&
               order.isPaid &&
               !order.isDelivered && (
                 <button

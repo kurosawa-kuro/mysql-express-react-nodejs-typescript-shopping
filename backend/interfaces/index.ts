@@ -42,8 +42,8 @@ export interface UserInformation extends UserBase {
 }
 
 export interface UserAuth {
-  UserInformation: UserInformation | null;
-  setUserInformation: (UserInformation: UserInformation) => void;
+  userInformation: UserInformation | null;
+  setUserInformation: (userInformation: UserInformation) => void;
   logout: () => void;
 }
 

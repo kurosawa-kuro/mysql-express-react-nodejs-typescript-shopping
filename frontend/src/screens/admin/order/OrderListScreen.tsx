@@ -10,7 +10,7 @@ import Loader from "../../../components/common/Loader";
 import Message from "../../../components/common/Message";
 
 export const OrderListScreen: React.FC = () => {
-  const { UserInformation } = useAuthStore() as UserAuth;
+  const { userInformation } = useAuthStore() as UserAuth;
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,7 +18,7 @@ export const OrderListScreen: React.FC = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const data = UserInformation?.isAdmin
+        const data = userInformation?.isAdmin
           ? await getOrdersApi()
           : await getMyOrdersApi();
         setOrders(data);
@@ -30,7 +30,7 @@ export const OrderListScreen: React.FC = () => {
     };
 
     fetchOrders();
-  }, [UserInformation?.isAdmin]);
+  }, [userInformation?.isAdmin]);
 
   return (
     <>
@@ -45,7 +45,7 @@ export const OrderListScreen: React.FC = () => {
                 ID
               </th>
 
-              {UserInformation?.isAdmin && (
+              {userInformation?.isAdmin && (
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   USER
                 </th>
@@ -71,7 +71,7 @@ export const OrderListScreen: React.FC = () => {
               orders.map((order: Order) => (
                 <tr key={order.id}>
                   <td className="whitespace-nowrap px-6 py-4">{order.id}</td>
-                  {UserInformation?.isAdmin && (
+                  {userInformation?.isAdmin && (
                     <td className="whitespace-nowrap px-6 py-4">
                       {order.user && order.user.name}
                     </td>
