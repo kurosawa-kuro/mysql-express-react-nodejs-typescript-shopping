@@ -6,7 +6,9 @@ import {
   Order as OrderType,
 } from "@prisma/client";
 
+// --------------------------
 // JWT and Request related interfaces
+
 export interface DecodedJwtPayloadWithUserId extends JwtPayload {
   userId: string;
 }
@@ -15,14 +17,11 @@ export interface RequestUser extends Request {
   user?: BaseUser;
 }
 
+// --------------------------
 // User related interfaces
+
 export interface BaseUser
   extends Omit<UserType, "password" | "createdAt" | "updatedAt"> {}
-
-export interface UserCredentials {
-  email: string;
-  password: string;
-}
 
 export interface FullUser extends UserType {}
 
@@ -30,8 +29,9 @@ export interface OptionalUser extends BaseUser {
   password?: string;
 }
 
-export interface UserInfo extends BaseUser {
-  token: string;
+export interface UserCredentials {
+  email: string;
+  password: string;
 }
 
 export interface RegisterUserCredentials {
@@ -41,13 +41,19 @@ export interface RegisterUserCredentials {
   confirmPassword?: string;
 }
 
+export interface UserInfo extends BaseUser {
+  token: string;
+}
+
 export interface UserAuthStore {
   userInfo: UserInfo | null;
   setUserInfo: (userInfo: UserInfo) => void;
   logout: () => void;
 }
 
+// --------------------------
 // Product related interfaces
+
 export interface ProductBase
   extends Omit<
     ProductType,
@@ -79,20 +85,27 @@ export interface ProductResponse {
   pages: number;
 }
 
+export interface ProductParams {
+  id: number;
+  name: string;
+  image: string;
+  brand: string;
+  category: string;
+  description: string;
+  price: number;
+  countInStock: number;
+}
+
 export interface ReviewData {
   rating: number;
   comment: string;
 }
 
+// --------------------------
 // Order related interfaces
+
 export interface OrderDetails extends OrderType {
   orderProducts: ProductInCart[];
-}
-
-export interface ShippingAddress {
-  address: string;
-  city: string;
-  postalCode: string;
 }
 
 export interface Order
@@ -124,7 +137,15 @@ export interface Order
   paidAt: Date | null;
 }
 
+export interface ShippingAddress {
+  address: string;
+  city: string;
+  postalCode: string;
+}
+
+// --------------------------
 // Payment and Cart related interfaces
+
 export interface PaymentDetails {
   paymentResultId: string;
   paymentResultStatus: string;
@@ -146,7 +167,9 @@ export interface CartStoreActions {
   clearCartItems: () => void;
 }
 
+// --------------------------
 // Other interfaces
+
 export interface ErrorMessage {
   message: string;
 }
