@@ -30,6 +30,9 @@ import { ProductNewScreen } from "./screens/admin/product/ProductNewScreen";
 import { ProductEditScreen } from "./screens/admin/product/ProductEditScreen";
 import { OrderListScreen } from "./screens/admin/order/OrderListScreen";
 
+import PrivateRoute from "./components/routing/PrivateRoute";
+import AdminRoute from "./components/routing/AdminRoute";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -37,25 +40,32 @@ const router = createBrowserRouter(
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/login" element={<LoginScreen />} />
 
-      <Route path="/cart" element={<CartScreen />} />
-      <Route path="/orders/:id" element={<OrderScreen />} />
-      <Route path="/orders/" element={<OrderListScreen />} />
-      <Route path="/payment" element={<PaymentScreen />} />
-      <Route path="/place-order" element={<PlaceOrderScreen />} />
-      <Route path="/products/:id" element={<ProductScreen />} />
-      <Route path="/profile" element={<ProfileScreen />} />
-      <Route path="/shipping" element={<ShippingScreen />} />
+      <Route path="" element={<PrivateRoute />}>
+        <Route path="/cart" element={<CartScreen />} />
+        <Route path="/orders/:id" element={<OrderScreen />} />
+        <Route path="/orders/" element={<OrderListScreen />} />
+        <Route path="/payment" element={<PaymentScreen />} />
+        <Route path="/place-order" element={<PlaceOrderScreen />} />
+        <Route path="/products/:id" element={<ProductScreen />} />
+        <Route path="/profile" element={<ProfileScreen />} />
+        <Route path="/shipping" element={<ShippingScreen />} />
+      </Route>
 
-      <Route path="/admin/orders/" element={<OrderListScreen />} />
-      <Route path="/admin/products/" element={<ProductListScreen />} />
-      <Route
-        path="/admin/products//:pageNumber"
-        element={<ProductListScreen />}
-      />
-      <Route path="/admin/products/new" element={<ProductNewScreen />} />
-      <Route path="/admin/products/:id/edit" element={<ProductEditScreen />} />
-      <Route path="/admin/users" element={<UserListScreen />} />
-      <Route path="/admin/users/:id/edit" element={<UserEditScreen />} />
+      <Route path="" element={<AdminRoute />}>
+        <Route path="/admin/orders/" element={<OrderListScreen />} />
+        <Route path="/admin/products/" element={<ProductListScreen />} />
+        <Route
+          path="/admin/products//:pageNumber"
+          element={<ProductListScreen />}
+        />
+        <Route path="/admin/products/new" element={<ProductNewScreen />} />
+        <Route
+          path="/admin/products/:id/edit"
+          element={<ProductEditScreen />}
+        />
+        <Route path="/admin/users" element={<UserListScreen />} />
+        <Route path="/admin/users/:id/edit" element={<UserEditScreen />} />
+      </Route>
     </Route>
   )
 );
