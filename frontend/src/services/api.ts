@@ -8,7 +8,6 @@ import {
   UserCredentials,
   RegisterUserCredentials,
   ProductSearchParams,
-  ProductDetail,
   ErrorMessage,
   Order,
 } from "../../../backend/interfaces";
@@ -74,10 +73,21 @@ export const getProductsApi = ({ keyword, pageNumber }: ProductSearchParams) =>
 export const getProductDetailsApi = (productId: number) =>
   performRequest(apiClient.get(`/api/products/${productId}`));
 
-export const createProductApi = (product: ProductDetail | null) =>
+export const createProductApi = (product: UpdateProductParams | null) =>
   performRequest(apiClient.post("/api/products", product));
 
-export const updateProductApi = (product: ProductDetail) =>
+interface UpdateProductParams {
+  id: number;
+  name: string;
+  image: string;
+  brand: string;
+  category: string;
+  description: string;
+  price: number;
+  countInStock: number;
+}
+
+export const updateProductApi = (product: UpdateProductParams) =>
   performRequest(apiClient.put(`/api/products/${product.id}`, product));
 
 export const uploadProductImageApi = async (imageData: FormData) =>

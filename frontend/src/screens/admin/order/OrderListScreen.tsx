@@ -77,21 +77,27 @@ export const OrderListScreen: React.FC = () => {
                     </td>
                   )}
                   <td className="whitespace-nowrap px-6 py-4">
-                    {order.createdAt?.substring(0, 10)}
+                    {new Date(order.createdAt || "")
+                      .toISOString()
+                      .substring(0, 10)}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
                     ${order.price.totalPrice}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
                     {order.isPaid ? (
-                      order.paidAt?.substring(0, 10)
+                      new Date(order.paidAt || "")
+                        .toISOString()
+                        .substring(0, 10)
                     ) : (
                       <FaTimes className="text-red-500" />
                     )}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
                     {order.isDelivered ? (
-                      order.deliveredAt?.substring(0, 10)
+                      new Date(order.deliveredAt || "")
+                        .toISOString()
+                        .substring(0, 10)
                     ) : (
                       <FaTimes className="text-red-500" />
                     )}

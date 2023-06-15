@@ -22,7 +22,9 @@ export const RegisterScreen = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const setUserInfo = useAuthStore((state) => state.setUserInfo);
+  const setUserInfo = useAuthStore(
+    (state: { setUserInfo: UserInfo }) => state.setUserInfo
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
