@@ -78,7 +78,7 @@ const OrderListScreen: React.FC = () => {
                     {order.createdAt?.toISOString().substring(0, 10)}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    ${order.totalPrice.toFixed(2)}
+                    ${order.price.totalPrice.toFixed(2)}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
                     {order.isPaid ? (

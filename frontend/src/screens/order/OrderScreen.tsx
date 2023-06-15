@@ -13,7 +13,7 @@ import {
 } from "../../services/api";
 import Loader from "../../components/common/Loader";
 import Message from "../../components/common/Message";
-import { Order } from "../../interfaces";
+import { Order } from "../../../../backend/interfaces";
 import { useAuthStore } from "../../state/store";
 
 export const OrderScreen = () => {
@@ -114,7 +114,8 @@ export const OrderScreen = () => {
               </p>
               {order.isDelivered ? (
                 <Message variant="success">
-                  Delivered on {order.deliveredAt}
+                  Delivered on{" "}
+                  {new Date(order.deliveredAt || "").toDateString()}
                 </Message>
               ) : (
                 <Message variant="danger">Not Delivered</Message>
@@ -128,7 +129,9 @@ export const OrderScreen = () => {
                 <span className="font-bold">Method:</span> {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant="success">Paid on {order.paidAt}</Message>
+                <Message variant="success">
+                  Paid on {new Date(order.paidAt || "").toDateString()}
+                </Message>
               ) : (
                 <Message variant="danger">Not Paid</Message>
               )}

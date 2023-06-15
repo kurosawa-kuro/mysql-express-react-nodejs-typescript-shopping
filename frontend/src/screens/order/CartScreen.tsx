@@ -26,9 +26,16 @@ export const CartScreen: React.FC = () => {
     navigate("/shipping");
   };
 
-  const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
+  const totalItems = cartItems.reduce(
+    (acc: any, item: { qty: any }) => acc + item.qty,
+    0
+  );
   const totalPrice = cartItems
-    .reduce((acc, item) => acc + item.qty * item.product.price, 0)
+    .reduce(
+      (acc: number, item: { qty: number; product: { price: number } }) =>
+        acc + item.qty * item.product.price,
+      0
+    )
     .toFixed(2);
 
   return (
