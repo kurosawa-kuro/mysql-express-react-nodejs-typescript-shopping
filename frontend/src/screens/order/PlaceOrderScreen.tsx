@@ -11,7 +11,7 @@ import Message from "../../components/common/Message";
 import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
 import { createOrderApi } from "../../services/api";
 import { useCartStore, CartStore } from "../../state/store";
-import { Order } from "../../interfaces";
+import { Order } from "../../../../backend/interfaces";
 
 export const PlaceOrderScreen: FC = () => {
   const navigate = useNavigate();
@@ -22,11 +22,6 @@ export const PlaceOrderScreen: FC = () => {
 
   // Calculate prices
   const itemsPrice = cartItems.reduce((acc, item) => {
-    if (!item.product) {
-      console.error(`Product not found for item with id ${item.product.id}`);
-      return acc;
-    }
-
     return acc + item.product.price * item.qty;
   }, 0);
   const shippingPrice = itemsPrice > 100 ? 0 : 10;

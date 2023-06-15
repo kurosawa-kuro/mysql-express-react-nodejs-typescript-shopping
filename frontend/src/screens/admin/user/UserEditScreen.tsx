@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { FullUser } from "../../../interfaces/index";
+import { FullUser } from "../../../../../backend/interfaces";
 import Loader from "../../../components/common/Loader";
 import { toast } from "react-toastify";
 import { getUserDetailsApi, updateUserApi } from "../../../services/api"; // Import the api functions

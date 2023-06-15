@@ -84,7 +84,6 @@ const getMyOrders = asyncHandler(
       },
     });
 
-    console.log("CCCCCCCCCCCCCCobject");
     res.json(
       orders.map((order) => ({
         ...order,

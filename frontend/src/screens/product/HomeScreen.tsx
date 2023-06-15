@@ -14,7 +14,7 @@ import { getProductsApi } from "../../services/api";
 import {
   ProductDetail as ProductType,
   ProductResponse,
-} from "../../interfaces";
+} from "../../../../backend/interfaces";
 
 interface ProductsFetchParams {
   keyword: string;

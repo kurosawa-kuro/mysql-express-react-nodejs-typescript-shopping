@@ -8,7 +8,7 @@ import { FaTrash } from "react-icons/fa";
 // Internal Imports
 import Message from "../../components/common/Message";
 import { useCartStore } from "../../state/store";
-import { ProductInCart } from "../../interfaces";
+import { ProductInCart } from "../../../../backend/interfaces";
 
 export const CartScreen: React.FC = () => {
   const { cartItems, addToCart, removeFromCart } = useCartStore();

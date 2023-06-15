@@ -7,7 +7,10 @@ import Message from "../../../components/common/Message";
 import Loader from "../../../components/common/Loader";
 import Paginate from "../../../components/utils/Paginate";
 import { getProductsApi, deleteProductApi } from "../../../services/api";
-import { ProductResponse, ProductDetail } from "../../../interfaces";
+import {
+  ProductResponse,
+  ProductDetail,
+} from "../../../../../backend/interfaces";
 import { toast } from "react-toastify";
 
 export const ProductListScreen: React.FC = () => {

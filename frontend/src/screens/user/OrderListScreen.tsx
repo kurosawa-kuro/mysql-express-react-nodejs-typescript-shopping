@@ -1,12 +1,12 @@
 // frontend\src\screens\admin\order\OrderListScreen.tsx
 
-import React, { useState, useEffect, FC } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 import Message from "../../components/common/Message";
 import Loader from "../../components/common/Loader";
 import { getOrdersApi } from "../../services/api";
-import { Order } from "../../interfaces";
+import { Order } from "../../../../backend/interfaces";
 import { toast } from "react-toastify";
 
 const OrderListScreen: React.FC = () => {
@@ -78,7 +78,7 @@ const OrderListScreen: React.FC = () => {
                     {order.createdAt?.substring(0, 10)}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    ${order.totalPrice}
+                    ${order.price.totalPrice}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
                     {order.isPaid ? (

@@ -7,7 +7,10 @@ import FormContainer from "../../components/forms/FormContainer";
 import Loader from "../../components/common/Loader";
 import { registerUserApi } from "../../services/api";
 import { useAuthStore } from "../../state/store";
-import { UserInfo, RegisterUserCredentials } from "../../interfaces";
+import {
+  UserInfo,
+  RegisterUserCredentials,
+} from "../../../../backend/interfaces";
 
 export const RegisterScreen = () => {
   const [credentials, setCredentials] = useState<RegisterUserCredentials>({

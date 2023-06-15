@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
-import { Order, UserAuthStore } from "../../../interfaces";
+import { Order, UserAuthStore } from "../../../../../backend/interfaces";
 import { getMyOrdersApi, getOrdersApi } from "../../../services/api";
 import { useAuthStore } from "../../../state/store";
 import Loader from "../../../components/common/Loader";

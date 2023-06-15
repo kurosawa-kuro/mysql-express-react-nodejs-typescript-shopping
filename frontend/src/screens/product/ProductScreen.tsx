@@ -10,7 +10,7 @@ import Loader from "../../components/common/Loader";
 import Message from "../../components/common/Message";
 import { useCartStore } from "../../state/store";
 import { getProductDetailsApi } from "../../services/api";
-import { ProductDetail } from "../../interfaces";
+import { ProductDetail } from "../../../../backend/interfaces";
 
 export const ProductScreen: React.FC = () => {
   const { id: productId = "" } = useParams();

@@ -41,7 +41,6 @@ export const OrderScreen = () => {
       try {
         setLoading(true);
         const data: Order = await getOrderDetailsApi(orderIdNumber);
-        console.log("fetchOrder data", data);
         setOrder(data);
       } catch (err) {
         handleError(err);

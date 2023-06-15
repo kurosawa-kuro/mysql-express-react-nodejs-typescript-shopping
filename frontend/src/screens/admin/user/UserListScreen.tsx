@@ -5,7 +5,8 @@ import Loader from "../../../components/common/Loader";
 import { toast } from "react-toastify";
 import { deleteUserApi, getUsersApi } from "../../../services/api";
 import { useAuthStore } from "../../../state/store";
-import { FullUser, UserAuthStore } from "../../../interfaces/index";
+import { UserAuthStore } from "../../../interfaces/index";
+import { FullUser } from "../../../../../backend/interfaces";
 import Message from "../../../components/common/Message";
 
 export const UserListScreen: React.FC = () => {
