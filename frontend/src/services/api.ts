@@ -6,11 +6,11 @@ import { getApiClient } from "./apiClient";
 import {
   OptionalUser,
   UserCredentials,
-  RegisterUserCredentials,
-  ProductSearchParams,
+  UserRegisterCredentials,
+  ProductSearch,
   ErrorMessage,
   Order,
-  ProductParams,
+  ProductDetails,
 } from "../../../backend/interfaces";
 
 const apiClient = getApiClient();
@@ -39,7 +39,7 @@ const performRequest = async (request: Promise<AxiosResponse<any>>) => {
 };
 
 // User related APIs
-export const registerUserApi = (user: RegisterUserCredentials) =>
+export const registerUserApi = (user: UserRegisterCredentials) =>
   performRequest(apiClient.post("/api/users/register", user));
 
 export const loginUserApi = (credentials: UserCredentials) =>
@@ -66,18 +66,18 @@ export const updateUserApi = (user: OptionalUser) =>
   performRequest(apiClient.put(`/api/users/${user.id}`, user));
 
 // Product related APIs
-export const getProductsApi = ({ keyword, pageNumber }: ProductSearchParams) =>
+export const getProductsApi = ({ keyword, pageNumber }: ProductSearch) =>
   performRequest(
     apiClient.get("/api/products", { params: { keyword, pageNumber } })
   );
 
-export const getProductDetailsApi = (productId: number) =>
+export const getProductFullsApi = (productId: number) =>
   performRequest(apiClient.get(`/api/products/${productId}`));
 
-export const createProductApi = (product: ProductParams | null) =>
+export const createProductApi = (product: ProductDetails | null) =>
   performRequest(apiClient.post("/api/products", product));
 
-export const updateProductApi = (product: ProductParams) =>
+export const updateProductApi = (product: ProductDetails) =>
   performRequest(apiClient.put(`/api/products/${product.id}`, product));
 
 export const uploadProductImageApi = async (imageData: FormData) =>
@@ -90,7 +90,7 @@ export const deleteProductApi = async (productId: number) =>
 export const createOrderApi = (order: Order) =>
   performRequest(apiClient.post("/api/orders", order));
 
-export const getOrderDetailsApi = (id: number) =>
+export const getOrderFullApi = (id: number) =>
   performRequest(apiClient.get(`/api/orders/${id}`));
 
 export const payOrderApi = (orderId: number, details: any) =>

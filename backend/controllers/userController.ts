@@ -6,14 +6,14 @@ import asyncHandler from "express-async-handler";
 // Internal Imports
 import generateToken from "../utils/generateToken";
 import { db } from "../database/prisma/prismaClient";
-import { RequestUser, BaseUser } from "../interfaces";
+import { UserRequest, UserBase } from "../interfaces";
 
-const sanitizeUser = (user: any): BaseUser => {
-  const { password, ...BaseUser } = user;
-  return BaseUser;
+const sanitizeUser = (user: any): UserBase => {
+  const { password, ...UserBase } = user;
+  return UserBase;
 };
 
-const loginUser = asyncHandler(async (req: RequestUser, res: Response) => {
+const loginUser = asyncHandler(async (req: UserRequest, res: Response) => {
   const { email, password } = req.body;
   const user = await db.user.findUnique({ where: { email } });
 
@@ -26,7 +26,7 @@ const loginUser = asyncHandler(async (req: RequestUser, res: Response) => {
   }
 });
 
-const registerUser = asyncHandler(async (req: RequestUser, res: Response) => {
+const registerUser = asyncHandler(async (req: UserRequest, res: Response) => {
   const { name, email, password } = req.body;
   const userExists = await db.user.findUnique({ where: { email } });
 
@@ -53,7 +53,7 @@ const registerUser = asyncHandler(async (req: RequestUser, res: Response) => {
   }
 });
 
-const logoutUser = (req: RequestUser, res: Response) => {
+const logoutUser = (req: UserRequest, res: Response) => {
   res.cookie("jwt", "", {
     httpOnly: true,
     expires: new Date(0),
@@ -61,7 +61,7 @@ const logoutUser = (req: RequestUser, res: Response) => {
   res.status(200).json({ message: "Logged out successfully" });
 };
 
-const getUserProfile = asyncHandler(async (req: RequestUser, res: Response) => {
+const getUserProfile = asyncHandler(async (req: UserRequest, res: Response) => {
   if (!req.user || !req.user.id) {
     res.status(401);
     throw new Error("Not authorized");
@@ -79,8 +79,7 @@ const getUserProfile = asyncHandler(async (req: RequestUser, res: Response) => {
 });
 
 const updateUserProfile = asyncHandler(
-  async (req: RequestUser, res: Response) => {
-    console.log("CCCCCCCCCCCCCCCCCCC");
+  async (req: UserRequest, res: Response) => {
     if (!req.user || !req.user.id) {
       res.status(401);
       throw new Error("Not authorized");
@@ -109,12 +108,12 @@ const updateUserProfile = asyncHandler(
   }
 );
 
-const getUsers = asyncHandler(async (req: RequestUser, res: Response) => {
+const getUsers = asyncHandler(async (req: UserRequest, res: Response) => {
   const users = await db.user.findMany();
   res.json(users.map((user) => sanitizeUser(user)));
 });
 
-const deleteUser = asyncHandler(async (req: RequestUser, res: Response) => {
+const deleteUser = asyncHandler(async (req: UserRequest, res: Response) => {
   const id = Number(req.params.id);
   const user = await db.user.findUnique({ where: { id } });
 
@@ -132,7 +131,7 @@ const deleteUser = asyncHandler(async (req: RequestUser, res: Response) => {
   }
 });
 
-const getUserById = asyncHandler(async (req: RequestUser, res: Response) => {
+const getUserById = asyncHandler(async (req: UserRequest, res: Response) => {
   const id = Number(req.params.id);
   const user = await db.user.findUnique({ where: { id } });
 
@@ -144,8 +143,7 @@ const getUserById = asyncHandler(async (req: RequestUser, res: Response) => {
   }
 });
 
-const updateUser = asyncHandler(async (req: RequestUser, res: Response) => {
-  console.log("DDDDDDDDDDDDD");
+const updateUser = asyncHandler(async (req: UserRequest, res: Response) => {
   const id = Number(req.params.id);
   console.log({ id });
   const user = await db.user.findUnique({ where: { id } });

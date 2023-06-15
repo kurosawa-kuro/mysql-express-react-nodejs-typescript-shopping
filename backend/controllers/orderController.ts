@@ -7,9 +7,9 @@ import { Request, NextFunction, Response } from "express";
 // Internal Imports
 import { db } from "../database/prisma/prismaClient";
 import { Order } from "@prisma/client";
-import { RequestUser, ProductInCart, OrderDetails } from "../interfaces";
+import { UserRequest, CartProduct, OrderFull } from "../interfaces";
 
-const findOrderById = async (id: number): Promise<OrderDetails | null> => {
+const findOrderById = async (id: number): Promise<OrderFull | null> => {
   return db.order.findUnique({
     where: { id },
     include: { user: true, orderProducts: { include: { product: true } } },
@@ -17,7 +17,7 @@ const findOrderById = async (id: number): Promise<OrderDetails | null> => {
 };
 
 const addOrderItems = asyncHandler(
-  async (req: RequestUser, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response, next: NextFunction) => {
     if (!req.user || !req.user.id) {
       res.status(401);
       throw new Error("Not authorized");
@@ -47,7 +47,7 @@ const addOrderItems = asyncHandler(
       },
     });
 
-    orderProducts.forEach(async (orderProduct: ProductInCart) => {
+    orderProducts.forEach(async (orderProduct: CartProduct) => {
       await db.orderProduct.create({
         data: {
           orderId: createdOrder.id,
@@ -62,7 +62,7 @@ const addOrderItems = asyncHandler(
 );
 
 const getMyOrders = asyncHandler(
-  async (req: RequestUser, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response, next: NextFunction) => {
     if (!req.user || !req.user.id) {
       res.status(401);
       throw new Error("Not authorized");
@@ -70,14 +70,14 @@ const getMyOrders = asyncHandler(
 
     const userId = Number(req.user.id);
 
-    // const orders: OrderDetails[] = await db.order.findMany({
+    // const orders: OrderFull [] = await db.order.findMany({
     //   include: {
     //     user: true,
     //     orderProducts: { include: { product: true } },
     //   },
     // });
 
-    const orders: OrderDetails[] = await db.order.findMany({
+    const orders: OrderFull[] = await db.order.findMany({
       where: { userId },
       include: {
         orderProducts: { include: { product: true } },
@@ -98,7 +98,7 @@ const getMyOrders = asyncHandler(
   }
 );
 
-const getOrderById = asyncHandler(async (req: RequestUser, res: Response) => {
+const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
   const order = await findOrderById(Number(req.params.id));
   order
     ? res.json({
@@ -166,7 +166,7 @@ const updateOrderToDelivered = asyncHandler(
 );
 
 const getOrders = asyncHandler(async (req: Request, res: Response) => {
-  const orders: OrderDetails[] = await db.order.findMany({
+  const orders: OrderFull[] = await db.order.findMany({
     include: {
       user: true,
       orderProducts: { include: { product: true } },

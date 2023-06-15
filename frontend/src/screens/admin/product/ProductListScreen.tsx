@@ -7,18 +7,13 @@ import Message from "../../../components/common/Message";
 import Loader from "../../../components/common/Loader";
 import Paginate from "../../../components/utils/Paginate";
 import { getProductsApi, deleteProductApi } from "../../../services/api";
-import {
-  ProductResponse,
-  ProductDetail,
-} from "../../../../../backend/interfaces";
+import { ProductList, ProductFull } from "../../../../../backend/interfaces";
 import { toast } from "react-toastify";
 
 export const ProductListScreen: React.FC = () => {
   const { pageNumber } = useParams();
 
-  const [productsData, setProductsData] = useState<ProductResponse | null>(
-    null
-  );
+  const [productsData, setProductsData] = useState<ProductList | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -100,7 +95,7 @@ export const ProductListScreen: React.FC = () => {
             </thead>
             <tbody className="divide-y bg-white">
               {productsData &&
-                productsData.products.map((product: ProductDetail) => (
+                productsData.products.map((product: ProductFull) => (
                   <tr key={product.id} className="text-gray-700">
                     <td className="px-4 py-3">
                       <Link

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { FullUser } from "../../../../../backend/interfaces";
+import { UserFull } from "../../../../../backend/interfaces";
 import Loader from "../../../components/common/Loader";
 import { toast } from "react-toastify";
 import { getUserDetailsApi, updateUserApi } from "../../../services/api"; // Import the api functions
@@ -23,7 +23,7 @@ export const UserEditScreen: React.FC = () => {
     const fetchUser = async () => {
       setLoading(true);
       try {
-        const user: FullUser = await getUserDetailsApi(userId);
+        const user: UserFull = await getUserDetailsApi(userId);
         setName(user.name);
         setEmail(user.email);
         setIsAdmin(user.isAdmin);

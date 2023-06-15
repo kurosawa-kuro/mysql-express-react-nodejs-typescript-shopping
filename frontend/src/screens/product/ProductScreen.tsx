@@ -9,24 +9,24 @@ import { toast } from "react-toastify";
 import Loader from "../../components/common/Loader";
 import Message from "../../components/common/Message";
 import { useCartStore } from "../../state/store";
-import { getProductDetailsApi } from "../../services/api";
-import { ProductDetail } from "../../../../backend/interfaces";
+import { getProductFullsApi } from "../../services/api";
+import { ProductFull } from "../../../../backend/interfaces";
 
 export const ProductScreen: React.FC = () => {
   const { id: productId = "" } = useParams();
   const { addToCart } = useCartStore();
   const navigate = useNavigate();
 
-  const [product, setProduct] = useState<ProductDetail | null>(null);
+  const [product, setProduct] = useState<ProductFull | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [qty, setQty] = useState<number>(1);
 
-  const fetchProductDetails = useCallback(async () => {
+  const fetchProductFulls = useCallback(async () => {
     setLoading(true);
     try {
       const product = productId
-        ? await getProductDetailsApi(Number(productId))
+        ? await getProductFullsApi(Number(productId))
         : null;
       setProduct(product);
     } catch (err: unknown) {
@@ -39,8 +39,8 @@ export const ProductScreen: React.FC = () => {
   }, [productId]);
 
   useEffect(() => {
-    fetchProductDetails();
-  }, [fetchProductDetails]);
+    fetchProductFulls();
+  }, [fetchProductFulls]);
 
   const addToCartHandler = () => {
     if (product && product.id !== undefined) {

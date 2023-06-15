@@ -9,23 +9,23 @@ import {
 // --------------------------
 // JWT and Request related interfaces
 
-export interface DecodedJwtPayloadWithUserId extends JwtPayload {
+export interface UserDecodedJwtPayload extends JwtPayload {
   userId: string;
 }
 
-export interface RequestUser extends Request {
-  user?: BaseUser;
+export interface UserRequest extends Request {
+  user?: UserBase;
 }
 
 // --------------------------
 // User related interfaces
 
-export interface BaseUser
+export interface UserBase
   extends Omit<UserType, "password" | "createdAt" | "updatedAt"> {}
 
-export interface FullUser extends UserType {}
+export interface UserFull extends UserType {}
 
-export interface OptionalUser extends BaseUser {
+export interface OptionalUser extends UserBase {
   password?: string;
 }
 
@@ -34,20 +34,20 @@ export interface UserCredentials {
   password: string;
 }
 
-export interface RegisterUserCredentials {
+export interface UserRegisterCredentials {
   name: string;
   email: string;
   password: string;
   confirmPassword?: string;
 }
 
-export interface UserInfo extends BaseUser {
+export interface UserInformation extends UserBase {
   token: string;
 }
 
-export interface UserAuthStore {
-  userInfo: UserInfo | null;
-  setUserInfo: (userInfo: UserInfo) => void;
+export interface UserAuth {
+  UserInformation: UserInformation | null;
+  setUserInformation: (UserInformation: UserInformation) => void;
   logout: () => void;
 }
 
@@ -67,25 +67,25 @@ export interface ProductBase
     | "updatedAt"
   > {}
 
-export interface ProductDetail extends ProductType {}
+export interface ProductFull extends ProductType {}
 
-export interface ProductInCart {
+export interface CartProduct {
   product: ProductBase;
   qty: number;
 }
 
-export interface ProductSearchParams {
+export interface ProductSearch {
   keyword: string;
   pageNumber: number;
 }
 
-export interface ProductResponse {
-  products: ProductDetail[];
+export interface ProductList {
+  products: ProductFull[];
   page: number;
   pages: number;
 }
 
-export interface ProductParams {
+export interface ProductDetails {
   id: number;
   name: string;
   image: string;
@@ -96,7 +96,7 @@ export interface ProductParams {
   countInStock: number;
 }
 
-export interface ReviewData {
+export interface ProductReview {
   rating: number;
   comment: string;
 }
@@ -104,8 +104,8 @@ export interface ReviewData {
 // --------------------------
 // Order related interfaces
 
-export interface OrderDetails extends OrderType {
-  orderProducts: ProductInCart[];
+export interface OrderFull extends OrderType {
+  orderProducts: CartProduct[];
 }
 
 export interface Order
@@ -126,8 +126,8 @@ export interface Order
   > {
   id?: number;
   userId?: number;
-  user?: BaseUser;
-  orderProducts: ProductInCart[];
+  user?: UserBase;
+  orderProducts: CartProduct[];
   price: {
     itemsPrice: number;
     taxPrice: number;
@@ -137,7 +137,7 @@ export interface Order
   paidAt: Date | null;
 }
 
-export interface ShippingAddress {
+export interface OrderShipping {
   address: string;
   city: string;
   postalCode: string;
@@ -154,15 +154,15 @@ export interface PaymentDetails {
 }
 
 export interface CartStoreState {
-  cartItems: ProductInCart[];
-  shippingAddress: ShippingAddress;
+  cartItems: CartProduct[];
+  shippingAddress: OrderShipping;
   paymentMethod: string;
 }
 
 export interface CartStoreActions {
-  addToCart: (item: ProductInCart) => void;
+  addToCart: (item: CartProduct) => void;
   removeFromCart: (id: number) => void;
-  saveShippingAddress: (address: ShippingAddress) => void;
+  saveOrderShipping: (address: OrderShipping) => void;
   savePaymentMethod: (method: string) => void;
   clearCartItems: () => void;
 }

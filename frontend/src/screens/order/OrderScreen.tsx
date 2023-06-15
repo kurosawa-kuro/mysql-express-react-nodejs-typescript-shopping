@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 // Internal Imports
 import {
   deliverOrderApi,
-  getOrderDetailsApi,
+  getOrderFullApi,
   payOrderApi,
 } from "../../services/api";
 import Loader from "../../components/common/Loader";
@@ -18,7 +18,7 @@ import { useAuthStore } from "../../state/store";
 
 export const OrderScreen = () => {
   const { id: orderId } = useParams();
-  const { userInfo } = useAuthStore();
+  const { UserInformation } = useAuthStore();
 
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(false);
@@ -40,7 +40,7 @@ export const OrderScreen = () => {
     if (!isNaN(orderIdNumber)) {
       try {
         setLoading(true);
-        const data: Order = await getOrderDetailsApi(orderIdNumber);
+        const data: Order = await getOrderFullApi(orderIdNumber);
         setOrder(data);
       } catch (err) {
         handleError(err);
@@ -199,7 +199,7 @@ export const OrderScreen = () => {
             {!order.isPaid && (
               <div className="mb-4">
                 {loading && <Loader />}
-                {!userInfo ? (
+                {!UserInformation ? (
                   <Message>
                     Please <Link to="/login">Log in</Link> to pay
                   </Message>
@@ -217,8 +217,8 @@ export const OrderScreen = () => {
             )}
 
             {loading && <Loader />}
-            {userInfo &&
-              userInfo.isAdmin &&
+            {UserInformation &&
+              UserInformation.isAdmin &&
               order.isPaid &&
               !order.isDelivered && (
                 <button

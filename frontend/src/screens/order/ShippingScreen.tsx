@@ -9,7 +9,7 @@ import FormContainer from "../../components/forms/FormContainer";
 import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
 import { useCartStore } from "../../state/store";
 
-interface ShippingAddress {
+interface OrderShipping {
   address: string;
   city: string;
   postalCode: string;
@@ -17,7 +17,7 @@ interface ShippingAddress {
 
 export const ShippingScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { shippingAddress, saveShippingAddress } = useCartStore();
+  const { shippingAddress, saveOrderShipping } = useCartStore();
   const {
     address: savedAddress,
     city: savedCity,
@@ -30,7 +30,7 @@ export const ShippingScreen: React.FC = () => {
 
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
-    saveShippingAddress({ address, city, postalCode } as ShippingAddress);
+    saveOrderShipping({ address, city, postalCode } as OrderShipping);
     navigate("/payment");
   };
 

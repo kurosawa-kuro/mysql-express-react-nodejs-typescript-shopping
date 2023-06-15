@@ -2,7 +2,7 @@ import { useState, useEffect, ChangeEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-  getProductDetailsApi,
+  getProductFullsApi,
   updateProductApi,
   uploadProductImageApi,
 } from "../../../services/api";
@@ -36,7 +36,7 @@ export const ProductEditScreen: React.FC = () => {
     try {
       if (productId) {
         setLoading(true);
-        const data = await getProductDetailsApi(Number(productId));
+        const data = await getProductFullsApi(Number(productId));
         setName(data.name);
         setPrice(data.price);
         setImage(data.image);

@@ -5,15 +5,15 @@ import Loader from "../../../components/common/Loader";
 import { toast } from "react-toastify";
 import { deleteUserApi, getUsersApi } from "../../../services/api";
 import { useAuthStore } from "../../../state/store";
-import { UserAuthStore } from "../../../../../backend/interfaces";
-import { FullUser } from "../../../../../backend/interfaces";
+import { UserAuth } from "../../../../../backend/interfaces";
+import { UserFull } from "../../../../../backend/interfaces";
 import Message from "../../../components/common/Message";
 
 export const UserListScreen: React.FC = () => {
-  const [users, setUsers] = useState<FullUser[]>([]);
+  const [users, setUsers] = useState<UserFull[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { userInfo } = useAuthStore() as UserAuthStore;
+  const { UserInformation } = useAuthStore() as UserAuth;
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -97,7 +97,7 @@ export const UserListScreen: React.FC = () => {
                 )}
               </td>
               <td>
-                {userInfo && userInfo.isAdmin && (
+                {UserInformation && UserInformation.isAdmin && (
                   <>
                     <Link
                       to={`/admin/users/${user.id}/edit`}

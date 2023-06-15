@@ -7,7 +7,7 @@ import { Request, Response } from "express";
 // Internal Imports
 import { db } from "../database/prisma/prismaClient";
 import { Prisma, Product } from "@prisma/client";
-import { RequestUser } from "../interfaces";
+import { UserRequest } from "../interfaces";
 
 const pageSize: number = Number(process.env.PAGINATION_LIMIT);
 
@@ -48,7 +48,7 @@ const getProductById = asyncHandler(async (req: Request, res: Response) => {
   res.json(handleNotFoundProduct(product));
 });
 
-const createProduct = asyncHandler(async (req: RequestUser, res: Response) => {
+const createProduct = asyncHandler(async (req: UserRequest, res: Response) => {
   req.body.image = req.body.image
     .replace(/\\/g, "/")
     .replace("/frontend/public", "");

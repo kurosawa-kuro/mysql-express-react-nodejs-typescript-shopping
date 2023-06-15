@@ -8,13 +8,13 @@ import Loader from "../../components/common/Loader";
 import { registerUserApi } from "../../services/api";
 import { useAuthStore } from "../../state/store";
 import {
-  UserInfo,
-  RegisterUserCredentials,
-  UserAuthStore,
+  UserInformation,
+  UserRegisterCredentials,
+  UserAuth,
 } from "../../../../backend/interfaces";
 
 export const RegisterScreen = () => {
-  const [credentials, setCredentials] = useState<RegisterUserCredentials>({
+  const [credentials, setCredentials] = useState<UserRegisterCredentials>({
     name: "",
     email: "",
     password: "",
@@ -23,7 +23,9 @@ export const RegisterScreen = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const setUserInfo = useAuthStore((state: UserAuthStore) => state.setUserInfo);
+  const setUserInformation = useAuthStore(
+    (state: UserAuth) => state.setUserInformation
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -38,12 +40,12 @@ export const RegisterScreen = () => {
 
     setLoading(true);
     try {
-      const user: UserInfo = await registerUserApi({
+      const user: UserInformation = await registerUserApi({
         name: credentials.name,
         email: credentials.email,
         password: credentials.password,
       });
-      setUserInfo(user);
+      setUserInformation(user);
       toast.success("Registration successful");
       navigate("/");
     } catch (err: unknown) {

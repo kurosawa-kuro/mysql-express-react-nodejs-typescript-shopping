@@ -19,7 +19,7 @@ export const Header: React.FC = () => {
   const [adminIsOpen, setAdminIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const adminDropdownRef = useRef<HTMLDivElement | null>(null);
-  const { userInfo, logout } = useAuthStore();
+  const { UserInformation, logout } = useAuthStore();
   const { cartItems } = useCartStore();
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export const Header: React.FC = () => {
           </button>
         </div>
         <div className={`space-x-8 ${isOpen ? "block" : "hidden"} sm:flex`}>
-          {!userInfo?.isAdmin && (
+          {!UserInformation?.isAdmin && (
             <Link to="/cart" className="flex items-center space-x-2">
               <FaShoppingCart className="h-5 w-5" />
               <span>Cart</span>
@@ -68,7 +68,7 @@ export const Header: React.FC = () => {
             </Link>
           )}
 
-          {userInfo ? (
+          {UserInformation ? (
             <div className="relative inline-block text-left" ref={dropdownRef}>
               <div>
                 <button
@@ -81,7 +81,7 @@ export const Header: React.FC = () => {
                     data-testid="user-info-name"
                     className="text-custom-blue-lightest hover:text-custom-blue-extra-darkest"
                   >
-                    {userInfo.name}
+                    {UserInformation.name}
                   </span>
                   {isOpen ? (
                     <FaChevronUp className="h-5 w-5 text-custom-blue-lightest" />
@@ -99,7 +99,7 @@ export const Header: React.FC = () => {
                     aria-orientation="vertical"
                     aria-labelledby="options-menu"
                   >
-                    {!userInfo.isAdmin && (
+                    {!UserInformation.isAdmin && (
                       <Link
                         to="/orders"
                         className="block px-4 py-2 text-sm text-custom-blue-lighter hover:bg-custom-blue-darkest"
@@ -140,7 +140,7 @@ export const Header: React.FC = () => {
               <span className="text-custom-blue-lightest">Sign In</span>
             </Link>
           )}
-          {userInfo && userInfo.isAdmin && (
+          {UserInformation && UserInformation.isAdmin && (
             <div
               className="relative inline-block text-left"
               ref={adminDropdownRef}

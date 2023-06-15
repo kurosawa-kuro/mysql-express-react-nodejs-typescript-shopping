@@ -7,13 +7,13 @@ import asyncHandler from "express-async-handler";
 // Internal Imports
 import { db } from "../database/prisma/prismaClient";
 import {
-  DecodedJwtPayloadWithUserId,
-  RequestUser,
-  BaseUser,
+  UserDecodedJwtPayload,
+  UserRequest,
+  UserBase,
 } from "../interfaces/index";
 
 export const protect = asyncHandler(
-  async (req: RequestUser, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response, next: NextFunction) => {
     console.log("req.cookies.jwt", req.cookies.jwt);
     let token = req.cookies.jwt;
 
@@ -24,10 +24,7 @@ export const protect = asyncHandler(
 
     try {
       const jwtSecret: Secret = process.env.JWT_SECRET!;
-      const decoded = jwt.verify(
-        token,
-        jwtSecret
-      ) as DecodedJwtPayloadWithUserId;
+      const decoded = jwt.verify(token, jwtSecret) as UserDecodedJwtPayload;
 
       const id = Number(decoded.userId);
       const user = await db.user.findUnique({
@@ -37,12 +34,12 @@ export const protect = asyncHandler(
 
       if (user) {
         // Here we are destructuring user to remove 'password'
-        const { password, ...BaseUser } = user;
+        const { password, ...UserBase } = user;
         // Then we construct req.user with the remaining user data
         req.user = {
-          ...BaseUser,
+          ...UserBase,
           id: Number(decoded.userId),
-        } as BaseUser;
+        } as UserBase;
         console.log({ req_user: req.user });
       }
 
@@ -55,7 +52,7 @@ export const protect = asyncHandler(
 );
 
 export const admin = asyncHandler(
-  async (req: RequestUser, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response, next: NextFunction) => {
     if (req.user && req.user.isAdmin) {
       next();
     } else {

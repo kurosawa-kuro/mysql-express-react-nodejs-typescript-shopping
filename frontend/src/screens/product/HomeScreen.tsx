@@ -12,8 +12,8 @@ import Paginate from "../../components/utils/Paginate";
 import Product from "../../components/features/Product";
 import { getProductsApi } from "../../services/api";
 import {
-  ProductDetail as ProductType,
-  ProductResponse,
+  ProductFull as ProductType,
+  ProductList,
 } from "../../../../backend/interfaces";
 
 interface ProductsFetchParams {
@@ -24,7 +24,7 @@ interface ProductsFetchParams {
 const fetchProducts = async ({
   keyword,
   pageNumber,
-}: ProductsFetchParams): Promise<ProductResponse | null> => {
+}: ProductsFetchParams): Promise<ProductList | null> => {
   try {
     const data = await getProductsApi({ keyword, pageNumber });
     return data;
@@ -37,9 +37,7 @@ const fetchProducts = async ({
 
 export const HomeScreen: React.FC = () => {
   const { pageNumber = "1", keyword = "" } = useParams();
-  const [productsData, setProductsData] = useState<ProductResponse | null>(
-    null
-  );
+  const [productsData, setProductsData] = useState<ProductList | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 

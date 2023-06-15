@@ -3,14 +3,14 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
-import { Order, UserAuthStore } from "../../../../../backend/interfaces";
+import { Order, UserAuth } from "../../../../../backend/interfaces";
 import { getMyOrdersApi, getOrdersApi } from "../../../services/api";
 import { useAuthStore } from "../../../state/store";
 import Loader from "../../../components/common/Loader";
 import Message from "../../../components/common/Message";
 
 export const OrderListScreen: React.FC = () => {
-  const { userInfo } = useAuthStore() as UserAuthStore;
+  const { UserInformation } = useAuthStore() as UserAuth;
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,7 +18,7 @@ export const OrderListScreen: React.FC = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const data = userInfo?.isAdmin
+        const data = UserInformation?.isAdmin
           ? await getOrdersApi()
           : await getMyOrdersApi();
         setOrders(data);
@@ -30,7 +30,7 @@ export const OrderListScreen: React.FC = () => {
     };
 
     fetchOrders();
-  }, [userInfo?.isAdmin]);
+  }, [UserInformation?.isAdmin]);
 
   return (
     <>
@@ -45,7 +45,7 @@ export const OrderListScreen: React.FC = () => {
                 ID
               </th>
 
-              {userInfo?.isAdmin && (
+              {UserInformation?.isAdmin && (
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   USER
                 </th>
@@ -71,7 +71,7 @@ export const OrderListScreen: React.FC = () => {
               orders.map((order: Order) => (
                 <tr key={order.id}>
                   <td className="whitespace-nowrap px-6 py-4">{order.id}</td>
-                  {userInfo?.isAdmin && (
+                  {UserInformation?.isAdmin && (
                     <td className="whitespace-nowrap px-6 py-4">
                       {order.user && order.user.name}
                     </td>

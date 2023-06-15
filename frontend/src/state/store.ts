@@ -1,30 +1,32 @@
 import { create } from "zustand";
 import {
-  UserAuthStore,
+  UserAuth,
   CartStoreState,
   CartStoreActions,
-  ProductInCart,
-  ShippingAddress,
+  CartProduct,
+  OrderShipping,
 } from "../../../backend/interfaces";
 
-export const useAuthStore = create<UserAuthStore>((set) => {
-  const storedUserInfo = localStorage.getItem("userInfo");
+export const useAuthStore = create<UserAuth>((set) => {
+  const storedUserInformation = localStorage.getItem("UserInformation");
 
   return {
-    userInfo: storedUserInfo ? JSON.parse(storedUserInfo) : null,
-    setUserInfo: (userInfo) => {
-      localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    UserInformation: storedUserInformation
+      ? JSON.parse(storedUserInformation)
+      : null,
+    setUserInformation: (UserInformation) => {
+      localStorage.setItem("UserInformation", JSON.stringify(UserInformation));
       const expirationTime = new Date().getTime() + 30 * 24 * 60 * 60 * 1000; // 30 days
       localStorage.setItem("expirationTime", expirationTime.toString());
-      console.log({ userInfo });
+      console.log({ UserInformation });
 
-      set({ userInfo });
+      set({ UserInformation });
     },
     logout: () => {
-      localStorage.removeItem("userInfo");
+      localStorage.removeItem("UserInformation");
       localStorage.removeItem("expirationTime");
 
-      set({ userInfo: null });
+      set({ UserInformation: null });
     },
   };
 });
@@ -41,7 +43,7 @@ export const useCartStore = create<CartStore>((set) => ({
   paymentMethod: localStorage.getItem("paymentMethod")
     ? JSON.parse(localStorage.getItem("paymentMethod") || '"PayPal"')
     : "PayPal",
-  addToCart: (item: ProductInCart) => {
+  addToCart: (item: CartProduct) => {
     console.log({ item });
     set((state) => {
       const existItem = state.cartItems.find(
@@ -74,7 +76,7 @@ export const useCartStore = create<CartStore>((set) => ({
       };
     });
   },
-  saveShippingAddress: (address: ShippingAddress) => {
+  saveOrderShipping: (address: OrderShipping) => {
     set((state) => {
       localStorage.setItem("shippingAddress", JSON.stringify(address));
       return {

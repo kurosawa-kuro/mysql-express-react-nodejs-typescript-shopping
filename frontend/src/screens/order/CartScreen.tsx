@@ -8,13 +8,13 @@ import { FaTrash } from "react-icons/fa";
 // Internal Imports
 import Message from "../../components/common/Message";
 import { useCartStore } from "../../state/store";
-import { ProductInCart } from "../../../../backend/interfaces";
+import { CartProduct } from "../../../../backend/interfaces";
 
 export const CartScreen: React.FC = () => {
   const { cartItems, addToCart, removeFromCart } = useCartStore();
   const navigate = useNavigate();
 
-  const handleQtyChange = (product: ProductInCart, qty: number) => {
+  const handleQtyChange = (product: CartProduct, qty: number) => {
     addToCart({ ...product, qty });
   };
 
@@ -49,7 +49,7 @@ export const CartScreen: React.FC = () => {
             </Message>
           ) : (
             <div className="space-y-4">
-              {cartItems.map((item: ProductInCart) => (
+              {cartItems.map((item: CartProduct) => (
                 <div
                   key={item.product.id}
                   className="flex items-center justify-between rounded border border-gray-200 p-2"

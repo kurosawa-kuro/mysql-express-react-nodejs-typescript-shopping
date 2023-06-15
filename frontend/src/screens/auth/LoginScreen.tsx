@@ -11,9 +11,9 @@ import Loader from "../../components/common/Loader";
 import { loginUserApi } from "../../services/api";
 import { useAuthStore } from "../../state/store";
 import {
-  UserAuthStore,
+  UserAuth,
   UserCredentials,
-  UserInfo,
+  UserInformation,
 } from "../../../../backend/interfaces";
 
 export const LoginScreen = () => {
@@ -24,7 +24,9 @@ export const LoginScreen = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const setUserInfo = useAuthStore((state: UserAuthStore) => state.setUserInfo);
+  const setUserInformation = useAuthStore(
+    (state: UserAuth) => state.setUserInformation
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -35,8 +37,8 @@ export const LoginScreen = () => {
     setLoading(true);
 
     try {
-      const user: UserInfo = await loginUserApi(credentials);
-      setUserInfo(user);
+      const user: UserInformation = await loginUserApi(credentials);
+      setUserInformation(user);
       toast.success("Successfully logged in");
       navigate("/");
     } catch (err: unknown) {
