@@ -6,11 +6,11 @@ import asyncHandler from "express-async-handler";
 // Internal Imports
 import generateToken from "../utils/generateToken";
 import { db } from "../database/prisma/prismaClient";
-import { RequestUser, UserWithoutPassword } from "../interfaces";
+import { RequestUser, BaseUser } from "../interfaces";
 
-const sanitizeUser = (user: any): UserWithoutPassword => {
-  const { password, ...userWithoutPassword } = user;
-  return userWithoutPassword;
+const sanitizeUser = (user: any): BaseUser => {
+  const { password, ...BaseUser } = user;
+  return BaseUser;
 };
 
 const loginUser = asyncHandler(async (req: RequestUser, res: Response) => {

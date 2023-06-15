@@ -21,9 +21,12 @@ export const PlaceOrderScreen: FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   // Calculate prices
-  const itemsPrice = cartItems.reduce((acc, item) => {
-    return acc + item.product.price * item.qty;
-  }, 0);
+  const itemsPrice = cartItems.reduce(
+    (acc: number, item: { product: { price: number }; qty: number }) => {
+      return acc + item.product.price * item.qty;
+    },
+    0
+  );
   const shippingPrice = itemsPrice > 100 ? 0 : 10;
   const taxPrice = Number((0.15 * itemsPrice).toFixed(2));
   const totalPrice: number = itemsPrice + shippingPrice + taxPrice;
@@ -51,6 +54,11 @@ export const PlaceOrderScreen: FC = () => {
           shippingPrice,
           totalPrice,
         },
+        isPaid: false,
+        paidAt: null,
+        isDelivered: false,
+        deliveredAt: null,
+        createdAt: new Date(),
       };
       const res = await createOrderApi(order);
       clearCartItems();
@@ -65,6 +73,7 @@ export const PlaceOrderScreen: FC = () => {
       setLoading(false);
     }
   };
+
   return (
     <div className="container mx-auto px-4">
       <CheckoutSteps step1 step2 step3 step4 />
@@ -90,7 +99,7 @@ export const PlaceOrderScreen: FC = () => {
             ) : (
               <div>
                 {/* {cartItems} */}
-                {cartItems.map((item, index) => (
+                {cartItems.map((item: any, index: number) => (
                   <div key={index}>
                     <div className="mb-2 flex items-center">
                       <div className="w-20 flex-none">

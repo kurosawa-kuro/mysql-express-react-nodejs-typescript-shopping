@@ -11,7 +11,7 @@ import {
   ProductDetail,
   ErrorMessage,
   Order,
-} from "../interfaces";
+} from "../../../backend/interfaces";
 
 const apiClient = getApiClient();
 

@@ -1,8 +1,10 @@
-// backend\interfaces\index.ts
-
 import { Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
-import { User as UserType } from "@prisma/client";
+import {
+  User as UserType,
+  Product as ProductType,
+  Order as OrderType,
+} from "@prisma/client";
 
 // JWT and Request related interfaces
 export interface DecodedJwtPayloadWithUserId extends JwtPayload {
@@ -10,22 +12,18 @@ export interface DecodedJwtPayloadWithUserId extends JwtPayload {
 }
 
 export interface RequestUser extends Request {
-  user?: UserWithoutPassword;
+  user?: BaseUser;
 }
 
 // User related interfaces
-export interface UserWithoutPassword extends Omit<UserType, "password"> {}
+export interface BaseUser
+  extends Omit<UserType, "password" | "createdAt" | "updatedAt"> {}
 
-export interface BaseUser {
-  id: number;
-  name: string;
-  email: string;
-  isAdmin: boolean;
-}
-
-export interface FullUser extends BaseUser {
+export interface UserCredentials extends BaseUser {
   password: string;
 }
+
+export interface FullUser extends UserType {}
 
 export interface OptionalUser extends BaseUser {
   password?: string;
@@ -35,13 +33,7 @@ export interface UserInfo extends BaseUser {
   token: string;
 }
 
-export interface UserCredentials {
-  email: string;
-  password: string;
-}
-
 export interface RegisterUserCredentials extends UserCredentials {
-  name: string;
   confirmPassword?: string;
 }
 
@@ -52,22 +44,20 @@ export interface UserAuthStore {
 }
 
 // Product related interfaces
-export interface ProductBase {
-  id: number;
-  name: string;
-  image: string;
-  price: number;
-  countInStock: number;
-}
+export interface ProductBase
+  extends Omit<
+    ProductType,
+    | "userId"
+    | "brand"
+    | "category"
+    | "description"
+    | "rating"
+    | "numReviews"
+    | "createdAt"
+    | "updatedAt"
+  > {}
 
-export interface ProductDetail extends ProductBase {
-  userId?: number;
-  brand: string;
-  category: string;
-  description: string;
-  rating?: number;
-  numReviews?: number;
-}
+export interface ProductDetail extends ProductType {}
 
 export interface ProductInCart {
   product: ProductBase;
@@ -91,23 +81,8 @@ export interface ReviewData {
 }
 
 // Order related interfaces
-export interface OrderItems {
-  product: ProductBase;
-  qty: number;
-}
-
-export interface OrderDetails {
-  id: number;
-  orderProducts: OrderItems[];
-  itemsPrice: number;
-  taxPrice: number;
-  shippingPrice: number;
-  totalPrice: number;
-  isPaid: boolean;
-  paidAt: Date | null;
-  isDelivered: boolean;
-  deliveredAt: Date | null;
-  createdAt: Date;
+export interface OrderDetails extends OrderType {
+  orderProducts: ProductInCart[];
 }
 
 export interface ShippingAddress {
@@ -116,23 +91,33 @@ export interface ShippingAddress {
   postalCode: string;
 }
 
-export interface Order extends ShippingAddress {
+export interface Order
+  extends Omit<
+    OrderType,
+    | "id"
+    | "userId"
+    | "itemsPrice"
+    | "taxPrice"
+    | "shippingPrice"
+    | "totalPrice"
+    | "paymentResultId"
+    | "paymentResultStatus"
+    | "paymentResultUpdateTime"
+    | "paymentResultEmail"
+    | "paidAt"
+    | "updatedAt"
+  > {
   id?: number;
   userId?: number;
   user?: BaseUser;
   orderProducts: ProductInCart[];
-  paymentMethod: string;
   price: {
     itemsPrice: number;
     taxPrice: number;
     shippingPrice: number;
     totalPrice: number;
   };
-  isPaid?: boolean;
-  paidAt?: string;
-  isDelivered?: boolean;
-  deliveredAt?: string;
-  createdAt?: string;
+  paidAt: Date | null;
 }
 
 // Payment and Cart related interfaces

@@ -75,21 +75,21 @@ const OrderListScreen: React.FC = () => {
                     {order.user && order.user.name}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    {order.createdAt?.substring(0, 10)}
+                    {order.createdAt?.toISOString().substring(0, 10)}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    ${order.price.totalPrice}
+                    ${order.totalPrice.toFixed(2)}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
                     {order.isPaid ? (
-                      order.paidAt?.substring(0, 10)
+                      order.paidAt?.toISOString().substring(0, 10)
                     ) : (
                       <FaTimes className="text-red-500" />
                     )}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
                     {order.isDelivered ? (
-                      order.deliveredAt?.substring(0, 10)
+                      order.deliveredAt?.toISOString().substring(0, 10)
                     ) : (
                       <FaTimes className="text-red-500" />
                     )}

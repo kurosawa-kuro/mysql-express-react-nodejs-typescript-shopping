@@ -9,7 +9,7 @@ import { db } from "../database/prisma/prismaClient";
 import {
   DecodedJwtPayloadWithUserId,
   RequestUser,
-  UserWithoutPassword,
+  BaseUser,
 } from "../interfaces/index";
 
 export const protect = asyncHandler(
@@ -37,12 +37,12 @@ export const protect = asyncHandler(
 
       if (user) {
         // Here we are destructuring user to remove 'password'
-        const { password, ...userWithoutPassword } = user;
+        const { password, ...BaseUser } = user;
         // Then we construct req.user with the remaining user data
         req.user = {
-          ...userWithoutPassword,
+          ...BaseUser,
           id: Number(decoded.userId),
-        } as UserWithoutPassword;
+        } as BaseUser;
         console.log({ req_user: req.user });
       }
 

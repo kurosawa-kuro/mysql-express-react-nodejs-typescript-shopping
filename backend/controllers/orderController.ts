@@ -7,7 +7,7 @@ import { Request, NextFunction, Response } from "express";
 // Internal Imports
 import { db } from "../database/prisma/prismaClient";
 import { Order } from "@prisma/client";
-import { RequestUser, OrderItems, OrderDetails } from "../interfaces";
+import { RequestUser, ProductInCart, OrderDetails } from "../interfaces";
 
 const findOrderById = async (id: number): Promise<OrderDetails | null> => {
   return db.order.findUnique({
@@ -47,7 +47,7 @@ const addOrderItems = asyncHandler(
       },
     });
 
-    orderProducts.forEach(async (orderProduct: OrderItems) => {
+    orderProducts.forEach(async (orderProduct: ProductInCart) => {
       await db.orderProduct.create({
         data: {
           orderId: createdOrder.id,
