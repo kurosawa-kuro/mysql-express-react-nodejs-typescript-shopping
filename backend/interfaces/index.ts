@@ -5,6 +5,7 @@ import {
   Product as ProductType,
   Order as OrderType,
 } from "@prisma/client";
+import exp from "constants";
 
 // --------------------------
 // JWT and Request related interfaces
@@ -20,24 +21,20 @@ export interface UserRequest extends Request {
 // --------------------------
 // User related interfaces
 
-export interface UserBase
-  extends Omit<UserType, "password" | "createdAt" | "updatedAt"> {}
-
 export interface UserFull extends UserType {}
+export interface UserBase
+  extends Pick<UserType, "id" | "name" | "email" | "isAdmin"> {}
 
-export interface OptionalUser extends UserBase {
-  password?: string;
-}
+export interface UserUpdate
+  extends Pick<UserType, "id" | "name" | "email" | "password" | "isAdmin"> {}
 
-export interface UserCredentials {
-  email: string;
-  password: string;
-}
+export interface UserUpdateByAdmin
+  extends Pick<UserType, "id" | "name" | "email" | "isAdmin"> {}
 
-export interface UserRegisterCredentials {
-  name: string;
-  email: string;
-  password: string;
+export interface UserCredentials extends Pick<UserType, "email" | "password"> {}
+
+export interface UserRegisterCredentials
+  extends Pick<UserType, "name" | "email" | "password"> {
   confirmPassword?: string;
 }
 
@@ -55,16 +52,9 @@ export interface UserAuth {
 // Product related interfaces
 
 export interface ProductBase
-  extends Omit<
+  extends Pick<
     ProductType,
-    | "userId"
-    | "brand"
-    | "category"
-    | "description"
-    | "rating"
-    | "numReviews"
-    | "createdAt"
-    | "updatedAt"
+    "id" | "name" | "image" | "price" | "countInStock"
   > {}
 
 export interface ProductFull extends ProductType {}
@@ -85,16 +75,18 @@ export interface ProductList {
   pages: number;
 }
 
-export interface ProductDetails {
-  id: number;
-  name: string;
-  image: string;
-  brand: string;
-  category: string;
-  description: string;
-  price: number;
-  countInStock: number;
-}
+export interface ProductDetails
+  extends Pick<
+    ProductType,
+    | "id"
+    | "name"
+    | "image"
+    | "brand"
+    | "category"
+    | "description"
+    | "price"
+    | "countInStock"
+  > {}
 
 export interface ProductReview {
   rating: number;
@@ -109,20 +101,16 @@ export interface OrderFull extends OrderType {
 }
 
 export interface Order
-  extends Omit<
+  extends Pick<
     OrderType,
-    | "id"
-    | "userId"
-    | "itemsPrice"
-    | "taxPrice"
-    | "shippingPrice"
-    | "totalPrice"
-    | "paymentResultId"
-    | "paymentResultStatus"
-    | "paymentResultUpdateTime"
-    | "paymentResultEmail"
-    | "paidAt"
-    | "updatedAt"
+    | "address"
+    | "city"
+    | "postalCode"
+    | "paymentMethod"
+    | "isPaid"
+    | "isDelivered"
+    | "deliveredAt"
+    | "createdAt"
   > {
   id?: number;
   userId?: number;

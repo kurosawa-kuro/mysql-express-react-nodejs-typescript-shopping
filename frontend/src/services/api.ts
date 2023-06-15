@@ -4,13 +4,14 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 
 import { getApiClient } from "./apiClient";
 import {
-  OptionalUser,
+  UserUpdate,
   UserCredentials,
   UserRegisterCredentials,
   ProductSearch,
   ErrorMessage,
   Order,
   ProductDetails,
+  UserUpdateByAdmin,
 } from "../../../backend/interfaces";
 
 const apiClient = getApiClient();
@@ -48,7 +49,7 @@ export const loginUserApi = (credentials: UserCredentials) =>
 export const fetchUserProfileApi = () =>
   performRequest(apiClient.get("/api/users/profile"));
 
-export const updateUserProfileApi = (user: OptionalUser) =>
+export const updateUserProfileApi = (user: UserUpdate) =>
   performRequest(apiClient.put("/api/users/profile", user));
 
 export const logoutUserApi = () =>
@@ -62,7 +63,7 @@ export const deleteUserApi = (id: number) =>
 export const getUserDetailsApi = (userId: number) =>
   performRequest(apiClient.get(`/api/users/${userId}`));
 
-export const updateUserApi = (user: OptionalUser) =>
+export const updateUserApi = (user: UserUpdateByAdmin) =>
   performRequest(apiClient.put(`/api/users/${user.id}`, user));
 
 // Product related APIs
