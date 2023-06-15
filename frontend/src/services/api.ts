@@ -12,6 +12,7 @@ import {
   Order,
   ProductDetails,
   UserUpdateByAdmin,
+  ProductFull,
 } from "../../../backend/interfaces";
 
 const apiClient = getApiClient();
@@ -105,3 +106,6 @@ export const getMyOrdersApi = () =>
 
 export const getOrdersApi = async () =>
   performRequest(apiClient.get("/api/orders"));
+
+export const getTopProductsApi = async (): Promise<ProductFull[]> =>
+  performRequest(apiClient.get("/api/products/top"));

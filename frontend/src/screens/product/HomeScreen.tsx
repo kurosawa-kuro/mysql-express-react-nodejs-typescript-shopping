@@ -15,6 +15,7 @@ import {
   ProductFull as ProductType,
   ProductList,
 } from "../../../../backend/interfaces";
+import ProductCarousel from "../../components/features/ProductCarousel";
 
 interface ProductsFetchParams {
   keyword: string;
@@ -51,7 +52,9 @@ export const HomeScreen: React.FC = () => {
 
   return (
     <>
-      {keyword && (
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
         <Link
           to="/"
           className="mb-4 inline-block rounded bg-white px-4 py-2 text-gray-700 hover:bg-gray-200"
