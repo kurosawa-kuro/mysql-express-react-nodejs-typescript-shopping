@@ -5,7 +5,6 @@ import {
   Product as ProductType,
   Order as OrderType,
 } from "@prisma/client";
-import exp from "constants";
 
 // --------------------------
 // JWT and Request related interfaces
@@ -50,14 +49,12 @@ export interface UserAuth {
 
 // --------------------------
 // Product related interfaces
-
+export interface ProductFull extends ProductType {}
 export interface ProductBase
   extends Pick<
     ProductType,
     "id" | "name" | "image" | "price" | "countInStock"
   > {}
-
-export interface ProductFull extends ProductType {}
 
 export interface CartProduct {
   product: ProductBase;
