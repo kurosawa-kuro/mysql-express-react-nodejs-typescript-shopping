@@ -14,6 +14,7 @@ import { ProductFull } from "../../../../backend/interfaces";
 import Meta from "../../components/helpers/Meta";
 
 export const ProductScreen: React.FC = () => {
+  console.log("ProductScreen");
   const { id: productId = "" } = useParams();
   const { addToCart } = useCartStore();
   const navigate = useNavigate();
@@ -64,7 +65,7 @@ export const ProductScreen: React.FC = () => {
       </Link>
 
       <>
-        <Meta title={product.name} description={product.description} />
+        {/* <Meta title={product.name} description={product.description} /> */}
         <div className="-mx-2 flex flex-wrap">
           {loading && <Loader />}
           {error && <Message variant="danger">{error}</Message>}

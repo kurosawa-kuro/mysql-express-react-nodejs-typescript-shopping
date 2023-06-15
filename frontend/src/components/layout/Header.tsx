@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import SearchBox from "../features/SearchBox";
 
 import {
   FaUser,
@@ -56,6 +57,7 @@ export const Header: React.FC = () => {
           </button>
         </div>
         <div className={`space-x-8 ${isOpen ? "block" : "hidden"} sm:flex`}>
+          <SearchBox />
           {!userInformation?.isAdmin && (
             <Link to="/cart" className="flex items-center space-x-2">
               <FaShoppingCart className="h-5 w-5" />
