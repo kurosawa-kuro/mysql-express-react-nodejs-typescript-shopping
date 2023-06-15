@@ -30,8 +30,8 @@ import { ProductNewScreen } from "./screens/admin/product/ProductNewScreen";
 import { ProductEditScreen } from "./screens/admin/product/ProductEditScreen";
 import { OrderListScreen } from "./screens/admin/order/OrderListScreen";
 
-import PrivateRoute from "./components/routing/PrivateRoute";
-import AdminRoute from "./components/routing/AdminRoute";
+import { PrivateRoute } from "./components/routing/PrivateRoute";
+import { AdminRoute } from "./components/routing/AdminRoute";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
