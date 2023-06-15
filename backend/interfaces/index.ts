@@ -153,13 +153,13 @@ export interface PaymentDetails {
   paymentResultEmail: string;
 }
 
-export interface CartStoreState {
+export interface CartState {
   cartItems: CartProduct[];
   shippingAddress: OrderShipping;
   paymentMethod: string;
 }
 
-export interface CartStoreActions {
+export interface CartActions {
   addToCart: (item: CartProduct) => void;
   removeFromCart: (id: number) => void;
   saveOrderShipping: (address: OrderShipping) => void;

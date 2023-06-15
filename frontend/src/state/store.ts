@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import {
   UserAuth,
-  CartStoreState,
-  CartStoreActions,
+  CartState,
+  CartActions,
   CartProduct,
   OrderShipping,
 } from "../../../backend/interfaces";
@@ -31,7 +31,7 @@ export const useAuthStore = create<UserAuth>((set) => {
   };
 });
 
-export type CartStore = CartStoreState & CartStoreActions;
+export type CartStore = CartState & CartActions;
 
 export const useCartStore = create<CartStore>((set) => ({
   cartItems: localStorage.getItem("cartItems")
