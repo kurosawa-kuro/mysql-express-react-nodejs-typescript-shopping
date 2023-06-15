@@ -19,7 +19,8 @@ export interface RequestUser extends Request {
 export interface BaseUser
   extends Omit<UserType, "password" | "createdAt" | "updatedAt"> {}
 
-export interface UserCredentials extends BaseUser {
+export interface UserCredentials {
+  email: string;
   password: string;
 }
 
