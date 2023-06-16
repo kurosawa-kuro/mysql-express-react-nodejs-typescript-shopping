@@ -1,4 +1,4 @@
-// src\main.tsx
+// frontend\src\main.tsx
 
 // External Imports
 import React from "react";

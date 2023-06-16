@@ -1,3 +1,5 @@
+// frontend\src\components\features\SearchBox.tsx
+
 import React, { FormEvent, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 

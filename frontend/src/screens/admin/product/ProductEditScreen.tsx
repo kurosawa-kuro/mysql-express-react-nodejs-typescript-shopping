@@ -1,3 +1,5 @@
+// frontend\src\screens\admin\product\ProductEditScreen.tsx
+
 import { useState, useEffect, ChangeEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";

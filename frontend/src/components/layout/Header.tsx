@@ -1,3 +1,5 @@
+// frontend\src\components\layout\Header.tsx
+
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SearchBox } from "../features/SearchBox";

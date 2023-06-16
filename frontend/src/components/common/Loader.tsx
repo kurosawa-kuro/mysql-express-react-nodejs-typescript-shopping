@@ -1,4 +1,4 @@
-// frontend\src\components\common\Loader.jsx
+// frontend\src\components\common\Loader.tsx
 
 export const Loader = () => {
   return (

@@ -1,4 +1,4 @@
-// frontend\src\components\features\Product.jsx
+// frontend\src\components\features\Product.tsx
 
 import { Link } from "react-router-dom";
 import { Rating } from "./Rating";

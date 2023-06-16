@@ -1,3 +1,5 @@
+// frontend\src\state\store.ts
+
 import { create } from "zustand";
 import {
   UserAuth,

@@ -1,4 +1,4 @@
-// frontend\src\screens\order\PaymentScreen.jsx
+// frontend\src\screens\order\PaymentScreen.tsx
 
 // External Imports
 import { useState, useEffect, FormEvent } from "react";

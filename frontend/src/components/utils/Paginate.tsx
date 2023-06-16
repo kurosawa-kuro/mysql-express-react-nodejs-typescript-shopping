@@ -1,3 +1,5 @@
+// frontend\src\components\utils\Paginate.tsx
+
 import { FC } from "react";
 import { Link } from "react-router-dom";
 
