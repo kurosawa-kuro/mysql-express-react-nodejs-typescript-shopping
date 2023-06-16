@@ -1,7 +1,7 @@
 // frontend\src\components\features\Product.jsx
 
 import { Link } from "react-router-dom";
-// import Rating from './Rating';
+import Rating from "./Rating";
 import { ProductBase as ProductType } from "../../../../backend/interfaces";
 
 interface ProductProps {
@@ -28,10 +28,10 @@ const Product: React.FC<ProductProps> = ({ product }) => {
         </Link>
 
         <div className="mt-2">
-          {/* <Rating
+          <Rating
             value={product.rating}
             text={`${product.numReviews} reviews`}
-          /> */}
+          />
         </div>
 
         <div className="mt-3 text-lg font-semibold text-gray-900">

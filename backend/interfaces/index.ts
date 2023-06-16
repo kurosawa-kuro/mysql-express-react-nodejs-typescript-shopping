@@ -53,7 +53,7 @@ export interface ProductFull extends ProductType {}
 export interface ProductBase
   extends Pick<
     ProductType,
-    "id" | "name" | "image" | "price" | "countInStock"
+    "id" | "name" | "image" | "price" | "countInStock" | "rating" | "numReviews"
   > {}
 
 export interface CartProduct {

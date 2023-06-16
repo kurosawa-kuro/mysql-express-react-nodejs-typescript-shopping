@@ -11,6 +11,7 @@ import Message from "../../components/common/Message";
 import { useCartStore } from "../../state/store";
 import { getProductFullsApi } from "../../services/api";
 import { ProductFull } from "../../../../backend/interfaces";
+import Rating from "../../components/features/Rating";
 // import Meta from "../../components/helpers/Meta";
 
 export const ProductScreen: React.FC = () => {
@@ -74,10 +75,10 @@ export const ProductScreen: React.FC = () => {
           <div className="w-full px-2 md:w-1/4">
             <div className="rounded-lg bg-white p-4 shadow-md">
               <h3 className="mb-2 text-2xl font-bold">{product.name}</h3>
-              {/* <Rating
-                  value={product.rating}
-                  text={`${product.numReviews} reviews`}
-                /> */}
+              <Rating
+                value={product.rating}
+                text={`${product.numReviews} reviews`}
+              />
               <p className="mt-2 font-bold">Price: ${product.price}</p>
               <p>Description: {product.description}</p>
             </div>
