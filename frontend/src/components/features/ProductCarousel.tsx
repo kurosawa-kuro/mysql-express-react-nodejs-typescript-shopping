@@ -53,7 +53,7 @@ const ProductCarousel: React.FC = () => {
       {products.map((product) => (
         <div key={product.id} className="relative">
           <Link
-            to={`/product/${product.id}`}
+            to={`/products/${product.id}`}
             className="block h-[250px] w-full"
           >
             <img

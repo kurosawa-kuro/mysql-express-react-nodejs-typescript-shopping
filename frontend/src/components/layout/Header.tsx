@@ -94,7 +94,7 @@ export const Header: React.FC = () => {
               </div>
 
               {isOpen && (
-                <div className="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-custom-blue-darker shadow-lg ring-1 ring-custom-blue-darker">
+                <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-custom-blue-darker shadow-lg ring-1 ring-custom-blue-darker">
                   <div
                     className="py-1"
                     role="menu"
@@ -163,7 +163,7 @@ export const Header: React.FC = () => {
               </button>
 
               {adminIsOpen && (
-                <div className="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-custom-blue-darker shadow-lg ring-1 ring-custom-blue-darker">
+                <div className="absolute  right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-custom-blue-darker shadow-lg ring-1 ring-custom-blue-darker">
                   <div
                     className="py-1"
                     role="menu"

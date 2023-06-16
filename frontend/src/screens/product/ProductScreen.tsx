@@ -11,11 +11,10 @@ import Message from "../../components/common/Message";
 import { useCartStore } from "../../state/store";
 import { getProductFullsApi } from "../../services/api";
 import { ProductFull } from "../../../../backend/interfaces";
-import Meta from "../../components/helpers/Meta";
+// import Meta from "../../components/helpers/Meta";
 
 export const ProductScreen: React.FC = () => {
-  console.log("ProductScreen");
-  const { id: productId = "" } = useParams();
+  const { id: productId = 0 } = useParams();
   const { addToCart } = useCartStore();
   const navigate = useNavigate();
 
