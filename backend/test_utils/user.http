@@ -1,86 +1,59 @@
-###
-# @name loginUser
-# @description Login to a user account
-POST http://localhost:5000/api/users/auth HTTP/1.1
-content-type: application/json
+### Register a new user
+POST http://localhost:8080/api/users/register
+Content-Type: application/json
 
 {
-  "email": "new-user@example.com",
-  "password": "new-password"
+  "name": "Test User",
+  "email": "test@example.com",
+  "password": "testpassword"
 }
 
-###
-
-# @name getUserProfile
-# @description Fetch user profile
-GET http://localhost:5000/api/users/profile HTTP/1.1
-content-type: application/json
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDc2MWRiZWRiMGExZDg2MTMxMTg3YjMiLCJpYXQiOjE2ODU0NjI1MzksImV4cCI6MTY4ODA1NDUzOX0.z99qxEzkVhqNQfox4WxXwV7cxAfXEz7njv4zY5rlNR0
-
-###
-
-# @name updateUserProfile
-# @description Update user profile
-PUT http://localhost:5000/api/users/profile HTTP/1.1
-content-type: application/json
-Authorization: Bearer {{loginUser.response.body.token}}
+### Login as an existing user
+POST http://localhost:8080/api/users/login
+Content-Type: application/json
 
 {
-  "name": "New name",
-  "email": "new-email@example.com",
-  "password": "new-password"
+  "email": "test@example.com",
+  "password": "testpassword"
 }
 
-###
+### Get user profile (requires authentication)
+GET http://localhost:8080/api/users/profile
+Content-Type: application/json
 
-# @name getUsers
-# @description Fetch all users (Admin only)
-GET http://localhost:5000/api/users HTTP/1.1
-content-type: application/json
-Authorization: Bearer {{loginUser.response.body.token}}
-
-###
-
-# @name registerUser
-# @description Register a new user
-POST http://localhost:5000/api/users HTTP/1.1
-content-type: application/json
-
-{
-  "name": "New User",
-  "email": "new-user@example.com",
-  "password": "new-password"
-}
-
-###
-
-# @name getUserById
-# @description Fetch user by ID (Admin only)
-GET http://localhost:5000/api/users/1 HTTP/1.1
-content-type: application/json
-Authorization: Bearer {{loginUser.response.body.token}}
-
-###
-
-# @name updateUser
-# @description Update user by ID (Admin only)
-PUT http://localhost:5000/api/users/1 HTTP/1.1
-content-type: application/json
-Authorization: Bearer {{loginUser.response.body.token}}
+### Update user profile (requires authentication)
+PUT http://localhost:8080/api/users/profile
+Content-Type: application/json
 
 {
   "name": "Updated User",
-  "email": "updated-user@example.com",
-  "password": "updated-password",
-  "isAdmin": false
+  "email": "updated@example.com",
+  "password": "updatedpassword"
 }
 
-###
+### Get list of users (requires authentication and admin access)
+GET http://localhost:8080/api/users
+Content-Type: application/json
+Cookie: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTY4NjkwMzQ5MywiZXhwIjoxNjg5NDk1NDkzfQ.f6pgo3O8Mm0t6Ue3Ag8VtFAG06kbsigR8zAe1-IjXG0
 
-# @name deleteUser
-# @description Delete user by ID (Admin only)
-DELETE http://localhost:5000/api/users/1 HTTP/1.1
-content-type: application/json
-Authorization: Bearer {{loginUser.response.body.token}}
+### Delete user (requires authentication and admin access)
+DELETE http://localhost:8080/api/users/{id}
+Content-Type: application/json
 
-###
+### Get a user by ID (requires authentication and admin access)
+GET http://localhost:8080/api/users/{id}
+Content-Type: application/json
+
+### Update user (requires authentication and admin access)
+PUT http://localhost:8080/api/users/{id}
+Content-Type: application/json
+
+{
+  "name": "New User Name",
+  "email": "new@example.com",
+  "isAdmin": true
+}
+
+### Logout an user
+POST http://localhost:8080/api/users/logout
+Content-Type: application/json
