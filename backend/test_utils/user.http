@@ -33,8 +33,7 @@ Content-Type: application/json
 
 ### Get list of users (requires authentication and admin access)
 GET http://localhost:8080/api/users
-Content-Type: application/json
-Cookie: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTY4NjkwMzQ5MywiZXhwIjoxNjg5NDk1NDkzfQ.f6pgo3O8Mm0t6Ue3Ag8VtFAG06kbsigR8zAe1-IjXG0
+Content-Type: application/application/json
 
 ### Delete user (requires authentication and admin access)
 DELETE http://localhost:8080/api/users/{id}
