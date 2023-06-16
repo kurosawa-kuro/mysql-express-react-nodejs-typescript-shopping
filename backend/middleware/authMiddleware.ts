@@ -14,7 +14,6 @@ import {
 
 export const protect = asyncHandler(
   async (req: UserRequest, res: Response, next: NextFunction) => {
-    console.log("req.cookies.jwt", req.cookies.jwt);
     let token = req.cookies.jwt;
 
     if (!token) {
@@ -30,7 +29,6 @@ export const protect = asyncHandler(
       const user = await db.user.findUnique({
         where: { id },
       });
-      console.log({ user });
 
       if (user) {
         // Here we are destructuring user to remove 'password'
@@ -40,7 +38,6 @@ export const protect = asyncHandler(
           ...UserBase,
           id: Number(decoded.userId),
         } as UserBase;
-        console.log({ req_user: req.user });
       }
 
       next();

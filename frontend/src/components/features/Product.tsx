@@ -9,7 +9,6 @@ interface ProductProps {
 }
 
 export const Product: React.FC<ProductProps> = ({ product }) => {
-  console.log("object");
   return (
     <div className="my-3 rounded bg-white p-3 shadow">
       <Link to={`/products/${product.id}`}>

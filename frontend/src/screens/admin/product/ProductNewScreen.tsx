@@ -54,7 +54,6 @@ export const ProductNewScreen: React.FC = () => {
     if (!e.target.files) return;
 
     const file = e.target.files[0];
-    console.log({ file });
     const formData = new FormData();
     formData.append("image", file);
     try {

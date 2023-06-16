@@ -20,7 +20,6 @@ export const useAuthStore = create<UserAuth>((set) => {
       localStorage.setItem("userInformation", JSON.stringify(userInformation));
       const expirationTime = new Date().getTime() + 30 * 24 * 60 * 60 * 1000; // 30 days
       localStorage.setItem("expirationTime", expirationTime.toString());
-      console.log({ userInformation });
 
       set({ userInformation });
     },
@@ -46,7 +45,6 @@ export const useCartStore = create<CartStore>((set) => ({
     ? JSON.parse(localStorage.getItem("paymentMethod") || '"PayPal"')
     : "PayPal",
   addToCart: (item: CartProduct) => {
-    console.log({ item });
     set((state) => {
       const existItem = state.cartItems.find(
         (x) => x.product.id === item.product.id
