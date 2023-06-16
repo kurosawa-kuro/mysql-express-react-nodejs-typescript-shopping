@@ -8,7 +8,11 @@ interface RatingProps {
   color?: string;
 }
 
-const Rating: React.FC<RatingProps> = ({ value, text, color = "#f8e825" }) => {
+export const Rating: React.FC<RatingProps> = ({
+  value,
+  text,
+  color = "#f8e825",
+}) => {
   return (
     <div className="flex">
       <span>
@@ -60,5 +64,3 @@ const Rating: React.FC<RatingProps> = ({ value, text, color = "#f8e825" }) => {
     </div>
   );
 };
-
-export default Rating;

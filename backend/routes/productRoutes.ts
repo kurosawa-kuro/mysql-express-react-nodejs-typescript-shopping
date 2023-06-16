@@ -17,7 +17,7 @@ import {
 } from "../controllers/productController";
 
 // Router Initialization
-const router = express.Router();
+export const router = express.Router();
 
 // Top Products Route
 router.get("/top", getTopProducts);
@@ -30,6 +30,3 @@ router
   .get(getProductById)
   .put(protect, admin, updateProduct)
   .delete(protect, admin, deleteProduct);
-
-// Export Router
-export default router;

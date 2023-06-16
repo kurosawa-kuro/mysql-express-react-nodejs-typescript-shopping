@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const SearchBox: React.FC = () => {
+export const SearchBox: React.FC = () => {
   const navigate = useNavigate();
   const { keyword: urlKeyword } = useParams<{ keyword?: string }>();
   const [keyword, setKeyword] = useState(urlKeyword || "");
@@ -35,5 +35,3 @@ const SearchBox: React.FC = () => {
     </form>
   );
 };
-
-export default SearchBox;

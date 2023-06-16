@@ -11,8 +11,8 @@ import {
   getOrderFullApi,
   payOrderApi,
 } from "../../services/api";
-import Loader from "../../components/common/Loader";
-import Message from "../../components/common/Message";
+import { Loader } from "../../components/common/Loader";
+import { Message } from "../../components/common/Message";
 import { Order } from "../../../../backend/interfaces";
 import { useAuthStore } from "../../state/store";
 

@@ -6,12 +6,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // Internal Imports
-import Loader from "../../components/common/Loader";
-import Message from "../../components/common/Message";
+import { Loader } from "../../components/common/Loader";
+import { Message } from "../../components/common/Message";
 import { useCartStore } from "../../state/store";
 import { getProductFullsApi } from "../../services/api";
 import { ProductFull } from "../../../../backend/interfaces";
-import Rating from "../../components/features/Rating";
+import { Rating } from "../../components/features/Rating";
 // import Meta from "../../components/helpers/Meta";
 
 export const ProductScreen: React.FC = () => {

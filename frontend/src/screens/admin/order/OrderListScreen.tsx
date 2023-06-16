@@ -6,8 +6,8 @@ import { FaTimes } from "react-icons/fa";
 import { Order, UserAuth } from "../../../../../backend/interfaces";
 import { getMyOrdersApi, getOrdersApi } from "../../../services/api";
 import { useAuthStore } from "../../../state/store";
-import Loader from "../../../components/common/Loader";
-import Message from "../../../components/common/Message";
+import { Loader } from "../../../components/common/Loader";
+import { Message } from "../../../components/common/Message";
 
 export const OrderListScreen: React.FC = () => {
   const { userInformation } = useAuthStore() as UserAuth;

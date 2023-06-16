@@ -6,8 +6,8 @@ import {
   updateProductApi,
   uploadProductImageApi,
 } from "../../../services/api";
-import Loader from "../../../components/common/Loader";
-import Message from "../../../components/common/Message";
+import { Loader } from "../../../components/common/Loader";
+import { Message } from "../../../components/common/Message";
 
 export const ProductEditScreen: React.FC = () => {
   const { id: productId } = useParams();

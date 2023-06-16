@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState, FormEvent } from "react";
 import { toast } from "react-toastify";
-import Loader from "../../components/common/Loader";
+import { Loader } from "../../components/common/Loader";
 import { updateUserProfileApi } from "../../services/api"; // Import the api functions
 import { useAuthStore } from "../../state/store";
-import Message from "../../components/common/Message";
+import { Message } from "../../components/common/Message";
 export const ProfileScreen: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

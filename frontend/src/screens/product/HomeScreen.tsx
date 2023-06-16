@@ -6,16 +6,16 @@ import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // Internal Imports
-import Loader from "../../components/common/Loader";
-import Message from "../../components/common/Message";
-import Paginate from "../../components/utils/Paginate";
-import Product from "../../components/features/Product";
+import { Loader } from "../../components/common/Loader";
+import { Message } from "../../components/common/Message";
+import { Paginate } from "../../components/utils/Paginate";
+import { Product } from "../../components/features/Product";
 import { getProductsApi } from "../../services/api";
 import {
   ProductFull as ProductType,
   ProductList,
 } from "../../../../backend/interfaces";
-import ProductCarousel from "../../components/features/ProductCarousel";
+import { ProductCarousel } from "../../components/features/ProductCarousel";
 
 interface ProductsFetchParams {
   keyword: string;

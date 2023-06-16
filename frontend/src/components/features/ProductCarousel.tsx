@@ -4,12 +4,12 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import Message from "../common/Message";
+import { Message } from "../common/Message";
 import { getTopProductsApi } from "../../services/api";
 import { toast } from "react-toastify";
 import { ProductFull } from "../../../../backend/interfaces";
 
-const ProductCarousel: React.FC = () => {
+export const ProductCarousel: React.FC = () => {
   const [products, setProducts] = useState<ProductFull[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -70,5 +70,3 @@ const ProductCarousel: React.FC = () => {
     </Carousel>
   );
 };
-
-export default ProductCarousel;

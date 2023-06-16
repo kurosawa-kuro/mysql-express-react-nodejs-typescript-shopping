@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 
 // Internal Imports
-import Message from "../../components/common/Message";
+import { Message } from "../../components/common/Message";
 import { useCartStore } from "../../state/store";
 import { CartProduct } from "../../../../backend/interfaces";
 

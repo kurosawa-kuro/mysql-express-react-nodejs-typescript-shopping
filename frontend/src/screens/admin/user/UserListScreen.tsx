@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
-import Loader from "../../../components/common/Loader";
+import { Loader } from "../../../components/common/Loader";
 import { toast } from "react-toastify";
 import { deleteUserApi, getUsersApi } from "../../../services/api";
 import { useAuthStore } from "../../../state/store";
 import { UserAuth } from "../../../../../backend/interfaces";
 import { UserFull } from "../../../../../backend/interfaces";
-import Message from "../../../components/common/Message";
+import { Message } from "../../../components/common/Message";
 
 export const UserListScreen: React.FC = () => {
   const [users, setUsers] = useState<UserFull[]>([]);

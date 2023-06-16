@@ -6,7 +6,7 @@ interface FormContainerProps {
   children: ReactNode;
 }
 
-const FormContainer: React.FC<FormContainerProps> = ({
+export const FormContainer: React.FC<FormContainerProps> = ({
   children,
 }: FormContainerProps) => {
   return (
@@ -17,5 +17,3 @@ const FormContainer: React.FC<FormContainerProps> = ({
     </div>
   );
 };
-
-export default FormContainer;

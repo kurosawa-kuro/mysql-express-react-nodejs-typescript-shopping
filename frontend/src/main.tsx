@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 
 // Internal Imports
-import App from "./App.tsx";
+import { App } from "./App.tsx";
 import "./index.css";
 import { LoginScreen } from "./screens/auth/LoginScreen.tsx";
 import { RegisterScreen } from "./screens/auth/RegisterScreen.tsx";
@@ -29,7 +29,6 @@ import { ProductListScreen } from "./screens/admin/product/ProductListScreen";
 import { ProductNewScreen } from "./screens/admin/product/ProductNewScreen";
 import { ProductEditScreen } from "./screens/admin/product/ProductEditScreen";
 import { OrderListScreen } from "./screens/admin/order/OrderListScreen";
-
 import { PrivateRoute } from "./components/routing/PrivateRoute";
 import { AdminRoute } from "./components/routing/AdminRoute";
 

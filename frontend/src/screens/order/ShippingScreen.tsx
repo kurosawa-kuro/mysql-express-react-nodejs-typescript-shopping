@@ -5,7 +5,7 @@ import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Internal Imports
-import FormContainer from "../../components/forms/FormContainer";
+import { FormContainer } from "../../components/forms/FormContainer";
 import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
 import { useCartStore } from "../../state/store";
 

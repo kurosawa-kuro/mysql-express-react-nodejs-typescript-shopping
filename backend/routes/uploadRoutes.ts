@@ -8,7 +8,7 @@ import path from "path";
 // Middleware Initialization
 import multer from "multer";
 
-const router: Router = express.Router();
+export const router: Router = express.Router();
 const { NODE_ENV } = process.env;
 
 const uploadFolder: string =
@@ -59,5 +59,3 @@ router.post("/", upload.single("image"), (req: Request, res: Response) => {
     image: `/${req.file.path}`,
   });
 });
-
-export default router;

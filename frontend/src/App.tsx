@@ -5,7 +5,7 @@ import { Header } from "./components/layout/Header";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   return (
     <>
       <ToastContainer />
@@ -16,5 +16,3 @@ const App: React.FC = () => {
     </>
   );
 };
-
-export default App;

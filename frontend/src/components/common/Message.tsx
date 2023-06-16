@@ -9,7 +9,7 @@ interface Props {
   children: ReactNode;
 }
 
-const Message: React.FC<Props> = ({ variant = "info", children }) => {
+export const Message: React.FC<Props> = ({ variant = "info", children }) => {
   let classes = "";
 
   switch (variant) {
@@ -32,5 +32,3 @@ const Message: React.FC<Props> = ({ variant = "info", children }) => {
     </div>
   );
 };
-
-export default Message;

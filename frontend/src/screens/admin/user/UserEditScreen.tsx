@@ -3,10 +3,10 @@
 import React, { useEffect, useState, FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { UserFull } from "../../../../../backend/interfaces";
-import Loader from "../../../components/common/Loader";
+import { Loader } from "../../../components/common/Loader";
 import { toast } from "react-toastify";
 import { getUserDetailsApi, updateUserApi } from "../../../services/api"; // Import the api functions
-import Message from "../../../components/common/Message";
+import { Message } from "../../../components/common/Message";
 
 export const UserEditScreen: React.FC = () => {
   const { id } = useParams();

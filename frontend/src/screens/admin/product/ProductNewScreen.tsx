@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { uploadProductImageApi, createProductApi } from "../../../services/api";
-import Loader from "../../../components/common/Loader";
-import Message from "../../../components/common/Message";
+import { Loader } from "../../../components/common/Loader";
+import { Message } from "../../../components/common/Message";
 
 export const ProductNewScreen: React.FC = () => {
   const { id: productId } = useParams();

@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import Message from "../../../components/common/Message";
-import Loader from "../../../components/common/Loader";
-import Paginate from "../../../components/utils/Paginate";
+import { Message } from "../../../components/common/Message";
+import { Loader } from "../../../components/common/Loader";
+import { Paginate } from "../../../components/utils/Paginate";
 import { getProductsApi, deleteProductApi } from "../../../services/api";
 import { ProductList, ProductFull } from "../../../../../backend/interfaces";
 import { toast } from "react-toastify";

@@ -3,13 +3,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
-import Message from "../../components/common/Message";
-import Loader from "../../components/common/Loader";
+import { Message } from "../../components/common/Message";
+import { Loader } from "../../components/common/Loader";
 import { getOrdersApi } from "../../services/api";
 import { Order } from "../../../../backend/interfaces";
 import { toast } from "react-toastify";
 
-const OrderListScreen: React.FC = () => {
+export const OrderListScreen: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -110,5 +110,3 @@ const OrderListScreen: React.FC = () => {
     </>
   );
 };
-
-export default OrderListScreen;

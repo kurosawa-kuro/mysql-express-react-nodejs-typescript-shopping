@@ -10,16 +10,16 @@ import path from "path";
 
 // Internal Imports
 import { errorHandler, notFound } from "./middleware/errorMiddleware";
-import orderRoutes from "./routes/orderRoutes";
-import productRoutes from "./routes/productRoutes";
-import uploadRoutes from "./routes/uploadRoutes";
-import userRoutes from "./routes/userRoutes";
+import { router as orderRoutes } from "./routes/orderRoutes";
+import { router as productRoutes } from "./routes/productRoutes";
+import { router as uploadRoutes } from "./routes/uploadRoutes";
+import { router as userRoutes } from "./routes/userRoutes";
 
 // Load Environment Variables
 dotenv.config();
 
 // Create Express Application
-const app = express();
+export const app = express();
 
 const { NODE_ENV } = process.env;
 
@@ -61,5 +61,3 @@ if (NODE_ENV === "production") {
 
 // Error Handlers
 app.use(notFound, errorHandler);
-
-export default app;

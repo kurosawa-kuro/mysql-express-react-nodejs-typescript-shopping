@@ -1,14 +1,14 @@
 // frontend\src\components\features\Product.jsx
 
 import { Link } from "react-router-dom";
-import Rating from "./Rating";
+import { Rating } from "./Rating";
 import { ProductBase as ProductType } from "../../../../backend/interfaces";
 
 interface ProductProps {
   product: ProductType;
 }
 
-const Product: React.FC<ProductProps> = ({ product }) => {
+export const Product: React.FC<ProductProps> = ({ product }) => {
   console.log("object");
   return (
     <div className="my-3 rounded bg-white p-3 shadow">
@@ -41,5 +41,3 @@ const Product: React.FC<ProductProps> = ({ product }) => {
     </div>
   );
 };
-
-export default Product;

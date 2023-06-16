@@ -17,7 +17,7 @@ import {
 } from "../controllers/userController";
 import { admin, protect } from "../middleware/authMiddleware";
 
-const router = express.Router();
+export const router = express.Router();
 
 // User Registration, Login, and Logout Routes
 router.post("/register", registerUser);
@@ -38,5 +38,3 @@ router
   .put(protect, admin, updateUser);
 
 router.route("/").get(protect, admin, getUsers);
-
-export default router;

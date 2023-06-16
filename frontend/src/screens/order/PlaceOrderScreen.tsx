@@ -6,8 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // Internal Imports
-import Loader from "../../components/common/Loader";
-import Message from "../../components/common/Message";
+import { Loader } from "../../components/common/Loader";
+import { Message } from "../../components/common/Message";
 import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
 import { createOrderApi } from "../../services/api";
 import { useCartStore, CartStore } from "../../state/store";

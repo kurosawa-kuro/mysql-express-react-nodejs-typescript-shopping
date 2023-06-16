@@ -8,7 +8,7 @@ interface PaginateProps {
   keyword?: string;
 }
 
-const Paginate: FC<PaginateProps> = ({
+export const Paginate: FC<PaginateProps> = ({
   pages,
   page,
   isAdmin = false,
@@ -44,5 +44,3 @@ const Paginate: FC<PaginateProps> = ({
     )
   );
 };
-
-export default Paginate;
