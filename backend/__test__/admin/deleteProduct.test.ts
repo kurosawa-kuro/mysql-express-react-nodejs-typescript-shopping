@@ -1,32 +1,41 @@
 import request from "supertest";
-import { app } from "../../index"; // app should be exported from your express app
+import { app } from "../../index";
+
+const loginUserAndGetToken = async (
+  agent: request.SuperAgentTest,
+  email: string,
+  password: string
+): Promise<string> => {
+  const loginResponse = await agent
+    .post("/api/users/login")
+    .send({ email, password });
+
+  if (loginResponse.status !== 200) {
+    throw new Error("Login failed during test setup");
+  }
+
+  const match = loginResponse.headers["set-cookie"][0].match(/jwt=([^;]+)/);
+  if (!match) {
+    throw new Error("Failed to extract token from cookie");
+  }
+
+  return match[1];
+};
 
 describe("DELETE /api/products/:id", () => {
   let agent: request.SuperAgentTest;
   let token: string;
+
   beforeEach(async () => {
     agent = request.agent(app);
-    const loginResponse = await agent
-      .post("/api/users/login")
-      .send({ email: "admin@email.com", password: "123456" });
-
-    console.log("loginResponse.status", loginResponse.status);
-    console.log("loginResponse.body", loginResponse.body);
-
-    // Assuming the token is returned in the body of the response
-    const match = loginResponse.headers["set-cookie"][0].match(/jwt=([^;]+)/);
-
-    const jwt = match[1];
-    console.log(jwt);
-    token = jwt;
-    expect(loginResponse.status).toBe(200);
+    token = await loginUserAndGetToken(agent, "admin@email.com", "123456");
   });
 
   it("deletes a product when admin is logged in", async () => {
-    const id = 7;
+    const id = 8;
     const response = await agent
       .delete(`/api/products/${id}`)
-      .set("Cookie", `jwt=${token}`); // Set the jwt as a cookie
+      .set("Cookie", `jwt=${token}`);
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({ message: "Product removed" });
