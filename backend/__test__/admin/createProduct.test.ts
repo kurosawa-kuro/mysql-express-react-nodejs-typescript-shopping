@@ -1,8 +1,10 @@
-import request from "supertest";
+import request, { SuperAgentTest } from "supertest";
+import path from "path";
+import fs from "fs";
 import { app } from "../../index";
 
 const loginUserAndGetToken = async (
-  agent: request.SuperAgentTest,
+  agent: SuperAgentTest,
   email: string,
   password: string
 ): Promise<string> => {
@@ -22,22 +24,55 @@ const loginUserAndGetToken = async (
   return match[1];
 };
 
-describe("DELETE /api/products/:id", () => {
-  let agent: request.SuperAgentTest;
-  let token: string;
+const uploadImageAndGetPath = async (
+  agent: SuperAgentTest,
+  filePath: string,
+  fileName: string
+): Promise<string> => {
+  const file = fs.createReadStream(filePath);
+  const response = await agent
+    .post("/api/upload")
+    .attach("image", file, fileName);
 
-  beforeEach(async () => {
-    agent = request.agent(app);
-    token = await loginUserAndGetToken(agent, "admin@email.com", "123456");
+  expect(response.status).toBe(200);
+  expect(response.body).toEqual({
+    message: "Image uploaded successfully",
+    image: expect.stringContaining("/frontend\\public\\images\\image-"),
   });
 
-  it("deletes a product when admin is logged in", async () => {
-    const id = 8;
-    const response = await agent
-      .delete(`/api/products/${id}`)
-      .set("Cookie", `jwt=${token}`);
+  return response.body.image;
+};
 
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual({ message: "Product removed" });
+describe("Product creation", () => {
+  const agent = request.agent(app);
+  let token: string;
+  let imagePath: string;
+
+  beforeAll(async () => {
+    token = await loginUserAndGetToken(agent, "admin@email.com", "123456");
+    imagePath = await uploadImageAndGetPath(
+      agent,
+      path.join(__dirname, "../../test-files/test-image.jpg"),
+      "test-image.jpg"
+    );
+  });
+
+  it("creates a product", async () => {
+    const response = await agent
+      .post("/api/products")
+      .set("Cookie", `jwt=${token}`)
+      .send({
+        name: "Test Product",
+        price: 100,
+        image: imagePath,
+        brand: "Test Brand",
+        category: "Test Category",
+        countInStock: 10,
+        numReviews: 0,
+        description: "Test Description",
+      });
+
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("id");
   });
 });
