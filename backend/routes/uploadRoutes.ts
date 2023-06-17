@@ -30,22 +30,22 @@ const storage = diskStorage({
   },
 });
 
-function checkFileType(
-  file: Express.Multer.File,
-  cb: (error: Error | null, checkType: boolean) => void
-) {
-  const filetypes: RegExp = /jpg|jpeg|png/;
-  const extname: boolean = filetypes.test(
-    path.extname(file.originalname).toLowerCase()
-  );
-  const mimetype: boolean = filetypes.test(file.mimetype);
+// function checkFileType(
+//   file: Express.Multer.File,
+//   cb: (error: Error | null, checkType: boolean) => void
+// ) {
+//   const filetypes: RegExp = /jpg|jpeg|png/;
+//   const extname: boolean = filetypes.test(
+//     path.extname(file.originalname).toLowerCase()
+//   );
+//   const mimetype: boolean = filetypes.test(file.mimetype);
 
-  if (extname && mimetype) {
-    return cb(null, true);
-  } else {
-    cb(new Error("Images only!"), false);
-  }
-}
+//   if (extname && mimetype) {
+//     return cb(null, true);
+//   } else {
+//     cb(new Error("Images only!"), false);
+//   }
+// }
 
 const upload = multer({ storage });
 

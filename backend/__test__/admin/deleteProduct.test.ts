@@ -6,11 +6,13 @@ import {
   loginUserAndGetToken,
 } from "../test-utils";
 import { db } from "../../database/prisma/prismaClient";
+import { Product } from "@prisma/client";
 
 describe("DELETE /api/products/:id", () => {
   let agent: SuperAgentTest;
   let token: string;
   let userId: number;
+  let product: Product; // declare product in this scope
 
   beforeEach(async () => {
     // Clear database and setup new agent and user before each test
@@ -26,7 +28,7 @@ describe("DELETE /api/products/:id", () => {
     token = await loginUserAndGetToken(agent, "admin@email.com", "123456");
 
     // create a product by prisma
-    await db.product.create({
+    product = await db.product.create({
       data: {
         userId, // add the userId to the data
         name: "Test Product",
@@ -42,7 +44,7 @@ describe("DELETE /api/products/:id", () => {
   });
 
   it("deletes a product when admin is logged in", async () => {
-    const id = 11;
+    const id = product.id;
     const response = await agent
       .delete(`/api/products/${id}`)
       .set("Cookie", `jwt=${token}`);
