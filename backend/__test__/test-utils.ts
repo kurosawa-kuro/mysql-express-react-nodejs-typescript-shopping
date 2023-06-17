@@ -1,8 +1,12 @@
 import { SuperAgentTest } from "supertest";
 import bcrypt from "bcryptjs";
-import path from "path";
 import fs from "fs";
 import { db } from "../database/prisma/prismaClient";
+
+export const clearDatabase = async (): Promise<void> => {
+  await db.product.deleteMany();
+  await db.user.deleteMany();
+};
 
 export const createAdminUser = async (
   email: string,
@@ -57,9 +61,4 @@ export const uploadImageAndGetPath = async (
   });
 
   return response.body.image;
-};
-
-export const clearDatabase = async (): Promise<void> => {
-  await db.product.deleteMany();
-  await db.user.deleteMany();
 };
