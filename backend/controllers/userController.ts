@@ -145,7 +145,6 @@ const getUserById = asyncHandler(async (req: UserRequest, res: Response) => {
 
 const updateUser = asyncHandler(async (req: UserRequest, res: Response) => {
   const id = Number(req.params.id);
-  console.log({ id });
   const user = await db.user.findUnique({ where: { id } });
 
   if (user) {

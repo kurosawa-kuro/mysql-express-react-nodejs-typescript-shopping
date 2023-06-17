@@ -6,7 +6,6 @@ import { app } from "../index";
 describe("GET /", () => {
   it("responds with a json message", async () => {
     const response: request.Response = await request(app).get("/");
-    console.log("response.body: ", response.body);
     expect(response.status).toBe(200);
     expect(response.text).toEqual("API is running....");
   });

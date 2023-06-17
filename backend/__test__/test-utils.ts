@@ -4,7 +4,7 @@ import { SuperAgentTest } from "supertest";
 import bcrypt from "bcryptjs";
 import fs from "fs";
 import { db } from "../database/prisma/prismaClient";
-import { User } from "@prisma/client";
+import { User, Product } from "@prisma/client";
 
 export const clearDatabase = async (): Promise<void> => {
   await db.product.deleteMany();
@@ -79,4 +79,20 @@ export const uploadImageAndGetPath = async (
   });
 
   return response.body.image;
+};
+
+export const createProduct = async (userId: number): Promise<Product> => {
+  return await db.product.create({
+    data: {
+      userId, // add the userId to the data
+      name: "Test Product",
+      price: 100,
+      image: "sample path",
+      brand: "Test Brand",
+      category: "Test Category",
+      countInStock: 10,
+      numReviews: 0,
+      description: "Test Description",
+    },
+  });
 };

@@ -4,8 +4,8 @@ import {
   clearDatabase,
   createAdminUser,
   loginUserAndGetToken,
+  createProduct, // import createProduct function
 } from "../test-utils";
-import { db } from "../../database/prisma/prismaClient";
 import { Product } from "@prisma/client";
 
 describe("DELETE /api/products/:id", () => {
@@ -27,20 +27,7 @@ describe("DELETE /api/products/:id", () => {
     // Login as the admin user and get the token
     token = await loginUserAndGetToken(agent, "admin@email.com", "123456");
 
-    // create a product by prisma
-    product = await db.product.create({
-      data: {
-        userId, // add the userId to the data
-        name: "Test Product",
-        price: 100,
-        image: "sample path",
-        brand: "Test Brand",
-        category: "Test Category",
-        countInStock: 10,
-        numReviews: 0,
-        description: "Test Description",
-      },
-    });
+    product = await createProduct(userId); // use createProduct function
   });
 
   it("deletes a product when admin is logged in", async () => {
