@@ -28,6 +28,12 @@ const loginUser = asyncHandler(async (req: UserRequest, res: Response) => {
 
 const registerUser = asyncHandler(async (req: UserRequest, res: Response) => {
   const { name, email, password } = req.body;
+
+  if (!password || !name || !email) {
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
+
   const userExists = await db.user.findUnique({ where: { email } });
 
   if (userExists) {
@@ -35,11 +41,13 @@ const registerUser = asyncHandler(async (req: UserRequest, res: Response) => {
     throw new Error("User already exists");
   }
 
+  const hashedPassword = await hashPassword(password);
+
   const user = await db.user.create({
     data: {
       name,
       email,
-      password: await hashPassword(password),
+      password: hashedPassword,
       isAdmin: false,
     },
   });

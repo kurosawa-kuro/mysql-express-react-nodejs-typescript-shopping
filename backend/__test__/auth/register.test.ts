@@ -36,4 +36,12 @@ describe("POST /api/users/register", () => {
 
     expect(registerResponse.status).toBe(400);
   });
+
+  it("rejects registration with invalid user data", async () => {
+    const registerResponse = await agent
+      .post("/api/users/register")
+      .send({ name: "john", email: "john@email.com" }); // password is missing
+
+    expect(registerResponse.status).toBe(400);
+  });
 });
