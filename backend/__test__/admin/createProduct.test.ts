@@ -1,7 +1,24 @@
 import request, { SuperAgentTest } from "supertest";
+import bcrypt from "bcryptjs";
 import path from "path";
 import fs from "fs";
 import { app } from "../../index";
+import { db } from "../../database/prisma/prismaClient";
+
+const createAdminUser = async (
+  email: string,
+  password: string
+): Promise<void> => {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  await db.user.create({
+    data: {
+      name: "Admin",
+      email,
+      password: hashedPassword,
+      isAdmin: true,
+    },
+  });
+};
 
 const loginUserAndGetToken = async (
   agent: SuperAgentTest,
@@ -43,13 +60,25 @@ const uploadImageAndGetPath = async (
   return response.body.image;
 };
 
+const clearDatabase = async (): Promise<void> => {
+  await db.product.deleteMany();
+  await db.user.deleteMany();
+};
+
 describe("Product creation", () => {
   const agent = request.agent(app);
   let token: string;
   let imagePath: string;
 
   beforeAll(async () => {
-    token = await loginUserAndGetToken(agent, "admin@email.com", "123456");
+    await clearDatabase();
+
+    const email = `admin@email.com`;
+    const password = "123456";
+
+    await createAdminUser(email, password);
+
+    token = await loginUserAndGetToken(agent, email, password);
     imagePath = await uploadImageAndGetPath(
       agent,
       path.join(__dirname, "../../test-files/test-image.jpg"),
