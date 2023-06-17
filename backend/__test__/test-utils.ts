@@ -4,6 +4,7 @@ import { SuperAgentTest } from "supertest";
 import bcrypt from "bcryptjs";
 import fs from "fs";
 import { db } from "../database/prisma/prismaClient";
+import { User } from "@prisma/client";
 
 export const clearDatabase = async (): Promise<void> => {
   await db.product.deleteMany();
@@ -28,9 +29,9 @@ export const createUser = async (
 export const createAdminUser = async (
   email: string,
   password: string
-): Promise<void> => {
+): Promise<User> => {
   const hashedPassword = await bcrypt.hash(password, 10);
-  await db.user.create({
+  return await db.user.create({
     data: {
       name: "Admin",
       email,
