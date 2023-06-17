@@ -2,7 +2,7 @@
 
 import request, { SuperAgentTest } from "supertest";
 import { app } from "../../index";
-import { clearDatabase, createUser, loginUserAndGetToken } from "../test-utils";
+import { clearDatabase, createUser } from "../test-utils";
 
 describe("POST /api/users/register", () => {
   let agent: SuperAgentTest;
