@@ -15,10 +15,10 @@ const getKeywordFilter = (
   keyword: string | undefined
 ): Prisma.ProductWhereInput => (keyword ? { name: { contains: keyword } } : {});
 
-const handleNotFoundProduct = (product: Product | null) => {
+const handleNotFoundProduct = (product: Product | null, res: Response) => {
   if (!product) {
+    res.status(404);
     const err: any = new Error("Resource not found");
-    err.statusCode = 404;
     throw err;
   }
   return product;
@@ -45,7 +45,7 @@ const getProductById = asyncHandler(async (req: Request, res: Response) => {
   const product: Product | null = await db.product.findUnique({
     where: { id },
   });
-  res.json(handleNotFoundProduct(product));
+  res.json(handleNotFoundProduct(product, res));
 });
 
 const createProduct = asyncHandler(async (req: UserRequest, res: Response) => {
@@ -97,7 +97,7 @@ const updateProduct = asyncHandler(async (req: Request, res: Response) => {
     data: req.body as Prisma.ProductUpdateInput,
   });
 
-  res.json(handleNotFoundProduct(product));
+  res.json(handleNotFoundProduct(product, res));
 });
 
 const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
