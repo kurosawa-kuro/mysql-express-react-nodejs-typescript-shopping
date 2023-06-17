@@ -6,12 +6,13 @@ import {
   loginUserAndGetToken,
   createProduct,
 } from "../test-utils";
+import { Product, User } from "@prisma/client";
 
 describe("updateOrderToPaid", () => {
   let agent: SuperAgentTest;
-  let user: any;
   let token: string;
-  let product: any;
+  let user: User;
+  let product: Product;
 
   beforeAll(async () => {
     agent = request.agent(app);

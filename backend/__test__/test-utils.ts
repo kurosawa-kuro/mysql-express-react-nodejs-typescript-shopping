@@ -18,21 +18,30 @@ export const clearDatabase = async (): Promise<void> => {
 };
 
 export const createProduct = async (userId: number): Promise<Product> => {
-  return await db.product.create({
-    data: {
-      userId,
-      name: "Test Product",
-      price: 100,
-      image: "sample path",
-      brand: "Test Brand",
-      category: "Test Category",
-      countInStock: 10,
-      numReviews: 0,
-      description: "Test Description",
-    },
-  });
-};
+  try {
+    const product = await db.product.create({
+      data: {
+        userId,
+        name: "Test Product",
+        price: 100,
+        image: "sample path",
+        brand: "Test Brand",
+        category: "Test Category",
+        countInStock: 10,
+        numReviews: 0,
+        description: "Test Description",
+      },
+    });
 
+    if (!product) {
+      throw new Error(`Failed to create product for user with id ${userId}`);
+    }
+
+    return product;
+  } catch (error) {
+    throw new Error(`An error occurred while creating the product: ${error}`);
+  }
+};
 /**
  * User Operations
  */

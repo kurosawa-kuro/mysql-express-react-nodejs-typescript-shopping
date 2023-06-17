@@ -11,7 +11,7 @@ import { Product, User } from "@prisma/client";
 describe("Order Controller", () => {
   let token: string;
   let product: Product;
-  let user: User; // 追加します。
+  let user: User;
 
   beforeAll(async () => {
     await clearDatabase(); // Clear the database
