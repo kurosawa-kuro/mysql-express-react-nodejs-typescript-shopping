@@ -25,7 +25,7 @@ const addOrderItems = asyncHandler(
 
     const { orderProducts, address, city, postalCode, paymentMethod, price } =
       req.body;
-
+    console.log("orderProducts", orderProducts);
     if (!orderProducts || orderProducts.length === 0) {
       res.status(400);
       throw new Error("No order items");
