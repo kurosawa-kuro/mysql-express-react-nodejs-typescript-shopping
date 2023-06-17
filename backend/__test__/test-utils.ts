@@ -3,7 +3,7 @@
 import { SuperAgentTest } from "supertest";
 import fs from "fs";
 import { db } from "../database/prisma/prismaClient";
-import { User, Product } from "@prisma/client";
+import { User, Product, Order } from "@prisma/client";
 import path from "path";
 import { hashPassword } from "../utils";
 
@@ -118,3 +118,52 @@ export const uploadImageAndGetPath = async (
 
   return response.body.image;
 };
+
+export async function createProductAndOrder(
+  userEmail: string,
+  userPassword: string
+) {
+  // create user
+  const user = await createUser(userEmail, userPassword);
+
+  // create order by admin user by prisma client
+  const createdOrder: Order = await db.order.create({
+    data: {
+      userId: Number(user.id),
+      address: "123 Test St",
+      city: "Test City",
+      postalCode: "12345",
+      paymentMethod: "test paymentMethod",
+      itemsPrice: 100,
+      taxPrice: 100,
+      shippingPrice: 100,
+      totalPrice: 100,
+    },
+  });
+
+  // create a product in the database
+  const product = await db.product.create({
+    data: {
+      userId: Number(user.id),
+      name: "Test Product",
+      image: "sample path",
+      brand: "Test Brand",
+      category: "Test Category",
+      description: "Test Description",
+      rating: 0,
+      numReviews: 0,
+      price: 100,
+      countInStock: 10,
+    },
+  });
+
+  await db.orderProduct.create({
+    data: {
+      orderId: createdOrder.id,
+      productId: product.id,
+      qty: 1,
+    },
+  });
+
+  return { user, createdOrder, product };
+}
