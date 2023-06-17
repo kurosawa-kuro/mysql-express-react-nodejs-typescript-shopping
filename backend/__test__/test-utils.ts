@@ -5,7 +5,8 @@ import bcrypt from "bcryptjs";
 import fs from "fs";
 import { db } from "../database/prisma/prismaClient";
 import { User, Product } from "@prisma/client";
-import { generateToken, hashPassword } from "../utils";
+import path from "path";
+import { hashPassword } from "../utils";
 
 export const clearDatabase = async (): Promise<void> => {
   await db.product.deleteMany();
@@ -65,10 +66,10 @@ export const loginUserAndGetToken = async (
 
 export const uploadImageAndGetPath = async (
   agent: SuperAgentTest,
-  filePath: string,
-  fileName: string
+  filePath: string
 ): Promise<string> => {
   const file = fs.createReadStream(filePath);
+  const fileName = path.basename(filePath); // Extract the file name from the path
   const response = await agent
     .post("/api/upload")
     .attach("image", file, fileName);

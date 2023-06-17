@@ -24,8 +24,7 @@ describe("Product creation", () => {
     token = await loginUserAndGetToken(agent, email, password);
     imagePath = await uploadImageAndGetPath(
       agent,
-      path.join(__dirname, "../../test-files/test-image.jpg"),
-      "test-image.jpg"
+      path.join(__dirname, "../../test-files/test-image.jpg")
     );
   });
 
