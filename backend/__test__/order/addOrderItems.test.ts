@@ -3,7 +3,7 @@ import { app } from "../../index";
 import {
   clearDatabase,
   loginUserAndGetToken,
-  createUserAndRetrieve, // `createUserAndRetrieve` をインポートします。
+  createUser, // `createUser` をインポートします。
   createProduct,
 } from "../test-utils";
 import { Product, User } from "@prisma/client";
@@ -15,10 +15,7 @@ describe("Order Controller", () => {
 
   beforeAll(async () => {
     await clearDatabase(); // Clear the database
-    user = await createUserAndRetrieve(
-      "testuser@example.com",
-      "TestUserPassword123"
-    ); // ここを変更します。
+    user = await createUser("testuser@example.com", "TestUserPassword123"); // ここを変更します。
     product = await createProduct(user.id); // user.id を使用します。
 
     // Log in and get the token

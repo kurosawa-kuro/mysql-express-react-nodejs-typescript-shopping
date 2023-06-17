@@ -4,9 +4,9 @@ import request, { SuperAgentTest } from "supertest";
 import { app } from "../../index";
 import {
   clearDatabase,
-  createUserAndRetrieve,
+  createUser,
   loginUserAndGetToken,
-  createAdminUserAndRetrieve,
+  createAdminUser,
 } from "../test-utils";
 
 // backend\__test__\user\userManagement.test.ts
@@ -23,7 +23,7 @@ describe("User management endpoints", () => {
     agent = request.agent(app);
 
     // Create an admin user and log them in
-    admin = await createAdminUserAndRetrieve("admin@email.com", "123456");
+    admin = await createAdminUser("admin@email.com", "123456");
     adminToken = await loginUserAndGetToken(agent, "admin@email.com", "123456");
   });
 
@@ -35,7 +35,7 @@ describe("User management endpoints", () => {
 
   it("allows admin to update a user", async () => {
     // Create a user that the admin will update
-    const user = await createUserAndRetrieve("doe@email.com", "123456");
+    const user = await createUser("doe@email.com", "123456");
 
     const updateResponse = await agent
       .put(`/api/users/${user.id}`)
