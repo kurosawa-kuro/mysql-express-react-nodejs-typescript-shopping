@@ -8,7 +8,9 @@ import { User, Product } from "@prisma/client";
 import path from "path";
 import { hashPassword } from "../utils";
 
-// Database Operations
+/**
+ * Database Operations
+ */
 export const clearDatabase = async (): Promise<void> => {
   await db.orderProduct.deleteMany();
   await db.product.deleteMany();
@@ -32,48 +34,21 @@ export const createProduct = async (userId: number): Promise<Product> => {
   });
 };
 
-// User Operations
-export const createUser = async (
+/**
+ * User Operations
+ */
+const createUserWithRole = async (
   email: string,
-  password: string
-): Promise<void> => {
-  const hashedPassword = await hashPassword(password);
-  await db.user.create({
-    data: {
-      name: "Customer",
-      email,
-      password: hashedPassword,
-      isAdmin: false,
-    },
-  });
-};
-
-export const createAdminUser = async (
-  email: string,
-  password: string
-): Promise<User> => {
-  const hashedPassword = await bcrypt.hash(password, 10);
-  return await db.user.create({
-    data: {
-      name: "Admin",
-      email,
-      password: hashedPassword,
-      isAdmin: true,
-    },
-  });
-};
-
-export const createUserAndRetrieve = async (
-  email: string,
-  password: string
+  password: string,
+  isAdmin: boolean
 ): Promise<User> => {
   const hashedPassword = await hashPassword(password);
   await db.user.create({
     data: {
-      name: "Customer",
+      name: isAdmin ? "Admin" : "Customer",
       email,
       password: hashedPassword,
-      isAdmin: false,
+      isAdmin,
     },
   });
 
@@ -86,30 +61,18 @@ export const createUserAndRetrieve = async (
   return user;
 };
 
-export const createAdminUserAndRetrieve = async (
-  email: string,
-  password: string
-): Promise<User> => {
-  const hashedPassword = await bcrypt.hash(password, 10);
-  await db.user.create({
-    data: {
-      name: "Admin",
-      email,
-      password: hashedPassword,
-      isAdmin: true,
-    },
-  });
+export const createUser = (email: string, password: string) =>
+  createUserWithRole(email, password, false);
+export const createAdminUser = (email: string, password: string) =>
+  createUserWithRole(email, password, true);
+export const createUserAndRetrieve = (email: string, password: string) =>
+  createUserWithRole(email, password, false);
+export const createAdminUserAndRetrieve = (email: string, password: string) =>
+  createUserWithRole(email, password, true);
 
-  const user = await db.user.findUnique({ where: { email } });
-
-  if (!user) {
-    throw new Error(`Failed to retrieve user with email ${email}`);
-  }
-
-  return user;
-};
-
-// Other Operations
+/**
+ * Other Operations
+ */
 export const loginUserAndGetToken = async (
   agent: SuperAgentTest,
   email: string,
