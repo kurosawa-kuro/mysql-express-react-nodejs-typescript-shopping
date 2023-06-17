@@ -4,22 +4,22 @@ import request, { SuperAgentTest } from "supertest";
 import { app } from "../../index";
 import {
   clearDatabase,
-  createUser,
+  createUserAndRetrieve,
   loginUserAndGetToken,
-  createAdminUser,
+  createAdminUserAndRetrieve,
 } from "../test-utils";
-import { db } from "../../database/prisma/prismaClient";
 
 describe("User management endpoints", () => {
   let agent: SuperAgentTest;
   let adminToken: string;
+  let admin: any;
 
   beforeEach(async () => {
     await clearDatabase();
     agent = request.agent(app);
 
     // Create an admin user and log them in
-    const admin = await createAdminUser("admin@email.com", "123456");
+    admin = await createAdminUserAndRetrieve("admin@email.com", "123456");
     adminToken = await loginUserAndGetToken(agent, "admin@email.com", "123456");
   });
 
@@ -29,15 +29,10 @@ describe("User management endpoints", () => {
 
   it("allows admin to delete a user", async () => {
     // Create a user that the admin will delete
-    await createUser("doe@email.com", "123456");
-
-    // Get the user that was just created
-    const user = await db.user.findUnique({
-      where: { email: "doe@email.com" },
-    });
+    const user = await createUserAndRetrieve("doe@email.com", "123456");
 
     const deleteResponse = await agent
-      .delete(`/api/users/${user?.id}`)
+      .delete(`/api/users/${user.id}`)
       .set("Cookie", `jwt=${adminToken}`);
 
     expect(deleteResponse.status).toBe(200);
@@ -45,13 +40,8 @@ describe("User management endpoints", () => {
   });
 
   it("prevents deleting an admin user", async () => {
-    // Get the admin user that was just created
-    const adminUser = await db.user.findUnique({
-      where: { email: "admin@email.com" },
-    });
-
     const deleteResponse = await agent
-      .delete(`/api/users/${adminUser?.id}`)
+      .delete(`/api/users/${admin.id}`)
       .set("Cookie", `jwt=${adminToken}`);
 
     expect(deleteResponse.status).toBe(400);

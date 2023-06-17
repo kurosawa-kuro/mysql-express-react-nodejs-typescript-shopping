@@ -98,3 +98,49 @@ export const createProduct = async (userId: number): Promise<Product> => {
     },
   });
 };
+
+export const createUserAndRetrieve = async (
+  email: string,
+  password: string
+): Promise<User> => {
+  const hashedPassword = await hashPassword(password);
+  await db.user.create({
+    data: {
+      name: "Customer",
+      email,
+      password: hashedPassword,
+      isAdmin: false,
+    },
+  });
+
+  const user = await db.user.findUnique({ where: { email } });
+
+  if (!user) {
+    throw new Error(`Failed to retrieve user with email ${email}`);
+  }
+
+  return user;
+};
+
+export const createAdminUserAndRetrieve = async (
+  email: string,
+  password: string
+): Promise<User> => {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  await db.user.create({
+    data: {
+      name: "Admin",
+      email,
+      password: hashedPassword,
+      isAdmin: true,
+    },
+  });
+
+  const user = await db.user.findUnique({ where: { email } });
+
+  if (!user) {
+    throw new Error(`Failed to retrieve user with email ${email}`);
+  }
+
+  return user;
+};
