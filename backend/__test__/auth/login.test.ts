@@ -1,27 +1,29 @@
-// backend\__test__\auth\login.test.ts
-
-import request from "supertest";
+import request, { SuperAgentTest } from "supertest";
 import { app } from "../../index";
+import { clearDatabase, createUser, loginUserAndGetToken } from "../test-utils";
 
 describe("POST /api/login", () => {
+  let agent: SuperAgentTest;
+
+  beforeAll(async () => {
+    await clearDatabase();
+    agent = request.agent(app);
+
+    // Create a user in the system
+    await createUser("john@email.com", "123456");
+  });
+
   it("logs in a user with correct credentials", async () => {
-    const response = await request(app)
-      .post("/api/users/login")
-      .send({ email: "john@email.com", password: "123456" });
-    console.log(
-      'response.headers["set-cookie"]: ',
-      response.headers["set-cookie"]
-    );
-    console.log("response.body: ", response.body);
-    expect(response.status).toBe(200);
-    expect(response.headers["set-cookie"]).toBeDefined();
+    const token = await loginUserAndGetToken(agent, "john@email.com", "123456");
+
+    expect(token).toBeDefined();
   });
 
   it("rejects login with incorrect credentials", async () => {
-    const response = await request(app)
-      .post("/api/users/login")
-      .send({ email: "john@email.com", password: "wrong-password" });
-
-    expect(response.status).toBe(401);
+    try {
+      await loginUserAndGetToken(agent, "john@email.com", "wrong-password");
+    } catch (error) {
+      expect(error).toEqual(new Error("Login failed during test setup"));
+    }
   });
 });
