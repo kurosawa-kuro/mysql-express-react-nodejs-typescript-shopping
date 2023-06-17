@@ -1,7 +1,6 @@
 // backend\__test__\test-utils.ts
 
 import { SuperAgentTest } from "supertest";
-import bcrypt from "bcryptjs";
 import fs from "fs";
 import { db } from "../database/prisma/prismaClient";
 import { User, Product } from "@prisma/client";
@@ -40,7 +39,8 @@ export const createProduct = async (userId: number): Promise<Product> => {
 const createUserWithRole = async (
   email: string,
   password: string,
-  isAdmin: boolean
+  isAdmin: boolean,
+  shouldRetrieve: boolean = true
 ): Promise<User> => {
   const hashedPassword = await hashPassword(password);
   await db.user.create({
@@ -52,23 +52,27 @@ const createUserWithRole = async (
     },
   });
 
-  const user = await db.user.findUnique({ where: { email } });
+  if (shouldRetrieve) {
+    const user = await db.user.findUnique({ where: { email } });
 
-  if (!user) {
-    throw new Error(`Failed to retrieve user with email ${email}`);
+    if (!user) {
+      throw new Error(`Failed to retrieve user with email ${email}`);
+    }
+
+    return user;
   }
 
-  return user;
+  throw new Error("Should retrieve user, but parameter is set to false");
 };
 
 export const createUser = (email: string, password: string) =>
-  createUserWithRole(email, password, false);
+  createUserWithRole(email, password, false, true);
 export const createAdminUser = (email: string, password: string) =>
-  createUserWithRole(email, password, true);
+  createUserWithRole(email, password, true, true);
 export const createUserAndRetrieve = (email: string, password: string) =>
-  createUserWithRole(email, password, false);
+  createUserWithRole(email, password, false, true);
 export const createAdminUserAndRetrieve = (email: string, password: string) =>
-  createUserWithRole(email, password, true);
+  createUserWithRole(email, password, true, true);
 
 /**
  * Other Operations
