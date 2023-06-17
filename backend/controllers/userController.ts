@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import asyncHandler from "express-async-handler";
 
 // Internal Imports
-import generateToken from "../utils/generateToken";
+import { generateToken, hashPassword } from "../utils";
 import { db } from "../database/prisma/prismaClient";
 import { UserRequest, UserBase } from "../interfaces";
 
@@ -39,7 +39,7 @@ const registerUser = asyncHandler(async (req: UserRequest, res: Response) => {
     data: {
       name,
       email,
-      password: await bcrypt.hash(password, 10),
+      password: await hashPassword(password),
       isAdmin: false,
     },
   });
@@ -95,7 +95,7 @@ const updateUserProfile = asyncHandler(
           name: req.body.name || user.name,
           email: req.body.email || user.email,
           password: req.body.password
-            ? await bcrypt.hash(req.body.password, 10)
+            ? await hashPassword(req.body.password)
             : user.password,
         },
       });

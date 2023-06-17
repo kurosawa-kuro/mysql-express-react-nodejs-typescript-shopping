@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import fs from "fs";
 import { db } from "../database/prisma/prismaClient";
 import { User, Product } from "@prisma/client";
+import { generateToken, hashPassword } from "../utils";
 
 export const clearDatabase = async (): Promise<void> => {
   await db.product.deleteMany();
@@ -15,7 +16,7 @@ export const createUser = async (
   email: string,
   password: string
 ): Promise<void> => {
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await hashPassword(password);
   await db.user.create({
     data: {
       name: "Customer",

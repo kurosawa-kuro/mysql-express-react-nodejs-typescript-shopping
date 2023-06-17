@@ -1,13 +1,14 @@
-// utils/generateToken.js
+// backend\utils\index.ts
 
 // External Imports
 import { Response } from "express";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 // Internal Imports
 import { User as UserType } from "@prisma/client";
 
-const generateToken = (res: Response, userId: UserType["id"]): void => {
+export const generateToken = (res: Response, userId: UserType["id"]): void => {
   const { NODE_ENV, JWT_SECRET } = process.env;
 
   const token = jwt.sign({ userId }, JWT_SECRET!, { expiresIn: "30d" });
@@ -21,4 +22,6 @@ const generateToken = (res: Response, userId: UserType["id"]): void => {
   });
 };
 
-export default generateToken;
+export const hashPassword = async (password: string): Promise<string> => {
+  return await bcrypt.hash(password, 10);
+};
