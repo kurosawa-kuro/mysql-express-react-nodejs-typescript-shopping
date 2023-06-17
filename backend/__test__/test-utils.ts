@@ -9,7 +9,9 @@ import path from "path";
 import { hashPassword } from "../utils";
 
 export const clearDatabase = async (): Promise<void> => {
+  await db.orderProduct.deleteMany();
   await db.product.deleteMany();
+  await db.order.deleteMany();
   await db.user.deleteMany();
 };
 
