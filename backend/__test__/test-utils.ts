@@ -42,14 +42,24 @@ const createUserWithRole = async (
   isAdmin: boolean
 ): Promise<User> => {
   const hashedPassword = await hashPassword(password);
-  return await db.user.create({
-    data: {
-      name: isAdmin ? "Admin" : "Customer",
-      email,
-      password: hashedPassword,
-      isAdmin,
-    },
-  });
+  try {
+    const user = await db.user.create({
+      data: {
+        name: isAdmin ? "Admin" : "Customer",
+        email,
+        password: hashedPassword,
+        isAdmin,
+      },
+    });
+
+    if (!user) {
+      throw new Error(`Failed to create user with email ${email}`);
+    }
+
+    return user;
+  } catch (error) {
+    throw new Error(`An error occurred while creating the user: ${error}`);
+  }
 };
 
 export const createUser = (email: string, password: string) =>
