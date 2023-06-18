@@ -4,6 +4,7 @@ import { setupServer } from "msw/node";
 import { Routes, Route, MemoryRouter } from "react-router-dom";
 import { ProductScreen } from "../product/ProductScreen";
 import { ProductFull } from "../../../../backend/interfaces";
+import { App } from "../../App";
 
 const product: ProductFull = {
   id: 1,
@@ -35,7 +36,9 @@ test("renders ProductScreen with product", async () => {
   render(
     <MemoryRouter initialEntries={["/products/1"]}>
       <Routes>
-        <Route path="/products/:id" element={<ProductScreen />} />
+        <Route path="/" element={<App />}>
+          <Route path="/products/:id" element={<ProductScreen />} />
+        </Route>
       </Routes>
     </MemoryRouter>
   );
@@ -44,6 +47,7 @@ test("renders ProductScreen with product", async () => {
   expect(
     await screen.findByText(`Price: $${product.price}`)
   ).toBeInTheDocument();
+  expect(await screen.findByText(`Add To Cart`)).toBeInTheDocument();
 
   screen.debug();
 });
