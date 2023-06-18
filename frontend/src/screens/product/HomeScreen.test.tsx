@@ -82,11 +82,11 @@ test("renders HomeScreen with product list", async () => {
     </MemoryRouter>
   );
 
-  screen.debug();
   // 商品が表示されていることを確認します
   for (const product of products) {
     await waitFor(() =>
       expect(screen.getByText(product.name)).toBeInTheDocument()
     );
   }
+  // screen.debug();
 });

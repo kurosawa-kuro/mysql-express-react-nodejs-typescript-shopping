@@ -6,8 +6,8 @@ import { App } from "../../App";
 import { LoginScreen } from "./LoginScreen";
 
 const server = setupServer(
-  rest.post("http://localhost:8080/api/users/login", (req, res, ctx) => {
-    const requestBody = req.body as any;
+  rest.post("http://localhost:8080/api/users/login", async (req, res, ctx) => {
+    const requestBody = JSON.parse(await req.text()) as any;
     if (
       requestBody.email === "john@email.com" &&
       requestBody.password === "123456"
