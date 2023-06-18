@@ -32,10 +32,6 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 test("renders ProductScreen with product", async () => {
-  // const getProductFullsApiMock = jest
-  //   .spyOn(api, "getProductFullsApi")
-  //   .mockResolvedValue(product);
-
   render(
     <MemoryRouter initialEntries={["/products/1"]}>
       <Routes>
@@ -43,9 +39,6 @@ test("renders ProductScreen with product", async () => {
       </Routes>
     </MemoryRouter>
   );
-
-  // fetchProductFullsが呼び出されることを確認する
-  // expect(getProductFullsApiMock).toHaveBeenCalledWith(1);
 
   expect(await screen.findByText(product.name)).toBeInTheDocument();
   expect(
