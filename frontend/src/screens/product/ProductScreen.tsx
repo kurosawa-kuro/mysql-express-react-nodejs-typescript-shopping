@@ -30,7 +30,6 @@ export const ProductScreen: React.FC = () => {
       const product = productId
         ? await getProductFullsApi(Number(productId))
         : null;
-      console.log("fetchProductFulls");
       setProduct(product);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "An error occurred.";
