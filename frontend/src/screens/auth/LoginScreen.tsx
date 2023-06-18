@@ -1,4 +1,4 @@
-// src/screens/auth/LoginScreen.tsx
+// frontend\src\screens\auth\LoginScreen.tsx
 
 // External Imports
 import { FormEvent, useState } from "react";
@@ -61,10 +61,15 @@ export const LoginScreen = () => {
       <form onSubmit={submitHandler}>
         {fields.map((field, index) => (
           <div className="mb-4" key={index}>
-            <label className="block text-sm font-medium text-custom-blue-dark">
+            <label
+              className="block text-sm font-medium text-custom-blue-dark"
+              htmlFor={field}
+            >
               {field}
             </label>
             <input
+              id={field}
+              data-testid={field}
               name={field}
               type={field}
               placeholder={`Enter ${field}`}

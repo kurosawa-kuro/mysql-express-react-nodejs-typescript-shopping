@@ -1,5 +1,3 @@
-// jest.config.js
-
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
@@ -8,4 +6,7 @@ module.exports = {
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"],
+  moduleNameMapper: {
+    "\\.(css)$": "identity-obj-proxy",
+  },
 };
