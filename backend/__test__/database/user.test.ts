@@ -6,13 +6,13 @@ import { db } from "../.././database/prisma/prismaClient";
 import { clearDatabase } from ".././test-utils";
 import { hashPassword } from "../.././utils";
 
-describe("Database Connection", () => {
+describe("Database ", () => {
   beforeAll(async () => {
-    await clearDatabase(); // Clear the database
+    await clearDatabase();
   });
 
   afterEach(async () => {
-    await clearDatabase(); // Clear the database
+    await clearDatabase();
   });
 
   afterAll(async () => {
@@ -46,7 +46,7 @@ describe("Database Connection", () => {
       data: {
         name: "Airpods Wireless Bluetooth Headphones",
         price: 100,
-        user: { connect: { id: Number(adminUser.id) } },
+        user: { connect: { id: adminUser.id } },
         image: "/images/airpods.jpg",
         brand: "Apple",
         category: "Electronics",
@@ -59,7 +59,7 @@ describe("Database Connection", () => {
 
     const createdOrder: Order = await db.order.create({
       data: {
-        userId: Number(user.id),
+        userId: user.id,
         address: "123 Main Street",
         city: "Boston",
         postalCode: "12345",
