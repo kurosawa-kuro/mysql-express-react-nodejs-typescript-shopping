@@ -56,5 +56,10 @@ test("renders ProductScreen with product", async () => {
 
   // Shopping Cart
   expect(await screen.findByText(`Shopping Cart`)).toBeInTheDocument();
+  expect(
+    await screen.findByText(`Subtotal: $${product.price}`)
+  ).toBeInTheDocument();
+  expect(await screen.findByText(`Total (1) items`)).toBeInTheDocument();
+  expect(await screen.findByText(`Proceed To Checkout`)).toBeInTheDocument();
   screen.debug();
 });
