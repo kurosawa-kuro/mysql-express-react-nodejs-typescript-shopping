@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { Routes, Route, MemoryRouter } from "react-router-dom";
@@ -178,7 +178,8 @@ test("renders ProductScreen with product", async () => {
   fireEvent.click(screen.getByRole("button", { name: /Place Order/i }));
 
   // await Test Pay
-  await waitFor(() => screen.getByText("Test Pay"));
+  expect(await screen.findByText("Order 28")).toBeInTheDocument();
+  // await waitFor(() => screen.getByText("Test Pay"));
   // expect(await screen.findByText(`Test Pay`)).toBeInTheDocument();
   screen.debug();
 });
