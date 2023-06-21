@@ -49,5 +49,5 @@ test("renders ProductScreen with product", async () => {
   ).toBeInTheDocument();
   expect(await screen.findByText(`Add To Cart`)).toBeInTheDocument();
 
-  screen.debug();
+  // screen.debug();
 });
