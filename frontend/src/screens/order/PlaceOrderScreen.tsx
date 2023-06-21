@@ -60,7 +60,11 @@ export const PlaceOrderScreen: FC = () => {
         deliveredAt: null,
         createdAt: new Date(),
       };
+      console.log("debug: createOrderApi: order", order);
+      console.dir(order, { depth: null });
       const res = await createOrderApi(order);
+      console.log("debug: createOrderApi: res", res);
+      // console.log("debug: createOrderApi: res.body", res.body);
       clearCartItems();
       navigate(`/orders/${res.id}`);
     } catch (err: unknown) {
@@ -79,6 +83,7 @@ export const PlaceOrderScreen: FC = () => {
       <CheckoutSteps step1 step2 step3 step4 />
       {loading && <Loader />}
       {error && <Message variant="danger">{error}</Message>}
+      <h1 className="mx-auto mb-4 text-center text-3xl">Place Order</h1>
       <div className="-mx-2 flex flex-wrap">
         <div className="mb-4 w-full px-2 md:w-2/3">
           <div className="rounded-lg bg-white p-4 shadow-md">

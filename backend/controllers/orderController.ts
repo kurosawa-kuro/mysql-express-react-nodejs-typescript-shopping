@@ -10,6 +10,12 @@ import { Order } from "@prisma/client";
 import { UserRequest, CartProduct, OrderFull } from "../interfaces";
 
 const findOrderById = async (id: number): Promise<OrderFull | null> => {
+  console.log("findOrderById");
+  const res = await db.order.findUnique({
+    where: { id },
+    include: { user: true, orderProducts: { include: { product: true } } },
+  });
+  console.dir(res, { depth: null });
   return db.order.findUnique({
     where: { id },
     include: { user: true, orderProducts: { include: { product: true } } },
@@ -74,6 +80,17 @@ const getMyOrders = asyncHandler(
       },
     });
 
+    console.log(
+      orders.map((order) => ({
+        ...order,
+        price: {
+          itemsPrice: order.itemsPrice,
+          shippingPrice: order.shippingPrice,
+          taxPrice: order.taxPrice,
+          totalPrice: order.totalPrice,
+        },
+      }))
+    );
     res.json(
       orders.map((order) => ({
         ...order,
