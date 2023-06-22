@@ -65,62 +65,90 @@ const inputField = (label: Matcher, value: any) =>
 
 const server = createServer();
 
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+describe("Admin Product Management", () => {
+  beforeAll(() => server.listen());
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
 
-test("renders ProductScreen with product", async () => {
-  render(
-    <MemoryRouter initialEntries={["/login"]}>
-      <Routes>
-        <Route path="/" element={<App />}>
-          <Route path="/login" element={<LoginScreen />} />
-          <Route path="/admin/products/" element={<ProductListScreen />} />
-          <Route path="/admin/products/new" element={<ProductNewScreen />} />
-        </Route>
-      </Routes>
-    </MemoryRouter>
-  );
+  describe("Login process", () => {
+    test("renders login and admin can login", async () => {
+      render(
+        <MemoryRouter initialEntries={["/login"]}>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route path="/login" element={<LoginScreen />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      );
 
-  inputField("email", TEST_USER.email);
-  inputField("password", TEST_USER.password);
+      inputField("email", TEST_USER.email);
+      inputField("password", TEST_USER.password);
 
-  fireEvent.click(screen.getByTestId("login"));
+      fireEvent.click(screen.getByTestId("login"));
 
-  await screen.findByText("admin", {
-    selector: '[data-testid="user-info-name"]',
+      await screen.findByText("admin", {
+        selector: '[data-testid="user-info-name"]',
+      });
+    });
   });
 
-  fireEvent.click(screen.getByText(`Admin Function`));
+  describe("Product list", () => {
+    test("admin can view product list", async () => {
+      render(
+        <MemoryRouter initialEntries={["/admin/products"]}>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route path="/admin/products/" element={<ProductListScreen />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      );
 
-  const productsLink = await screen.findByRole("menuitem", {
-    name: /Products/i,
+      fireEvent.click(screen.getByText(`Admin Function`));
+
+      const productsLink = await screen.findByRole("menuitem", {
+        name: /Products/i,
+      });
+      fireEvent.click(productsLink);
+
+      await screen.findByRole("heading", { name: /Products/i });
+      expect(await screen.findByText(product.name)).toBeInTheDocument();
+    });
   });
-  fireEvent.click(productsLink);
 
-  await screen.findByRole("heading", { name: /Products/i });
-  expect(await screen.findByText(product.name)).toBeInTheDocument();
+  describe("Create new product", () => {
+    test("admin can create a new product", async () => {
+      render(
+        <MemoryRouter initialEntries={["/admin/products/new"]}>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route
+                path="/admin/products/new"
+                element={<ProductNewScreen />}
+              />
+              <Route path="/admin/products/" element={<ProductListScreen />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      );
 
-  fireEvent.click(
-    await screen.findByRole("button", { name: /Create Product/i })
-  );
+      fireEvent.click(await screen.findByRole("button", { name: /Create/i }));
 
-  await screen.findByRole("heading", { name: /Create Product/i });
+      await screen.findByRole("heading", { name: /Create Product/i });
 
-  inputField("Name", postProductData.name);
-  inputField("Price", postProductData.price);
-  inputField("Image", postProductData.image);
-  inputField("Brand", postProductData.brand);
-  inputField("Count In Stock", postProductData.countInStock);
-  inputField("Category", postProductData.category);
-  inputField("Description", postProductData.description);
+      inputField("Name", postProductData.name);
+      inputField("Price", postProductData.price);
+      inputField("Image", postProductData.image);
+      inputField("Brand", postProductData.brand);
+      inputField("Count In Stock", postProductData.countInStock);
+      inputField("Category", postProductData.category);
+      inputField("Description", postProductData.description);
 
-  fireEvent.click(screen.getByText(`Create`));
+      fireEvent.click(screen.getByText(`Create`));
 
-  await screen.findByRole("heading", { name: /Products/i });
-
-  // const tableElement = screen.getByText("ID").closest("table");
-  // if (tableElement) screen.debug(tableElement);
-
-  expect(await screen.findByText(postProductData.name)).toBeInTheDocument();
+      await screen.findByRole("heading", { name: /Products/i });
+      expect(await screen.findByText(postProductData.name)).toBeInTheDocument();
+    });
+  });
 });
