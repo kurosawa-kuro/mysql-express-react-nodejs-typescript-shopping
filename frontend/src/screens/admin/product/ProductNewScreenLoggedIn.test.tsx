@@ -15,14 +15,14 @@ import { ProductListScreen } from "./ProductListScreen";
 import { product, order } from "./mocks";
 import { ProductNewScreen } from "./ProductNewScreen";
 
-// 1. Commonly used strings are extracted as constants
 const API_BASE_URL = "http://localhost:8080/api";
 const TEST_USER = {
+  name: "admin",
   email: "admin@email.com",
   password: "123456",
+  isAdmin: true,
 };
 
-// 3. All mock handlers are collected into a single function
 function createServer() {
   return setupServer(
     rest.post(`${API_BASE_URL}/users/login`, async (req, res, ctx) => {
@@ -34,9 +34,9 @@ function createServer() {
         return res(
           ctx.json({
             id: 1,
-            name: "admin",
+            name: TEST_USER.name,
             email: TEST_USER.email,
-            isAdmin: true,
+            isAdmin: TEST_USER.isAdmin,
           })
         );
       } else {
@@ -63,7 +63,7 @@ function createServer() {
 
 function inputField(label: Matcher, value: any) {
   fireEvent.change(screen.getByLabelText(label), {
-    target: { value: value },
+    target: { value },
   });
 }
 
@@ -98,7 +98,6 @@ test("renders ProductScreen with product", async () => {
   const adminButton = await screen.findByText(`Admin Function`);
   expect(adminButton).toBeInTheDocument();
 
-  // Ensure that adminButton click event is fully processed before proceeding
   fireEvent.click(adminButton);
 
   const productsLink = await screen.findByRole("menuitem", {
@@ -106,10 +105,8 @@ test("renders ProductScreen with product", async () => {
   });
   expect(productsLink).toBeInTheDocument();
 
-  // Ensure that productsLink click event is fully processed before proceeding
   fireEvent.click(productsLink);
 
-  // Wait for the productsData to be updated
   await waitFor(async () => {
     const productsHeading = await screen.findByRole("heading", {
       name: /Products/i,
@@ -145,7 +142,6 @@ test("renders ProductScreen with product", async () => {
   const createButton = await screen.findByText(`Create`);
   expect(createButton).toBeInTheDocument();
 
-  // Ensure that adminButton click event is fully processed before proceeding
   // fireEvent.click(createButton);
   screen.debug();
 });
