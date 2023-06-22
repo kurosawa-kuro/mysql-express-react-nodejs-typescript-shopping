@@ -46,9 +46,8 @@ function createServer() {
     rest.get(`${API_BASE_URL}/products`, (_req, res, ctx) =>
       res(ctx.json({ page: 1, pages: 2, products: productList }))
     ),
-    rest.post(`${API_BASE_URL}/products`, (req, res, ctx) => {
-      // console.log("req.body", req.body);
-      const postProduct = req.body as typeof product;
+    rest.post(`${API_BASE_URL}/products`, async (req, res, ctx) => {
+      const postProduct = (await req.json()) as typeof product;
       productList.push(postProduct);
       return res(ctx.json(postProduct));
     }),
