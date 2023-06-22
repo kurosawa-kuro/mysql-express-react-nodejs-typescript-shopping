@@ -52,6 +52,9 @@ function createServer() {
     rest.get(`${API_BASE_URL}/products`, (_req, res, ctx) => {
       return res(ctx.json({ page: 1, pages: 2, products: [product] }));
     }),
+    rest.post(`${API_BASE_URL}/products`, (_req, res, ctx) => {
+      return res(ctx.json({ product }));
+    }),
     rest.post(`${API_BASE_URL}/orders`, (_req, res, ctx) => {
       return res(ctx.status(200), ctx.json({ id: 1 }));
     }),
@@ -142,6 +145,13 @@ test("renders ProductScreen with product", async () => {
   const createButton = await screen.findByText(`Create`);
   expect(createButton).toBeInTheDocument();
 
-  // fireEvent.click(createButton);
+  fireEvent.click(createButton);
+  await waitFor(async () => {
+    const productsHeading = await screen.findByRole("heading", {
+      name: /Products/i,
+    });
+    expect(productsHeading).toBeInTheDocument();
+  });
+  expect(await screen.findByText(product.name)).toBeInTheDocument();
   screen.debug();
 });
