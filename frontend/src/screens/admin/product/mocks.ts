@@ -14,7 +14,7 @@ export const product = {
   updatedAt: new Date(),
 };
 
-export const product2 = {
+export const postProduct = {
   id: 2,
   userId: 1,
   name: "Product 2",

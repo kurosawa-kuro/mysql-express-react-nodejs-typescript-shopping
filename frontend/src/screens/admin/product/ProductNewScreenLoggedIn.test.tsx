@@ -6,7 +6,7 @@ import { Routes, Route, MemoryRouter } from "react-router-dom";
 import { App } from "../../../App";
 import { LoginScreen } from "../../auth/LoginScreen";
 import { ProductListScreen } from "./ProductListScreen";
-import { product, product2, order } from "./mocks";
+import { product, postProduct, order } from "./mocks";
 import { ProductNewScreen } from "./ProductNewScreen";
 
 const API_BASE_URL = "http://localhost:8080/api";
@@ -47,8 +47,8 @@ function createServer() {
       res(ctx.json({ page: 1, pages: 2, products: productList }))
     ),
     rest.post(`${API_BASE_URL}/products`, (_req, res, ctx) => {
-      productList.push(product2);
-      return res(ctx.json(product2));
+      productList.push(postProduct);
+      return res(ctx.json(postProduct));
     }),
     rest.post(`${API_BASE_URL}/orders`, (_req, res, ctx) =>
       res(ctx.status(200), ctx.json({ id: 1 }))
@@ -121,5 +121,5 @@ test("renders ProductScreen with product", async () => {
   const tableElement = screen.getByText("ID").closest("table");
   if (tableElement) screen.debug(tableElement);
 
-  expect(await screen.findByText(product2.name)).toBeInTheDocument();
+  expect(await screen.findByText(postProduct.name)).toBeInTheDocument();
 });
