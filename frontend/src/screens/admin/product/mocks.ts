@@ -14,6 +14,22 @@ export const product = {
   updatedAt: new Date(),
 };
 
+export const product2 = {
+  id: 2,
+  userId: 1,
+  name: "Product 2",
+  image: "https://example.com/product-1.jpg",
+  description: "Description: This is product 1",
+  brand: "Brand 1",
+  category: "Category 1",
+  price: 19.99,
+  countInStock: 10,
+  rating: 4.5,
+  numReviews: 12,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+
 export const order = {
   id: 28,
   userId: 2,

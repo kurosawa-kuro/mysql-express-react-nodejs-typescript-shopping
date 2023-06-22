@@ -12,7 +12,7 @@ import { Routes, Route, MemoryRouter } from "react-router-dom";
 import { App } from "../../../App";
 import { LoginScreen } from "../../auth/LoginScreen";
 import { ProductListScreen } from "./ProductListScreen";
-import { product, order } from "./mocks";
+import { product, product2, order } from "./mocks";
 import { ProductNewScreen } from "./ProductNewScreen";
 
 const API_BASE_URL = "http://localhost:8080/api";
@@ -24,6 +24,8 @@ const TEST_USER = {
 };
 
 function createServer() {
+  let productList = [product];
+
   return setupServer(
     rest.post(`${API_BASE_URL}/users/login`, async (req, res, ctx) => {
       const requestBody = JSON.parse(await req.text()) as any;
@@ -50,10 +52,11 @@ function createServer() {
       return res(ctx.json(product));
     }),
     rest.get(`${API_BASE_URL}/products`, (_req, res, ctx) => {
-      return res(ctx.json({ page: 1, pages: 2, products: [product] }));
+      return res(ctx.json({ page: 1, pages: 2, products: productList }));
     }),
     rest.post(`${API_BASE_URL}/products`, (_req, res, ctx) => {
-      return res(ctx.json({ product }));
+      productList.push(product2); // Add the new product to the list
+      return res(ctx.json(product2));
     }),
     rest.post(`${API_BASE_URL}/orders`, (_req, res, ctx) => {
       return res(ctx.status(200), ctx.json({ id: 1 }));
@@ -146,12 +149,13 @@ test("renders ProductScreen with product", async () => {
   expect(createButton).toBeInTheDocument();
 
   fireEvent.click(createButton);
+
   await waitFor(async () => {
     const productsHeading = await screen.findByRole("heading", {
       name: /Products/i,
     });
     expect(productsHeading).toBeInTheDocument();
   });
-  expect(await screen.findByText(product.name)).toBeInTheDocument();
-  screen.debug();
+  expect(await screen.findByText(product2.name)).toBeInTheDocument();
+  // screen.debug();
 });
