@@ -2,7 +2,6 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { Routes, Route, MemoryRouter } from "react-router-dom";
-// import { prettyDOM } from "@testing-library/dom";
 
 import { App } from "../../../App";
 import { LoginScreen } from "../../auth/LoginScreen";
@@ -10,66 +9,53 @@ import { ProductListScreen } from "./ProductListScreen";
 import { product, order } from "./mocks";
 import { ProductNewScreen } from "./ProductNewScreen";
 
-const mockLoginHandler = rest.post(
-  "http://localhost:8080/api/users/login",
-  async (req, res, ctx) => {
-    const requestBody = JSON.parse(await req.text()) as any;
-    if (
-      requestBody.email === "admin@email.com" &&
-      requestBody.password === "123456"
-    ) {
-      return res(
-        ctx.json({
-          id: 1,
-          name: "admin",
-          email: "admin@email.com",
-          isAdmin: true,
-        })
-      );
-    } else {
-      return res(
-        ctx.status(401),
-        ctx.json({ message: "Invalid email or password" })
-      );
-    }
-  }
-);
+// 1. Commonly used strings are extracted as constants
+const API_BASE_URL = "http://localhost:8080/api";
+const TEST_USER = {
+  email: "admin@email.com",
+  password: "123456",
+};
 
-const mockProductHandler = rest.get(
-  "http://localhost:8080/api/products/:id",
-  (_req, res, ctx) => {
-    return res(ctx.json(product));
-  }
-);
+// 3. All mock handlers are collected into a single function
+function createServer() {
+  return setupServer(
+    rest.post(`${API_BASE_URL}/users/login`, async (req, res, ctx) => {
+      const requestBody = JSON.parse(await req.text()) as any;
+      if (
+        requestBody.email === TEST_USER.email &&
+        requestBody.password === TEST_USER.password
+      ) {
+        return res(
+          ctx.json({
+            id: 1,
+            name: "admin",
+            email: TEST_USER.email,
+            isAdmin: true,
+          })
+        );
+      } else {
+        return res(
+          ctx.status(401),
+          ctx.json({ message: "Invalid email or password" })
+        );
+      }
+    }),
+    rest.get(`${API_BASE_URL}/products/:id`, (_req, res, ctx) => {
+      return res(ctx.json(product));
+    }),
+    rest.get(`${API_BASE_URL}/products`, (_req, res, ctx) => {
+      return res(ctx.json({ page: 1, pages: 2, products: [product] }));
+    }),
+    rest.post(`${API_BASE_URL}/orders`, (_req, res, ctx) => {
+      return res(ctx.status(200), ctx.json({ id: 1 }));
+    }),
+    rest.get(`${API_BASE_URL}/orders/1`, (_req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(order));
+    })
+  );
+}
 
-const mockProductsHandler = rest.get(
-  "http://localhost:8080/api/products",
-  (_req, res, ctx) => {
-    return res(ctx.json({ page: 1, pages: 2, products: [product] }));
-  }
-);
-
-const mockOrderHandler = rest.post(
-  "http://localhost:8080/api/orders",
-  (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.json({ id: 1 }));
-  }
-);
-
-const mockGetOrderHandler = rest.get(
-  "http://localhost:8080/api/orders/1",
-  (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(order));
-  }
-);
-
-const server = setupServer(
-  mockLoginHandler,
-  mockProductHandler,
-  mockProductsHandler,
-  mockOrderHandler,
-  mockGetOrderHandler
-);
+const server = createServer();
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -89,11 +75,11 @@ test("renders ProductScreen with product", async () => {
   );
 
   fireEvent.change(screen.getByLabelText("email"), {
-    target: { value: "admin@email.com" },
+    target: { value: TEST_USER.email },
   });
 
   fireEvent.change(screen.getByLabelText("password"), {
-    target: { value: "123456" },
+    target: { value: TEST_USER.password },
   });
 
   fireEvent.click(screen.getByTestId("login"));
