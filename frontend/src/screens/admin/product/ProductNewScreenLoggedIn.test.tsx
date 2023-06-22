@@ -129,7 +129,7 @@ test("renders ProductScreen with product", async () => {
     name: /Create Product/i,
   });
   fireEvent.click(createProductButton);
-  screen.debug();
+
   // const productList = screen.getByTestId("product-list");
   // console.log(prettyDOM(productList));
 
@@ -140,4 +140,5 @@ test("renders ProductScreen with product", async () => {
     });
     expect(createProductHeading).toBeInTheDocument();
   });
+  screen.debug();
 });
