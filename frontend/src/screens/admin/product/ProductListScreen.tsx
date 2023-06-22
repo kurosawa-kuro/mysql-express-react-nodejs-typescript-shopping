@@ -81,7 +81,7 @@ export const ProductListScreen: React.FC = () => {
       </div>
 
       <>
-        <div data-testid="product-list" className="overflow-x-auto">
+        <div className="overflow-x-auto">
           <table className="w-full whitespace-nowrap">
             <thead>
               <tr className="border-b bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">

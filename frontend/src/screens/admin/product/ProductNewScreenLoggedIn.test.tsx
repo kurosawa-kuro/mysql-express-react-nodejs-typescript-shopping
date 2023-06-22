@@ -160,7 +160,7 @@ test("renders ProductScreen with product", async () => {
   });
   const tableElement = screen.getByText("ID").closest("table");
   if (tableElement) {
-    // screen.debug(tableElement);
+    screen.debug(tableElement);
   }
   expect(await screen.findByText(product2.name)).toBeInTheDocument();
 });
