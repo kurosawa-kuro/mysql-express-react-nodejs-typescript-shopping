@@ -2,12 +2,13 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { Routes, Route, MemoryRouter } from "react-router-dom";
-import { prettyDOM } from "@testing-library/dom";
+// import { prettyDOM } from "@testing-library/dom";
 
 import { App } from "../../../App";
 import { LoginScreen } from "../../auth/LoginScreen";
 import { ProductListScreen } from "./ProductListScreen";
 import { product, order } from "./mocks";
+import { ProductNewScreen } from "./ProductNewScreen";
 
 const mockLoginHandler = rest.post(
   "http://localhost:8080/api/users/login",
@@ -81,6 +82,7 @@ test("renders ProductScreen with product", async () => {
         <Route path="/" element={<App />}>
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/admin/products/" element={<ProductListScreen />} />
+          <Route path="/admin/products/new" element={<ProductNewScreen />} />
         </Route>
       </Routes>
     </MemoryRouter>
@@ -122,8 +124,20 @@ test("renders ProductScreen with product", async () => {
     expect(productsHeading).toBeInTheDocument();
   });
   expect(await screen.findByText(product.name)).toBeInTheDocument();
-  const productList = screen.getByTestId("product-list");
-  console.log(prettyDOM(productList));
-  // const yourComponent = screen.getByTestId("product-list");
-  // yourComponent.debug();
+
+  const createProductButton = await screen.findByRole("button", {
+    name: /Create Product/i,
+  });
+  fireEvent.click(createProductButton);
+  screen.debug();
+  // const productList = screen.getByTestId("product-list");
+  // console.log(prettyDOM(productList));
+
+  //  header Create Product
+  await waitFor(async () => {
+    const createProductHeading = await screen.findByRole("heading", {
+      name: /Create Product/i,
+    });
+    expect(createProductHeading).toBeInTheDocument();
+  });
 });
