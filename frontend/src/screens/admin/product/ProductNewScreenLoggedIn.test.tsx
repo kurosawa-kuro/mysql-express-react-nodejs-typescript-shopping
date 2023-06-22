@@ -1,6 +1,6 @@
 // frontend\src\screens\admin\product\ProductNewScreenLoggedIn.test.tsx
 
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { Routes, Route, MemoryRouter } from "react-router-dom";
@@ -12,6 +12,7 @@ import { ShippingScreen } from "../../order/ShippingScreen";
 import { PaymentScreen } from "../../order/PaymentScreen";
 import { PlaceOrderScreen } from "../../order/PlaceOrderScreen";
 import { OrderScreen } from "../../order/OrderScreen";
+import { LoginScreen } from "../../auth/LoginScreen";
 
 const product: ProductFull = {
   id: 1,
@@ -30,6 +31,27 @@ const product: ProductFull = {
 };
 
 const server = setupServer(
+  rest.post("http://localhost:8080/api/users/login", async (req, res, ctx) => {
+    const requestBody = JSON.parse(await req.text()) as any;
+    if (
+      requestBody.email === "admin@email.com" &&
+      requestBody.password === "123456"
+    ) {
+      return res(
+        ctx.json({
+          id: 1,
+          name: "admin",
+          email: "admin@email.com",
+          isAdmin: true,
+        })
+      );
+    } else {
+      return res(
+        ctx.status(401),
+        ctx.json({ message: "Invalid email or password" })
+      );
+    }
+  }),
   rest.get("http://localhost:8080/api/products/:id", (_req, res, ctx) => {
     return res(ctx.json(product));
   }),
@@ -110,9 +132,10 @@ afterAll(() => server.close());
 
 test("renders ProductScreen with product", async () => {
   render(
-    <MemoryRouter initialEntries={["/products/1"]}>
+    <MemoryRouter initialEntries={["/login"]}>
       <Routes>
         <Route path="/" element={<App />}>
+          <Route path="/login" element={<LoginScreen />} />
           <Route path="/products/:id" element={<ProductScreen />} />
           <Route path="/cart" element={<CartScreen />} />
           <Route path="/shipping" element={<ShippingScreen />} />
@@ -124,64 +147,87 @@ test("renders ProductScreen with product", async () => {
     </MemoryRouter>
   );
 
-  // Verify product details and add to cart
-  expect(await screen.findByText(product.name)).toBeInTheDocument();
-  expect(
-    await screen.findByText(`Price: $${product.price}`)
-  ).toBeInTheDocument();
-  fireEvent.click(screen.getByText(/Add To Cart/i));
-
-  // Verify cart details and proceed to checkout
-  expect(await screen.findByText(`Shopping Cart`)).toBeInTheDocument();
-  expect(await screen.findByText(product.name)).toBeInTheDocument();
-  expect(
-    await screen.findByText(`Subtotal: $${product.price}`)
-  ).toBeInTheDocument();
-  expect(await screen.findByText(`Total (1) items`)).toBeInTheDocument();
-  fireEvent.click(screen.getByText(/Proceed To Checkout/i));
-
-  // Verify shipping details and continue
-  expect(
-    await screen.findByRole("heading", { name: /Shipping/i })
-  ).toBeInTheDocument();
-  fireEvent.change(screen.getByPlaceholderText("Enter address"), {
-    target: { value: "大通り公園" },
+  fireEvent.change(screen.getByLabelText("email"), {
+    target: { value: "admin@email.com" },
   });
-  fireEvent.change(screen.getByPlaceholderText("Enter city"), {
-    target: { value: "札幌" },
+
+  fireEvent.change(screen.getByLabelText("password"), {
+    target: { value: "123456" },
   });
-  fireEvent.change(screen.getByPlaceholderText("Enter postal code"), {
-    target: { value: "0600061" },
+
+  fireEvent.click(screen.getByTestId("login"));
+
+  await waitFor(async () => {
+    expect(screen.getByTestId("user-info-name")).toHaveTextContent("admin");
   });
-  fireEvent.click(screen.getByText(/Continue/i));
 
-  // Verify payment details and continue
-  expect(
-    await screen.findByRole("heading", { name: /Payment Method/i })
-  ).toBeInTheDocument();
-  expect(screen.getByRole("radio", { name: /PayPal/i })).toBeChecked();
-  fireEvent.click(screen.getByText(/Continue/i));
+  // Admin Function
+  const adminButton = await screen.findByText(`Admin Function`);
+  expect(adminButton).toBeInTheDocument();
 
-  // Uncomment below line for debugging purpose
+  // Click the Admin Function button
+  fireEvent.click(adminButton);
 
-  // Place Order
-  expect(
-    await screen.findByRole("heading", { name: /Place Order/i })
-  ).toBeInTheDocument();
+  screen.debug();
 
-  // Shipping
-  expect(
-    await screen.findByRole("heading", { name: /Shipping/i })
-  ).toBeInTheDocument();
-  // Order Summary
-  expect(await screen.findByText(`Order Summary`)).toBeInTheDocument();
+  // // Verify product details and add to cart
+  // expect(await screen.findByText(product.name)).toBeInTheDocument();
+  // expect(
+  //   await screen.findByText(`Price: $${product.price}`)
+  // ).toBeInTheDocument();
+  // fireEvent.click(screen.getByText(/Add To Cart/i));
 
-  //  fire Place Order
-  fireEvent.click(screen.getByRole("button", { name: /Place Order/i }));
+  // // Verify cart details and proceed to checkout
+  // expect(await screen.findByText(`Shopping Cart`)).toBeInTheDocument();
+  // expect(await screen.findByText(product.name)).toBeInTheDocument();
+  // expect(
+  //   await screen.findByText(`Subtotal: $${product.price}`)
+  // ).toBeInTheDocument();
+  // expect(await screen.findByText(`Total (1) items`)).toBeInTheDocument();
+  // fireEvent.click(screen.getByText(/Proceed To Checkout/i));
 
-  // await Test Pay
-  expect(await screen.findByText("Order 28")).toBeInTheDocument();
-  // await waitFor(() => screen.getByText("Test Pay"));
-  // expect(await screen.findByText(`Test Pay`)).toBeInTheDocument();
+  // // Verify shipping details and continue
+  // expect(
+  //   await screen.findByRole("heading", { name: /Shipping/i })
+  // ).toBeInTheDocument();
+  // fireEvent.change(screen.getByPlaceholderText("Enter address"), {
+  //   target: { value: "大通り公園" },
+  // });
+  // fireEvent.change(screen.getByPlaceholderText("Enter city"), {
+  //   target: { value: "札幌" },
+  // });
+  // fireEvent.change(screen.getByPlaceholderText("Enter postal code"), {
+  //   target: { value: "0600061" },
+  // });
+  // fireEvent.click(screen.getByText(/Continue/i));
+
+  // // Verify payment details and continue
+  // expect(
+  //   await screen.findByRole("heading", { name: /Payment Method/i })
+  // ).toBeInTheDocument();
+  // expect(screen.getByRole("radio", { name: /PayPal/i })).toBeChecked();
+  // fireEvent.click(screen.getByText(/Continue/i));
+
+  // // Uncomment below line for debugging purpose
+
+  // // Place Order
+  // expect(
+  //   await screen.findByRole("heading", { name: /Place Order/i })
+  // ).toBeInTheDocument();
+
+  // // Shipping
+  // expect(
+  //   await screen.findByRole("heading", { name: /Shipping/i })
+  // ).toBeInTheDocument();
+  // // Order Summary
+  // expect(await screen.findByText(`Order Summary`)).toBeInTheDocument();
+
+  // //  fire Place Order
+  // fireEvent.click(screen.getByRole("button", { name: /Place Order/i }));
+
+  // // await Test Pay
+  // expect(await screen.findByText("Order 28")).toBeInTheDocument();
+  // // await waitFor(() => screen.getByText("Test Pay"));
+  // // expect(await screen.findByText(`Test Pay`)).toBeInTheDocument();
   screen.debug();
 });
