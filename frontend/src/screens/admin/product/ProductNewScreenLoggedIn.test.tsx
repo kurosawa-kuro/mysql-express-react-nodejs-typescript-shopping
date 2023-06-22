@@ -6,7 +6,7 @@ import { Routes, Route, MemoryRouter } from "react-router-dom";
 import { App } from "../../../App";
 import { LoginScreen } from "../../auth/LoginScreen";
 import { ProductListScreen } from "./ProductListScreen";
-import { product, postProduct, order } from "./mocks";
+import { product, postProductData, order } from "./mocks";
 import { ProductNewScreen } from "./ProductNewScreen";
 
 const API_BASE_URL = "http://localhost:8080/api";
@@ -46,7 +46,9 @@ function createServer() {
     rest.get(`${API_BASE_URL}/products`, (_req, res, ctx) =>
       res(ctx.json({ page: 1, pages: 2, products: productList }))
     ),
-    rest.post(`${API_BASE_URL}/products`, (_req, res, ctx) => {
+    rest.post(`${API_BASE_URL}/products`, (req, res, ctx) => {
+      // console.log("req.body", req.body);
+      const postProduct = req.body as typeof product;
       productList.push(postProduct);
       return res(ctx.json(postProduct));
     }),
@@ -106,20 +108,20 @@ test("renders ProductScreen with product", async () => {
 
   await screen.findByRole("heading", { name: /Create Product/i });
 
-  inputField("Name", "Name");
-  inputField("Price", 100);
-  inputField("Image", "Image path");
-  inputField("Brand", "Brand 1");
-  inputField("Count In Stock", 10);
-  inputField("Category", "Category 1");
-  inputField("Description", "Description Description Description");
+  inputField("Name", postProductData.name);
+  inputField("Price", postProductData.price);
+  inputField("Image", postProductData.image);
+  inputField("Brand", postProductData.brand);
+  inputField("Count In Stock", postProductData.countInStock);
+  inputField("Category", postProductData.category);
+  inputField("Description", postProductData.description);
 
   fireEvent.click(screen.getByText(`Create`));
 
   await screen.findByRole("heading", { name: /Products/i });
 
-  const tableElement = screen.getByText("ID").closest("table");
-  if (tableElement) screen.debug(tableElement);
+  // const tableElement = screen.getByText("ID").closest("table");
+  // if (tableElement) screen.debug(tableElement);
 
-  expect(await screen.findByText(postProduct.name)).toBeInTheDocument();
+  expect(await screen.findByText(postProductData.name)).toBeInTheDocument();
 });
