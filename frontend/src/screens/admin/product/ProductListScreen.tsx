@@ -26,12 +26,9 @@ export const ProductListScreen: React.FC = () => {
           pageNumber: Number(pageNumber),
           keyword: "",
         });
-        console.dir(data, { depth: null });
         setProductsData(data);
-
         setLoading(false);
       } catch (err) {
-        console.log({ err });
         if (err instanceof Error) {
           setError(err.message);
         } else {
@@ -44,10 +41,6 @@ export const ProductListScreen: React.FC = () => {
 
     fetchProducts();
   }, [pageNumber]);
-
-  useEffect(() => {
-    console.log({ productsData });
-  }, [productsData]);
 
   const deleteHandler = async (id: number) => {
     if (window.confirm("Are you sure")) {

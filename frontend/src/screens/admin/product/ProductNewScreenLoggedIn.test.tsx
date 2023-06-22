@@ -148,6 +148,8 @@ test("renders ProductScreen with product", async () => {
   const createButton = await screen.findByText(`Create`);
   expect(createButton).toBeInTheDocument();
 
+  // TODO: Upload image Test
+
   fireEvent.click(createButton);
 
   await waitFor(async () => {
@@ -156,6 +158,9 @@ test("renders ProductScreen with product", async () => {
     });
     expect(productsHeading).toBeInTheDocument();
   });
+  const tableElement = screen.getByText("ID").closest("table");
+  if (tableElement) {
+    // screen.debug(tableElement);
+  }
   expect(await screen.findByText(product2.name)).toBeInTheDocument();
-  // screen.debug();
 });
