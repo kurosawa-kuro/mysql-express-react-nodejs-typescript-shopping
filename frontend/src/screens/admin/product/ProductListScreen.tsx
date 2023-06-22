@@ -26,9 +26,12 @@ export const ProductListScreen: React.FC = () => {
           pageNumber: Number(pageNumber),
           keyword: "",
         });
+        console.dir(data, { depth: null });
         setProductsData(data);
+
         setLoading(false);
       } catch (err) {
+        console.log({ err });
         if (err instanceof Error) {
           setError(err.message);
         } else {
@@ -41,6 +44,10 @@ export const ProductListScreen: React.FC = () => {
 
     fetchProducts();
   }, [pageNumber]);
+
+  useEffect(() => {
+    console.log({ productsData });
+  }, [productsData]);
 
   const deleteHandler = async (id: number) => {
     if (window.confirm("Are you sure")) {
@@ -81,7 +88,7 @@ export const ProductListScreen: React.FC = () => {
       </div>
 
       <>
-        <div className="overflow-x-auto">
+        <div data-testid="product-list" className="overflow-x-auto">
           <table className="w-full whitespace-nowrap">
             <thead>
               <tr className="border-b bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
