@@ -1,10 +1,4 @@
-import {
-  Matcher,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { Matcher, fireEvent, render, screen } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { Routes, Route, MemoryRouter } from "react-router-dom";
@@ -29,49 +23,44 @@ function createServer() {
   return setupServer(
     rest.post(`${API_BASE_URL}/users/login`, async (req, res, ctx) => {
       const requestBody = JSON.parse(await req.text()) as any;
-      if (
+      const response =
         requestBody.email === TEST_USER.email &&
         requestBody.password === TEST_USER.password
-      ) {
-        return res(
-          ctx.json({
-            id: 1,
-            name: TEST_USER.name,
-            email: TEST_USER.email,
-            isAdmin: TEST_USER.isAdmin,
-          })
-        );
-      } else {
-        return res(
-          ctx.status(401),
-          ctx.json({ message: "Invalid email or password" })
-        );
-      }
+          ? res(
+              ctx.json({
+                id: 1,
+                name: TEST_USER.name,
+                email: TEST_USER.email,
+                isAdmin: TEST_USER.isAdmin,
+              })
+            )
+          : res(
+              ctx.status(401),
+              ctx.json({ message: "Invalid email or password" })
+            );
+      return response;
     }),
-    rest.get(`${API_BASE_URL}/products/:id`, (_req, res, ctx) => {
-      return res(ctx.json(product));
-    }),
-    rest.get(`${API_BASE_URL}/products`, (_req, res, ctx) => {
-      return res(ctx.json({ page: 1, pages: 2, products: productList }));
-    }),
+    rest.get(`${API_BASE_URL}/products/:id`, (_req, res, ctx) =>
+      res(ctx.json(product))
+    ),
+    rest.get(`${API_BASE_URL}/products`, (_req, res, ctx) =>
+      res(ctx.json({ page: 1, pages: 2, products: productList }))
+    ),
     rest.post(`${API_BASE_URL}/products`, (_req, res, ctx) => {
-      productList.push(product2); // Add the new product to the list
+      productList.push(product2);
       return res(ctx.json(product2));
     }),
-    rest.post(`${API_BASE_URL}/orders`, (_req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({ id: 1 }));
-    }),
-    rest.get(`${API_BASE_URL}/orders/1`, (_req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(order));
-    })
+    rest.post(`${API_BASE_URL}/orders`, (_req, res, ctx) =>
+      res(ctx.status(200), ctx.json({ id: 1 }))
+    ),
+    rest.get(`${API_BASE_URL}/orders/1`, (_req, res, ctx) =>
+      res(ctx.status(200), ctx.json(order))
+    )
   );
 }
 
-function inputField(label: Matcher, value: any) {
-  fireEvent.change(screen.getByLabelText(label), {
-    target: { value },
-  });
-}
+const inputField = (label: Matcher, value: any) =>
+  fireEvent.change(screen.getByLabelText(label), { target: { value } });
 
 const server = createServer();
 
@@ -97,45 +86,25 @@ test("renders ProductScreen with product", async () => {
 
   fireEvent.click(screen.getByTestId("login"));
 
-  await waitFor(async () => {
-    expect(screen.getByTestId("user-info-name")).toHaveTextContent("admin");
+  await screen.findByText("admin", {
+    selector: '[data-testid="user-info-name"]',
   });
 
-  const adminButton = await screen.findByText(`Admin Function`);
-  expect(adminButton).toBeInTheDocument();
-
-  fireEvent.click(adminButton);
+  fireEvent.click(screen.getByText(`Admin Function`));
 
   const productsLink = await screen.findByRole("menuitem", {
     name: /Products/i,
   });
-  expect(productsLink).toBeInTheDocument();
-
   fireEvent.click(productsLink);
 
-  await waitFor(async () => {
-    const productsHeading = await screen.findByRole("heading", {
-      name: /Products/i,
-    });
-    expect(productsHeading).toBeInTheDocument();
-  });
+  await screen.findByRole("heading", { name: /Products/i });
   expect(await screen.findByText(product.name)).toBeInTheDocument();
 
-  const createProductButton = await screen.findByRole("button", {
-    name: /Create Product/i,
-  });
-  fireEvent.click(createProductButton);
+  fireEvent.click(
+    await screen.findByRole("button", { name: /Create Product/i })
+  );
 
-  // const productList = screen.getByTestId("product-list");
-  // console.log(prettyDOM(productList));
-
-  //  header Create Product
-  await waitFor(async () => {
-    const createProductHeading = await screen.findByRole("heading", {
-      name: /Create Product/i,
-    });
-    expect(createProductHeading).toBeInTheDocument();
-  });
+  await screen.findByRole("heading", { name: /Create Product/i });
 
   inputField("Name", "Name");
   inputField("Price", 100);
@@ -145,22 +114,12 @@ test("renders ProductScreen with product", async () => {
   inputField("Category", "Category 1");
   inputField("Description", "Description Description Description");
 
-  const createButton = await screen.findByText(`Create`);
-  expect(createButton).toBeInTheDocument();
+  fireEvent.click(screen.getByText(`Create`));
 
-  // TODO: Upload image Test
+  await screen.findByRole("heading", { name: /Products/i });
 
-  fireEvent.click(createButton);
-
-  await waitFor(async () => {
-    const productsHeading = await screen.findByRole("heading", {
-      name: /Products/i,
-    });
-    expect(productsHeading).toBeInTheDocument();
-  });
   const tableElement = screen.getByText("ID").closest("table");
-  if (tableElement) {
-    screen.debug(tableElement);
-  }
+  if (tableElement) screen.debug(tableElement);
+
   expect(await screen.findByText(product2.name)).toBeInTheDocument();
 });
