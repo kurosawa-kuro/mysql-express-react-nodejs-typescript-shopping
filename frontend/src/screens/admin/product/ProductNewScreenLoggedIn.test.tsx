@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  Matcher,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { Routes, Route, MemoryRouter } from "react-router-dom";
@@ -55,6 +61,12 @@ function createServer() {
   );
 }
 
+function inputField(label: Matcher, value: any) {
+  fireEvent.change(screen.getByLabelText(label), {
+    target: { value: value },
+  });
+}
+
 const server = createServer();
 
 beforeAll(() => server.listen());
@@ -74,13 +86,8 @@ test("renders ProductScreen with product", async () => {
     </MemoryRouter>
   );
 
-  fireEvent.change(screen.getByLabelText("email"), {
-    target: { value: TEST_USER.email },
-  });
-
-  fireEvent.change(screen.getByLabelText("password"), {
-    target: { value: TEST_USER.password },
-  });
+  inputField("email", TEST_USER.email);
+  inputField("password", TEST_USER.password);
 
   fireEvent.click(screen.getByTestId("login"));
 
@@ -127,33 +134,13 @@ test("renders ProductScreen with product", async () => {
     expect(createProductHeading).toBeInTheDocument();
   });
 
-  fireEvent.change(screen.getByLabelText("Name"), {
-    target: { value: "Name" },
-  });
-
-  fireEvent.change(screen.getByLabelText("Price"), {
-    target: { value: 100 },
-  });
-
-  fireEvent.change(screen.getByLabelText("Image"), {
-    target: { value: "Image path" },
-  });
-
-  fireEvent.change(screen.getByLabelText("Brand"), {
-    target: { value: "Brand 1" },
-  });
-
-  fireEvent.change(screen.getByLabelText("Count In Stock"), {
-    target: { value: 10 },
-  });
-
-  fireEvent.change(screen.getByLabelText("Category"), {
-    target: { value: "Category 1" },
-  });
-
-  fireEvent.change(screen.getByLabelText("Description"), {
-    target: { value: "Description Description Description" },
-  });
+  inputField("Name", "Name");
+  inputField("Price", 100);
+  inputField("Image", "Image path");
+  inputField("Brand", "Brand 1");
+  inputField("Count In Stock", 10);
+  inputField("Category", "Category 1");
+  inputField("Description", "Description Description Description");
 
   const createButton = await screen.findByText(`Create`);
   expect(createButton).toBeInTheDocument();
