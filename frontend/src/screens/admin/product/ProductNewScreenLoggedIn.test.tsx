@@ -126,5 +126,39 @@ test("renders ProductScreen with product", async () => {
     });
     expect(createProductHeading).toBeInTheDocument();
   });
+
+  fireEvent.change(screen.getByLabelText("Name"), {
+    target: { value: "Name" },
+  });
+
+  fireEvent.change(screen.getByLabelText("Price"), {
+    target: { value: 100 },
+  });
+
+  fireEvent.change(screen.getByLabelText("Image"), {
+    target: { value: "Image path" },
+  });
+
+  fireEvent.change(screen.getByLabelText("Brand"), {
+    target: { value: "Brand 1" },
+  });
+
+  fireEvent.change(screen.getByLabelText("Count In Stock"), {
+    target: { value: 10 },
+  });
+
+  fireEvent.change(screen.getByLabelText("Category"), {
+    target: { value: "Category 1" },
+  });
+
+  fireEvent.change(screen.getByLabelText("Description"), {
+    target: { value: "Description Description Description" },
+  });
+
+  const createButton = await screen.findByText(`Create`);
+  expect(createButton).toBeInTheDocument();
+
+  // Ensure that adminButton click event is fully processed before proceeding
+  // fireEvent.click(createButton);
   screen.debug();
 });
