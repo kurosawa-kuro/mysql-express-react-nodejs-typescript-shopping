@@ -73,20 +73,7 @@ function createServer() {
     ),
     rest.get(`${API_BASE_URL}/orders/1`, (_req, res, ctx) =>
       res(ctx.status(200), ctx.json(order))
-    ),
-    rest.post(`${API_BASE_URL}/upload`, (req, res, ctx) => {
-      console.log("hit upload mock");
-      if (req.body) {
-        const body = req.body as Record<string, any>;
-        console.log("body.file", body.file);
-      }
-      return res(
-        ctx.json({
-          image: "url-to-your-image",
-          message: "Image uploaded successfully",
-        })
-      );
-    })
+    )
   );
 }
 
@@ -196,6 +183,9 @@ describe("Admin Product Management", () => {
 
       // Assert that the mocked upload function is called
       await waitFor(() => expect(mockUpload).toHaveBeenCalledTimes(1));
+      expect(
+        await screen.findByText("Image uploaded successfully")
+      ).toBeInTheDocument();
 
       inputField(LABELS.name, postProductData.name);
       inputField(LABELS.price, postProductData.price);
