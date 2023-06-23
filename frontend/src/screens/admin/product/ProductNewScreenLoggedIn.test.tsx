@@ -1,16 +1,15 @@
 // frontend\src\screens\admin\product\ProductNewScreenLoggedIn.test.tsx
 
+import { rest } from "msw";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Routes, Route, MemoryRouter } from "react-router-dom";
-import { rest } from "msw";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 
 import { App } from "../../../App";
 import { LoginScreen } from "../../auth/LoginScreen";
 import { ProductListScreen } from "./ProductListScreen";
-import { product, postProductData } from "./mocks";
 import { ProductNewScreen } from "./ProductNewScreen";
-
+import { product, postProductData } from "./mocks";
 import {
   createServer,
   inputField,
@@ -28,6 +27,8 @@ jest.mock("../../../services/api", () => ({
   ),
 }));
 
+const server = createServer();
+
 const LABELS = {
   email: "email",
   password: "password",
@@ -40,15 +41,14 @@ const LABELS = {
   description: "Description",
 };
 
-const server = createServer();
-
 describe("Admin Product Management", () => {
   beforeAll(() => server.listen());
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
 
+  // Grouping all Login related tests together
   describe("Login process", () => {
-    test("renders login and admin can login", async () => {
+    it("renders login and admin can login", async () => {
       render(
         <MemoryRouter initialEntries={["/login"]}>
           <Routes>
@@ -70,8 +70,9 @@ describe("Admin Product Management", () => {
     });
   });
 
+  // Grouping all Product List related tests together
   describe("Product list", () => {
-    test("admin can view product list", async () => {
+    it("admin can view product list", async () => {
       render(
         <MemoryRouter initialEntries={["/admin/products"]}>
           <Routes>
@@ -94,13 +95,14 @@ describe("Admin Product Management", () => {
     });
   });
 
+  // Grouping all Product Creation related tests together
   describe("Create new product", () => {
     const { uploadProductImageApi } = require("../../../services/api");
     const mockUpload = uploadProductImageApi as jest.MockedFunction<
       typeof uploadProductImageApi
     >;
 
-    test("admin can create a new product", async () => {
+    it("admin can create a new product", async () => {
       render(
         <MemoryRouter initialEntries={["/admin/products/new"]}>
           <Routes>
@@ -123,13 +125,9 @@ describe("Admin Product Management", () => {
         type: "image/png",
       });
 
-      // Get the input element for uploading the image
       const input = screen.getByLabelText(LABELS.imageFile) as HTMLInputElement;
-
-      // This line of code will trigger the 'onChange' event of the file input field
       userEvent.upload(input, file);
 
-      // Assert that the mocked upload function is called
       await waitFor(() => expect(mockUpload).toHaveBeenCalledTimes(1));
       expect(
         await screen.findByText("Image uploaded successfully")
@@ -148,8 +146,7 @@ describe("Admin Product Management", () => {
       expect(await screen.findByText(postProductData.name)).toBeInTheDocument();
     });
 
-    test("admin sees error message when creating a new product fails", async () => {
-      // API call fails
+    it("admin sees error message when creating a new product fails", async () => {
       server.use(
         rest.post(`${API_BASE_URL}/products`, (_req, res, ctx) => {
           return res(
@@ -181,13 +178,9 @@ describe("Admin Product Management", () => {
         type: "image/png",
       });
 
-      // Get the input element for uploading the image
       const input = screen.getByLabelText(LABELS.imageFile) as HTMLInputElement;
-
-      // This line of code will trigger the 'onChange' event of the file input field
       userEvent.upload(input, file);
 
-      // Assert that the mocked upload function is called
       await waitFor(() => expect(mockUpload).toHaveBeenCalledTimes(1));
       expect(
         await screen.findByText("Image uploaded successfully")
@@ -200,10 +193,8 @@ describe("Admin Product Management", () => {
       inputField(LABELS.category, postProductData.category);
       inputField(LABELS.description, postProductData.description);
 
-      // Triggering the submission
       fireEvent.click(await screen.findByRole("button", { name: /Create/i }));
 
-      // Check if toast error is displayed
       await waitFor(() => {
         const alerts = screen.getAllByRole("alert");
         expect(
