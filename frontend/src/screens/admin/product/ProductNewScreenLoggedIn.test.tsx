@@ -9,6 +9,7 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { Routes, Route, MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
+// import { act } from "react-dom/test-utils";
 
 import { App } from "../../../App";
 import { LoginScreen } from "../../auth/LoginScreen";
@@ -198,6 +199,70 @@ describe("Admin Product Management", () => {
 
       await screen.findByRole("heading", { name: /Products/i });
       expect(await screen.findByText(postProductData.name)).toBeInTheDocument();
+    });
+
+    test("admin sees error message when creating a new product fails", async () => {
+      // API call fails
+      server.use(
+        rest.post(`${API_BASE_URL}/products`, (_req, res, ctx) => {
+          return res(
+            ctx.status(500),
+            ctx.json({ message: "Internal Server Error" })
+          );
+        })
+      );
+
+      render(
+        <MemoryRouter initialEntries={["/admin/products/new"]}>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route
+                path="/admin/products/new"
+                element={<ProductNewScreen />}
+              />
+              <Route path="/admin/products/" element={<ProductListScreen />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      );
+
+      fireEvent.click(await screen.findByRole("button", { name: /Create/i }));
+
+      await screen.findByRole("heading", { name: /Create Product/i });
+
+      const file = new File(["dummy content"], "test.png", {
+        type: "image/png",
+      });
+
+      // Get the input element for uploading the image
+      const input = screen.getByLabelText(LABELS.imageFile) as HTMLInputElement;
+
+      // This line of code will trigger the 'onChange' event of the file input field
+      userEvent.upload(input, file);
+
+      // Assert that the mocked upload function is called
+      await waitFor(() => expect(mockUpload).toHaveBeenCalledTimes(1));
+      expect(
+        await screen.findByText("Image uploaded successfully")
+      ).toBeInTheDocument();
+
+      inputField(LABELS.name, postProductData.name);
+      inputField(LABELS.price, postProductData.price);
+      inputField(LABELS.brand, postProductData.brand);
+      inputField(LABELS.countInStock, postProductData.countInStock);
+      inputField(LABELS.category, postProductData.category);
+      inputField(LABELS.description, postProductData.description);
+
+      // Triggering the submission
+      fireEvent.click(await screen.findByRole("button", { name: /Create/i }));
+
+      // Check if toast error is displayed
+      await waitFor(() => {
+        const alerts = screen.getAllByRole("alert");
+        expect(
+          alerts.some((alert) => alert.textContent === "Internal Server Error")
+        ).toBe(true);
+      });
     });
   });
 });
