@@ -90,6 +90,18 @@ function createServer() {
   );
 }
 
+const LABELS = {
+  email: "email",
+  password: "password",
+  name: "Name",
+  price: "Price",
+  imageFile: "Image File",
+  brand: "Brand",
+  countInStock: "Count In Stock",
+  category: "Category",
+  description: "Description",
+};
+
 const inputField = (label: Matcher, value: any) =>
   fireEvent.change(screen.getByLabelText(label), { target: { value } });
 
@@ -112,8 +124,8 @@ describe("Admin Product Management", () => {
         </MemoryRouter>
       );
 
-      inputField("email", TEST_USER.email);
-      inputField("password", TEST_USER.password);
+      inputField(LABELS.email, TEST_USER.email);
+      inputField(LABELS.password, TEST_USER.password);
 
       fireEvent.click(screen.getByTestId("login"));
 
@@ -177,7 +189,7 @@ describe("Admin Product Management", () => {
       });
 
       // Get the input element for uploading the image
-      const input = screen.getByLabelText("Image File") as HTMLInputElement;
+      const input = screen.getByLabelText(LABELS.imageFile) as HTMLInputElement;
 
       // This line of code will trigger the 'onChange' event of the file input field
       userEvent.upload(input, file);
@@ -185,13 +197,13 @@ describe("Admin Product Management", () => {
       // Assert that the mocked upload function is called
       await waitFor(() => expect(mockUpload).toHaveBeenCalledTimes(1));
 
-      inputField("Name", postProductData.name);
-      inputField("Price", postProductData.price);
-      // inputField("Image File", postProductData.image);
-      inputField("Brand", postProductData.brand);
-      inputField("Count In Stock", postProductData.countInStock);
-      inputField("Category", postProductData.category);
-      inputField("Description", postProductData.description);
+      inputField(LABELS.name, postProductData.name);
+      inputField(LABELS.price, postProductData.price);
+      // inputField(LABELS.imageFile, postProductData.image);
+      inputField(LABELS.brand, postProductData.brand);
+      inputField(LABELS.countInStock, postProductData.countInStock);
+      inputField(LABELS.category, postProductData.category);
+      inputField(LABELS.description, postProductData.description);
 
       fireEvent.click(screen.getByText(`Create`));
 
