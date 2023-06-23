@@ -5,10 +5,10 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 
-import { App } from "../../../App";
-import { LoginScreen } from "../../auth/LoginScreen";
-import { ProductListScreen } from "./ProductListScreen";
-import { ProductNewScreen } from "./ProductNewScreen";
+import { App } from "../App";
+import { LoginScreen } from "../screens/auth/LoginScreen";
+import { ProductListScreen } from "../screens/admin/product/ProductListScreen";
+import { ProductNewScreen } from "../screens/admin/product/ProductNewScreen";
 import { product, postProductData } from "./mocks";
 import {
   createServer,
@@ -17,8 +17,8 @@ import {
   API_BASE_URL,
 } from "./test-utils";
 
-jest.mock("../../../services/api", () => ({
-  ...jest.requireActual("../../../services/api"),
+jest.mock("../services/api", () => ({
+  ...jest.requireActual("../services/api"),
   uploadProductImageApi: jest.fn(() =>
     Promise.resolve({
       image: "url-to-your-image",
@@ -97,7 +97,7 @@ describe("Admin Product Management", () => {
 
   // Grouping all Product Creation related tests together
   describe("Create new product", () => {
-    const { uploadProductImageApi } = require("../../../services/api");
+    const { uploadProductImageApi } = require("../services/api");
     const mockUpload = uploadProductImageApi as jest.MockedFunction<
       typeof uploadProductImageApi
     >;
