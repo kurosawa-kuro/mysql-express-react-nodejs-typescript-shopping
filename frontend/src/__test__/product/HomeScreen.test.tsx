@@ -53,18 +53,12 @@ const server = setupServer(
     const keyword = "";
     const pageNumber = 1;
 
-    // 追加: keywordとpageNumberの考慮
-    console.log(
-      `MSW handler for /api/products is called with keyword: "${keyword}", pageNumber: ${pageNumber}`
-    );
     if (keyword !== "" || pageNumber !== 1) {
-      // 適切なエラーメッセージを返す、あるいはフィルタリングされた製品リストを返すなどの処理を書くことができます
     }
 
     return res(ctx.json(productList));
   }),
   rest.get("http://localhost:8080/api/products/top", (_req, res, ctx) => {
-    console.log("MSW handler for /api/products/top is called.");
     return res(ctx.json([]));
   })
 );

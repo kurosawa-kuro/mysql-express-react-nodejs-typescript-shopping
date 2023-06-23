@@ -60,11 +60,7 @@ export const PlaceOrderScreen: FC = () => {
         deliveredAt: null,
         createdAt: new Date(),
       };
-      console.log("debug: createOrderApi: order", order);
-      console.dir(order, { depth: null });
       const res = await createOrderApi(order);
-      console.log("debug: createOrderApi: res", res);
-      // console.log("debug: createOrderApi: res.body", res.body);
       clearCartItems();
       navigate(`/orders/${res.id}`);
     } catch (err: unknown) {

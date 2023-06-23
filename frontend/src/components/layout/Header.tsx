@@ -24,7 +24,6 @@ export const Header: React.FC = () => {
   const adminDropdownRef = useRef<HTMLDivElement | null>(null);
   const { userInformation, logout } = useAuthStore();
   const { cartItems } = useCartStore();
-  // console.log({ userInformation });
 
   useEffect(() => {
     const closeDropdown = (e: MouseEvent) => {
