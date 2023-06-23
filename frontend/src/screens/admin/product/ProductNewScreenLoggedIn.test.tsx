@@ -171,7 +171,7 @@ describe("Admin Product Management", () => {
 
       await screen.findByRole("heading", { name: /Create Product/i });
 
-      const file = new File(["(⌐□_□)"], "chucknorris.png", {
+      const file = new File(["dummy content"], "test.png", {
         type: "image/png",
       });
 
