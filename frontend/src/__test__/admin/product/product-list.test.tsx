@@ -3,11 +3,11 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 
-import { App } from "../App";
-import { LoginScreen } from "../screens/auth/LoginScreen";
-import { ProductListScreen } from "../screens/admin/product/ProductListScreen";
-import { product } from "./mocks";
-import { createServer, inputField, TEST_USER } from "./test-utils";
+import { App } from "../../../App";
+import { LoginScreen } from "../../../screens/auth/LoginScreen";
+import { ProductListScreen } from "../../../screens/admin/product/ProductListScreen";
+import { product } from "../../mocks";
+import { createServer, inputField, TEST_USER } from "../../test-utils";
 
 const server = createServer();
 
