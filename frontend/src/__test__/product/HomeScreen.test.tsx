@@ -4,7 +4,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
-import { HomeScreen } from "../product/HomeScreen";
+import { HomeScreen } from "../../screens/product/HomeScreen";
 import { ProductList } from "../../../../backend/interfaces";
 
 // これはダミーデータで、適宜変更してください

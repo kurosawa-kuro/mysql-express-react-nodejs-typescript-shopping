@@ -3,7 +3,7 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { App } from "../../App";
-import { LoginScreen } from "./LoginScreen";
+import { LoginScreen } from "../../screens/auth/LoginScreen";
 
 const server = setupServer(
   rest.post("http://localhost:8080/api/users/login", async (req, res, ctx) => {

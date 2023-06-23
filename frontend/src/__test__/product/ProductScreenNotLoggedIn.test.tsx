@@ -2,14 +2,14 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { Routes, Route, MemoryRouter } from "react-router-dom";
-import { ProductScreen } from "../product/ProductScreen";
+import { ProductScreen } from "../../screens/product/ProductScreen";
 import { ProductFull } from "../../../../backend/interfaces";
 import { App } from "../../App";
-import { CartScreen } from "../order/CartScreen";
-import { ShippingScreen } from "../order/ShippingScreen";
-import { PaymentScreen } from "../order/PaymentScreen";
-import { PlaceOrderScreen } from "../order/PlaceOrderScreen";
-import { OrderScreen } from "../order/OrderScreen";
+import { CartScreen } from "../../screens/order/CartScreen";
+import { ShippingScreen } from "../../screens/order/ShippingScreen";
+import { PaymentScreen } from "../../screens/order/PaymentScreen";
+import { PlaceOrderScreen } from "../../screens/order/PlaceOrderScreen";
+import { OrderScreen } from "../../screens/order/OrderScreen";
 
 const product: ProductFull = {
   id: 1,
@@ -181,5 +181,5 @@ test("renders ProductScreen with product", async () => {
   expect(await screen.findByText("Order 28")).toBeInTheDocument();
   // await waitFor(() => screen.getByText("Test Pay"));
   // expect(await screen.findByText(`Test Pay`)).toBeInTheDocument();
-  screen.debug();
+  // screen.debug();
 });
