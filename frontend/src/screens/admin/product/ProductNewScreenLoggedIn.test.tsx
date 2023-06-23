@@ -199,7 +199,6 @@ describe("Admin Product Management", () => {
 
       inputField(LABELS.name, postProductData.name);
       inputField(LABELS.price, postProductData.price);
-      // inputField(LABELS.imageFile, postProductData.image);
       inputField(LABELS.brand, postProductData.brand);
       inputField(LABELS.countInStock, postProductData.countInStock);
       inputField(LABELS.category, postProductData.category);
