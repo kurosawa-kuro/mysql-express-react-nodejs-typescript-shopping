@@ -51,6 +51,7 @@ export const ProductNewScreen: React.FC = () => {
   };
 
   const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("uploadFileHandler");
     if (!e.target.files) return;
 
     const file = e.target.files[0];
@@ -114,8 +115,8 @@ export const ProductNewScreen: React.FC = () => {
               />
             </div>
             <div>
-              <label htmlFor="image" className="sr-only">
-                Image
+              <label htmlFor="image-file" className="sr-only">
+                Image File
               </label>
               <input
                 id="image"

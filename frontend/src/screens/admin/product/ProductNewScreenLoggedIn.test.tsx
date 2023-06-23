@@ -1,12 +1,19 @@
-import { Matcher, fireEvent, render, screen } from "@testing-library/react";
+import {
+  Matcher,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { Routes, Route, MemoryRouter } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
 
 import { App } from "../../../App";
 import { LoginScreen } from "../../auth/LoginScreen";
 import { ProductListScreen } from "./ProductListScreen";
-import { product, postProductData, order } from "./mocks";
+import { product, order, postProductData } from "./mocks";
 import { ProductNewScreen } from "./ProductNewScreen";
 
 const API_BASE_URL = "http://localhost:8080/api";
@@ -16,6 +23,16 @@ const TEST_USER = {
   password: "123456",
   isAdmin: true,
 };
+
+jest.mock("../../../services/api", () => ({
+  ...jest.requireActual("../../../services/api"),
+  uploadProductImageApi: jest.fn(() =>
+    Promise.resolve({
+      image: "url-to-your-image",
+      message: "Image uploaded successfully",
+    })
+  ),
+}));
 
 function createServer() {
   let productList = [product];
@@ -56,7 +73,20 @@ function createServer() {
     ),
     rest.get(`${API_BASE_URL}/orders/1`, (_req, res, ctx) =>
       res(ctx.status(200), ctx.json(order))
-    )
+    ),
+    rest.post(`${API_BASE_URL}/upload`, (req, res, ctx) => {
+      console.log("hit upload mock");
+      if (req.body) {
+        const body = req.body as Record<string, any>;
+        console.log("body.file", body.file);
+      }
+      return res(
+        ctx.json({
+          image: "url-to-your-image",
+          message: "Image uploaded successfully",
+        })
+      );
+    })
   );
 }
 
@@ -118,6 +148,11 @@ describe("Admin Product Management", () => {
   });
 
   describe("Create new product", () => {
+    const { uploadProductImageApi } = require("../../../services/api");
+    const mockUpload = uploadProductImageApi as jest.MockedFunction<
+      typeof uploadProductImageApi
+    >;
+
     test("admin can create a new product", async () => {
       render(
         <MemoryRouter initialEntries={["/admin/products/new"]}>
@@ -137,9 +172,22 @@ describe("Admin Product Management", () => {
 
       await screen.findByRole("heading", { name: /Create Product/i });
 
+      const file = new File(["(⌐□_□)"], "chucknorris.png", {
+        type: "image/png",
+      });
+
+      // Get the input element for uploading the image
+      const input = screen.getByLabelText("Image File") as HTMLInputElement;
+
+      // This line of code will trigger the 'onChange' event of the file input field
+      userEvent.upload(input, file);
+
+      // Assert that the mocked upload function is called
+      await waitFor(() => expect(mockUpload).toHaveBeenCalledTimes(1));
+
       inputField("Name", postProductData.name);
       inputField("Price", postProductData.price);
-      inputField("Image", postProductData.image);
+      // inputField("Image File", postProductData.image);
       inputField("Brand", postProductData.brand);
       inputField("Count In Stock", postProductData.countInStock);
       inputField("Category", postProductData.category);
