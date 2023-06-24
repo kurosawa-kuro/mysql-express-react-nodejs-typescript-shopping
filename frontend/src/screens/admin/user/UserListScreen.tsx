@@ -27,9 +27,6 @@ export const UserListScreen: React.FC = () => {
         if (err instanceof Error) {
           toast.error(err.message);
           setError(err.message);
-        } else {
-          toast.error("An error occurred.");
-          setError("An error occurred.");
         }
       } finally {
         setLoading(false);
@@ -48,8 +45,6 @@ export const UserListScreen: React.FC = () => {
       } catch (err: unknown) {
         if (err instanceof Error) {
           toast.error(err.message);
-        } else {
-          toast.error("An error occurred.");
         }
       }
     }

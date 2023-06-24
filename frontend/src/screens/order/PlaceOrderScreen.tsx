@@ -3,7 +3,6 @@
 // External Imports
 import { useState, useEffect, FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 // Internal Imports
 import { Loader } from "../../components/common/Loader";
@@ -66,8 +65,6 @@ export const PlaceOrderScreen: FC = () => {
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
-      } else {
-        toast.error("An error occurred.");
       }
     } finally {
       setLoading(false);

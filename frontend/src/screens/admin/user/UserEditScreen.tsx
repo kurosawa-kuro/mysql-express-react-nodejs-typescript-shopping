@@ -31,9 +31,6 @@ export const UserEditScreen: React.FC = () => {
         if (err instanceof Error) {
           toast.error(err.message);
           setError(err.message);
-        } else {
-          toast.error("An error occurred.");
-          setError("An error occurred.");
         }
       } finally {
         setLoading(false);
@@ -53,8 +50,6 @@ export const UserEditScreen: React.FC = () => {
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(err.message);
-      } else {
-        toast.error("An error occurred.");
       }
     } finally {
       setLoading(false);

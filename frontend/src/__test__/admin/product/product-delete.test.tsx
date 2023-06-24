@@ -7,12 +7,7 @@ import { App } from "../../../App";
 import { LoginScreen } from "../../../screens/auth/LoginScreen";
 import { ProductListScreen } from "../../../screens/admin/product/ProductListScreen";
 import { product } from "../../mocks";
-import {
-  createServer,
-  inputField,
-  printDOM,
-  TEST_USER,
-} from "../../test-utils";
+import { createServer, inputField, TEST_USER } from "../../test-utils";
 
 const server = createServer();
 
@@ -65,8 +60,6 @@ describe("Admin Product Management", () => {
       await screen.findByRole("heading", { name: /Products/i });
       expect(await screen.findByText(product.name)).toBeInTheDocument();
       fireEvent.click(await screen.findByTestId("delete-button"));
-
-      printDOM();
     });
   });
 });
