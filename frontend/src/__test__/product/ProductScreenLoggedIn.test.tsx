@@ -1,185 +1,206 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import { rest } from "msw";
-import { setupServer } from "msw/node";
-import { Routes, Route, MemoryRouter } from "react-router-dom";
-import { ProductScreen } from "../../screens/product/ProductScreen";
-import { ProductFull } from "../../../../backend/interfaces";
-import { App } from "../../App";
-import { CartScreen } from "../../screens/order/CartScreen";
-import { ShippingScreen } from "../../screens/order/ShippingScreen";
-import { PaymentScreen } from "../../screens/order/PaymentScreen";
-import { PlaceOrderScreen } from "../../screens/order/PlaceOrderScreen";
-import { OrderScreen } from "../../screens/order/OrderScreen";
+// frontend\src\screens\admin\product\ProductNewScreenLoggedIn.test.tsx
 
-const product: ProductFull = {
-  id: 1,
-  userId: 1,
-  name: "Product 1",
-  image: "https://example.com/product-1.jpg",
-  description: "Description: This is product 1",
-  brand: "Brand 1",
-  category: "Category 1",
-  price: 19.99,
-  countInStock: 10,
-  rating: 4.5,
-  numReviews: 12,
-  createdAt: new Date(),
-  updatedAt: new Date(),
+import { rest } from "msw";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+
+import { App } from "../../App";
+import { LoginScreen } from "../../screens/auth/LoginScreen";
+import { ProductListScreen } from "../../screens/admin/product/ProductListScreen";
+import { ProductNewScreen } from "../../screens/admin/product/ProductNewScreen";
+import { product, postProductData } from "../mocks";
+import {
+  createServer,
+  inputField,
+  TEST_USER,
+  API_BASE_URL,
+} from "../test-utils";
+
+jest.mock("../../services/api", () => ({
+  ...jest.requireActual("../../../services/api"),
+  uploadProductImageApi: jest.fn(() =>
+    Promise.resolve({
+      image: "url-to-your-image",
+      message: "Image uploaded successfully",
+    })
+  ),
+}));
+
+const server = createServer();
+
+const LABELS = {
+  email: "email",
+  password: "password",
+  name: "Name",
+  price: "Price",
+  imageFile: "Image File",
+  brand: "Brand",
+  countInStock: "Count In Stock",
+  category: "Category",
+  description: "Description",
 };
 
-const server = setupServer(
-  rest.get("http://localhost:8080/api/products/:id", (_req, res, ctx) => {
-    return res(ctx.json(product));
-  }),
-  rest.post("http://localhost:8080/api/orders", (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.json({ id: 1 }));
-  }),
-  rest.get("http://localhost:8080/api/orders/1", (_req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        id: 28,
-        userId: 2,
-        address: "大通り公園",
-        city: "0600061",
-        postalCode: "札幌",
-        paymentMethod: "PayPal",
-        paymentResultId: null,
-        paymentResultStatus: null,
-        paymentResultUpdateTime: null,
-        paymentResultEmail: null,
-        price: {
-          itemsPrice: 89.99,
-          taxPrice: 13.5,
-          shippingPrice: 10,
-          totalPrice: 113.49,
-        },
-        itemsPrice: 89.99,
-        taxPrice: 13.5,
-        shippingPrice: 10,
-        totalPrice: 113.49,
-        isPaid: false,
-        paidAt: null,
-        isDelivered: false,
-        deliveredAt: null,
-        createdAt: "2023-06-21T06:39:11.497Z",
-        updatedAt: "2023-06-21T06:39:11.497Z",
-        user: {
-          id: 2,
-          name: "john",
-          email: "john@email.com",
-          password:
-            "$2a$10$eRfvYeJFQKph.3IVWhT5u.Ae7a74KF8DlWxvSKFrp3VqlVBb0k13m",
-          isAdmin: false,
-          createdAt: "2023-06-14T21:07:17.601Z",
-          updatedAt: "2023-06-14T21:07:17.601Z",
-        },
-        orderProducts: [
-          {
-            orderId: 28,
-            productId: 1,
-            qty: 1,
-            product: {
-              id: 1,
-              userId: 1,
-              name: "Airpods Wireless Bluetooth Headphones",
-              image: "/images/airpods.jpg",
-              brand: "Apple",
-              category: "Electronics",
-              description:
-                "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while wor",
-              rating: 4.5,
-              numReviews: 12,
-              price: 89.99,
-              countInStock: 10,
-              createdAt: "2023-06-14T21:07:17.666Z",
-              updatedAt: "2023-06-14T21:07:17.666Z",
-            },
-          },
-        ],
-      })
-    );
-  })
-);
+describe("Admin Product Management", () => {
+  beforeAll(() => server.listen());
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
 
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+  // Grouping all Login related tests together
+  describe("Login process", () => {
+    it("renders login and admin can login", async () => {
+      render(
+        <MemoryRouter initialEntries={["/login"]}>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route path="/login" element={<LoginScreen />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      );
 
-test("renders ProductScreen with product", async () => {
-  render(
-    <MemoryRouter initialEntries={["/products/1"]}>
-      <Routes>
-        <Route path="/" element={<App />}>
-          <Route path="/products/:id" element={<ProductScreen />} />
-          <Route path="/cart" element={<CartScreen />} />
-          <Route path="/shipping" element={<ShippingScreen />} />
-          <Route path="/payment" element={<PaymentScreen />} />
-          <Route path="/place-order" element={<PlaceOrderScreen />} />
-          <Route path="/orders/:id" element={<OrderScreen />} />
-        </Route>
-      </Routes>
-    </MemoryRouter>
-  );
+      inputField(LABELS.email, TEST_USER.email);
+      inputField(LABELS.password, TEST_USER.password);
 
-  // Verify product details and add to cart
-  expect(await screen.findByText(product.name)).toBeInTheDocument();
-  expect(
-    await screen.findByText(`Price: $${product.price}`)
-  ).toBeInTheDocument();
-  fireEvent.click(screen.getByText(/Add To Cart/i));
+      fireEvent.click(screen.getByTestId("login"));
 
-  // Verify cart details and proceed to checkout
-  expect(await screen.findByText(`Shopping Cart`)).toBeInTheDocument();
-  expect(await screen.findByText(product.name)).toBeInTheDocument();
-  expect(
-    await screen.findByText(`Subtotal: $${product.price}`)
-  ).toBeInTheDocument();
-  expect(await screen.findByText(`Total (1) items`)).toBeInTheDocument();
-  fireEvent.click(screen.getByText(/Proceed To Checkout/i));
-
-  // Verify shipping details and continue
-  expect(
-    await screen.findByRole("heading", { name: /Shipping/i })
-  ).toBeInTheDocument();
-  fireEvent.change(screen.getByPlaceholderText("Enter address"), {
-    target: { value: "大通り公園" },
+      await screen.findByText("admin", {
+        selector: '[data-testid="user-info-name"]',
+      });
+    });
   });
-  fireEvent.change(screen.getByPlaceholderText("Enter city"), {
-    target: { value: "札幌" },
+
+  // Grouping all Product List related tests together
+  describe("Product list", () => {
+    it("admin can view product list", async () => {
+      render(
+        <MemoryRouter initialEntries={["/admin/products"]}>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route path="/admin/products/" element={<ProductListScreen />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      );
+
+      fireEvent.click(screen.getByText(`Admin Function`));
+
+      const productsLink = await screen.findByRole("menuitem", {
+        name: /Products/i,
+      });
+      fireEvent.click(productsLink);
+
+      await screen.findByRole("heading", { name: /Products/i });
+      expect(await screen.findByText(product.name)).toBeInTheDocument();
+    });
   });
-  fireEvent.change(screen.getByPlaceholderText("Enter postal code"), {
-    target: { value: "0600061" },
+
+  // Grouping all Product Creation related tests together
+  describe("Create new product", () => {
+    const { uploadProductImageApi } = require("../../../services/api");
+    const mockUpload = uploadProductImageApi as jest.MockedFunction<
+      typeof uploadProductImageApi
+    >;
+
+    it("admin can create a new product", async () => {
+      render(
+        <MemoryRouter initialEntries={["/admin/products/new"]}>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route
+                path="/admin/products/new"
+                element={<ProductNewScreen />}
+              />
+              <Route path="/admin/products/" element={<ProductListScreen />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      );
+
+      fireEvent.click(await screen.findByRole("button", { name: /Create/i }));
+
+      await screen.findByRole("heading", { name: /Create Product/i });
+
+      const file = new File(["dummy content"], "test.png", {
+        type: "image/png",
+      });
+
+      const input = screen.getByLabelText(LABELS.imageFile) as HTMLInputElement;
+      userEvent.upload(input, file);
+
+      await waitFor(() => expect(mockUpload).toHaveBeenCalledTimes(1));
+      expect(
+        await screen.findByText("Image uploaded successfully")
+      ).toBeInTheDocument();
+
+      inputField(LABELS.name, postProductData.name);
+      inputField(LABELS.price, postProductData.price);
+      inputField(LABELS.brand, postProductData.brand);
+      inputField(LABELS.countInStock, postProductData.countInStock);
+      inputField(LABELS.category, postProductData.category);
+      inputField(LABELS.description, postProductData.description);
+
+      fireEvent.click(screen.getByText(`Create`));
+
+      await screen.findByRole("heading", { name: /Products/i });
+      expect(await screen.findByText(postProductData.name)).toBeInTheDocument();
+    });
+
+    it("admin sees error message when creating a new product fails", async () => {
+      server.use(
+        rest.post(`${API_BASE_URL}/products`, (_req, res, ctx) => {
+          return res(
+            ctx.status(500),
+            ctx.json({ message: "Internal Server Error" })
+          );
+        })
+      );
+
+      render(
+        <MemoryRouter initialEntries={["/admin/products/new"]}>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route
+                path="/admin/products/new"
+                element={<ProductNewScreen />}
+              />
+              <Route path="/admin/products/" element={<ProductListScreen />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      );
+
+      fireEvent.click(await screen.findByRole("button", { name: /Create/i }));
+
+      await screen.findByRole("heading", { name: /Create Product/i });
+
+      const file = new File(["dummy content"], "test.png", {
+        type: "image/png",
+      });
+
+      const input = screen.getByLabelText(LABELS.imageFile) as HTMLInputElement;
+      userEvent.upload(input, file);
+
+      await waitFor(() => expect(mockUpload).toHaveBeenCalledTimes(1));
+      expect(
+        await screen.findByText("Image uploaded successfully")
+      ).toBeInTheDocument();
+
+      inputField(LABELS.name, postProductData.name);
+      inputField(LABELS.price, postProductData.price);
+      inputField(LABELS.brand, postProductData.brand);
+      inputField(LABELS.countInStock, postProductData.countInStock);
+      inputField(LABELS.category, postProductData.category);
+      inputField(LABELS.description, postProductData.description);
+
+      fireEvent.click(await screen.findByRole("button", { name: /Create/i }));
+
+      await waitFor(() => {
+        const alerts = screen.getAllByRole("alert");
+        expect(
+          alerts.some((alert) => alert.textContent === "Internal Server Error")
+        ).toBe(true);
+      });
+    });
   });
-  fireEvent.click(screen.getByText(/Continue/i));
-
-  // Verify payment details and continue
-  expect(
-    await screen.findByRole("heading", { name: /Payment Method/i })
-  ).toBeInTheDocument();
-  expect(screen.getByRole("radio", { name: /PayPal/i })).toBeChecked();
-  fireEvent.click(screen.getByText(/Continue/i));
-
-  // Uncomment below line for debugging purpose
-
-  // Place Order
-  expect(
-    await screen.findByRole("heading", { name: /Place Order/i })
-  ).toBeInTheDocument();
-
-  // Shipping
-  expect(
-    await screen.findByRole("heading", { name: /Shipping/i })
-  ).toBeInTheDocument();
-  // Order Summary
-  expect(await screen.findByText(`Order Summary`)).toBeInTheDocument();
-
-  //  fire Place Order
-  fireEvent.click(screen.getByRole("button", { name: /Place Order/i }));
-
-  // await Test Pay
-  expect(await screen.findByText("Order 28")).toBeInTheDocument();
-  // await waitFor(() => screen.getByText("Test Pay"));
-  // expect(await screen.findByText(`Test Pay`)).toBeInTheDocument();
-  // screen.debug();
 });
