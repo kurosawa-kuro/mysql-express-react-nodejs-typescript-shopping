@@ -23,21 +23,38 @@ export function createServer() {
   return setupServer(
     rest.post(`${API_BASE_URL}/users/login`, async (req, res, ctx) => {
       const requestBody = JSON.parse(await req.text()) as any;
-      const response =
+      let response;
+      if (
         requestBody.email === TEST_USER.email &&
         requestBody.password === TEST_USER.password
-          ? res(
-              ctx.json({
-                id: 1,
-                name: TEST_USER.name,
-                email: TEST_USER.email,
-                isAdmin: TEST_USER.isAdmin,
-              })
-            )
-          : res(
-              ctx.status(401),
-              ctx.json({ message: "Invalid email or password" })
-            );
+      ) {
+        response = res(
+          ctx.json({
+            id: 1,
+            name: TEST_USER.name,
+            email: TEST_USER.email,
+            isAdmin: TEST_USER.isAdmin,
+          })
+        );
+      } else if (
+        requestBody.email === "john@email.com" &&
+        requestBody.password === "123456"
+      ) {
+        response = res(
+          ctx.json({
+            id: 1,
+            name: "john",
+            email: "john@email.com",
+            isAdmin: false,
+          })
+        );
+      } else {
+        response = res(
+          ctx.status(401),
+          ctx.json({ message: "Invalid email or password" })
+        );
+      }
+
       return response;
     }),
     rest.get(`${API_BASE_URL}/products/:id`, (_req, res, ctx) =>
