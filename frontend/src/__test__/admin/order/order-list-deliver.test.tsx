@@ -13,7 +13,6 @@ import {
   API_BASE_URL,
   createServer,
   inputField,
-  printDOM,
   TEST_USER,
 } from "../../test-utils";
 import { rest } from "msw";
@@ -139,7 +138,6 @@ describe("Admin Product Management", () => {
         fireEvent.click(detailsLink);
 
         expect(await screen.findByText("Order 28")).toBeInTheDocument();
-        printDOM();
 
         const markAsDeliveredButton = await screen.findByText(
           "Mark As Delivered"
@@ -149,7 +147,6 @@ describe("Admin Product Management", () => {
         expect(
           await screen.findByText("Order is delivered")
         ).toBeInTheDocument();
-        printDOM();
       });
     });
   });
