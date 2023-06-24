@@ -19,7 +19,7 @@ export const TEST_USER = {
 
 export function createServer() {
   let productList = [product];
-
+  let orderList = [order];
   return setupServer(
     rest.post(`${API_BASE_URL}/users/login`, async (req, res, ctx) => {
       const requestBody = JSON.parse(await req.text()) as any;
@@ -54,6 +54,9 @@ export function createServer() {
     rest.delete(`${API_BASE_URL}/products/:id`, (_req, res, ctx) => {
       return res(ctx.status(200), ctx.json({ message: "Product removed" }));
     }),
+    rest.get(`${API_BASE_URL}/orders`, (_req, res, ctx) =>
+      res(ctx.json(orderList))
+    ),
     rest.post(`${API_BASE_URL}/orders`, (_req, res, ctx) =>
       res(ctx.status(200), ctx.json({ id: 1 }))
     ),

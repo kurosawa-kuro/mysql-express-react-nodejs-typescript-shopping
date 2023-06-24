@@ -59,6 +59,7 @@ describe("Admin Product Management", () => {
       fireEvent.click(OrdersLink);
 
       await screen.findByRole("heading", { name: /Orders/i });
+      expect(await screen.findByText("$113.49")).toBeInTheDocument();
       printDOM();
     });
   });
