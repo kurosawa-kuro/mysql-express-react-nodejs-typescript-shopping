@@ -62,7 +62,25 @@ export function createServer() {
     ),
     rest.get(`${API_BASE_URL}/orders/1`, (_req, res, ctx) =>
       res(ctx.status(200), ctx.json(order))
-    )
+    ),
+    rest.get(`${API_BASE_URL}/orders/28`, (_req, res, ctx) =>
+      res(ctx.status(200), ctx.json(order))
+    ),
+    rest.put(`${API_BASE_URL}/orders/:id/pay`, (req, res, ctx) => {
+      const id = Number(req.params.id);
+      const orderIndex = orderList.findIndex((order) => order.id === id);
+
+      if (orderIndex === -1) {
+        return res(ctx.status(404), ctx.json({ message: "Order not found" }));
+      }
+
+      orderList[orderIndex] = {
+        ...orderList[orderIndex],
+        isPaid: true,
+        // paidAt: new Date(),
+      };
+      return res(ctx.status(200), ctx.json(orderList[orderIndex]));
+    })
   );
 }
 

@@ -12,6 +12,7 @@ import {
   TEST_USER,
 } from "../../test-utils";
 import { OrderListScreen } from "../../../screens/admin/order/OrderListScreen";
+import { OrderScreen } from "../../../screens/order/OrderScreen";
 
 const server = createServer();
 
@@ -41,6 +42,7 @@ describe("Admin Product Management", () => {
             <Route path="/" element={<App />}>
               <Route path="/login" element={<LoginScreen />} />
               <Route path="/admin/orders/" element={<OrderListScreen />} />
+              <Route path="/orders/:id" element={<OrderScreen />} />
             </Route>
           </Routes>
         </MemoryRouter>
@@ -58,8 +60,20 @@ describe("Admin Product Management", () => {
       });
       fireEvent.click(OrdersLink);
 
+      // await waitFor(() => screen.findByRole("heading", { name: /Order /i }));
       await screen.findByRole("heading", { name: /Orders/i });
       expect(await screen.findByText("$113.49")).toBeInTheDocument();
+
+      const detailsLink = await screen.findByText("Details");
+      fireEvent.click(detailsLink);
+
+      expect(await screen.findByText("Order 28")).toBeInTheDocument();
+
+      const testPayButton = await screen.findByText("Test Pay");
+      fireEvent.click(testPayButton);
+
+      // Mark As Delivered
+      expect(await screen.findByText("Order is paid")).toBeInTheDocument();
       printDOM();
     });
   });
