@@ -30,9 +30,6 @@ export const OrderScreen = () => {
     if (err instanceof Error) {
       toast.error(err.message);
       setError(err.message);
-    } else {
-      toast.error("An error occurred.");
-      setError("An error occurred.");
     }
   };
 
