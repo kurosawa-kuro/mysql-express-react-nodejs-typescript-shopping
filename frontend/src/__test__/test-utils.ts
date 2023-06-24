@@ -10,7 +10,7 @@ export const printDOM = (length: number = 50000) =>
   console.log(prettyDOM(document.body, length));
 
 export const API_BASE_URL = "http://localhost:8080/api";
-export const TEST_USER = {
+export const TEST_ADMIN_USER = {
   name: "admin",
   email: "admin@email.com",
   password: "123456",
@@ -25,15 +25,15 @@ export function createServer() {
       const requestBody = JSON.parse(await req.text()) as any;
       let response;
       if (
-        requestBody.email === TEST_USER.email &&
-        requestBody.password === TEST_USER.password
+        requestBody.email === TEST_ADMIN_USER.email &&
+        requestBody.password === TEST_ADMIN_USER.password
       ) {
         response = res(
           ctx.json({
             id: 1,
-            name: TEST_USER.name,
-            email: TEST_USER.email,
-            isAdmin: TEST_USER.isAdmin,
+            name: TEST_ADMIN_USER.name,
+            email: TEST_ADMIN_USER.email,
+            isAdmin: TEST_ADMIN_USER.isAdmin,
           })
         );
       } else if (

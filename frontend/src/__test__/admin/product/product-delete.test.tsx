@@ -7,7 +7,7 @@ import { App } from "../../../App";
 import { LoginScreen } from "../../../screens/auth/LoginScreen";
 import { ProductListScreen } from "../../../screens/admin/product/ProductListScreen";
 import { product } from "../../mocks";
-import { createServer, inputField, TEST_USER } from "../../test-utils";
+import { createServer, inputField, TEST_ADMIN_USER } from "../../test-utils";
 
 const server = createServer();
 
@@ -45,8 +45,8 @@ describe("Admin Product Management", () => {
         </MemoryRouter>
       );
 
-      inputField(LABELS.email, TEST_USER.email);
-      inputField(LABELS.password, TEST_USER.password);
+      inputField(LABELS.email, TEST_ADMIN_USER.email);
+      inputField(LABELS.password, TEST_ADMIN_USER.password);
 
       fireEvent.click(screen.getByTestId("login"));
 

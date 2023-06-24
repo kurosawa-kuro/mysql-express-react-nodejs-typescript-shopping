@@ -13,7 +13,7 @@ import {
   API_BASE_URL,
   createServer,
   inputField,
-  TEST_USER,
+  TEST_ADMIN_USER,
 } from "../../test-utils";
 import { rest } from "msw";
 
@@ -51,8 +51,8 @@ describe("Admin Product Management", () => {
           </MemoryRouter>
         );
 
-        inputField(LABELS.email, TEST_USER.email);
-        inputField(LABELS.password, TEST_USER.password);
+        inputField(LABELS.email, TEST_ADMIN_USER.email);
+        inputField(LABELS.password, TEST_ADMIN_USER.password);
 
         fireEvent.click(screen.getByTestId("login"));
         fireEvent.click(await screen.findByText(`Admin Function`));

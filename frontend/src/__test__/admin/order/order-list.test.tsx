@@ -9,7 +9,7 @@ import { OrderListScreen } from "../../../screens/admin/order/OrderListScreen";
 import { OrderScreen } from "../../../screens/order/OrderScreen";
 
 // Utils & Constants
-import { createServer, inputField, TEST_USER } from "../../test-utils";
+import { createServer, inputField, TEST_ADMIN_USER } from "../../test-utils";
 
 const server = createServer();
 
@@ -44,8 +44,8 @@ describe("Admin Product Management", () => {
             </Routes>
           </MemoryRouter>
         );
-        inputField(LABELS.email, TEST_USER.email);
-        inputField(LABELS.password, TEST_USER.password);
+        inputField(LABELS.email, TEST_ADMIN_USER.email);
+        inputField(LABELS.password, TEST_ADMIN_USER.password);
         fireEvent.click(screen.getByTestId("login"));
         fireEvent.click(await screen.findByText(`Admin Function`));
         const OrdersLink = await screen.findByRole("menuitem", {

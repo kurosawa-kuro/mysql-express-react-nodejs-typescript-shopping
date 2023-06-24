@@ -13,7 +13,7 @@ import { product, postProductData } from "../../mocks";
 import {
   createServer,
   inputField,
-  TEST_USER,
+  TEST_ADMIN_USER,
   API_BASE_URL,
 } from "../../test-utils";
 
@@ -59,8 +59,8 @@ describe("Admin Product Management", () => {
         </MemoryRouter>
       );
 
-      inputField(LABELS.email, TEST_USER.email);
-      inputField(LABELS.password, TEST_USER.password);
+      inputField(LABELS.email, TEST_ADMIN_USER.email);
+      inputField(LABELS.password, TEST_ADMIN_USER.password);
 
       fireEvent.click(screen.getByTestId("login"));
 
