@@ -15,7 +15,7 @@ const findOrderById = async (id: number): Promise<OrderFull | null> => {
     where: { id },
     include: { user: true, orderProducts: { include: { product: true } } },
   });
-  console.dir(res, { depth: null });
+
   return db.order.findUnique({
     where: { id },
     include: { user: true, orderProducts: { include: { product: true } } },
