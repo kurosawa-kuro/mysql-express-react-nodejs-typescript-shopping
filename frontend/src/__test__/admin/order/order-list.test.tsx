@@ -1,18 +1,20 @@
-// frontend\src\screens\admin\product\ProductNewScreenLoggedIn.test.tsx
-
+// Built-in & External packages
 import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 
+// Components
 import { App } from "../../../App";
 import { LoginScreen } from "../../../screens/auth/LoginScreen";
+import { OrderListScreen } from "../../../screens/admin/order/OrderListScreen";
+import { OrderScreen } from "../../../screens/order/OrderScreen";
+
+// Utils & Constants
 import {
   createServer,
   inputField,
-  printDOM,
+  // printDOM,
   TEST_USER,
 } from "../../test-utils";
-import { OrderListScreen } from "../../../screens/admin/order/OrderListScreen";
-import { OrderScreen } from "../../../screens/order/OrderScreen";
 
 const server = createServer();
 
@@ -33,7 +35,6 @@ describe("Admin Product Management", () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
 
-  // Grouping all Login related tests together
   describe("Order list", () => {
     it("admin can move order list", async () => {
       render(
@@ -52,7 +53,6 @@ describe("Admin Product Management", () => {
       inputField(LABELS.password, TEST_USER.password);
 
       fireEvent.click(screen.getByTestId("login"));
-
       fireEvent.click(await screen.findByText(`Admin Function`));
 
       const OrdersLink = await screen.findByRole("menuitem", {
@@ -60,7 +60,6 @@ describe("Admin Product Management", () => {
       });
       fireEvent.click(OrdersLink);
 
-      // await waitFor(() => screen.findByRole("heading", { name: /Order /i }));
       await screen.findByRole("heading", { name: /Orders/i });
       expect(await screen.findByText("$113.49")).toBeInTheDocument();
 
@@ -72,9 +71,9 @@ describe("Admin Product Management", () => {
       const testPayButton = await screen.findByText("Test Pay");
       fireEvent.click(testPayButton);
 
-      // Mark As Delivered
       expect(await screen.findByText("Order is paid")).toBeInTheDocument();
-      printDOM();
+
+      // printDOM();
     });
   });
 });
