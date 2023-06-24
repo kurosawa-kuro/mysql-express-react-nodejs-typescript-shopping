@@ -1,9 +1,13 @@
 // frontend\src\screens\admin\product\test-utils.ts
 
 import { fireEvent, screen, Matcher } from "@testing-library/react";
+import { prettyDOM } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { order, product } from "./mocks";
+
+export const printDOM = (length: number = 50000) =>
+  console.log(prettyDOM(document.body, length));
 
 export const API_BASE_URL = "http://localhost:8080/api";
 export const TEST_USER = {

@@ -2,13 +2,17 @@
 
 import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { prettyDOM } from "@testing-library/react";
 
 import { App } from "../../../App";
 import { LoginScreen } from "../../../screens/auth/LoginScreen";
 import { ProductListScreen } from "../../../screens/admin/product/ProductListScreen";
 import { product } from "../../mocks";
-import { createServer, inputField, TEST_USER } from "../../test-utils";
+import {
+  createServer,
+  inputField,
+  printDOM,
+  TEST_USER,
+} from "../../test-utils";
 
 const server = createServer();
 
@@ -62,7 +66,7 @@ describe("Admin Product Management", () => {
       expect(await screen.findByText(product.name)).toBeInTheDocument();
       fireEvent.click(await screen.findByTestId("delete-button"));
 
-      console.log(prettyDOM(document.body, 50000));
+      printDOM();
     });
   });
 });
