@@ -10,6 +10,12 @@ export const printDOM = (length: number = 50000) =>
   console.log(prettyDOM(document.body, length));
 
 export const API_BASE_URL = "http://localhost:8080/api";
+export const TEST_USER = {
+  name: "john",
+  email: "john@email.com",
+  password: "123456",
+  isAdmin: false,
+};
 export const TEST_ADMIN_USER = {
   name: "admin",
   email: "admin@email.com",

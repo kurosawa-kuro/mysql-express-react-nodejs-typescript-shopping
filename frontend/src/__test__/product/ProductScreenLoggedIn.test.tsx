@@ -5,7 +5,7 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 
 import { App } from "../../App";
 import { LoginScreen } from "../../screens/auth/LoginScreen";
-import { createServer, inputField } from "../test-utils";
+import { createServer, inputField, TEST_USER } from "../test-utils";
 
 const server = createServer();
 
@@ -39,12 +39,12 @@ describe("Admin Product Management", () => {
         </MemoryRouter>
       );
 
-      inputField(LABELS.email, "john@email.com");
-      inputField(LABELS.password, 123456);
+      inputField(LABELS.email, TEST_USER.email);
+      inputField(LABELS.password, TEST_USER.password);
 
       fireEvent.click(screen.getByTestId("login"));
 
-      await screen.findByText("john", {
+      await screen.findByText(TEST_USER.name, {
         selector: '[data-testid="user-info-name"]',
       });
     });
