@@ -31,8 +31,6 @@ export const ProductListScreen: React.FC = () => {
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);
-        } else {
-          setError("An error occurred.");
         }
       } finally {
         setLoading(false);
@@ -43,7 +41,9 @@ export const ProductListScreen: React.FC = () => {
   }, [pageNumber]);
 
   const deleteHandler = async (id: number) => {
+    console.log("hit deleteHandler");
     if (window.confirm("Are you sure")) {
+      console.log("through confirm");
       try {
         await deleteProductApi(id);
         const newProductsData = await getProductsApi({
@@ -54,8 +54,6 @@ export const ProductListScreen: React.FC = () => {
       } catch (err: unknown) {
         if (err instanceof Error) {
           toast.error(err.message);
-        } else {
-          toast.error("An error occurred.");
         }
       }
     }
@@ -118,6 +116,7 @@ export const ProductListScreen: React.FC = () => {
                           <FaEdit />
                         </Link>
                         <button
+                          data-testid="delete-button"
                           onClick={() =>
                             product.id && deleteHandler(product.id)
                           }

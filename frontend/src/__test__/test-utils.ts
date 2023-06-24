@@ -47,6 +47,9 @@ export function createServer() {
       productList.push(postProduct);
       return res(ctx.json(postProduct));
     }),
+    rest.delete(`${API_BASE_URL}/products/:id`, (_req, res, ctx) => {
+      return res(ctx.status(200), ctx.json({ message: "Product removed" }));
+    }),
     rest.post(`${API_BASE_URL}/orders`, (_req, res, ctx) =>
       res(ctx.status(200), ctx.json({ id: 1 }))
     ),
