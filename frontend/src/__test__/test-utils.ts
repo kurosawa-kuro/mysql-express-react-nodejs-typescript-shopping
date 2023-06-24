@@ -80,6 +80,21 @@ export function createServer() {
         // paidAt: new Date(),
       };
       return res(ctx.status(200), ctx.json(orderList[orderIndex]));
+    }),
+    rest.put(`${API_BASE_URL}/orders/:id/deliver`, (req, res, ctx) => {
+      const id = Number(req.params.id);
+      const orderIndex = orderList.findIndex((order) => order.id === id);
+
+      if (orderIndex === -1) {
+        return res(ctx.status(404), ctx.json({ message: "Order not found" }));
+      }
+
+      orderList[orderIndex] = {
+        ...orderList[orderIndex],
+        isDelivered: true,
+        // paidAt: new Date(),
+      };
+      return res(ctx.status(200), ctx.json(orderList[orderIndex]));
     })
   );
 }

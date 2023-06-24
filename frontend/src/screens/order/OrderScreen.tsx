@@ -64,6 +64,7 @@ export const OrderScreen = () => {
     try {
       setLoading(true);
       await deliverOrderApi(orderIdNumber);
+      toast.success("Order is delivered");
       fetchOrder();
     } catch (err) {
       handleError(err);
