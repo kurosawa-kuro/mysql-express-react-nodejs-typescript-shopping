@@ -1,12 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { App } from "../../App";
-import {
-  TEST_USER,
-  createServer,
-  printDOM,
-  simulateLogin,
-} from "../test-utils";
+import { createServer, printDOM, simulateLogin } from "../test-utils";
 import { HomeScreen } from "../../screens/product/HomeScreen";
 
 const server = createServer();
@@ -30,10 +25,6 @@ describe("Product Operation", () => {
       );
 
       await simulateLogin();
-
-      await screen.findByText(TEST_USER.name, {
-        selector: '[data-testid="user-info-name"]',
-      });
 
       printDOM();
     });

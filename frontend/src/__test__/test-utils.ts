@@ -124,20 +124,9 @@ export const inputField = (label: Matcher, value: any) =>
   fireEvent.change(screen.getByLabelText(label), { target: { value } });
 
 export async function simulateLogin(isAdmin: boolean = false) {
-  let userInfo: UserInformation;
-  if (isAdmin) {
-    userInfo = {
-      ...TEST_ADMIN_USER,
-      id: 1,
-      token: "testToken",
-    };
-  } else {
-    userInfo = {
-      ...TEST_USER,
-      id: 1,
-      token: "testToken",
-    };
-  }
+  let userInfo: UserInformation = isAdmin
+    ? { ...TEST_ADMIN_USER, id: 1, token: "aaaaaaaa" }
+    : { ...TEST_USER, id: 1, token: "aaaaaaaa" };
 
   const { result } = renderHook(() => useAuthStore());
 
