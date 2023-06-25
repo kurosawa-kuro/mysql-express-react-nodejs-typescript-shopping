@@ -63,6 +63,12 @@ describe("Product Operation", () => {
       expect(await screen.findByText("Latest Products")).toBeInTheDocument();
       expect(await screen.findByText(product.name)).toBeInTheDocument();
 
+      const searchInput = screen.getByPlaceholderText("Search Products...");
+      fireEvent.change(searchInput, { target: { value: "Product 1" } });
+
+      const searchButton = screen.getByText("Search");
+      fireEvent.click(searchButton);
+
       printDOM();
     });
   });
