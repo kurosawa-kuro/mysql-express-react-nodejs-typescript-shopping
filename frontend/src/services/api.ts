@@ -22,8 +22,6 @@ const handleApiError = (error: AxiosError<ErrorMessage>) => {
     throw new Error(error.response.data.message);
   } else if (error.request) {
     throw new Error("Unable to connect to the server. Please try again.");
-  } else {
-    throw new Error("An error occurred. Please try again.");
   }
 };
 
@@ -34,8 +32,6 @@ const performRequest = async (request: Promise<AxiosResponse<any>>) => {
   } catch (error: unknown) {
     if (error instanceof axios.AxiosError) {
       handleApiError(error);
-    } else {
-      throw error;
     }
   }
 };

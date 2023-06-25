@@ -14,8 +14,9 @@ test("shows username in header after successful login", async () => {
   render(
     <MemoryRouter initialEntries={["/login"]}>
       <Routes>
-        <Route path="/login" element={<LoginScreen />} />
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<App />}>
+          <Route path="/login" element={<LoginScreen />} />
+        </Route>
       </Routes>
     </MemoryRouter>
   );

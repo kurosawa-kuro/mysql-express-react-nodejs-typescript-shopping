@@ -44,7 +44,6 @@ export function createServer() {
   return setupServer(
     rest.post(`${API_BASE_URL}/users/login`, async (req, res, ctx) => {
       const requestBody = JSON.parse(await req.text()) as any;
-      console.log("check1");
       if (
         authenticate(requestBody.email, requestBody.password, TEST_ADMIN_USER)
       ) {
@@ -55,7 +54,6 @@ export function createServer() {
         return res(ctx.json({ id: 1, ...TEST_USER }));
       }
 
-      console.log("check2");
       return res(
         ctx.status(401),
         ctx.json({ message: "Invalid email or password" })
