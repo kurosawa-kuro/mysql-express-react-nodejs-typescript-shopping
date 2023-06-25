@@ -17,8 +17,6 @@ export const OrderListScreen: React.FC = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      console.log("hit fetchOrders");
-      console.log("userInformation?.isAdmin : ", userInformation?.isAdmin);
       try {
         const data = userInformation?.isAdmin
           ? await getOrdersApi()

@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { App } from "../../App";
 import { LoginScreen } from "../../screens/auth/LoginScreen";
-import { createServer, inputField, printDOM, TEST_USER } from "../test-utils";
+import { createServer, inputField, TEST_USER } from "../test-utils";
 import { HomeScreen } from "../../screens/product/HomeScreen";
 import { product } from "../mocks";
 
@@ -81,7 +81,7 @@ describe("Product Operation", () => {
       fireEvent.click(searchButton);
       expect(await screen.findByText(product.name)).toBeInTheDocument();
 
-      printDOM();
+      // printDOM();
     });
   });
 });

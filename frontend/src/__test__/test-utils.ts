@@ -23,6 +23,10 @@ export const TEST_ADMIN_USER = {
   isAdmin: true,
 };
 
+function authenticate(email: string, password: string, user: typeof TEST_USER) {
+  return email === user.email && password === user.password;
+}
+
 let productList = [product];
 export const products = { page: 1, pages: 2, products: productList };
 
@@ -31,39 +35,21 @@ export function createServer() {
   return setupServer(
     rest.post(`${API_BASE_URL}/users/login`, async (req, res, ctx) => {
       const requestBody = JSON.parse(await req.text()) as any;
-      let response;
+
       if (
-        requestBody.email === TEST_ADMIN_USER.email &&
-        requestBody.password === TEST_ADMIN_USER.password
+        authenticate(requestBody.email, requestBody.password, TEST_ADMIN_USER)
       ) {
-        response = res(
-          ctx.json({
-            id: 1,
-            name: TEST_ADMIN_USER.name,
-            email: TEST_ADMIN_USER.email,
-            isAdmin: TEST_ADMIN_USER.isAdmin,
-          })
-        );
-      } else if (
-        requestBody.email === "john@email.com" &&
-        requestBody.password === "123456"
-      ) {
-        response = res(
-          ctx.json({
-            id: 1,
-            name: "john",
-            email: "john@email.com",
-            isAdmin: false,
-          })
-        );
-      } else {
-        response = res(
-          ctx.status(401),
-          ctx.json({ message: "Invalid email or password" })
-        );
+        return res(ctx.json({ id: 1, ...TEST_ADMIN_USER }));
       }
 
-      return response;
+      if (authenticate(requestBody.email, requestBody.password, TEST_USER)) {
+        return res(ctx.json({ id: 1, ...TEST_USER }));
+      }
+
+      return res(
+        ctx.status(401),
+        ctx.json({ message: "Invalid email or password" })
+      );
     }),
     rest.get("http://localhost:8080/api/products/top", (_req, res, ctx) => {
       return res(ctx.json([product]));
