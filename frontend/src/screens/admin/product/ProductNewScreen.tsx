@@ -60,8 +60,6 @@ export const ProductNewScreen: React.FC = () => {
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(err.message);
-      } else {
-        toast.error("An error occurred.");
       }
     }
   };

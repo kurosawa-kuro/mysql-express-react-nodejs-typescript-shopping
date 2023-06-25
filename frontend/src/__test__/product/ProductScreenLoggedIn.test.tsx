@@ -1,11 +1,13 @@
-import { render, screen, renderHook } from "@testing-library/react";
-import { act } from "react-dom/test-utils";
+import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { App } from "../../App";
-import { LoginScreen } from "../../screens/auth/LoginScreen";
-import { createServer, printDOM } from "../test-utils";
+import {
+  TEST_USER,
+  createServer,
+  printDOM,
+  simulateLogin,
+} from "../test-utils";
 import { HomeScreen } from "../../screens/product/HomeScreen";
-import { useAuthStore } from "../../state/store";
 
 const server = createServer();
 
@@ -20,7 +22,6 @@ describe("Product Operation", () => {
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
             <Route path="/" element={<App />}>
-              <Route path="/login" element={<LoginScreen />} />
               <Route path="/" element={<HomeScreen />} />
               <Route path="/search/:keyword" element={<HomeScreen />} />
             </Route>
@@ -28,22 +29,9 @@ describe("Product Operation", () => {
         </MemoryRouter>
       );
 
-      // 強制的にログインさせる
-      const { result } = renderHook(() => useAuthStore());
+      await simulateLogin();
 
-      // Simulate login by setting user information
-      act(() => {
-        result.current.setUserInformation({
-          id: 1,
-          name: "Test User",
-          email: "test@example.com",
-          isAdmin: false,
-          token: "testToken",
-        });
-      });
-
-      // Verify user information display after successful login
-      await screen.findByText("Test User", {
+      await screen.findByText(TEST_USER.name, {
         selector: '[data-testid="user-info-name"]',
       });
 

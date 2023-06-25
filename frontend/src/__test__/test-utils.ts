@@ -1,10 +1,19 @@
 // frontend\src\screens\admin\product\test-utils.ts
 
-import { fireEvent, screen, Matcher } from "@testing-library/react";
-import { prettyDOM } from "@testing-library/react";
+import {
+  fireEvent,
+  screen,
+  Matcher,
+  renderHook,
+  prettyDOM,
+  act,
+} from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
+
 import { order, product } from "./mocks";
+import { useAuthStore } from "../state/store";
+import { UserInformation } from "../../../backend/interfaces";
 
 export const printDOM = (length: number = 50000) =>
   console.log(prettyDOM(document.body, length));
@@ -113,3 +122,30 @@ export function createServer() {
 
 export const inputField = (label: Matcher, value: any) =>
   fireEvent.change(screen.getByLabelText(label), { target: { value } });
+
+export async function simulateLogin(isAdmin: boolean = false) {
+  let userInfo: UserInformation;
+  if (isAdmin) {
+    userInfo = {
+      ...TEST_ADMIN_USER,
+      id: 1,
+      token: "testToken",
+    };
+  } else {
+    userInfo = {
+      ...TEST_USER,
+      id: 1,
+      token: "testToken",
+    };
+  }
+
+  const { result } = renderHook(() => useAuthStore());
+
+  act(() => {
+    result.current.setUserInformation(userInfo);
+  });
+
+  await screen.findByText(userInfo.name, {
+    selector: '[data-testid="user-info-name"]',
+  });
+}

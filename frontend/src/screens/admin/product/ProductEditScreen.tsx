@@ -27,9 +27,7 @@ export const ProductEditScreen: React.FC = () => {
 
   const handleError = (err: unknown) => {
     if (err instanceof Error) {
-      setError(err.message);
-    } else {
-      setError("An error occurred.");
+      setError(err instanceof Error ? err.message : "An error occurred.");
     }
     setLoading(false);
   };
