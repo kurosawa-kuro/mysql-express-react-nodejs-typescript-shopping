@@ -3,22 +3,7 @@ import { act } from "react-dom/test-utils";
 import { renderHook } from "@testing-library/react-hooks";
 
 import { useAuthStore, useCartStore } from "../../state/store";
-
-export const product = {
-  id: 1,
-  userId: 1,
-  name: "Product 1",
-  image: "https://example.com/product-1.jpg",
-  description: "Description: This is product 1",
-  brand: "Brand 1",
-  category: "Category 1",
-  price: 19.99,
-  countInStock: 10,
-  rating: 4.5,
-  numReviews: 12,
-  createdAt: new Date().toISOString(),
-  updatedAt: new Date().toISOString(),
-};
+import { product } from "../mocks";
 
 describe("useAuthStore", () => {
   beforeEach(() => {
@@ -27,10 +12,6 @@ describe("useAuthStore", () => {
   beforeAll(() => {
     jest.spyOn(console, "error").mockImplementation(() => {});
   });
-
-  // afterAll(() => {
-  //   console.error.mockRestore();
-  // });
 
   it("should handle setting and clearing user information", () => {
     const { result } = renderHook(() => useAuthStore());
