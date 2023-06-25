@@ -41,9 +41,7 @@ export const ProductListScreen: React.FC = () => {
   }, [pageNumber]);
 
   const deleteHandler = async (id: number) => {
-    console.log("hit deleteHandler");
     if (window.confirm("Are you sure")) {
-      console.log("through confirm");
       try {
         await deleteProductApi(id);
         const newProductsData = await getProductsApi({

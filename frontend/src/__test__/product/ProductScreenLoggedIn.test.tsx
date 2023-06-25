@@ -5,7 +5,9 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 
 import { App } from "../../App";
 import { LoginScreen } from "../../screens/auth/LoginScreen";
-import { createServer, inputField, TEST_USER } from "../test-utils";
+import { createServer, inputField, printDOM, TEST_USER } from "../test-utils";
+import { HomeScreen } from "../../screens/product/HomeScreen";
+import { product } from "../mocks";
 
 const server = createServer();
 
@@ -21,7 +23,7 @@ const LABELS = {
   description: "Description",
 };
 
-describe("Admin Product Management", () => {
+describe("Product Operation", () => {
   beforeAll(() => server.listen());
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
@@ -34,6 +36,7 @@ describe("Admin Product Management", () => {
           <Routes>
             <Route path="/" element={<App />}>
               <Route path="/login" element={<LoginScreen />} />
+              <Route path="/" element={<HomeScreen />} />
             </Route>
           </Routes>
         </MemoryRouter>
@@ -44,9 +47,23 @@ describe("Admin Product Management", () => {
 
       fireEvent.click(screen.getByTestId("login"));
 
+      const toastMessage = await screen.findByText("Successfully logged in");
+
+      expect(toastMessage).toBeInTheDocument();
+
+      const toastContainer = toastMessage.parentElement;
+      const successIcon = toastContainer?.querySelector("svg");
+      expect(successIcon).toBeInTheDocument();
+
       await screen.findByText(TEST_USER.name, {
         selector: '[data-testid="user-info-name"]',
       });
+
+      //  Latest Products
+      expect(await screen.findByText("Latest Products")).toBeInTheDocument();
+      expect(await screen.findByText(product.name)).toBeInTheDocument();
+
+      printDOM();
     });
   });
 });

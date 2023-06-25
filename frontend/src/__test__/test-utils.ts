@@ -23,8 +23,10 @@ export const TEST_ADMIN_USER = {
   isAdmin: true,
 };
 
+let productList = [product];
+export const products = { page: 1, pages: 2, products: productList };
+
 export function createServer() {
-  let productList = [product];
   let orderList = [order];
   return setupServer(
     rest.post(`${API_BASE_URL}/users/login`, async (req, res, ctx) => {
@@ -63,11 +65,14 @@ export function createServer() {
 
       return response;
     }),
+    rest.get("http://localhost:8080/api/products/top", (_req, res, ctx) => {
+      return res(ctx.json([product]));
+    }),
     rest.get(`${API_BASE_URL}/products/:id`, (_req, res, ctx) =>
       res(ctx.json(product))
     ),
     rest.get(`${API_BASE_URL}/products`, (_req, res, ctx) =>
-      res(ctx.json({ page: 1, pages: 2, products: productList }))
+      res(ctx.json(products))
     ),
     rest.post(`${API_BASE_URL}/products`, async (req, res, ctx) => {
       const postProduct = (await req.json()) as typeof product;
@@ -77,6 +82,7 @@ export function createServer() {
     rest.delete(`${API_BASE_URL}/products/:id`, (_req, res, ctx) => {
       return res(ctx.status(200), ctx.json({ message: "Product removed" }));
     }),
+
     rest.get(`${API_BASE_URL}/orders`, (_req, res, ctx) =>
       res(ctx.json(orderList))
     ),
