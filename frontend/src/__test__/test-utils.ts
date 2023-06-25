@@ -60,28 +60,28 @@ export function createServer() {
         ctx.json({ message: "Invalid email or password" })
       );
     }),
-    rest.get("http://localhost:8080/api/products/top", (_req, res, ctx) => {
+    rest.get(`${API_BASE_URL}/products/top`, (_req, res, ctx) => {
       return res(ctx.json([product]));
     }),
-    rest.get(`${API_BASE_URL}/products/:id`, (_req, res, ctx) =>
-      res(ctx.json(product))
-    ),
-    rest.get(`${API_BASE_URL}/products`, (_req, res, ctx) =>
-      res(ctx.json(products))
-    ),
+    // rest.get(`${API_BASE_URL}/products/:id`, (_req, res, ctx) =>
+    //   res(ctx.json(product))
+    // ),
     rest.post(`${API_BASE_URL}/products`, async (req, res, ctx) => {
       const postProduct = (await req.json()) as typeof product;
       productList.push(postProduct);
       return res(ctx.json(postProduct));
     }),
+    rest.get(`${API_BASE_URL}/products`, (_req, res, ctx) =>
+      res(ctx.json(products))
+    ),
     rest.delete(`${API_BASE_URL}/products/:id`, (_req, res, ctx) => {
       return res(ctx.status(200), ctx.json({ message: "Product removed" }));
     }),
+    // rest.post(`${API_BASE_URL}/orders`, (_req, res, ctx) =>
+    //   res(ctx.status(200), ctx.json({ id: 1 }))
+    // ),
     rest.get(`${API_BASE_URL}/orders`, (_req, res, ctx) =>
       res(ctx.json(orderList))
-    ),
-    rest.post(`${API_BASE_URL}/orders`, (_req, res, ctx) =>
-      res(ctx.status(200), ctx.json({ id: 1 }))
     ),
     rest.get(`${API_BASE_URL}/orders/:id`, (_req, res, ctx) =>
       res(ctx.status(200), ctx.json(order))
@@ -89,10 +89,6 @@ export function createServer() {
     rest.put(`${API_BASE_URL}/orders/:id/pay`, (req, res, ctx) => {
       const id = Number(req.params.id);
       const orderIndex = orderList.findIndex((order) => order.id === id);
-
-      if (orderIndex === -1) {
-        return res(ctx.status(404), ctx.json({ message: "Order not found" }));
-      }
 
       orderList[orderIndex] = {
         ...orderList[orderIndex],
@@ -104,10 +100,6 @@ export function createServer() {
     rest.put(`${API_BASE_URL}/orders/:id/deliver`, (req, res, ctx) => {
       const id = Number(req.params.id);
       const orderIndex = orderList.findIndex((order) => order.id === id);
-
-      if (orderIndex === -1) {
-        return res(ctx.status(404), ctx.json({ message: "Order not found" }));
-      }
 
       orderList[orderIndex] = {
         ...orderList[orderIndex],
