@@ -68,12 +68,10 @@ npx playwright test --debug frontend/src/tests/e2e/auth/login.test.js
 ```
 
 ```
-C:\Users\kuros\local_dev\full-stack-basic\shopping\sample\mysql-express-react-nodejs-javascript-shopping
-cd frontend
-npm test ./src/tests/App.test.js
+PS C:\Users\kuros\local_dev\full-stack-basic\shopping\mysql-express-react-nodejs-typescript-shopping> cd .\frontend\
+PS C:\Users\kuros\local_dev\full-stack-basic\shopping\mysql-express-react-nodejs-typescript-shopping\frontend> npm test ./src/__test__/
 ```
 
 ```
-C:\Users\kuros\local_dev\full-stack-basic\shopping\sample\mysql-express-react-nodejs-javascript-shopping
-npm test ./backend/test/app.test.js
+PS C:\Users\kuros\local_dev\full-stack-basic\shopping\mysql-express-react-nodejs-typescript-shopping> npm test ./backend/__test__
 ```
