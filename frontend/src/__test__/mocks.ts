@@ -10,8 +10,8 @@ export const product = {
   countInStock: 10,
   rating: 4.5,
   numReviews: 12,
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
 };
 
 export const postProductData = {
@@ -26,8 +26,8 @@ export const postProductData = {
   countInStock: 10,
   rating: 4.5,
   numReviews: 12,
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
 };
 
 export const order = {
@@ -63,8 +63,8 @@ export const order = {
     email: "john@email.com",
     password: "$2a$10$eRfvYeJFQKph.3IVWhT5u.Ae7a74KF8DlWxvSKFrp3VqlVBb0k13m",
     isAdmin: false,
-    createdAt: "2023-06-14T21:07:17.601Z",
-    updatedAt: "2023-06-14T21:07:17.601Z",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
   orderProducts: [
     {
@@ -84,8 +84,8 @@ export const order = {
         numReviews: 12,
         price: 89.99,
         countInStock: 10,
-        createdAt: "2023-06-14T21:07:17.666Z",
-        updatedAt: "2023-06-14T21:07:17.666Z",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       },
     },
   ],
