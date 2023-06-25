@@ -89,10 +89,7 @@ export function createServer() {
     rest.post(`${API_BASE_URL}/orders`, (_req, res, ctx) =>
       res(ctx.status(200), ctx.json({ id: 1 }))
     ),
-    rest.get(`${API_BASE_URL}/orders/1`, (_req, res, ctx) =>
-      res(ctx.status(200), ctx.json(order))
-    ),
-    rest.get(`${API_BASE_URL}/orders/28`, (_req, res, ctx) =>
+    rest.get(`${API_BASE_URL}/orders/:id`, (_req, res, ctx) =>
       res(ctx.status(200), ctx.json(order))
     ),
     rest.put(`${API_BASE_URL}/orders/:id/pay`, (req, res, ctx) => {
