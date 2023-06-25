@@ -77,7 +77,6 @@ export function createServer() {
     rest.delete(`${API_BASE_URL}/products/:id`, (_req, res, ctx) => {
       return res(ctx.status(200), ctx.json({ message: "Product removed" }));
     }),
-
     rest.get(`${API_BASE_URL}/orders`, (_req, res, ctx) =>
       res(ctx.json(orderList))
     ),
@@ -98,7 +97,7 @@ export function createServer() {
       orderList[orderIndex] = {
         ...orderList[orderIndex],
         isPaid: true,
-        // paidAt: new Date(),
+        paidAt: new Date().toISOString(),
       };
       return res(ctx.status(200), ctx.json(orderList[orderIndex]));
     }),
@@ -113,7 +112,7 @@ export function createServer() {
       orderList[orderIndex] = {
         ...orderList[orderIndex],
         isDelivered: true,
-        // paidAt: new Date(),
+        deliveredAt: new Date().toISOString(),
       };
       return res(ctx.status(200), ctx.json(orderList[orderIndex]));
     })
