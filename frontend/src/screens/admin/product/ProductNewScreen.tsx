@@ -112,6 +112,15 @@ export const ProductNewScreen: React.FC = () => {
               <label htmlFor="image-file" className="sr-only">
                 Image File
               </label>
+              {image && (
+                <img
+                  className="w-40"
+                  src={image
+                    .replace(/\\/g, "/")
+                    .replace("/frontend/public", "")}
+                  alt={image}
+                />
+              )}
               <input
                 id="image"
                 name="image"
@@ -119,7 +128,9 @@ export const ProductNewScreen: React.FC = () => {
                 required
                 className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Enter image url"
-                value={image}
+                value={image
+                  .replace(/\\/g, "/")
+                  .replace("/frontend/public", "")}
                 onChange={(e) => setImage(e.target.value)}
               />
               <input
