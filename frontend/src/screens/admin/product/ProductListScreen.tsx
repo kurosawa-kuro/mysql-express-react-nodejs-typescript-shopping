@@ -26,6 +26,7 @@ export const ProductListScreen: React.FC = () => {
           pageNumber: Number(pageNumber),
           keyword: "",
         });
+        console.log("fetchProducts data", data);
         setProductsData(data);
         setLoading(false);
       } catch (err) {
@@ -83,6 +84,7 @@ export const ProductListScreen: React.FC = () => {
               <tr className="border-b bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
                 <th className="px-4 py-3">ID</th>
                 <th className="px-4 py-3">NAME</th>
+                <th className="px-4 py-3 ">IMAGE</th>
                 <th className="px-4 py-3">PRICE</th>
                 <th className="px-4 py-3">CATEGORY</th>
                 <th className="px-4 py-3">BRAND</th>
@@ -102,6 +104,13 @@ export const ProductListScreen: React.FC = () => {
                       </Link>
                     </td>
                     <td className="px-4 py-3">{product.name}</td>
+                    <td className="px-4 py-3">
+                      <img
+                        className="w-40"
+                        src={product.image}
+                        alt={product.name}
+                      />
+                    </td>
                     <td className="px-4 py-3">${product.price}</td>
                     <td className="px-4 py-3">{product.category}</td>
                     <td className="px-4 py-3">{product.brand}</td>
