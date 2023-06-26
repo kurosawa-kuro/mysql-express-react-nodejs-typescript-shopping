@@ -10,11 +10,6 @@ import { Order } from "@prisma/client";
 import { UserRequest, CartProduct, OrderFull } from "../interfaces";
 
 const findOrderById = async (id: number): Promise<OrderFull | null> => {
-  const res = await db.order.findUnique({
-    where: { id },
-    include: { user: true, orderProducts: { include: { product: true } } },
-  });
-
   return db.order.findUnique({
     where: { id },
     include: { user: true, orderProducts: { include: { product: true } } },
@@ -110,6 +105,15 @@ const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
         isDelivered: order.isDelivered,
         deliveredAt: order.deliveredAt,
         createdAt: order.createdAt,
+        user: {
+          id: order.user?.id,
+          name: order.user?.name,
+          email: order.user?.email,
+          isAdmin: order.user?.isAdmin,
+        },
+        address: order.address,
+        city: order.city,
+        postalCode: order.postalCode,
       })
     : res.status(404).json({ message: "Order not found" });
 });

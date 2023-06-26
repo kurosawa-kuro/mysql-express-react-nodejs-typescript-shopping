@@ -95,6 +95,7 @@ export interface ProductReview {
 
 export interface OrderFull extends OrderType {
   orderProducts: CartProduct[];
+  user?: UserBase;
 }
 
 export interface Order

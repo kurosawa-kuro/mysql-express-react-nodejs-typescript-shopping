@@ -92,6 +92,6 @@ describe("Database ", () => {
         },
       },
     });
-    console.dir(orderProducts, { depth: null });
+    // console.dir(orderProducts, { depth: null });
   });
 });
