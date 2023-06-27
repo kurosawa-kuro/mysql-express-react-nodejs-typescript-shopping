@@ -92,35 +92,31 @@ export interface ProductReview {
 
 // --------------------------
 // Order related interfaces
+export interface Order extends OrderType {}
 
-export interface OrderFull extends OrderType {
-  orderProducts: CartProduct[];
-  user?: UserBase;
-}
-
-export interface Order
+// OrderFullを軸に統合整理して最終的にOrderTypeをOrderにする
+// isPaid: boolean
+// paidAt: Date | null
+// isDelivered: boolean
+// deliveredAt: Date | null
+export interface OrderFull
   extends Pick<
     OrderType,
-    | "address"
-    | "city"
-    | "postalCode"
-    | "paymentMethod"
-    | "isPaid"
-    | "isDelivered"
-    | "deliveredAt"
-    | "createdAt"
+    "id" | "paymentMethod" | "isPaid" | "paidAt" | "isDelivered" | "deliveredAt"
   > {
-  id?: number;
-  userId?: number;
-  user?: UserBase;
   orderProducts: CartProduct[];
+  user: UserBase;
   price: {
     itemsPrice: number;
     taxPrice: number;
     shippingPrice: number;
     totalPrice: number;
   };
-  paidAt: Date | null;
+  address: {
+    postalCode: string;
+    city: string;
+    address: string;
+  };
 }
 
 export interface OrderShipping {
