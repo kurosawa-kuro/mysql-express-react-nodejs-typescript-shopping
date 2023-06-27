@@ -42,6 +42,14 @@ export const products = { page: 1, pages: 2, products: productList };
 export function createServer() {
   let orderList = [order];
   return setupServer(
+    rest.post(`${API_BASE_URL}/users/register`, async (_req, res, ctx) => {
+      return res(ctx.json({ id: 1, ...TEST_USER }));
+
+      return res(
+        ctx.status(401),
+        ctx.json({ message: "Invalid email or password" })
+      );
+    }),
     rest.post(`${API_BASE_URL}/users/login`, async (req, res, ctx) => {
       const requestBody = JSON.parse(await req.text()) as any;
       if (

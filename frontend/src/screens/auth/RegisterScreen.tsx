@@ -37,7 +37,6 @@ export const RegisterScreen = () => {
       toast.error("Passwords do not match");
       return;
     }
-
     setLoading(true);
     try {
       const user: UserInformation = await registerUserApi({
@@ -74,6 +73,7 @@ export const RegisterScreen = () => {
                 : field.charAt(0).toUpperCase() + field.slice(1)}
             </label>
             <input
+              data-testid={`input-${field}`}
               name={field}
               type={field}
               placeholder={`Enter ${field}`}
@@ -84,6 +84,7 @@ export const RegisterScreen = () => {
           </div>
         ))}
         <button
+          data-testid="register"
           type="submit"
           className="w-full rounded-md border border-transparent bg-custom-blue-dark px-4 py-2 text-base font-medium text-white hover:bg-custom-blue-darkest focus:outline-none focus:ring-2 focus:ring-custom-blue-darker focus:ring-offset-2 md:w-1/2 lg:w-1/3"
         >
