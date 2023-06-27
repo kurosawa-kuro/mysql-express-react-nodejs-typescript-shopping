@@ -17,17 +17,14 @@ describe("PUT /api/users/profile", () => {
   });
 
   it("updates a user profile", async () => {
-    // Create a user and log them in
     await createUser("john@email.com", "123456");
     const token = await loginUserAndGetToken(agent, "john@email.com", "123456");
 
-    // Check that the JWT cookie has been set
     expect(token).toBeTruthy();
 
-    // Now, we update the user profile
     const updateResponse = await agent
       .put("/api/users/profile")
-      .set("Cookie", `jwt=${token}`) // Set the Authorization header to the token
+      .set("Cookie", `jwt=${token}`)
       .send({ name: "john updated", email: "johnupdated@email.com" });
 
     expect(updateResponse.status).toBe(200);
@@ -37,25 +34,21 @@ describe("PUT /api/users/profile", () => {
   });
 
   it("rejects unauthenticated access", async () => {
-    // Try to update a user profile without being logged in
     const updateResponse = await agent.put("/api/users/profile");
 
     expect(updateResponse.status).toBe(401);
   });
 
   it("updates a user profile even if email is missing", async () => {
-    // Create a user and log them in
     await createUser("john@email.com", "123456");
     const token = await loginUserAndGetToken(agent, "john@email.com", "123456");
 
-    // Check that the JWT cookie has been set
     expect(token).toBeTruthy();
 
-    // Try to update a user profile with missing user data
     const updateResponse = await agent
       .put("/api/users/profile")
-      .set("Cookie", `jwt=${token}`) // Set the Authorization header to the token
-      .send({ name: "john updated" }); // email is missing
+      .set("Cookie", `jwt=${token}`)
+      .send({ name: "john updated" });
 
     expect(updateResponse.status).toBe(200);
     expect(updateResponse.body.name).toEqual("john updated");

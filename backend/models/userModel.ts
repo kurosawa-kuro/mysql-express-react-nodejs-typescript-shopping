@@ -2,11 +2,7 @@
 
 import { db } from "../database/prisma/prismaClient";
 import bcrypt from "bcryptjs";
-import {
-  UserCredentials,
-  UserUpdate,
-  UserRegisterCredentials,
-} from "../interfaces/index";
+import { UserRegisterCredentials } from "../interfaces/index";
 
 export const findUserByEmail = async (email: string) => {
   return await db.user.findUnique({ where: { email } });

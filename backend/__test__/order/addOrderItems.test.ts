@@ -13,11 +13,10 @@ let product: Product;
 let user: User;
 
 beforeAll(async () => {
-  await clearDatabase(); // Clear the database
+  await clearDatabase();
   user = await createUser("testuser@example.com", "TestUserPassword123");
   product = await createProduct(user.id);
 
-  // Log in and get the token
   const agent = request.agent(app);
   token = await loginUserAndGetToken(
     agent,

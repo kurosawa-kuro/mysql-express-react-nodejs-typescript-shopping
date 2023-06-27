@@ -18,7 +18,6 @@ describe("User management endpoints", () => {
     await clearDatabase();
     agent = request.agent(app);
 
-    // Create an admin user and log them in
     admin = await createAdminUser("admin@email.com", "123456");
     adminToken = await loginUserAndGetToken(agent, "admin@email.com", "123456");
   });
@@ -28,7 +27,6 @@ describe("User management endpoints", () => {
   });
 
   it("allows admin to delete a user", async () => {
-    // Create a user that the admin will delete
     const user = await createUser("doe@email.com", "123456");
 
     const deleteResponse = await agent

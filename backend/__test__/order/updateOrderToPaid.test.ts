@@ -74,6 +74,6 @@ describe("updateOrderToPaid", () => {
       });
 
     expect(response.status).toBe(200);
-    // Rest of your test assertions
+    expect(response.body.isPaid).toBe(true);
   });
 });

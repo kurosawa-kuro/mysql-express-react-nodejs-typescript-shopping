@@ -7,7 +7,6 @@ describe("Error Middlewares", () => {
   let app: express.Application;
 
   beforeEach(() => {
-    // Set up express app and apply middlewares
     app = express();
     app.use(express.json());
     app.use("/test", (req, res) => {

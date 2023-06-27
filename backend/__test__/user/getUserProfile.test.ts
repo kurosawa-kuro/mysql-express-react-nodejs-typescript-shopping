@@ -17,11 +17,9 @@ describe("GET /api/users/profile", () => {
   });
 
   it("gets a user profile", async () => {
-    // Create a user and log them in
     await createUser("john@email.com", "123456");
     const token = await loginUserAndGetToken(agent, "john@email.com", "123456");
 
-    // Check that the JWT cookie has been set
     expect(token).toBeTruthy();
 
     const profileResponse = await agent
@@ -34,7 +32,6 @@ describe("GET /api/users/profile", () => {
   });
 
   it("rejects unauthenticated access", async () => {
-    // Try to get a user profile without being logged in
     const profileResponse = await agent.get("/api/users/profile");
 
     expect(profileResponse.status).toBe(401);

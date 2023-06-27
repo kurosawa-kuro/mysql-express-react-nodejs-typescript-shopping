@@ -31,9 +31,7 @@ export const protect = asyncHandler(
       });
 
       if (user) {
-        // Here we are destructuring user to remove 'password'
         const { password, ...UserBase } = user;
-        // Then we construct req.user with the remaining user data
         req.user = {
           ...UserBase,
           id: Number(decoded.userId),

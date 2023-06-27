@@ -1,6 +1,5 @@
-// backend\test\app.test.ts
+// backend\__test__\database\user.test.ts
 
-// import request from "supertest";
 import { Order, Product, User } from "@prisma/client";
 import { db } from "../.././database/prisma/prismaClient";
 import { clearDatabase } from ".././test-utils";
@@ -30,7 +29,10 @@ describe("Database ", () => {
         isAdmin: false,
       },
     });
-    // console.log({ user });
+
+    expect(user).toHaveProperty("name", "john");
+    expect(user).toHaveProperty("email", "john@email.com");
+    expect(user).toHaveProperty("isAdmin", false);
 
     const adminUser: User = await db.user.create({
       data: {
@@ -40,7 +42,10 @@ describe("Database ", () => {
         isAdmin: true,
       },
     });
-    // console.log({ adminUser });
+
+    expect(adminUser).toHaveProperty("name", "admin");
+    expect(adminUser).toHaveProperty("email", "admin@email.com");
+    expect(adminUser).toHaveProperty("isAdmin", true);
 
     const product: Product = await db.product.create({
       data: {
@@ -55,7 +60,13 @@ describe("Database ", () => {
         description: "aaaa", // Add variable
       },
     });
-    // console.log({ product });
+
+    expect(product).toHaveProperty(
+      "name",
+      "Airpods Wireless Bluetooth Headphones"
+    );
+    expect(product).toHaveProperty("price", 100);
+    expect(product).toHaveProperty("userId", adminUser.id);
 
     const createdOrder: Order = await db.order.create({
       data: {
@@ -70,7 +81,9 @@ describe("Database ", () => {
         totalPrice: 100,
       },
     });
-    // console.log({ createdOrder });
+
+    expect(createdOrder).toHaveProperty("userId", user.id);
+    expect(createdOrder).toHaveProperty("address", "123 Main Street");
 
     const orderProduct = await db.orderProduct.create({
       data: {
@@ -79,7 +92,10 @@ describe("Database ", () => {
         qty: 1,
       },
     });
-    // console.log({ orderProduct });
+
+    expect(orderProduct).toHaveProperty("orderId", createdOrder.id);
+    expect(orderProduct).toHaveProperty("productId", product.id);
+    expect(orderProduct).toHaveProperty("qty", 1);
 
     const orderProducts = await db.orderProduct.findMany({
       where: { orderId: createdOrder.id },
@@ -92,6 +108,14 @@ describe("Database ", () => {
         },
       },
     });
-    // console.dir(orderProducts, { depth: null });
+
+    expect(orderProducts).toBeDefined();
+    expect(orderProducts).toBeInstanceOf(Array);
+    expect(orderProducts.length).toBeGreaterThan(0);
+    orderProducts.forEach((orderProduct) => {
+      expect(orderProduct).toHaveProperty("product");
+      expect(orderProduct).toHaveProperty("order");
+      expect(orderProduct.order).toHaveProperty("user");
+    });
   });
 });

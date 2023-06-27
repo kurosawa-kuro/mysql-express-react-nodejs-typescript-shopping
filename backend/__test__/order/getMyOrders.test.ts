@@ -7,18 +7,14 @@ describe("GET /api/orders/mine", () => {
   let token: string;
 
   beforeEach(async () => {
-    // Initialize the supertest agent
     agent = request.agent(app);
 
-    // Clear the database
     await clearDatabase();
 
-    // Create a user
     const email = "testuser@example.com";
     const password = "testpassword";
     await createUser(email, password);
 
-    // Login as the user and get the token
     token = await loginUserAndGetToken(agent, email, password);
   });
 
@@ -28,6 +24,6 @@ describe("GET /api/orders/mine", () => {
       .set("Cookie", `jwt=${token}`);
 
     expect(response.status).toBe(200);
-    // 他の適切なアサーションをここに追加します
+    // Todo - check the response body
   });
 });

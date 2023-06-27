@@ -10,7 +10,6 @@ import {
 let agent: SuperAgentTest;
 let product: any;
 
-// Setup関数を追加して、共通のセットアップ処理をまとめます
 async function setup() {
   await clearDatabase();
   agent = request.agent(app);
@@ -22,7 +21,7 @@ async function setup() {
 }
 
 describe("GET /api/products/:id", () => {
-  beforeEach(setup); // beforeEachでsetup関数を実行
+  beforeEach(setup);
 
   it("should return a product by id", async () => {
     const response = await agent.get(`/api/products/${product.id}`);

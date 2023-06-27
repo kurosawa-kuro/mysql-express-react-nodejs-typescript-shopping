@@ -18,7 +18,6 @@ describe("User management endpoints", () => {
     await clearDatabase();
     agent = request.agent(app);
 
-    // Create an admin user and log them in
     admin = await createAdminUser("admin@email.com", "123456");
     adminToken = await loginUserAndGetToken(agent, "admin@email.com", "123456");
   });
@@ -27,10 +26,7 @@ describe("User management endpoints", () => {
     await clearDatabase();
   });
 
-  // 他のテストケースは省略します
-
   it("allows admin to retrieve a user by ID", async () => {
-    // Create a user that the admin will retrieve
     const user = await createUser("doe@email.com", "123456");
 
     const getResponse = await agent
