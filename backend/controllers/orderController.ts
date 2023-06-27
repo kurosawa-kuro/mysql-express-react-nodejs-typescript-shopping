@@ -7,14 +7,19 @@ import { Request, NextFunction, Response } from "express";
 // Internal Imports
 import { db } from "../database/prisma/prismaClient";
 import { Order } from "@prisma/client";
-import { UserRequest, CartProduct, OrderFull } from "../interfaces";
-import { createOrder } from "../models/orderModel";
+import { UserRequest, OrderFull } from "../interfaces";
+import {
+  createOrder,
+  findOrderByIdInDB,
+  getUserOrdersFromDB,
+  getOrderByIdFromDB,
+  updateOrderToPaidInDB,
+  updateOrderDeliveredStatus,
+  getAllOrders,
+} from "../models/orderModel";
 
 const findOrderById = async (id: number): Promise<OrderFull | null> => {
-  return db.order.findUnique({
-    where: { id },
-    include: { user: true, orderProducts: { include: { product: true } } },
-  });
+  return findOrderByIdInDB(id);
 };
 
 export const addOrderItems = asyncHandler(
@@ -48,12 +53,7 @@ const getMyOrders = asyncHandler(
 
     const userId = Number(req.user.id);
 
-    const orders: OrderFull[] = await db.order.findMany({
-      where: { userId },
-      include: {
-        orderProducts: { include: { product: true } },
-      },
-    });
+    const orders: OrderFull[] = await getUserOrdersFromDB(userId);
 
     res.json(
       orders.map((order) => ({
@@ -70,7 +70,7 @@ const getMyOrders = asyncHandler(
 );
 
 const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
-  const order = await findOrderById(Number(req.params.id));
+  const order = await getOrderByIdFromDB(Number(req.params.id));
   order
     ? res.json({
         id: order.id,
@@ -106,13 +106,7 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
     throw new Error("Order not found");
   }
 
-  const updatedOrder: Order = await db.order.update({
-    where: { id: order.id },
-    data: {
-      isPaid: true,
-      paidAt: new Date(),
-    },
-  });
+  const updatedOrder = await updateOrderToPaidInDB(order.id);
 
   res.json(updatedOrder);
 });
@@ -126,25 +120,14 @@ const updateOrderToDelivered = asyncHandler(
       throw new Error("Order not found");
     }
 
-    const updatedOrder: Order = await db.order.update({
-      where: { id: order.id },
-      data: {
-        isDelivered: true,
-        deliveredAt: new Date(),
-      },
-    });
+    const updatedOrder: Order = await updateOrderDeliveredStatus(order.id);
 
     res.json(updatedOrder);
   }
 );
 
 const getOrders = asyncHandler(async (req: Request, res: Response) => {
-  const orders: OrderFull[] = await db.order.findMany({
-    include: {
-      user: true,
-      orderProducts: { include: { product: true } },
-    },
-  });
+  const orders: OrderFull[] = await getAllOrders();
 
   res.json(
     orders.map((order) => ({
