@@ -13,10 +13,9 @@ export const generateToken = (res: Response, userId: UserType["id"]): void => {
 
   const token = jwt.sign({ userId }, JWT_SECRET!, { expiresIn: "30d" });
 
-  // Set JWT as an HTTP-Only cookie
   res.cookie("jwt", token, {
     httpOnly: true,
-    secure: NODE_ENV !== "development", // Use secure cookies in production
+    secure: NODE_ENV !== "development",
     sameSite: "strict", // Prevent CSRF attacks
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });

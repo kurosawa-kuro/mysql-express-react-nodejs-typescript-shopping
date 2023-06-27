@@ -1,8 +1,8 @@
 // backend\models\orderModel.ts
 
-import { db } from "../database/prisma/prismaClient"; // あなたのデータベースインスタンスへのパスを適切に設定してください
+import { db } from "../database/prisma/prismaClient";
 import { Order } from "@prisma/client";
-import { CartProduct, OrderFull } from "../interfaces"; // あなたのインターフェースへのパスを適切に設定してください
+import { CartProduct, OrderFull } from "../interfaces";
 
 export const createOrder = async (
   userId: number,

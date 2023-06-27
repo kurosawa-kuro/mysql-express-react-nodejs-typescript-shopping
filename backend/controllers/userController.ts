@@ -15,7 +15,7 @@ import {
   deleteUserById,
   comparePassword,
 } from "../models/userModel";
-import { UserRequest, UserBase } from "../interfaces";
+import { UserRequest, UserBase, UserRegisterCredentials } from "../interfaces";
 
 const sanitizeUser = (user: any): UserBase => {
   const { password, ...UserBase } = user;
@@ -51,11 +51,16 @@ const registerUser = asyncHandler(async (req: UserRequest, res: Response) => {
   }
 
   const hashedPassword = await hashPassword(password);
-  const user = await createUser(name, email, hashedPassword);
+  const user: UserRegisterCredentials = {
+    name,
+    email,
+    password: hashedPassword,
+  };
+  const createdUser = await createUser(user);
 
-  if (user) {
-    generateToken(res, user.id);
-    res.status(201).json(sanitizeUser(user));
+  if (createdUser) {
+    generateToken(res, createdUser.id);
+    res.status(201).json(sanitizeUser(createdUser));
   } else {
     res.status(400);
     throw new Error("Invalid user data");
