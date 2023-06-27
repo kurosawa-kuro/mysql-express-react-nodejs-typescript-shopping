@@ -16,7 +16,6 @@ describe("useAuthStore", () => {
   it("should handle setting and clearing user information", () => {
     const { result } = renderHook(() => useAuthStore());
 
-    // Simulate login by setting user information
     act(() => {
       result.current.setUserInformation({
         id: 1,
@@ -45,7 +44,6 @@ describe("useAuthStore", () => {
       token: "testToken",
     });
 
-    // Simulate logout by clearing user information
     act(() => {
       result.current.logout();
     });
@@ -67,7 +65,6 @@ describe("useCartStore", () => {
       qty: 1,
     };
 
-    // Simulate adding product to cart
     act(() => {
       result.current.addToCart(testProduct);
     });
@@ -78,7 +75,6 @@ describe("useCartStore", () => {
     expect(storedCartItems).toEqual([testProduct]);
     expect(result.current.cartItems).toEqual([testProduct]);
 
-    // Simulate removing product from cart
     act(() => {
       result.current.removeFromCart(testProduct.product.id);
     });

@@ -32,7 +32,6 @@ test("shows username in header after successful login", async () => {
   fireEvent.click(screen.getByTestId("login"));
 
   await waitFor(async () => {
-    // Check that username is displayed in the header
     expect(screen.getByTestId("user-info-name")).toHaveTextContent("john");
   });
 });

@@ -76,11 +76,9 @@ test("renders HomeScreen with product list", async () => {
     </MemoryRouter>
   );
 
-  // 商品が表示されていることを確認します
   for (const product of products) {
     await waitFor(() =>
       expect(screen.getByText(product.name)).toBeInTheDocument()
     );
   }
-  // screen.debug();
 });

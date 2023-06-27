@@ -46,7 +46,6 @@ describe("Admin Product Management", () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
 
-  // Grouping all Login related tests together
   describe("Login process", () => {
     it("renders login and admin can login", async () => {
       render(
@@ -70,7 +69,6 @@ describe("Admin Product Management", () => {
     });
   });
 
-  // Grouping all Product List related tests together
   describe("Product list", () => {
     it("admin can view product list", async () => {
       render(
@@ -95,7 +93,6 @@ describe("Admin Product Management", () => {
     });
   });
 
-  // Grouping all Product Creation related tests together
   describe("Create new product", () => {
     const { uploadProductImageApi } = require("../../../services/api");
     const mockUpload = uploadProductImageApi as jest.MockedFunction<

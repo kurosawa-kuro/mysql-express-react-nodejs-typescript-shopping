@@ -96,7 +96,6 @@ export const PlaceOrderScreen: FC = () => {
               <Message>Your cart is empty</Message>
             ) : (
               <div>
-                {/* {cartItems} */}
                 {cartItems.map((item: any, index: number) => (
                   <div key={index}>
                     <div className="mb-2 flex items-center">

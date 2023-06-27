@@ -13,7 +13,6 @@ export const PaymentScreen: React.FC = () => {
   const navigate = useNavigate();
   const { shippingAddress, savePaymentMethod } = useCartStore();
 
-  // Redirect if shipping address is not set
   useEffect(() => {
     if (!shippingAddress.address) {
       navigate("/shipping");

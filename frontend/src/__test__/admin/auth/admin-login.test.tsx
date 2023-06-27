@@ -26,7 +26,6 @@ describe("Admin Product Management", () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
 
-  // Grouping all Login related tests together
   describe("Login process", () => {
     it("renders login and admin can login", async () => {
       render(

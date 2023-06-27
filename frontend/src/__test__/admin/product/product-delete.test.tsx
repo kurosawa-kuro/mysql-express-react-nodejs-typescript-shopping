@@ -30,7 +30,6 @@ describe("Admin Product Management", () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
 
-  // Grouping all Login related tests together
   describe("Product list", () => {
     it("admin can view product list", async () => {
       window.confirm = jest.fn(() => true);

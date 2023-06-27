@@ -58,7 +58,6 @@ export const ProductListScreen: React.FC = () => {
   };
 
   const createProductHandler = async () => {
-    // "/admin/product/new"に遷移
     navigate("/admin/products/new");
   };
 

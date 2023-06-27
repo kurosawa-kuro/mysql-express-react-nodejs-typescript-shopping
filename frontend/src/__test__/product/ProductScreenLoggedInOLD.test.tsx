@@ -39,49 +39,40 @@ describe("Product Operation", () => {
         </MemoryRouter>
       );
 
-      // Enter login credentials
       inputField(LABELS.email, TEST_USER.email);
       inputField(LABELS.password, TEST_USER.password);
       fireEvent.click(screen.getByTestId("login"));
 
-      // Wait for login to complete
       await screen.findByText("Successfully logged in");
     });
 
     it("can log in", async () => {
-      // Verify successful login
       const toastMessage = await screen.findByText("Successfully logged in");
       expect(toastMessage).toBeInTheDocument();
     });
 
     it("should display user info after login", async () => {
-      // Verify successful login icon
       const toastMessage = await screen.findByText("Successfully logged in");
       const toastContainer = toastMessage.parentElement;
       const successIcon = toastContainer?.querySelector("svg");
       expect(successIcon).toBeInTheDocument();
 
-      // Verify user information display after successful login
       await screen.findByText(TEST_USER.name, {
         selector: '[data-testid="user-info-name"]',
       });
     });
 
     it("should display products after login", async () => {
-      // Verify 'Latest Products' and product name display after successful login
       expect(await screen.findByText("Latest Products")).toBeInTheDocument();
       expect(await screen.findByText(product.name)).toBeInTheDocument();
     });
 
     it("can perform a product search", async () => {
-      // Perform a product search
       const searchInput = screen.getByPlaceholderText("Search Products...");
       fireEvent.change(searchInput, { target: { value: "Product 1" } });
       const searchButton = screen.getByText("Search");
       fireEvent.click(searchButton);
       expect(await screen.findByText(product.name)).toBeInTheDocument();
-
-      // printDOM();
     });
   });
 });

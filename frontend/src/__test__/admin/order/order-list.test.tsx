@@ -60,7 +60,6 @@ describe("Admin Product Management", () => {
         const testPayButton = await screen.findByText("Test Pay");
         fireEvent.click(testPayButton);
         expect(await screen.findByText("Order is paid")).toBeInTheDocument();
-        // printDOM();
       });
     });
   });

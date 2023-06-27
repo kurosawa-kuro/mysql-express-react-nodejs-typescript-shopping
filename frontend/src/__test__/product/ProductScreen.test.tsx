@@ -122,14 +122,12 @@ test("renders ProductScreen with product", async () => {
     </MemoryRouter>
   );
 
-  // Verify product details and add to cart
   expect(await screen.findByText(product.name)).toBeInTheDocument();
   expect(
     await screen.findByText(`Price: $${product.price}`)
   ).toBeInTheDocument();
   fireEvent.click(screen.getByText(/Add To Cart/i));
 
-  // Verify cart details and proceed to checkout
   expect(await screen.findByText(`Shopping Cart`)).toBeInTheDocument();
   expect(await screen.findByText(product.name)).toBeInTheDocument();
   expect(
@@ -138,7 +136,6 @@ test("renders ProductScreen with product", async () => {
   expect(await screen.findByText(`Total (1) items`)).toBeInTheDocument();
   fireEvent.click(screen.getByText(/Proceed To Checkout/i));
 
-  // Verify shipping details and continue
   expect(
     await screen.findByRole("heading", { name: /Shipping/i })
   ).toBeInTheDocument();
@@ -153,14 +150,11 @@ test("renders ProductScreen with product", async () => {
   });
   fireEvent.click(screen.getByText(/Continue/i));
 
-  // Verify payment details and continue
   expect(
     await screen.findByRole("heading", { name: /Payment Method/i })
   ).toBeInTheDocument();
   expect(screen.getByRole("radio", { name: /PayPal/i })).toBeChecked();
   fireEvent.click(screen.getByText(/Continue/i));
-
-  // Uncomment below line for debugging purpose
 
   // Place Order
   expect(
