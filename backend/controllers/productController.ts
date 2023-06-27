@@ -8,6 +8,7 @@ import { Request, Response } from "express";
 import { db } from "../database/prisma/prismaClient";
 import { Prisma, Product } from "@prisma/client";
 import { UserRequest } from "../interfaces";
+import { createProductInDB } from "../models/productModel";
 
 const pageSize: number = Number(process.env.PAGINATION_LIMIT);
 
@@ -69,18 +70,16 @@ const createProduct = asyncHandler(async (req: UserRequest, res: Response) => {
     throw new Error("Not authorized");
   }
 
-  const product: Product = await db.product.create({
-    data: {
-      name,
-      price,
-      user: { connect: { id: Number(req.user.id) } },
-      image,
-      brand,
-      category,
-      countInStock, // Change to variable
-      numReviews, // Change to variable
-      description, // Add variable
-    },
+  const product: Product = await createProductInDB({
+    name,
+    price,
+    user: { connect: { id: Number(req.user.id) } },
+    image,
+    brand,
+    category,
+    countInStock,
+    numReviews,
+    description,
   });
 
   res.status(201).json(product);
