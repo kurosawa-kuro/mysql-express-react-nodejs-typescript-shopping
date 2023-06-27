@@ -20,7 +20,7 @@ export interface UserRequest extends Request {
 // --------------------------
 // User related interfaces
 
-export interface UserFull extends UserType {}
+export interface User extends UserType {}
 export interface UserBase
   extends Pick<UserType, "id" | "name" | "email" | "isAdmin"> {}
 

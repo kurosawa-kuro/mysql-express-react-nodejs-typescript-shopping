@@ -8,11 +8,11 @@ import { toast } from "react-toastify";
 import { deleteUserApi, getUsersApi } from "../../../services/api";
 import { useAuthStore } from "../../../state/store";
 import { UserAuth } from "../../../../../backend/interfaces";
-import { UserFull } from "../../../../../backend/interfaces";
+import { User } from "../../../../../backend/interfaces";
 import { Message } from "../../../components/common/Message";
 
 export const UserListScreen: React.FC = () => {
-  const [users, setUsers] = useState<UserFull[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { userInformation } = useAuthStore() as UserAuth;
