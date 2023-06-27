@@ -13,6 +13,8 @@ import {
   getProductsFromDB,
   countProductsFromDB,
   updateProductInDB,
+  deleteProductInDB,
+  getTopProductsFromDB,
   pageSize,
 } from "../models/productModel";
 
@@ -101,18 +103,12 @@ const updateProduct = asyncHandler(async (req: Request, res: Response) => {
 
 const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
   const id: number = Number(req.params.id);
-  await db.product.delete({
-    where: { id },
-  });
+  await deleteProductInDB(id);
   res.json({ message: "Product removed" });
 });
 
 const getTopProducts = asyncHandler(async (req: Request, res: Response) => {
-  const products: Product[] = await db.product.findMany({
-    orderBy: { rating: "desc" },
-    take: 3,
-  });
-
+  const products = await getTopProductsFromDB();
   res.json(products);
 });
 

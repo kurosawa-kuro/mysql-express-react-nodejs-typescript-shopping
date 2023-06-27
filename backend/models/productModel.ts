@@ -43,10 +43,26 @@ const updateProductInDB = async (
   return updatedProduct;
 };
 
+const deleteProductInDB = async (id: number): Promise<void> => {
+  await db.product.delete({
+    where: { id },
+  });
+};
+
+const getTopProductsFromDB = async (): Promise<Product[]> => {
+  const products: Product[] = await db.product.findMany({
+    orderBy: { rating: "desc" },
+    take: 3,
+  });
+  return products;
+};
+
 export {
   createProductInDB,
   getProductsFromDB,
   countProductsFromDB,
   updateProductInDB,
+  deleteProductInDB,
+  getTopProductsFromDB,
   pageSize,
 };
