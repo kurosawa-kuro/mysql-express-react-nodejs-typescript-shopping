@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { App } from "../../App";
-import { createServer, printDOM, simulateLogin } from "../test-utils";
+import { createServer, simulateLogin } from "../test-utils";
 import { HomeScreen } from "../../screens/product/HomeScreen";
 
 const server = createServer();
@@ -25,8 +25,6 @@ describe("Product Operation", () => {
       );
 
       await simulateLogin();
-
-      printDOM();
     });
   });
 });
