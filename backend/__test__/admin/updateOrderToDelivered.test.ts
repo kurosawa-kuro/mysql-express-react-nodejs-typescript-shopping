@@ -29,7 +29,6 @@ describe("Order Controller", () => {
   });
 
   test("updateOrderToPaid", async () => {
-    // Create a new order
     const orderResponse = await request(app)
       .post("/api/orders")
       .set("Cookie", `jwt=${token}`)
@@ -54,7 +53,6 @@ describe("Order Controller", () => {
 
     expect(orderResponse.status).toBe(201);
 
-    // Update order to delivered
     const updateResponse = await request(app)
       .put(`/api/orders/${orderResponse.body.id}/deliver`)
       .set("Cookie", `jwt=${token}`)
@@ -69,7 +67,6 @@ describe("Order Controller", () => {
 
     expect(updateResponse.status).toBe(200);
 
-    // Confirm order is marked as paid
     const updatedOrder = await db.order.findUnique({
       where: { id: orderResponse.body.id },
     });

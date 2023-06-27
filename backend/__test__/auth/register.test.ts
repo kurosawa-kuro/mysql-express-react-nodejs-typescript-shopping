@@ -27,7 +27,6 @@ describe("POST /api/users/register", () => {
   });
 
   it("rejects registration with existing email", async () => {
-    // Create a user in the system
     await createUser("john@email.com", "123456");
 
     const registerResponse = await agent

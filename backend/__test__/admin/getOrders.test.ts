@@ -17,9 +17,8 @@ describe("GET /api/orders", () => {
     await clearDatabase();
     await createAdminUser(adminEmail, "123456");
     const agent = request.agent(app);
-    token = await loginUserAndGetToken(agent, adminEmail, "123456"); // Use the same email
+    token = await loginUserAndGetToken(agent, adminEmail, "123456");
 
-    // Create product and order with a unique email
     await createProductAndOrder(`user@test.com`, "123456");
   });
 
@@ -29,18 +28,14 @@ describe("GET /api/orders", () => {
   });
 
   it("should return 200 and all orders for admin users", async () => {
-    // Make GET request to /api/orders endpoint
     const res = await request(app)
       .get("/api/orders")
       .set("Cookie", `jwt=${token}`);
 
-    // Check that the response status was 200
     expect(res.status).toBe(200);
 
-    // Check that the response body is an array
     expect(Array.isArray(res.body)).toBe(true);
 
-    // Check that each item in the array has the expected properties
     res.body.forEach((order: OrderFull) => {
       expect(order).toHaveProperty("id");
       expect(order).toHaveProperty("userId");

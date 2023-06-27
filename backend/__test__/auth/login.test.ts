@@ -11,7 +11,6 @@ describe("POST /api/login", () => {
     await clearDatabase();
     agent = request.agent(app);
 
-    // Create a user in the system
     await createUser("john@email.com", "123456");
   });
 
