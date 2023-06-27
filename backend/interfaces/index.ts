@@ -30,11 +30,12 @@ export interface UserUpdate
 export interface UserUpdateByAdmin
   extends Pick<UserType, "id" | "name" | "email" | "isAdmin"> {}
 
-export interface UserCredentials extends Pick<UserType, "email" | "password"> {}
+export interface UserLoginCredentials
+  extends Pick<UserType, "email" | "password"> {}
 
 export interface UserRegisterCredentials
   extends Pick<UserType, "name" | "email" | "password"> {
-  confirmPassword?: string;
+  confirmPassword: string;
 }
 
 export interface UserInformation extends UserBase {
@@ -56,7 +57,7 @@ export interface ProductBase
     "id" | "name" | "image" | "price" | "countInStock" | "rating" | "numReviews"
   > {}
 
-export interface CartProduct {
+export interface Cart {
   product: ProductBase;
   qty: number;
 }
@@ -72,6 +73,7 @@ export interface ProductList {
   pages: number;
 }
 
+// ProductBaseとの違いを明確に
 export interface ProductDetails
   extends Pick<
     ProductType,
@@ -90,21 +92,29 @@ export interface ProductReview {
   comment: string;
 }
 
+export interface Shipping {
+  address: string;
+  city: string;
+  postalCode: string;
+}
+
 // --------------------------
 // Order related interfaces
 export interface Order extends OrderType {}
 
-// OrderFullを軸に統合整理して最終的にOrderTypeをOrderにする
-// isPaid: boolean
-// paidAt: Date | null
-// isDelivered: boolean
-// deliveredAt: Date | null
 export interface OrderFull
   extends Pick<
     OrderType,
-    "id" | "paymentMethod" | "isPaid" | "paidAt" | "isDelivered" | "deliveredAt"
+    | "id"
+    | "paymentMethod"
+    | "isPaid"
+    | "paidAt"
+    | "isDelivered"
+    | "deliveredAt"
+    | "createdAt"
+    | "updatedAt"
   > {
-  orderProducts: CartProduct[];
+  cart: Cart[];
   user: UserBase;
   price: {
     itemsPrice: number;
@@ -112,17 +122,7 @@ export interface OrderFull
     shippingPrice: number;
     totalPrice: number;
   };
-  address: {
-    postalCode: string;
-    city: string;
-    address: string;
-  };
-}
-
-export interface OrderShipping {
-  address: string;
-  city: string;
-  postalCode: string;
+  address: Shipping;
 }
 
 // --------------------------
@@ -136,15 +136,15 @@ export interface PaymentDetails {
 }
 
 export interface CartState {
-  cartItems: CartProduct[];
-  shippingAddress: OrderShipping;
+  cartItems: Cart[];
+  shippingAddress: Shipping;
   paymentMethod: string;
 }
 
 export interface CartActions {
-  addToCart: (item: CartProduct) => void;
+  addToCart: (item: Cart) => void;
   removeFromCart: (id: number) => void;
-  saveOrderShipping: (address: OrderShipping) => void;
+  saveShipping: (address: Shipping) => void;
   savePaymentMethod: (method: string) => void;
   clearCartItems: () => void;
 }
