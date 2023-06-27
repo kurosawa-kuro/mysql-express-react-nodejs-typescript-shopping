@@ -32,4 +32,21 @@ const countProductsFromDB = async (
   return await db.product.count({ where: keywordFilter });
 };
 
-export { createProductInDB, getProductsFromDB, countProductsFromDB, pageSize };
+const updateProductInDB = async (
+  id: number,
+  updatedProductData: Prisma.ProductUpdateInput
+): Promise<Product | null> => {
+  const updatedProduct: Product | null = await db.product.update({
+    where: { id },
+    data: updatedProductData,
+  });
+  return updatedProduct;
+};
+
+export {
+  createProductInDB,
+  getProductsFromDB,
+  countProductsFromDB,
+  updateProductInDB,
+  pageSize,
+};

@@ -12,6 +12,7 @@ import {
   createProductInDB,
   getProductsFromDB,
   countProductsFromDB,
+  updateProductInDB,
   pageSize,
 } from "../models/productModel";
 
@@ -90,10 +91,10 @@ const updateProduct = asyncHandler(async (req: Request, res: Response) => {
     .replace(/\\/g, "/")
     .replace("/frontend/public", "");
 
-  const product: Product | null = await db.product.update({
-    where: { id },
-    data: req.body as Prisma.ProductUpdateInput,
-  });
+  const product: Product | null = await updateProductInDB(
+    id,
+    req.body as Prisma.ProductUpdateInput
+  );
 
   res.json(handleNotFoundProduct(product, res));
 });
