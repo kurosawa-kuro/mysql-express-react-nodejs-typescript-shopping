@@ -8,9 +8,12 @@ import { Request, Response } from "express";
 import { db } from "../database/prisma/prismaClient";
 import { Prisma, Product } from "@prisma/client";
 import { UserRequest } from "../interfaces";
-import { createProductInDB } from "../models/productModel";
-
-const pageSize: number = Number(process.env.PAGINATION_LIMIT);
+import {
+  createProductInDB,
+  getProductsFromDB,
+  countProductsFromDB,
+  pageSize,
+} from "../models/productModel";
 
 const getKeywordFilter = (
   keyword: string | undefined
@@ -30,13 +33,9 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
   const keywordFilter: Prisma.ProductWhereInput = getKeywordFilter(
     req.query.keyword as string | undefined
   );
-  const count: number = await db.product.count({ where: keywordFilter });
 
-  const products: Product[] = await db.product.findMany({
-    where: keywordFilter,
-    take: pageSize,
-    skip: pageSize * (page - 1),
-  });
+  const products: Product[] = await getProductsFromDB(page, keywordFilter);
+  const count: number = await countProductsFromDB(keywordFilter);
 
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
