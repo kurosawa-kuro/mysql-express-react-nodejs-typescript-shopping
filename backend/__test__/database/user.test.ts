@@ -30,7 +30,7 @@ describe("Database ", () => {
         isAdmin: false,
       },
     });
-    console.log({ user });
+    // console.log({ user });
 
     const adminUser: User = await db.user.create({
       data: {
