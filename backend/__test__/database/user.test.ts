@@ -40,7 +40,7 @@ describe("Database ", () => {
         isAdmin: true,
       },
     });
-    console.log({ adminUser });
+    // console.log({ adminUser });
 
     const product: Product = await db.product.create({
       data: {
@@ -55,7 +55,7 @@ describe("Database ", () => {
         description: "aaaa", // Add variable
       },
     });
-    console.log({ product });
+    // console.log({ product });
 
     const createdOrder: Order = await db.order.create({
       data: {
@@ -70,7 +70,7 @@ describe("Database ", () => {
         totalPrice: 100,
       },
     });
-    console.log({ createdOrder });
+    // console.log({ createdOrder });
 
     const orderProduct = await db.orderProduct.create({
       data: {
@@ -79,7 +79,7 @@ describe("Database ", () => {
         qty: 1,
       },
     });
-    console.log({ orderProduct });
+    // console.log({ orderProduct });
 
     const orderProducts = await db.orderProduct.findMany({
       where: { orderId: createdOrder.id },

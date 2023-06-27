@@ -73,10 +73,6 @@ describe("updateOrderToPaid", () => {
         },
       });
 
-    if (response.status === 500) {
-      console.log(response.body); // Here we log the server error
-    }
-
     expect(response.status).toBe(200);
     // Rest of your test assertions
   });

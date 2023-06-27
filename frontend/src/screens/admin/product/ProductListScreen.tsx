@@ -26,7 +26,6 @@ export const ProductListScreen: React.FC = () => {
           pageNumber: Number(pageNumber),
           keyword: "",
         });
-        console.log("fetchProducts data", data);
         setProductsData(data);
         setLoading(false);
       } catch (err) {
