@@ -106,13 +106,6 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
     throw new Error("Order not found");
   }
 
-  const {
-    id,
-    status,
-    update_time,
-    payer: { email_address },
-  } = req.body;
-
   const updatedOrder: Order = await db.order.update({
     where: { id: order.id },
     data: {
@@ -127,17 +120,21 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
 const updateOrderToDelivered = asyncHandler(
   async (req: Request, res: Response) => {
     const order = await findOrderById(Number(req.params.id));
-    order
-      ? res.json(
-          await db.order.update({
-            where: { id: order.id },
-            data: {
-              isDelivered: true,
-              deliveredAt: new Date(),
-            },
-          })
-        )
-      : res.status(404).json({ message: "Order not found" });
+
+    if (!order) {
+      res.status(404);
+      throw new Error("Order not found");
+    }
+
+    const updatedOrder: Order = await db.order.update({
+      where: { id: order.id },
+      data: {
+        isDelivered: true,
+        deliveredAt: new Date(),
+      },
+    });
+
+    res.json(updatedOrder);
   }
 );
 
