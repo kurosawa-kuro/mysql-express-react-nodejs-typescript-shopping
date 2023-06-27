@@ -41,17 +41,16 @@ const addOrderItems = asyncHandler(
         taxPrice: parseFloat(price.taxPrice),
         shippingPrice: parseFloat(price.shippingPrice),
         totalPrice: parseFloat(price.totalPrice),
-      },
-    });
-
-    orderProducts.forEach(async (orderProduct: CartProduct) => {
-      await db.orderProduct.create({
-        data: {
-          orderId: createdOrder.id,
-          productId: orderProduct.product.id,
-          qty: orderProduct.qty,
+        orderProducts: {
+          create: orderProducts.map((orderProduct: CartProduct) => ({
+            productId: orderProduct.product.id,
+            qty: orderProduct.qty,
+          })),
         },
-      });
+      },
+      include: {
+        orderProducts: true,
+      },
     });
 
     res.status(201).json(createdOrder);
