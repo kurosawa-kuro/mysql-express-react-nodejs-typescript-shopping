@@ -8,6 +8,7 @@ import { Request, NextFunction, Response } from "express";
 import { db } from "../database/prisma/prismaClient";
 import { Order } from "@prisma/client";
 import { UserRequest, CartProduct, OrderFull } from "../interfaces";
+import { createOrder } from "../models/orderModel";
 
 const findOrderById = async (id: number): Promise<OrderFull | null> => {
   return db.order.findUnique({
@@ -16,43 +17,24 @@ const findOrderById = async (id: number): Promise<OrderFull | null> => {
   });
 };
 
-const addOrderItems = asyncHandler(
+export const addOrderItems = asyncHandler(
   async (req: UserRequest, res: Response, next: NextFunction) => {
     if (!req.user || !req.user.id) {
       res.status(401);
       throw new Error("Not authorized");
     }
 
-    const { orderProducts, address, city, postalCode, paymentMethod, price } =
-      req.body;
+    const { orderProducts, ...orderData } = req.body;
     if (!orderProducts || orderProducts.length === 0) {
       res.status(400);
       throw new Error("No order items");
     }
 
-    const createdOrder: Order = await db.order.create({
-      data: {
-        userId: Number(req.user.id),
-        address,
-        city,
-        postalCode,
-        paymentMethod: paymentMethod,
-        itemsPrice: parseFloat(price.itemsPrice),
-        taxPrice: parseFloat(price.taxPrice),
-        shippingPrice: parseFloat(price.shippingPrice),
-        totalPrice: parseFloat(price.totalPrice),
-        orderProducts: {
-          create: orderProducts.map((orderProduct: CartProduct) => ({
-            productId: orderProduct.product.id,
-            qty: orderProduct.qty,
-          })),
-        },
-      },
-      include: {
-        orderProducts: true,
-      },
-    });
-
+    const createdOrder = await createOrder(
+      Number(req.user.id),
+      orderData,
+      orderProducts
+    );
     res.status(201).json(createdOrder);
   }
 );
@@ -181,7 +163,6 @@ const getOrders = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export {
-  addOrderItems,
   getMyOrders,
   getOrderById,
   updateOrderToPaid,
