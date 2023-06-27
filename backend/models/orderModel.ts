@@ -62,6 +62,7 @@ export const getUserOrdersFromDB = async (
 export const getOrderByIdFromDB = async (
   orderId: number
 ): Promise<OrderFull | null> => {
+  // console.log("getOrderByIdFromDB");
   const order = await db.order.findUnique({
     where: { id: orderId },
     include: { user: true, orderProducts: { include: { product: true } } },
