@@ -3,9 +3,9 @@
 import { Prisma, Product } from "@prisma/client";
 import { db } from "../database/prisma/prismaClient";
 
-const pageSize: number = Number(process.env.PAGINATION_LIMIT);
+export const pageSize: number = Number(process.env.PAGINATION_LIMIT);
 
-const createProductInDB = async (
+export const createProductInDB = async (
   productData: Prisma.ProductCreateInput
 ): Promise<Product> => {
   const product: Product = await db.product.create({
@@ -14,7 +14,7 @@ const createProductInDB = async (
   return product;
 };
 
-const getProductsFromDB = async (
+export const getProductsFromDB = async (
   page: number,
   keywordFilter: Prisma.ProductWhereInput
 ): Promise<Product[]> => {
@@ -26,13 +26,13 @@ const getProductsFromDB = async (
   return products;
 };
 
-const countProductsFromDB = async (
+export const countProductsFromDB = async (
   keywordFilter: Prisma.ProductWhereInput
 ): Promise<number> => {
   return await db.product.count({ where: keywordFilter });
 };
 
-const updateProductInDB = async (
+export const updateProductInDB = async (
   id: number,
   updatedProductData: Prisma.ProductUpdateInput
 ): Promise<Product | null> => {
@@ -43,26 +43,16 @@ const updateProductInDB = async (
   return updatedProduct;
 };
 
-const deleteProductInDB = async (id: number): Promise<void> => {
+export const deleteProductInDB = async (id: number): Promise<void> => {
   await db.product.delete({
     where: { id },
   });
 };
 
-const getTopProductsFromDB = async (): Promise<Product[]> => {
+export const getTopProductsFromDB = async (): Promise<Product[]> => {
   const products: Product[] = await db.product.findMany({
     orderBy: { rating: "desc" },
     take: 3,
   });
   return products;
-};
-
-export {
-  createProductInDB,
-  getProductsFromDB,
-  countProductsFromDB,
-  updateProductInDB,
-  deleteProductInDB,
-  getTopProductsFromDB,
-  pageSize,
 };
