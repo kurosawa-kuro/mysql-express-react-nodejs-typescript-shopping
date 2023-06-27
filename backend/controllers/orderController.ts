@@ -41,26 +41,21 @@ export const addOrderItems = asyncHandler(
 
 const getMyOrders = asyncHandler(
   async (req: UserRequest, res: Response, next: NextFunction) => {
-    if (!req.user || !req.user.id) {
-      res.status(401);
-      throw new Error("Not authorized");
+    if (req.user && req.user.id) {
+      const userId = Number(req.user.id);
+      const orders: OrderFull[] = await getUserOrdersFromDB(userId);
+      res.json(
+        orders.map((order) => ({
+          ...order,
+          price: {
+            itemsPrice: order.itemsPrice,
+            shippingPrice: order.shippingPrice,
+            taxPrice: order.taxPrice,
+            totalPrice: order.totalPrice,
+          },
+        }))
+      );
     }
-
-    const userId = Number(req.user.id);
-
-    const orders: OrderFull[] = await getUserOrdersFromDB(userId);
-
-    res.json(
-      orders.map((order) => ({
-        ...order,
-        price: {
-          itemsPrice: order.itemsPrice,
-          shippingPrice: order.shippingPrice,
-          taxPrice: order.taxPrice,
-          totalPrice: order.totalPrice,
-        },
-      }))
-    );
   }
 );
 

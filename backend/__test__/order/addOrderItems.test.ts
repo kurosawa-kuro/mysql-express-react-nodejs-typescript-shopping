@@ -54,6 +54,28 @@ describe("Order Controller", () => {
     expect(response.body).toHaveProperty("id"); // Check if response has an id (created order)
     expect(response.body.userId).toBe(user.id); // user.id を使用します。
   });
+
+  test("POST /api/orders/ - Should fail if no order items", async () => {
+    const response = await request(app)
+      .post("/api/orders")
+      .set("Cookie", `jwt=${token}`)
+      .send({
+        orderProducts: [],
+        address: "123 Test St",
+        city: "Test City",
+        postalCode: "12345",
+        paymentMethod: "Test Payment Method",
+        price: {
+          itemsPrice: 0,
+          taxPrice: 0,
+          shippingPrice: 10,
+          totalPrice: 10,
+        },
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toEqual("No order items");
+  });
 });
 
 describe("Order Controller - User Authentication", () => {
