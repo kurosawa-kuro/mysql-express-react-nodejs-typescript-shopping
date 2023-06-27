@@ -7,7 +7,7 @@ import { Message } from "../../../components/common/Message";
 import { Loader } from "../../../components/common/Loader";
 import { Paginate } from "../../../components/utils/Paginate";
 import { getProductsApi, deleteProductApi } from "../../../services/api";
-import { ProductList, ProductFull } from "../../../../../backend/interfaces";
+import { ProductList, Product } from "../../../../../backend/interfaces";
 import { toast } from "react-toastify";
 
 export const ProductListScreen: React.FC = () => {
@@ -91,7 +91,7 @@ export const ProductListScreen: React.FC = () => {
             </thead>
             <tbody className="divide-y bg-white">
               {productsData &&
-                productsData.products.map((product: ProductFull) => (
+                productsData.products.map((product: Product) => (
                   <tr key={product.id} className="text-gray-700">
                     <td className="px-4 py-3">
                       <Link

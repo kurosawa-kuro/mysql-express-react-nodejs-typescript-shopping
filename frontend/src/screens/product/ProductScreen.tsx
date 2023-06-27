@@ -10,7 +10,7 @@ import { Loader } from "../../components/common/Loader";
 import { Message } from "../../components/common/Message";
 import { useCartStore } from "../../state/store";
 import { getProductFullsApi } from "../../services/api";
-import { ProductFull } from "../../../../backend/interfaces";
+import { Product } from "../../../../backend/interfaces";
 import { Rating } from "../../components/features/Rating";
 // import Meta from "../../components/helpers/Meta";
 
@@ -19,7 +19,7 @@ export const ProductScreen: React.FC = () => {
   const { addToCart } = useCartStore();
   const navigate = useNavigate();
 
-  const [product, setProduct] = useState<ProductFull | null>(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [qty, setQty] = useState<number>(1);

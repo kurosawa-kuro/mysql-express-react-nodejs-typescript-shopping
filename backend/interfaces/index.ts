@@ -49,7 +49,7 @@ export interface UserAuth {
 
 // --------------------------
 // Product related interfaces
-export interface ProductFull extends ProductType {}
+export interface Product extends ProductType {}
 export interface ProductBase
   extends Pick<
     ProductType,
@@ -67,7 +67,7 @@ export interface ProductSearch {
 }
 
 export interface ProductList {
-  products: ProductFull[];
+  products: Product[];
   page: number;
   pages: number;
 }

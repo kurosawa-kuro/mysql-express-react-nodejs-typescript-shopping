@@ -12,7 +12,7 @@ import { Paginate } from "../../components/utils/Paginate";
 import { Product } from "../../components/features/Product";
 import { getProductsApi } from "../../services/api";
 import {
-  ProductFull as ProductType,
+  Product as ProductType,
   ProductList,
 } from "../../../../backend/interfaces";
 import { ProductCarousel } from "../../components/features/ProductCarousel";

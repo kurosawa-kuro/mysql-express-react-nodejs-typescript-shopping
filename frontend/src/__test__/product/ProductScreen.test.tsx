@@ -3,7 +3,7 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { Routes, Route, MemoryRouter } from "react-router-dom";
 import { ProductScreen } from "../../screens/product/ProductScreen";
-import { ProductFull } from "../../../../backend/interfaces";
+import { Product } from "../../../../backend/interfaces";
 import { App } from "../../App";
 import { CartScreen } from "../../screens/order/CartScreen";
 import { ShippingScreen } from "../../screens/order/ShippingScreen";
@@ -11,7 +11,7 @@ import { PaymentScreen } from "../../screens/order/PaymentScreen";
 import { PlaceOrderScreen } from "../../screens/order/PlaceOrderScreen";
 import { OrderScreen } from "../../screens/order/OrderScreen";
 
-const product: ProductFull = {
+const product: Product = {
   id: 1,
   userId: 1,
   name: "Product 1",

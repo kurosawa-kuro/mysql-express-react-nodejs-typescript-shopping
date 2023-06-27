@@ -7,10 +7,10 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Message } from "../common/Message";
 import { getTopProductsApi } from "../../services/api";
 import { toast } from "react-toastify";
-import { ProductFull } from "../../../../backend/interfaces";
+import { Product } from "../../../../backend/interfaces";
 
 export const ProductCarousel: React.FC = () => {
-  const [products, setProducts] = useState<ProductFull[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,7 +18,7 @@ export const ProductCarousel: React.FC = () => {
     const fetchTopProducts = async () => {
       setLoading(true);
       try {
-        const data: ProductFull[] = await getTopProductsApi();
+        const data: Product[] = await getTopProductsApi();
         if (data) {
           setProducts(data);
         }
