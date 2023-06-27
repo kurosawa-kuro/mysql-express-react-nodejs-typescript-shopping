@@ -2,12 +2,12 @@
 
 import { db } from "../database/prisma/prismaClient";
 import { Order } from "@prisma/client";
-import { CartProduct, OrderFull } from "../interfaces";
+import { Cart, OrderFull } from "../interfaces";
 
 export const createOrder = async (
   userId: number,
   orderData: any,
-  orderProducts: CartProduct[]
+  orderProducts: Cart[]
 ) => {
   const { address, city, postalCode, paymentMethod, price } = orderData;
 
@@ -40,6 +40,8 @@ export const createOrder = async (
 export const findOrderByIdInDB = async (
   id: number
 ): Promise<OrderFull | null> => {
+  // const data = ここでインターフェイスに合うように整形する;
+
   return db.order.findUnique({
     where: { id },
     include: { user: true, orderProducts: { include: { product: true } } },

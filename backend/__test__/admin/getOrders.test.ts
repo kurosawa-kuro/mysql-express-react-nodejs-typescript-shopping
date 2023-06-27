@@ -7,7 +7,7 @@ import {
   createProductAndOrder,
 } from "../test-utils";
 import { db } from "../../database/prisma/prismaClient";
-import { CartProduct, OrderFull } from "../../interfaces";
+import { Cart, OrderFull } from "../../interfaces";
 
 describe("GET /api/orders", () => {
   let token: string;
@@ -53,7 +53,7 @@ describe("GET /api/orders", () => {
       expect(order).toHaveProperty("deliveredAt");
       expect(order).toHaveProperty("createdAt");
       expect(order).toHaveProperty("orderProducts");
-      order.orderProducts.forEach((orderProduct: CartProduct) => {
+      order.orderProducts.forEach((orderProduct: Cart) => {
         expect(orderProduct).toHaveProperty("orderId");
         expect(orderProduct).toHaveProperty("productId");
         expect(orderProduct).toHaveProperty("qty");

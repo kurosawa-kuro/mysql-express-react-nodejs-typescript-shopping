@@ -5,7 +5,7 @@ import {
   UserAuth,
   CartState,
   CartActions,
-  CartProduct,
+  Cart,
   OrderShipping,
 } from "../../../backend/interfaces";
 
@@ -44,7 +44,7 @@ export const useCartStore = create<CartStore>((set) => ({
   paymentMethod: localStorage.getItem("paymentMethod")
     ? JSON.parse(localStorage.getItem("paymentMethod") || '"PayPal"')
     : "PayPal",
-  addToCart: (item: CartProduct) => {
+  addToCart: (item: Cart) => {
     set((state) => {
       const existItem = state.cartItems.find(
         (x) => x.product.id === item.product.id
