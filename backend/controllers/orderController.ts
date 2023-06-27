@@ -5,7 +5,6 @@ import asyncHandler from "express-async-handler";
 import { Request, NextFunction, Response } from "express";
 
 // Internal Imports
-import { db } from "../database/prisma/prismaClient";
 import { Order } from "@prisma/client";
 import { UserRequest, OrderFull } from "../interfaces";
 import {
@@ -24,23 +23,19 @@ const findOrderById = async (id: number): Promise<OrderFull | null> => {
 
 export const addOrderItems = asyncHandler(
   async (req: UserRequest, res: Response, next: NextFunction) => {
-    if (!req.user || !req.user.id) {
-      res.status(401);
-      throw new Error("Not authorized");
-    }
-
     const { orderProducts, ...orderData } = req.body;
     if (!orderProducts || orderProducts.length === 0) {
       res.status(400);
       throw new Error("No order items");
     }
-
-    const createdOrder = await createOrder(
-      Number(req.user.id),
-      orderData,
-      orderProducts
-    );
-    res.status(201).json(createdOrder);
+    if (req.user && req.user.id) {
+      const createdOrder = await createOrder(
+        Number(req.user.id),
+        orderData,
+        orderProducts
+      );
+      res.status(201).json(createdOrder);
+    }
   }
 );
 
