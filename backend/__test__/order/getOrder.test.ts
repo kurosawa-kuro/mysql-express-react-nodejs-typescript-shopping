@@ -20,7 +20,6 @@ describe("GET /api/order/:id", () => {
     token = await loginUserAndGetToken(agent, adminEmail, "123456");
 
     order = await createProductAndOrder(`user@test.com`, "123456");
-    console.log({ order });
   });
 
   afterAll(async () => {
@@ -29,11 +28,10 @@ describe("GET /api/order/:id", () => {
   });
 
   it("should return 200 and all orders for admin users", async () => {
-    console.log("order.id", order.id);
     const res = await request(app)
       .get("/api/orders/" + order.id)
       .set("Cookie", `jwt=${token}`);
-    console.log("res.body", res.body);
+
     expect(res.status).toBe(200);
 
     // expect(Array.isArray(res.body)).toBe(true);

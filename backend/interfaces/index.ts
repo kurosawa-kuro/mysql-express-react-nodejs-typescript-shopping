@@ -35,7 +35,7 @@ export interface UserLoginCredentials
 
 export interface UserRegisterCredentials
   extends Pick<UserType, "name" | "email" | "password"> {
-  confirmPassword: string;
+  confirmPassword?: string;
 }
 
 export interface UserInformation extends UserBase {
@@ -122,7 +122,18 @@ export interface OrderFull
     shippingPrice: number;
     totalPrice: number;
   };
-  address: Shipping;
+  shipping: Shipping;
+}
+
+export interface OrderRequest extends Pick<OrderType, "paymentMethod"> {
+  cart: Cart[];
+  price: {
+    itemsPrice: number;
+    taxPrice: number;
+    shippingPrice: number;
+    totalPrice: number;
+  };
+  shipping: Shipping;
 }
 
 // --------------------------
