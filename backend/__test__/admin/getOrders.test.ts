@@ -8,7 +8,8 @@ import {
   createUser,
 } from "../test-utils";
 import { db } from "../../database/prisma/prismaClient";
-import { Cart, OrderFull } from "../../interfaces";
+import { OrderFull } from "../../interfaces";
+import { OrderProduct } from "@prisma/client";
 
 describe("GET /api/orders", () => {
   let token: string;
@@ -36,7 +37,6 @@ describe("GET /api/orders", () => {
       .set("Cookie", `jwt=${token}`);
 
     expect(res.status).toBe(200);
-    console.log("res.body", res.body);
 
     expect(Array.isArray(res.body)).toBe(true);
 
@@ -57,15 +57,15 @@ describe("GET /api/orders", () => {
       expect(order).toHaveProperty("deliveredAt");
       expect(order).toHaveProperty("createdAt");
       expect(order).toHaveProperty("orderProducts");
-      // order.orderProducts.forEach((orderProduct: orderProduct) => {
-      //   expect(orderProduct).toHaveProperty("orderId");
-      //   expect(orderProduct).toHaveProperty("productId");
-      //   expect(orderProduct).toHaveProperty("qty");
-      //   expect(orderProduct).toHaveProperty("product.id");
-      //   expect(orderProduct).toHaveProperty("product.name");
-      //   expect(orderProduct).toHaveProperty("product.image");
-      //   expect(orderProduct).toHaveProperty("product.brand");
-      // });
+      order.orderProducts.forEach((orderProduct: OrderProduct) => {
+        expect(orderProduct).toHaveProperty("orderId");
+        expect(orderProduct).toHaveProperty("productId");
+        expect(orderProduct).toHaveProperty("qty");
+        expect(orderProduct).toHaveProperty("product.id");
+        expect(orderProduct).toHaveProperty("product.name");
+        expect(orderProduct).toHaveProperty("product.image");
+        expect(orderProduct).toHaveProperty("product.brand");
+      });
     });
   });
 });
