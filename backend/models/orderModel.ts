@@ -8,7 +8,7 @@ export const createOrder = async (
   userId: number,
   orderData: any,
   cart: Cart[]
-) => {
+): Promise<OrderFull | null> => {
   const { shipping, paymentMethod, price } = orderData;
 
   const order = await db.order.create({
