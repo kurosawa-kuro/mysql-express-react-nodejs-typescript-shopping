@@ -66,8 +66,16 @@ describe("Order Controller", () => {
       .set("Cookie", `jwt=${token}`)
       .send(orderRequest);
 
-    console.log("response.body", response.body);
+    // console.log("getOrder.test response.body", response.body);
+    // console.log(
+    //   "getOrder.test response.body.cart[0].product.id",
+    //   response.body.cart[0].product.id
+    // );
 
     expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("id");
+    expect(response.body).toHaveProperty("cart");
+    expect(response.body).toHaveProperty("user");
+    expect(response.body.isPaid).toBe(false);
   });
 });

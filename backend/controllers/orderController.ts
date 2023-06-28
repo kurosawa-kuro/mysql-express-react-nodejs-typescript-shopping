@@ -65,33 +65,41 @@ const getMyOrders = asyncHandler(
 const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
   console.log("hit getOrderById");
   const order = await getOrderByIdFromDB(Number(req.params.id));
-  console.log({ order });
-  order
-    ? res.json({
-        id: order.id,
-        cart: order.orderProducts,
-        price: {
-          itemsPrice: order.itemsPrice,
-          taxPrice: order.taxPrice,
-          shippingPrice: order.shippingPrice,
-          totalPrice: order.totalPrice,
-        },
-        isPaid: order.isPaid,
-        paidAt: order.paidAt,
-        isDelivered: order.isDelivered,
-        deliveredAt: order.deliveredAt,
-        createdAt: order.createdAt,
-        user: {
-          id: order.user?.id,
-          name: order.user?.name,
-          email: order.user?.email,
-          isAdmin: order.user?.isAdmin,
-        },
-        address: order.address,
-        city: order.city,
-        postalCode: order.postalCode,
-      })
-    : res.status(404).json({ message: "Order not found" });
+  if (!order) {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+  const OrderFull: OrderFull = {
+    id: order.id,
+    cart: order.orderProducts,
+    price: {
+      itemsPrice: order.itemsPrice,
+      taxPrice: order.taxPrice,
+      shippingPrice: order.shippingPrice,
+      totalPrice: order.totalPrice,
+    },
+    paymentMethod: order.paymentMethod,
+    isPaid: order.isPaid,
+    paidAt: order.paidAt,
+    isDelivered: order.isDelivered,
+    deliveredAt: order.deliveredAt,
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt,
+    user: {
+      id: order.user?.id,
+      name: order.user?.name,
+      email: order.user?.email,
+      isAdmin: order.user?.isAdmin,
+    },
+    shipping: {
+      address: order.address,
+      city: order.city,
+      postalCode: order.postalCode,
+    },
+  };
+  console.log({ OrderFull });
+  // Todo:形式調整
+  res.json(OrderFull);
 });
 
 const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
