@@ -22,8 +22,7 @@ describe("GET /api/orders", () => {
     const agent = request.agent(app);
     token = await loginUserAndGetToken(agent, adminEmail, "123456");
 
-    const order = await createProductAndOrder(`user@test.com`);
-    console.log("test order: ", order);
+    await createProductAndOrder(`user@test.com`);
   });
 
   afterAll(async () => {
