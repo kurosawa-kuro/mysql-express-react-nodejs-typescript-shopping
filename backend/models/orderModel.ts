@@ -1,8 +1,41 @@
 // backend\models\orderModel.ts
 
 import { db } from "../database/prisma/prismaClient";
-import { Order } from "@prisma/client";
+import { Order, OrderProduct, User } from "@prisma/client";
 import { Cart, OrderFull } from "../interfaces";
+
+const createOrderFullFromOrder = (
+  order: Order & { orderProducts: OrderProduct[]; user: User }
+): OrderFull => {
+  return {
+    id: order.id,
+    orderProducts: order.orderProducts,
+    price: {
+      itemsPrice: order.itemsPrice,
+      taxPrice: order.taxPrice,
+      shippingPrice: order.shippingPrice,
+      totalPrice: order.totalPrice,
+    },
+    paymentMethod: order.paymentMethod,
+    isPaid: order.isPaid,
+    paidAt: order.paidAt,
+    isDelivered: order.isDelivered,
+    deliveredAt: order.deliveredAt,
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt,
+    user: {
+      id: order.user.id,
+      name: order.user.name,
+      email: order.user.email,
+      isAdmin: order.user.isAdmin,
+    },
+    shipping: {
+      address: order.address,
+      city: order.city,
+      postalCode: order.postalCode,
+    },
+  };
+};
 
 export const createOrder = async (
   userId: number,
@@ -35,36 +68,7 @@ export const createOrder = async (
     },
   });
 
-  const OrderFull: OrderFull = {
-    id: order.id,
-    orderProducts: order.orderProducts,
-    price: {
-      itemsPrice: order.itemsPrice,
-      taxPrice: order.taxPrice,
-      shippingPrice: order.shippingPrice,
-      totalPrice: order.totalPrice,
-    },
-    paymentMethod: order.paymentMethod,
-    isPaid: order.isPaid,
-    paidAt: order.paidAt,
-    isDelivered: order.isDelivered,
-    deliveredAt: order.deliveredAt,
-    createdAt: order.createdAt,
-    updatedAt: order.updatedAt,
-    user: {
-      id: order.user.id,
-      name: order.user.name,
-      email: order.user.email,
-      isAdmin: order.user.isAdmin,
-    },
-    shipping: {
-      address: order.address,
-      city: order.city,
-      postalCode: order.postalCode,
-    },
-  };
-
-  return OrderFull;
+  return createOrderFullFromOrder(order);
 };
 
 export const findOrderByIdInDB = async (
@@ -79,41 +83,13 @@ export const findOrderByIdInDB = async (
     return null;
   }
 
-  const OrderFull: OrderFull = {
-    id: order.id,
-    orderProducts: order.orderProducts,
-    price: {
-      itemsPrice: order.itemsPrice,
-      taxPrice: order.taxPrice,
-      shippingPrice: order.shippingPrice,
-      totalPrice: order.totalPrice,
-    },
-    paymentMethod: order.paymentMethod,
-    isPaid: order.isPaid,
-    paidAt: order.paidAt,
-    isDelivered: order.isDelivered,
-    deliveredAt: order.deliveredAt,
-    createdAt: order.createdAt,
-    updatedAt: order.updatedAt,
-    user: {
-      id: order.user.id,
-      name: order.user.name,
-      email: order.user.email,
-      isAdmin: order.user.isAdmin,
-    },
-    shipping: {
-      address: order.address,
-      city: order.city,
-      postalCode: order.postalCode,
-    },
-  };
-  return OrderFull;
+  return createOrderFullFromOrder(order);
 };
 
 export const getUserOrdersFromDB = async (
   userId: number
 ): Promise<OrderFull[] | null> => {
-  const ordersData = await db.order.findMany({
+  const orders = await db.order.findMany({
     where: { userId },
     include: {
       orderProducts: {
@@ -123,36 +99,7 @@ export const getUserOrdersFromDB = async (
     },
   });
 
-  const OrderFullList: OrderFull[] = ordersData.map((order) => ({
-    id: order.id,
-    orderProducts: order.orderProducts,
-    price: {
-      itemsPrice: order.itemsPrice,
-      taxPrice: order.taxPrice,
-      shippingPrice: order.shippingPrice,
-      totalPrice: order.totalPrice,
-    },
-    paymentMethod: order.paymentMethod,
-    isPaid: order.isPaid,
-    paidAt: order.paidAt,
-    isDelivered: order.isDelivered,
-    deliveredAt: order.deliveredAt,
-    createdAt: order.createdAt,
-    updatedAt: order.updatedAt,
-    user: {
-      id: order.user.id,
-      name: order.user.name,
-      email: order.user.email,
-      isAdmin: order.user.isAdmin,
-    },
-    shipping: {
-      address: order.address,
-      city: order.city,
-      postalCode: order.postalCode,
-    },
-  }));
-
-  return OrderFullList;
+  return orders.map(createOrderFullFromOrder);
 };
 
 export const getOrderByIdFromDB = async (
@@ -166,36 +113,7 @@ export const getOrderByIdFromDB = async (
     return null;
   }
 
-  const OrderFull: OrderFull = {
-    id: order.id,
-    orderProducts: order.orderProducts,
-    price: {
-      itemsPrice: order.itemsPrice,
-      taxPrice: order.taxPrice,
-      shippingPrice: order.shippingPrice,
-      totalPrice: order.totalPrice,
-    },
-    paymentMethod: order.paymentMethod,
-    isPaid: order.isPaid,
-    paidAt: order.paidAt,
-    isDelivered: order.isDelivered,
-    deliveredAt: order.deliveredAt,
-    createdAt: order.createdAt,
-    updatedAt: order.updatedAt,
-    user: {
-      id: order.user.id,
-      name: order.user.name,
-      email: order.user.email,
-      isAdmin: order.user.isAdmin,
-    },
-    shipping: {
-      address: order.address,
-      city: order.city,
-      postalCode: order.postalCode,
-    },
-  };
-
-  return OrderFull;
+  return createOrderFullFromOrder(order);
 };
 
 export const updateOrderToPaidInDB = async (
@@ -234,34 +152,5 @@ export const getAllOrders = async () => {
     },
   });
 
-  const OrderFull: OrderFull[] = orders.map((order) => ({
-    id: order.id,
-    orderProducts: order.orderProducts,
-    price: {
-      itemsPrice: order.itemsPrice,
-      taxPrice: order.taxPrice,
-      shippingPrice: order.shippingPrice,
-      totalPrice: order.totalPrice,
-    },
-    paymentMethod: order.paymentMethod,
-    isPaid: order.isPaid,
-    paidAt: order.paidAt,
-    isDelivered: order.isDelivered,
-    deliveredAt: order.deliveredAt,
-    createdAt: order.createdAt,
-    updatedAt: order.updatedAt,
-    user: {
-      id: order.user.id,
-      name: order.user.name,
-      email: order.user.email,
-      isAdmin: order.user.isAdmin,
-    },
-    shipping: {
-      address: order.address,
-      city: order.city,
-      postalCode: order.postalCode,
-    },
-  }));
-
-  return OrderFull;
+  return orders.map(createOrderFullFromOrder);
 };
