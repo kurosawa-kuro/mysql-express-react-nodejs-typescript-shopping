@@ -131,10 +131,7 @@ export const uploadImageAndGetPath = async (
   return response.body.image;
 };
 
-export async function createProductAndOrder(
-  userEmail: string,
-  userPassword: string
-) {
+export async function createProductAndOrder(userEmail: string) {
   const user = await db.user.findFirst({
     where: {
       email: userEmail,

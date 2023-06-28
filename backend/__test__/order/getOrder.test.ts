@@ -27,10 +27,7 @@ beforeAll(async () => {
     "testuser@example.com",
     "TestUserPassword123"
   );
-  order = await createProductAndOrder(
-    "testuser@example.com",
-    "TestUserPassword123"
-  );
+  order = await createProductAndOrder("testuser@example.com");
 });
 
 afterAll(async () => {
@@ -39,32 +36,31 @@ afterAll(async () => {
 
 describe("Order Controller", () => {
   test("GET /api/orders/:id - Should get a order", async () => {
-    const orderRequest: OrderRequest = {
-      cart: [
-        {
-          product,
-          qty: 1,
-        },
-      ],
-      shipping: {
-        address: "123 Test St",
-        city: "Test City",
-        postalCode: "12345",
-      },
-      paymentMethod: "Test Payment Method",
-      price: {
-        itemsPrice: 10,
-        taxPrice: 0.1 * 10,
-        shippingPrice: 10,
-        totalPrice: 1.1 * 10 + 10,
-      },
-    };
+    // const orderRequest: OrderRequest = {
+    //   cart: [
+    //     {
+    //       product,
+    //       qty: 1,
+    //     },
+    //   ],
+    //   shipping: {
+    //     address: "123 Test St",
+    //     city: "Test City",
+    //     postalCode: "12345",
+    //   },
+    //   paymentMethod: "Test Payment Method",
+    //   price: {
+    //     itemsPrice: 10,
+    //     taxPrice: 0.1 * 10,
+    //     shippingPrice: 10,
+    //     totalPrice: 1.1 * 10 + 10,
+    //   },
+    // };
 
     console.log("order.id", order.id);
     const response = await request(app)
       .get("/api/orders/" + order.id)
-      .set("Cookie", `jwt=${token}`)
-      .send(orderRequest);
+      .set("Cookie", `jwt=${token}`);
 
     console.log("getOrder.test response.body", response.body);
     // console.log(

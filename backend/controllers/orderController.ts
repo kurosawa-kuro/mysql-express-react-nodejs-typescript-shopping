@@ -131,6 +131,7 @@ const updateOrderToDelivered = asyncHandler(
 );
 
 const getOrders = asyncHandler(async (req: Request, res: Response) => {
+  console.log("hit cont getOrders");
   const orders = await getAllOrders();
 
   // res.json(
