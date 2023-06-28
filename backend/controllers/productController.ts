@@ -71,18 +71,20 @@ const createProduct = asyncHandler(async (req: UserRequest, res: Response) => {
     res.status(401);
     throw new Error("Not authorized");
   }
+  const id = Number(req.user.id);
 
-  const product: Product = await createProductInDB({
+  const productData: Prisma.ProductCreateInput = {
     name,
     price,
-    user: { connect: { id: Number(req.user.id) } },
     image,
     brand,
     category,
     countInStock,
     numReviews,
     description,
-  });
+    user: { connect: { id } },
+  };
+  const product: Product = await createProductInDB(productData);
 
   res.status(201).json(product);
 });

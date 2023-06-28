@@ -6,10 +6,10 @@ import { db } from "../database/prisma/prismaClient";
 export const pageSize: number = Number(process.env.PAGINATION_LIMIT);
 
 export const createProductInDB = async (
-  productData: Prisma.ProductCreateInput
+  data: Prisma.ProductCreateInput
 ): Promise<Product> => {
   const product: Product = await db.product.create({
-    data: productData,
+    data,
   });
   return product;
 };
