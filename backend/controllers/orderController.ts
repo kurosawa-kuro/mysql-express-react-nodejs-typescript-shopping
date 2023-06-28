@@ -46,6 +46,7 @@ const getMyOrders = asyncHandler(
     if (req.user && req.user.id) {
       const userId = Number(req.user.id);
       const orders = await getUserOrdersFromDB(userId);
+      console.log("getMyOrders orders", orders);
 
       // res.json(
       //   orders.map((order) => ({

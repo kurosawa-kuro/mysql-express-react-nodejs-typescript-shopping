@@ -60,12 +60,13 @@ describe("Order Controller", () => {
       },
     };
 
+    console.log("order.id", order.id);
     const response = await request(app)
       .get("/api/orders/" + order.id)
       .set("Cookie", `jwt=${token}`)
       .send(orderRequest);
 
-    // console.log("getOrder.test response.body", response.body);
+    console.log("getOrder.test response.body", response.body);
     // console.log(
     //   "getOrder.test response.body.cart[0].product.id",
     //   response.body.cart[0].product.id
@@ -73,7 +74,7 @@ describe("Order Controller", () => {
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("id");
-    expect(response.body).toHaveProperty("cart");
+    expect(response.body).toHaveProperty("orderProducts");
     expect(response.body).toHaveProperty("user");
     expect(response.body.isPaid).toBe(false);
   });
