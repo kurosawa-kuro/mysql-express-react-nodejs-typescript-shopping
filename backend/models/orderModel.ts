@@ -17,10 +17,12 @@ const createOrderFullFromOrder = (
       totalPrice: order.totalPrice,
     },
     paymentMethod: order.paymentMethod,
-    isPaid: order.isPaid,
-    paidAt: order.paidAt,
-    isDelivered: order.isDelivered,
-    deliveredAt: order.deliveredAt,
+    status: {
+      isPaid: order.isPaid,
+      paidAt: order.paidAt,
+      isDelivered: order.isDelivered,
+      deliveredAt: order.deliveredAt,
+    },
     createdAt: order.createdAt,
     updatedAt: order.updatedAt,
     user: {

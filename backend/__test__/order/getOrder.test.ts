@@ -42,6 +42,6 @@ describe("Order Controller", () => {
     expect(response.body).toHaveProperty("id");
     expect(response.body).toHaveProperty("orderProducts");
     expect(response.body).toHaveProperty("user");
-    expect(response.body.isPaid).toBe(false);
+    expect(response.body.status.isPaid).toBe(false);
   });
 });

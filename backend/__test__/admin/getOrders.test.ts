@@ -50,10 +50,10 @@ describe("GET /api/orders", () => {
       expect(order).toHaveProperty("price.shippingPrice");
       expect(order).toHaveProperty("price.taxPrice");
       expect(order).toHaveProperty("price.totalPrice");
-      expect(order).toHaveProperty("isPaid");
-      expect(order).toHaveProperty("paidAt");
-      expect(order).toHaveProperty("isDelivered");
-      expect(order).toHaveProperty("deliveredAt");
+      expect(order).toHaveProperty("status.isPaid");
+      expect(order).toHaveProperty("status.paidAt");
+      expect(order).toHaveProperty("status.isDelivered");
+      expect(order).toHaveProperty("status.deliveredAt");
       expect(order).toHaveProperty("createdAt");
       expect(order).toHaveProperty("orderProducts");
       order.orderProducts.forEach((orderProduct: OrderProduct) => {

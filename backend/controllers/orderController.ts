@@ -67,10 +67,12 @@ const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
       totalPrice: order.price.totalPrice,
     },
     paymentMethod: order.paymentMethod,
-    isPaid: order.isPaid,
-    paidAt: order.paidAt,
-    isDelivered: order.isDelivered,
-    deliveredAt: order.deliveredAt,
+    status: {
+      isPaid: order.status.isPaid,
+      paidAt: order.status.paidAt,
+      isDelivered: order.status.isDelivered,
+      deliveredAt: order.status.deliveredAt,
+    },
     createdAt: order.createdAt,
     updatedAt: order.updatedAt,
     user: {

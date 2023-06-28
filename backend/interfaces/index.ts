@@ -104,19 +104,15 @@ export interface Shipping {
 export interface Order extends OrderType {}
 
 export interface OrderFull
-  extends Pick<
-    OrderType,
-    | "id"
-    | "paymentMethod"
-    | "isPaid"
-    | "paidAt"
-    | "isDelivered"
-    | "deliveredAt"
-    | "createdAt"
-    | "updatedAt"
-  > {
+  extends Pick<OrderType, "id" | "paymentMethod" | "createdAt" | "updatedAt"> {
   orderProducts: OrderProduct[];
   user: UserBase;
+  status: {
+    isPaid: boolean;
+    paidAt: Date | null;
+    isDelivered: boolean;
+    deliveredAt: Date | null;
+  };
   price: {
     itemsPrice: number;
     taxPrice: number;

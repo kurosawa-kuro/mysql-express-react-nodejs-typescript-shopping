@@ -24,21 +24,21 @@ describe("updateOrderToPaid", () => {
     order = await createProductAndOrder("test@test.com");
   });
 
-  // it("should return 401 when no token is provided", async () => {
-  //   const response = await agent.put(`/api/orders/${order.id}/pay`);
+  it("should return 401 when no token is provided", async () => {
+    const response = await agent.put(`/api/orders/${order.id}/pay`);
 
-  //   expect(response.status).toBe(401);
-  //   expect(response.body.message).toEqual("Not authorized, no token");
-  // });
+    expect(response.status).toBe(401);
+    expect(response.body.message).toEqual("Not authorized, no token");
+  });
 
-  // it("should return 404 when the order is not found", async () => {
-  //   const response = await agent
-  //     .put(`/api/orders/${order.id}/pay`)
-  //     .set("Cookie", `jwt=${token}`);
+  it("should return 404 when the order is not found", async () => {
+    const response = await agent
+      .put(`/api/orders/0/pay`)
+      .set("Cookie", `jwt=${token}`);
 
-  //   expect(response.status).toBe(404);
-  //   expect(response.body.message).toEqual("Order not found");
-  // });
+    expect(response.status).toBe(404);
+    expect(response.body.message).toEqual("Order not found");
+  });
 
   it("should return 200 and update the order to paid when the order exists", async () => {
     const response = await agent
