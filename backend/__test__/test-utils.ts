@@ -27,7 +27,6 @@ export const createProduct = async (): Promise<Product> => {
         isAdmin: true,
       },
     });
-    console.log({ isAdmin });
     // Adminがなければ作る
     let admin;
     if (!isAdmin) {
@@ -36,7 +35,6 @@ export const createProduct = async (): Promise<Product> => {
       admin = isAdmin;
     }
 
-    console.log({ admin });
     const product = await db.product.create({
       data: {
         userId: admin.id,
@@ -50,8 +48,6 @@ export const createProduct = async (): Promise<Product> => {
         description: "Test Description",
       },
     });
-
-    console.log("test product", product);
 
     return product;
   } catch (error) {
@@ -76,7 +72,6 @@ const createUserWithRole = async (
         isAdmin,
       },
     });
-    console.log({ user });
 
     if (!user) {
       throw new Error(`Failed to create user with email ${email}`);
@@ -140,18 +135,13 @@ export async function createProductAndOrder(
   userEmail: string,
   userPassword: string
 ) {
-  console.log("createProductAndOrder");
-  // create user
-  // userEmailでユーザーを検索
   const user = await db.user.findFirst({
     where: {
       email: userEmail,
     },
   });
-  console.log("test-utils createProductAndOrder user", user);
 
   const product: Product = await createProduct();
-  console.log("test-utils createProductAndOrder product", product);
   const orderRequest: OrderRequest = {
     cart: [
       {
@@ -172,11 +162,9 @@ export async function createProductAndOrder(
       totalPrice: 1.1 * product.price + 10,
     },
   };
-  console.log("test-utils createProductAndOrder orderRequest", orderRequest);
   const { cart, ...orderData } = orderRequest;
   if (user) {
     const createdOrder = await createOrder(Number(user.id), orderData, cart);
-    console.log("createProductAndOrder createdOrder", createdOrder);
     return createdOrder;
   }
 

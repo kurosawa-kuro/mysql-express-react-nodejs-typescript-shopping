@@ -11,7 +11,7 @@ export const createOrder = async (
 ) => {
   const { shipping, paymentMethod, price } = orderData;
 
-  const createdOrder = await db.order.create({
+  const order = await db.order.create({
     data: {
       userId,
       address: shipping.address,
@@ -31,10 +31,41 @@ export const createOrder = async (
     },
     include: {
       orderProducts: true,
+      user: true,
     },
   });
 
-  return createdOrder;
+  console.log("createdOrder", order);
+  const OrderFull: OrderFull = {
+    id: order.id,
+    orderProducts: order.orderProducts,
+    price: {
+      itemsPrice: order.itemsPrice,
+      taxPrice: order.taxPrice,
+      shippingPrice: order.shippingPrice,
+      totalPrice: order.totalPrice,
+    },
+    paymentMethod: order.paymentMethod,
+    isPaid: order.isPaid,
+    paidAt: order.paidAt,
+    isDelivered: order.isDelivered,
+    deliveredAt: order.deliveredAt,
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt,
+    user: {
+      id: order.user.id,
+      name: order.user.name,
+      email: order.user.email,
+      isAdmin: order.user.isAdmin,
+    },
+    shipping: {
+      address: order.address,
+      city: order.city,
+      postalCode: order.postalCode,
+    },
+  };
+  console.log({ OrderFull });
+  return OrderFull;
 };
 
 export const findOrderByIdInDB = async (id: number) => {

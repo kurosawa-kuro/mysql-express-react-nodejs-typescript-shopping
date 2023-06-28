@@ -71,7 +71,7 @@ const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
   }
   const OrderFull: OrderFull = {
     id: order.id,
-    cart: order.orderProducts,
+    orderProducts: order.orderProducts,
     price: {
       itemsPrice: order.itemsPrice,
       taxPrice: order.taxPrice,

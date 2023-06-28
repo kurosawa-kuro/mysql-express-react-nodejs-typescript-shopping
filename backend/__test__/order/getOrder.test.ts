@@ -31,7 +31,6 @@ beforeAll(async () => {
     "testuser@example.com",
     "TestUserPassword123"
   );
-  console.log(order);
 });
 
 afterAll(async () => {

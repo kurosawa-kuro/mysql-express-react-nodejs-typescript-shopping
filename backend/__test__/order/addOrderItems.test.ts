@@ -55,16 +55,13 @@ describe("Order Controller", () => {
       .send(orderRequest);
 
     console.log("response.body", response.body);
-    console.log(
-      "response.body.orderProducts[0].product.id",
-      response.body.orderProducts[0].productId
-    );
+
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("id");
-    expect(response.body.userId).toBe(user.id);
-    expect(response.body.address).toBe(orderRequest.shipping.address);
+    expect(response.body.user.id).toBe(user.id);
+    expect(response.body.shipping.address).toBe(orderRequest.shipping.address);
     expect(response.body.paymentMethod).toBe(orderRequest.paymentMethod);
-    expect(response.body.itemsPrice).toBe(orderRequest.price.itemsPrice);
+    expect(response.body.price.itemsPrice).toBe(orderRequest.price.itemsPrice);
     expect(response.body.isPaid).toBe(false);
     expect(response.body.orderProducts[0].productId).toBe(
       orderRequest.cart[0].product.id

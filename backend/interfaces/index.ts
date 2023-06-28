@@ -4,6 +4,7 @@ import {
   User as UserType,
   Product as ProductType,
   Order as OrderType,
+  OrderProduct,
 } from "@prisma/client";
 
 // --------------------------
@@ -114,7 +115,7 @@ export interface OrderFull
     | "createdAt"
     | "updatedAt"
   > {
-  cart: Cart[];
+  orderProducts: OrderProduct[];
   user: UserBase;
   price: {
     itemsPrice: number;
