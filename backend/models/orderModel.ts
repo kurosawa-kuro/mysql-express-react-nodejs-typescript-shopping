@@ -54,6 +54,7 @@ export const getUserOrdersFromDB = async (
       orderProducts: { include: { product: true } },
     },
   });
+  console.log("getUserOrdersFromDB ordersData", ordersData);
   // const orders = {
   //   id:ordersData.order.createdOrder.id
   //   paymentMethod:
