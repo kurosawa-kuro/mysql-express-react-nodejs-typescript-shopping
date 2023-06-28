@@ -23,7 +23,6 @@ const findOrderById = async (id: number) => {
 
 export const addOrderItems = asyncHandler(
   async (req: UserRequest, res: Response, next: NextFunction) => {
-    console.log("hit addOrderItems");
     const { cart, ...orderData } = req.body;
     if (!cart || cart.length === 0) {
       res.status(400);
