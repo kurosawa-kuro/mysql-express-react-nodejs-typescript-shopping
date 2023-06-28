@@ -11,7 +11,6 @@ import { Product, User } from "@prisma/client";
 import { OrderFull, OrderRequest } from "../../interfaces";
 
 let token: string;
-let product: Product;
 let user: User;
 let order: any;
 
@@ -36,37 +35,9 @@ afterAll(async () => {
 
 describe("Order Controller", () => {
   test("GET /api/orders/:id - Should get a order", async () => {
-    // const orderRequest: OrderRequest = {
-    //   cart: [
-    //     {
-    //       product,
-    //       qty: 1,
-    //     },
-    //   ],
-    //   shipping: {
-    //     address: "123 Test St",
-    //     city: "Test City",
-    //     postalCode: "12345",
-    //   },
-    //   paymentMethod: "Test Payment Method",
-    //   price: {
-    //     itemsPrice: 10,
-    //     taxPrice: 0.1 * 10,
-    //     shippingPrice: 10,
-    //     totalPrice: 1.1 * 10 + 10,
-    //   },
-    // };
-
-    console.log("order.id", order.id);
     const response = await request(app)
       .get("/api/orders/" + order.id)
       .set("Cookie", `jwt=${token}`);
-
-    console.log("getOrder.test response.body", response.body);
-    // console.log(
-    //   "getOrder.test response.body.cart[0].product.id",
-    //   response.body.cart[0].product.id
-    // );
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("id");
