@@ -67,12 +67,47 @@ export const createOrder = async (
   return OrderFull;
 };
 
-export const findOrderByIdInDB = async (id: number) => {
-  // const data = ここでインターフェイスに合うように整形する;
-  return db.order.findUnique({
+export const findOrderByIdInDB = async (
+  id: number
+): Promise<OrderFull | null> => {
+  const order = await db.order.findUnique({
     where: { id },
     include: { user: true, orderProducts: { include: { product: true } } },
   });
+
+  if (!order) {
+    return null;
+  }
+
+  const OrderFull: OrderFull = {
+    id: order.id,
+    orderProducts: order.orderProducts,
+    price: {
+      itemsPrice: order.itemsPrice,
+      taxPrice: order.taxPrice,
+      shippingPrice: order.shippingPrice,
+      totalPrice: order.totalPrice,
+    },
+    paymentMethod: order.paymentMethod,
+    isPaid: order.isPaid,
+    paidAt: order.paidAt,
+    isDelivered: order.isDelivered,
+    deliveredAt: order.deliveredAt,
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt,
+    user: {
+      id: order.user.id,
+      name: order.user.name,
+      email: order.user.email,
+      isAdmin: order.user.isAdmin,
+    },
+    shipping: {
+      address: order.address,
+      city: order.city,
+      postalCode: order.postalCode,
+    },
+  };
+  return OrderFull;
 };
 
 export const getUserOrdersFromDB = async (
@@ -117,16 +152,6 @@ export const getUserOrdersFromDB = async (
     },
   }));
 
-  // const orders = {
-  //   id:ordersData.order.createdOrder.id
-  //   paymentMethod:
-  //   isPaid:
-  //   paidAt:
-  //   isDelivered:
-  //   deliveredAt:
-  //   createdAt:
-  //   updatedAt:
-  // }
   return OrderFullList;
 };
 
@@ -169,6 +194,7 @@ export const getOrderByIdFromDB = async (
       postalCode: order.postalCode,
     },
   };
+
   return OrderFull;
 };
 
