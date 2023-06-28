@@ -17,12 +17,10 @@ export const OrderListScreen: React.FC = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      console.log("admin fetchOrders");
       try {
         const data = userInformation?.isAdmin
           ? await getOrdersApi()
           : await getMyOrdersApi();
-        console.log("admin orders", data);
         setOrders(data);
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : "An error occurred.");

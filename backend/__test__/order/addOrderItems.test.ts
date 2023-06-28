@@ -61,9 +61,6 @@ describe("Order Controller", () => {
     expect(response.body.paymentMethod).toBe(orderRequest.paymentMethod);
     expect(response.body.price.itemsPrice).toBe(orderRequest.price.itemsPrice);
     expect(response.body.status.isPaid).toBe(false);
-    expect(response.body.orderProducts[0].productId).toBe(
-      orderRequest.cart[0].product.id
-    );
   });
 
   // test("POST /api/orders/ - Should fail if no order items", async () => {

@@ -13,6 +13,7 @@ import {
   API_BASE_URL,
   createServer,
   inputField,
+  printDOM,
   TEST_ADMIN_USER,
 } from "../../test-utils";
 import { rest } from "msw";
@@ -65,6 +66,7 @@ describe("Admin Product Management", () => {
         await screen.findByRole("heading", { name: /Orders/i });
         expect(await screen.findByText("$113.49")).toBeInTheDocument();
 
+        // postデータの形式から見直し
         server.use(
           rest.get(`${API_BASE_URL}/orders/28`, (_req, res, ctx) => {
             return res(
@@ -137,6 +139,7 @@ describe("Admin Product Management", () => {
         const detailsLink = await screen.findByText("Details");
         fireEvent.click(detailsLink);
 
+        printDOM();
         expect(await screen.findByText("Order 28")).toBeInTheDocument();
 
         const markAsDeliveredButton = await screen.findByText(

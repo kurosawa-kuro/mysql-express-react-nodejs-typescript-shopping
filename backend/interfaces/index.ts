@@ -52,10 +52,20 @@ export interface UserAuth {
 // --------------------------
 // Product related interfaces
 export interface Product extends ProductType {}
+
 export interface ProductBase
   extends Pick<
     ProductType,
-    "id" | "name" | "image" | "price" | "countInStock" | "rating" | "numReviews"
+    | "id"
+    | "name"
+    | "image"
+    | "brand"
+    | "category"
+    | "description"
+    | "rating"
+    | "numReviews"
+    | "price"
+    | "countInStock"
   > {}
 
 export interface Cart {
@@ -73,20 +83,6 @@ export interface ProductList {
   page: number;
   pages: number;
 }
-
-// ProductBaseとの違いを明確に
-export interface ProductDetails
-  extends Pick<
-    ProductType,
-    | "id"
-    | "name"
-    | "image"
-    | "brand"
-    | "category"
-    | "description"
-    | "price"
-    | "countInStock"
-  > {}
 
 export interface ProductReview {
   rating: number;

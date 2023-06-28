@@ -9,7 +9,12 @@ import { OrderListScreen } from "../../../screens/admin/order/OrderListScreen";
 import { OrderScreen } from "../../../screens/order/OrderScreen";
 
 // Utils & Constants
-import { createServer, inputField, TEST_ADMIN_USER } from "../../test-utils";
+import {
+  createServer,
+  inputField,
+  printDOM,
+  TEST_ADMIN_USER,
+} from "../../test-utils";
 
 const server = createServer();
 
@@ -55,8 +60,10 @@ describe("Admin Product Management", () => {
         await screen.findByRole("heading", { name: /Orders/i });
         expect(await screen.findByText("$113.49")).toBeInTheDocument();
         const detailsLink = await screen.findByText("Details");
+
         fireEvent.click(detailsLink);
         expect(await screen.findByText("Order 28")).toBeInTheDocument();
+        printDOM();
         const testPayButton = await screen.findByText("Test Pay");
         fireEvent.click(testPayButton);
         expect(await screen.findByText("Order is paid")).toBeInTheDocument();

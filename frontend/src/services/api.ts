@@ -9,7 +9,7 @@ import {
   UserRegisterCredentials,
   ProductSearch,
   ErrorMessage,
-  ProductDetails,
+  ProductBase,
   UserUpdateByAdmin,
   Product,
   OrderFull,
@@ -72,10 +72,10 @@ export const getProductsApi = ({ keyword, pageNumber }: ProductSearch) =>
 export const getProductFullsApi = (productId: number) =>
   performRequest(apiClient.get(`/api/products/${productId}`));
 
-export const createProductApi = (product: ProductDetails | null) =>
+export const createProductApi = (product: ProductBase | null) =>
   performRequest(apiClient.post("/api/products", product));
 
-export const updateProductApi = (product: ProductDetails) =>
+export const updateProductApi = (product: ProductBase) =>
   performRequest(apiClient.put(`/api/products/${product.id}`, product));
 
 export const uploadProductImageApi = async (imageData: FormData) =>

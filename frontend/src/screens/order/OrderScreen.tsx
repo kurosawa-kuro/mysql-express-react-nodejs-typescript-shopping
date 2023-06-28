@@ -196,7 +196,7 @@ export const OrderScreen = () => {
             </div>
 
             {/* Payment and Delivery */}
-            {!order.isPaid && (
+            {!order.status.isPaid && (
               <div className="mb-4">
                 {loading && <Loader />}
                 {!userInformation ? (
@@ -219,8 +219,8 @@ export const OrderScreen = () => {
             {loading && <Loader />}
             {userInformation &&
               userInformation.isAdmin &&
-              order.isPaid &&
-              !order.isDelivered && (
+              order.status.isPaid &&
+              !order.status.isDelivered && (
                 <button
                   type="button"
                   className="w-full rounded-lg bg-green-500 px-4 py-2 font-semibold text-white shadow-md hover:bg-green-700 focus:outline-none"
