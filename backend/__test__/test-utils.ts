@@ -6,6 +6,8 @@ import { db } from "../database/prisma/prismaClient";
 import { User, Product, Order } from "@prisma/client";
 import path from "path";
 import { hashPassword } from "../utils";
+import { OrderRequest } from "../interfaces";
+import { createOrder } from "../models/orderModel";
 
 /**
  * Database Operations
@@ -17,11 +19,27 @@ export const clearDatabase = async (): Promise<void> => {
   await db.user.deleteMany();
 };
 
-export const createProduct = async (userId: number): Promise<Product> => {
+export const createProduct = async (): Promise<Product> => {
   try {
+    // Adminが居るかを確認する
+    const isAdmin = await db.user.findFirst({
+      where: {
+        isAdmin: true,
+      },
+    });
+    console.log({ isAdmin });
+    // Adminがなければ作る
+    let admin;
+    if (!isAdmin) {
+      admin = await createUserWithRole("admine@mail.com", "adminpw", true);
+    } else {
+      admin = isAdmin;
+    }
+
+    console.log({ admin });
     const product = await db.product.create({
       data: {
-        userId,
+        userId: admin.id,
         name: "Test Product",
         price: 100,
         image: "sample path",
@@ -33,9 +51,7 @@ export const createProduct = async (userId: number): Promise<Product> => {
       },
     });
 
-    if (!product) {
-      throw new Error(`Failed to create product for user with id ${userId}`);
-    }
+    console.log("test product", product);
 
     return product;
   } catch (error) {
@@ -60,6 +76,7 @@ const createUserWithRole = async (
         isAdmin,
       },
     });
+    console.log({ user });
 
     if (!user) {
       throw new Error(`Failed to create user with email ${email}`);
@@ -123,47 +140,84 @@ export async function createProductAndOrder(
   userEmail: string,
   userPassword: string
 ) {
+  console.log("createProductAndOrder");
   // create user
-  const user = await createUser(userEmail, userPassword);
+  // userEmailでユーザーを検索
+  const user = await db.user.findFirst({
+    where: {
+      email: userEmail,
+    },
+  });
+  console.log("test-utils createProductAndOrder user", user);
 
-  // create order by admin user by prisma client
-  const createdOrder: Order = await db.order.create({
-    data: {
-      userId: Number(user.id),
+  const product: Product = await createProduct();
+  console.log("test-utils createProductAndOrder product", product);
+  const orderRequest: OrderRequest = {
+    cart: [
+      {
+        product,
+        qty: 1,
+      },
+    ],
+    shipping: {
       address: "123 Test St",
       city: "Test City",
       postalCode: "12345",
-      paymentMethod: "test paymentMethod",
-      itemsPrice: 100,
-      taxPrice: 100,
-      shippingPrice: 100,
-      totalPrice: 100,
     },
-  });
-
-  // create a product in the database
-  const product = await db.product.create({
-    data: {
-      userId: Number(user.id),
-      name: "Test Product",
-      image: "sample path",
-      brand: "Test Brand",
-      category: "Test Category",
-      description: "Test Description",
-      rating: 0,
-      numReviews: 0,
-      price: 100,
-      countInStock: 10,
+    paymentMethod: "Test Payment Method",
+    price: {
+      itemsPrice: product.price,
+      taxPrice: 0.1 * product.price,
+      shippingPrice: 10,
+      totalPrice: 1.1 * product.price + 10,
     },
-  });
+  };
+  console.log("test-utils createProductAndOrder orderRequest", orderRequest);
+  const { cart, ...orderData } = orderRequest;
+  if (user) {
+    const createdOrder = await createOrder(Number(user.id), orderData, cart);
+    console.log("createProductAndOrder createdOrder", createdOrder);
+    return createdOrder;
+  }
 
-  await db.orderProduct.create({
-    data: {
-      orderId: createdOrder.id,
-      productId: product.id,
-      qty: 1,
-    },
-  });
+  // // create order by admin user by prisma client
+  // const createdOrder: OrderRequest = await db.order.create({
+  //   data: {
+  //     userId: Number(user.id),
+  //     address: "123 Test St",
+  //     city: "Test City",
+  //     postalCode: "12345",
+  //     paymentMethod: "test paymentMethod",
+  //     itemsPrice: 100,
+  //     taxPrice: 100,
+  //     shippingPrice: 100,
+  //     totalPrice: 100,
+  //   },
+  // });
 
-  return { user, createdOrder, product };
+  // // create a product in the database
+  // const product = await db.product.create({
+  //   data: {
+  //     userId: Number(user.id),
+  //     name: "Test Product",
+  //     image: "sample path",
+  //     brand: "Test Brand",
+  //     category: "Test Category",
+  //     description: "Test Description",
+  //     rating: 0,
+  //     numReviews: 0,
+  //     price: 100,
+  //     countInStock: 10,
+  //   },
+  // });
+
+  // await db.orderProduct.create({
+  //   data: {
+  //     orderId: createdOrder.id,
+  //     productId: product.id,
+  //     qty: 1,
+  //   },
+  // });
+
+  // return { createdOrder, product };
 }

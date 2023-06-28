@@ -16,7 +16,7 @@ let user: User;
 beforeAll(async () => {
   await clearDatabase();
   user = await createUser("testuser@example.com", "TestUserPassword123");
-  product = await createProduct(user.id);
+  product = await createProduct();
 
   const agent = request.agent(app);
   token = await loginUserAndGetToken(

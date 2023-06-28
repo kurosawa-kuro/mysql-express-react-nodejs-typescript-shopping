@@ -42,6 +42,7 @@ export const addOrderItems = asyncHandler(
 
 const getMyOrders = asyncHandler(
   async (req: UserRequest, res: Response, next: NextFunction) => {
+    console.log("hit getMyOrders");
     if (req.user && req.user.id) {
       const userId = Number(req.user.id);
       const orders = await getUserOrdersFromDB(userId);
@@ -62,33 +63,35 @@ const getMyOrders = asyncHandler(
 );
 
 const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
+  console.log("hit getOrderById");
   const order = await getOrderByIdFromDB(Number(req.params.id));
-  // order
-  //   ? res.json({
-  //       id: order.id,
-  //       cart: order.cart,
-  //       price: {
-  //         itemsPrice: order.itemsPrice,
-  //         taxPrice: order.taxPrice,
-  //         shippingPrice: order.shippingPrice,
-  //         totalPrice: order.totalPrice,
-  //       },
-  //       isPaid: order.isPaid,
-  //       paidAt: order.paidAt,
-  //       isDelivered: order.isDelivered,
-  //       deliveredAt: order.deliveredAt,
-  //       createdAt: order.createdAt,
-  //       user: {
-  //         id: order.user?.id,
-  //         name: order.user?.name,
-  //         email: order.user?.email,
-  //         isAdmin: order.user?.isAdmin,
-  //       },
-  //       address: order.address,
-  //       city: order.city,
-  //       postalCode: order.postalCode,
-  //     })
-  //   : res.status(404).json({ message: "Order not found" });
+  console.log({ order });
+  order
+    ? res.json({
+        id: order.id,
+        cart: order.orderProducts,
+        price: {
+          itemsPrice: order.itemsPrice,
+          taxPrice: order.taxPrice,
+          shippingPrice: order.shippingPrice,
+          totalPrice: order.totalPrice,
+        },
+        isPaid: order.isPaid,
+        paidAt: order.paidAt,
+        isDelivered: order.isDelivered,
+        deliveredAt: order.deliveredAt,
+        createdAt: order.createdAt,
+        user: {
+          id: order.user?.id,
+          name: order.user?.name,
+          email: order.user?.email,
+          isAdmin: order.user?.isAdmin,
+        },
+        address: order.address,
+        city: order.city,
+        postalCode: order.postalCode,
+      })
+    : res.status(404).json({ message: "Order not found" });
 });
 
 const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {

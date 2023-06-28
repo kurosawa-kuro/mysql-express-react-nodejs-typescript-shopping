@@ -68,12 +68,13 @@ export const getUserOrdersFromDB = async (
 };
 
 export const getOrderByIdFromDB = async (orderId: number) => {
-  // console.log("getOrderByIdFromDB");
-  // const order = await db.order.findUnique({
-  //   where: { id: orderId },
-  //   include: { user: true, orderProducts: { include: { product: true } } },
-  // });
-  // return order;
+  console.log("getOrderByIdFromDB");
+  const order = await db.order.findUnique({
+    where: { id: orderId },
+    include: { user: true, orderProducts: { include: { product: true } } },
+  });
+  console.log("getOrderByIdFromDB order", order);
+  return order;
 };
 
 export const updateOrderToPaidInDB = async (

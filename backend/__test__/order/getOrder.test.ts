@@ -2,66 +2,72 @@ import request from "supertest";
 import { app } from "../../index";
 import {
   clearDatabase,
-  createAdminUser,
   loginUserAndGetToken,
+  createUser,
+  createProduct,
   createProductAndOrder,
 } from "../test-utils";
-import { db } from "../../database/prisma/prismaClient";
-import { Cart, OrderFull } from "../../interfaces";
+import { Product, User } from "@prisma/client";
+import { OrderFull, OrderRequest } from "../../interfaces";
 
-describe("GET /api/order/:id", () => {
-  let token: string;
-  const adminEmail = `admin@test.com`;
-  let order: any;
-  beforeAll(async () => {
-    await clearDatabase();
-    await createAdminUser(adminEmail, "123456");
-    const agent = request.agent(app);
-    token = await loginUserAndGetToken(agent, adminEmail, "123456");
+let token: string;
+let product: Product;
+let user: User;
+let order: any;
 
-    order = await createProductAndOrder(`user@test.com`, "123456");
-  });
+beforeAll(async () => {
+  await clearDatabase();
+  // product = await createProduct();
+  // create normal user
+  user = await createUser("testuser@example.com", "TestUserPassword123");
 
-  afterAll(async () => {
-    await clearDatabase();
-    await db.$disconnect();
-  });
+  const agent = request.agent(app);
+  token = await loginUserAndGetToken(
+    agent,
+    "testuser@example.com",
+    "TestUserPassword123"
+  );
+  order = await createProductAndOrder(
+    "testuser@example.com",
+    "TestUserPassword123"
+  );
+  console.log(order);
+});
 
-  it("should return 200 and all orders for admin users", async () => {
-    const res = await request(app)
+afterAll(async () => {
+  await clearDatabase();
+});
+
+describe("Order Controller", () => {
+  test("GET /api/orders/:id - Should get a order", async () => {
+    const orderRequest: OrderRequest = {
+      cart: [
+        {
+          product,
+          qty: 1,
+        },
+      ],
+      shipping: {
+        address: "123 Test St",
+        city: "Test City",
+        postalCode: "12345",
+      },
+      paymentMethod: "Test Payment Method",
+      price: {
+        itemsPrice: 10,
+        taxPrice: 0.1 * 10,
+        shippingPrice: 10,
+        totalPrice: 1.1 * 10 + 10,
+      },
+    };
+
+    const response = await request(app)
       .get("/api/orders/" + order.id)
-      .set("Cookie", `jwt=${token}`);
+      .set("Cookie", `jwt=${token}`)
+      .send(orderRequest);
 
-    expect(res.status).toBe(200);
+    console.log("response.body", response.body);
 
-    // expect(Array.isArray(res.body)).toBe(true);
-
-    // res.body.forEach((order: OrderFull) => {
-    //   expect(order).toHaveProperty("id");
-    //   expect(order).toHaveProperty("userId");
-    //   expect(order).toHaveProperty("address");
-    //   expect(order).toHaveProperty("city");
-    //   expect(order).toHaveProperty("postalCode");
-    //   expect(order).toHaveProperty("paymentMethod");
-    //   expect(order).toHaveProperty("itemsPrice");
-    //   expect(order).toHaveProperty("shippingPrice");
-    //   expect(order).toHaveProperty("taxPrice");
-    //   expect(order).toHaveProperty("totalPrice");
-    //   expect(order).toHaveProperty("isPaid");
-    //   expect(order).toHaveProperty("paidAt");
-    //   expect(order).toHaveProperty("isDelivered");
-    //   expect(order).toHaveProperty("deliveredAt");
-    //   expect(order).toHaveProperty("createdAt");
-    //   expect(order).toHaveProperty("orderProducts");
-    //   order.orderProducts.forEach((orderProduct: Cart) => {
-    //     expect(orderProduct).toHaveProperty("orderId");
-    //     expect(orderProduct).toHaveProperty("productId");
-    //     expect(orderProduct).toHaveProperty("qty");
-    //     expect(orderProduct).toHaveProperty("product.id");
-    //     expect(orderProduct).toHaveProperty("product.name");
-    //     expect(orderProduct).toHaveProperty("product.image");
-    //     expect(orderProduct).toHaveProperty("product.brand");
-    //   });
-    // });
+    expect(response.status).toBe(200);
   });
 });
