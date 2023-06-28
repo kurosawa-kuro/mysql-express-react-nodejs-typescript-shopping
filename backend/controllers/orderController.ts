@@ -93,15 +93,25 @@ const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
 });
 
 const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
+  console.log("hit cont updateOrderToPaid");
+  console.log("hit cont req.params.id", req.params.id);
+  console.log("hit cont req.body", req.body);
+
+  // Orderテーブルからselectする
+  const allOrders = await getAllOrders();
+  console.log("allOrders", allOrders);
   const order = await findOrderById(Number(req.params.id));
-  // if (!order) {
-  //   res.status(404);
-  //   throw new Error("Order not found");
-  // }
 
-  // const updatedOrder = await updateOrderToPaidInDB(order.id);
+  // const order = await findOrderById(Number(req.params.id));
+  console.log("cont updateOrderToPaid", order);
+  if (!order) {
+    res.status(404);
+    throw new Error("Order not found");
+  }
 
-  // res.json(updatedOrder);
+  const updatedOrder = await updateOrderToPaidInDB(order.id);
+
+  res.json(updatedOrder);
 });
 
 const updateOrderToDelivered = asyncHandler(

@@ -69,10 +69,10 @@ export const createOrder = async (
 
 export const findOrderByIdInDB = async (id: number) => {
   // const data = ここでインターフェイスに合うように整形する;
-  // return db.order.findUnique({
-  //   where: { id },
-  //   include: { user: true, orderProducts: { include: { product: true } } },
-  // });
+  return db.order.findUnique({
+    where: { id },
+    include: { user: true, orderProducts: { include: { product: true } } },
+  });
 };
 
 export const getUserOrdersFromDB = async (

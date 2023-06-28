@@ -164,45 +164,4 @@ export async function createProductAndOrder(userEmail: string) {
     const createdOrder = await createOrder(Number(user.id), orderData, cart);
     return createdOrder;
   }
-
-  // // create order by admin user by prisma client
-  // const createdOrder: OrderRequest = await db.order.create({
-  //   data: {
-  //     userId: Number(user.id),
-  //     address: "123 Test St",
-  //     city: "Test City",
-  //     postalCode: "12345",
-  //     paymentMethod: "test paymentMethod",
-  //     itemsPrice: 100,
-  //     taxPrice: 100,
-  //     shippingPrice: 100,
-  //     totalPrice: 100,
-  //   },
-  // });
-
-  // // create a product in the database
-  // const product = await db.product.create({
-  //   data: {
-  //     userId: Number(user.id),
-  //     name: "Test Product",
-  //     image: "sample path",
-  //     brand: "Test Brand",
-  //     category: "Test Category",
-  //     description: "Test Description",
-  //     rating: 0,
-  //     numReviews: 0,
-  //     price: 100,
-  //     countInStock: 10,
-  //   },
-  // });
-
-  // await db.orderProduct.create({
-  //   data: {
-  //     orderId: createdOrder.id,
-  //     productId: product.id,
-  //     qty: 1,
-  //   },
-  // });
-
-  // return { createdOrder, product };
 }
