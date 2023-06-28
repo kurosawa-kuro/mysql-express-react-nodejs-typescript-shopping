@@ -22,7 +22,6 @@ describe("updateOrderToPaid", () => {
     user = await createUser("test@test.com", "testpassword");
     token = await loginUserAndGetToken(agent, "test@test.com", "testpassword");
     order = await createProductAndOrder("test@test.com");
-    console.log("test order", { order });
   });
 
   // it("should return 401 when no token is provided", async () => {
@@ -42,7 +41,6 @@ describe("updateOrderToPaid", () => {
   // });
 
   it("should return 200 and update the order to paid when the order exists", async () => {
-    console.log("test order.id", order.id);
     const response = await agent
       .put(`/api/orders/${order.id}/pay`)
       .set("Cookie", `jwt=${token}`)

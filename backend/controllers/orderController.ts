@@ -42,7 +42,6 @@ export const addOrderItems = asyncHandler(
 
 const getMyOrders = asyncHandler(
   async (req: UserRequest, res: Response, next: NextFunction) => {
-    console.log("hit cont getMyOrders");
     if (req.user && req.user.id) {
       const userId = Number(req.user.id);
       const orders = await getUserOrdersFromDB(userId);
@@ -53,7 +52,6 @@ const getMyOrders = asyncHandler(
 );
 
 const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
-  console.log("hit getOrderById");
   const order = await getOrderByIdFromDB(Number(req.params.id));
   if (!order) {
     res.status(404);
@@ -87,23 +85,12 @@ const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
       postalCode: order.shipping.postalCode,
     },
   };
-  console.log({ OrderFull });
-  // Todo:形式調整
   res.json(OrderFull);
 });
 
 const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
-  console.log("hit cont updateOrderToPaid");
-  console.log("hit cont req.params.id", req.params.id);
-  console.log("hit cont req.body", req.body);
-
-  // Orderテーブルからselectする
-  const allOrders = await getAllOrders();
-  console.log("allOrders", allOrders);
   const order = await findOrderById(Number(req.params.id));
 
-  // const order = await findOrderById(Number(req.params.id));
-  console.log("cont updateOrderToPaid", order);
   if (!order) {
     res.status(404);
     throw new Error("Order not found");

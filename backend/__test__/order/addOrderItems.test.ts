@@ -54,8 +54,6 @@ describe("Order Controller", () => {
       .set("Cookie", `jwt=${token}`)
       .send(orderRequest);
 
-    console.log("response.body", response.body);
-
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("id");
     expect(response.body.user.id).toBe(user.id);
