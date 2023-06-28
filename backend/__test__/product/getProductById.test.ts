@@ -17,7 +17,7 @@ async function setup() {
   const adminUser = await createAdminUser("admin@test.com", "password123");
   await loginUserAndGetToken(agent, "admin@test.com", "password123");
 
-  product = await createProduct(adminUser.id);
+  product = await createProduct();
 }
 
 describe("GET /api/products/:id", () => {

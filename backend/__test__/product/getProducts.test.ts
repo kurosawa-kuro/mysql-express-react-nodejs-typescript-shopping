@@ -20,7 +20,7 @@ describe("GET /api/products", () => {
       "password"
     );
 
-    await createProduct(admin.id);
+    await createProduct();
 
     const response = await request(app)
       .get("/api/products")

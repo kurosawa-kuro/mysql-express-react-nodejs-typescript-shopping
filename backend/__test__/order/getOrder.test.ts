@@ -16,7 +16,6 @@ let order: any;
 
 beforeAll(async () => {
   await clearDatabase();
-  // product = await createProduct();
   // create normal user
   user = await createUser("testuser@example.com", "TestUserPassword123");
 

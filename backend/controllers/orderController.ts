@@ -105,14 +105,14 @@ const updateOrderToDelivered = asyncHandler(
   async (req: Request, res: Response) => {
     const order = await findOrderById(Number(req.params.id));
 
-    // if (!order) {
-    //   res.status(404);
-    //   throw new Error("Order not found");
-    // }
+    if (!order) {
+      res.status(404);
+      throw new Error("Order not found");
+    }
 
-    // const updatedOrder: Order = await updateOrderDeliveredStatus(order.id);
+    const updatedOrder: Order = await updateOrderDeliveredStatus(order.id);
 
-    // res.json(updatedOrder);
+    res.json(updatedOrder);
   }
 );
 

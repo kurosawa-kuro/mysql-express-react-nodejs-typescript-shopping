@@ -19,7 +19,7 @@ describe("GET /api/orders", () => {
     const agent = request.agent(app);
     token = await loginUserAndGetToken(agent, adminEmail, "123456");
 
-    await createProductAndOrder(`user@test.com`, "123456");
+    await createProductAndOrder(`user@test.com`);
   });
 
   afterAll(async () => {
@@ -53,7 +53,7 @@ describe("GET /api/orders", () => {
       expect(order).toHaveProperty("deliveredAt");
       expect(order).toHaveProperty("createdAt");
       expect(order).toHaveProperty("orderProducts");
-      order.orderProducts.forEach((orderProduct: Cart) => {
+      order.orderProducts.forEach((orderProduct: orderProduct) => {
         expect(orderProduct).toHaveProperty("orderId");
         expect(orderProduct).toHaveProperty("productId");
         expect(orderProduct).toHaveProperty("qty");

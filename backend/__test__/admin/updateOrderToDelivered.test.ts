@@ -6,58 +6,40 @@ import {
   createAdminUser,
   loginUserAndGetToken,
   createProduct,
+  createUser,
+  createProductAndOrder,
 } from "../test-utils";
 import { db } from "../../database/prisma/prismaClient";
+import { User } from "@prisma/client";
 
 describe("Order Controller", () => {
   let token: string;
-  let product: any;
+  let order: any;
+  let user: User;
 
   beforeAll(async () => {
     await clearDatabase();
+    user = await createUser("testuser@example.com", "TestUserPassword123");
+    order = await createProductAndOrder("testuser@example.com");
+
     const adminUser = await createAdminUser("admin@test.com", "admin123");
     token = await loginUserAndGetToken(
       request.agent(app),
       adminUser.email,
       "admin123"
     );
-    product = await createProduct(adminUser.id);
   });
 
   afterAll(async () => {
     await clearDatabase();
   });
 
-  test("updateOrderToPaid", async () => {
-    const orderResponse = await request(app)
-      .post("/api/orders")
-      .set("Cookie", `jwt=${token}`)
-      .send({
-        orderProducts: [
-          {
-            product: product,
-            qty: 1,
-          },
-        ],
-        address: "Test Address",
-        city: "Test City",
-        postalCode: "Test PostalCode",
-        paymentMethod: "Test PaymentMethod",
-        price: {
-          itemsPrice: product.price,
-          taxPrice: 0,
-          shippingPrice: 0,
-          totalPrice: product.price,
-        },
-      });
-
-    expect(orderResponse.status).toBe(201);
-
+  test("updateOrderToDelivered", async () => {
     const updateResponse = await request(app)
-      .put(`/api/orders/${orderResponse.body.id}/deliver`)
+      .put(`/api/orders/${order.id}/deliver`)
       .set("Cookie", `jwt=${token}`)
       .send({
-        id: orderResponse.body.id,
+        id: order.id,
         isDelivered: true,
         deliveredAt: new Date().toISOString(),
         payer: {
@@ -68,7 +50,7 @@ describe("Order Controller", () => {
     expect(updateResponse.status).toBe(200);
 
     const updatedOrder = await db.order.findUnique({
-      where: { id: orderResponse.body.id },
+      where: { id: order.id },
     });
 
     expect(updatedOrder?.isDelivered).toBe(true);

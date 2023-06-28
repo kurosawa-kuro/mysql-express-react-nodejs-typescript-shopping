@@ -24,7 +24,7 @@ describe("DELETE /api/products/:id", () => {
 
     token = await loginUserAndGetToken(agent, "admin@email.com", "123456");
 
-    product = await createProduct(userId);
+    product = await createProduct();
   });
 
   it("deletes a product when admin is logged in", async () => {

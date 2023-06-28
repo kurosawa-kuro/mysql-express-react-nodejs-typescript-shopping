@@ -14,11 +14,7 @@ describe("GET /api/products/top", () => {
     await clearDatabase();
     const admin = await createAdminUser("admin@test.com", "test1234");
 
-    await Promise.all([
-      createProduct(admin.id),
-      createProduct(admin.id),
-      createProduct(admin.id),
-    ]);
+    await Promise.all([createProduct(), createProduct(), createProduct()]);
   });
 
   it("should return top 3 products sorted by rating in descending order", async () => {
