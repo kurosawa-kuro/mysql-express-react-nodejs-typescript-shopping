@@ -5,7 +5,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { getApiClient } from "./apiClient";
 import {
   UserUpdate,
-  UserCredentials,
+  UserLoginCredentials,
   UserRegisterCredentials,
   ProductSearch,
   ErrorMessage,
@@ -40,7 +40,7 @@ const performRequest = async (request: Promise<AxiosResponse<any>>) => {
 export const registerUserApi = (user: UserRegisterCredentials) =>
   performRequest(apiClient.post("/api/users/register", user));
 
-export const loginUserApi = (credentials: UserCredentials) =>
+export const loginUserApi = (credentials: UserLoginCredentials) =>
   performRequest(apiClient.post("/api/users/login", credentials));
 
 export const fetchUserProfileApi = () =>
