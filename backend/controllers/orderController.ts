@@ -119,18 +119,8 @@ const updateOrderToDelivered = asyncHandler(
 const getOrders = asyncHandler(async (req: Request, res: Response) => {
   console.log("hit cont getOrders");
   const orders = await getAllOrders();
-
-  // res.json(
-  //   orders.map((order) => ({
-  //     ...order,
-  //     price: {
-  //       itemsPrice: order.itemsPrice,
-  //       shippingPrice: order.shippingPrice,
-  //       taxPrice: order.taxPrice,
-  //       totalPrice: order.totalPrice,
-  //     },
-  //   }))
-  // );
+  console.log("hit cont getOrders orders: ", orders);
+  res.json(orders);
 });
 
 export {

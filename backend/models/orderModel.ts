@@ -201,10 +201,41 @@ export const updateOrderDeliveredStatus = async (
 };
 
 export const getAllOrders = async () => {
-  // return db.order.findMany({
-  //   include: {
-  //     user: true,
-  //     orderProducts: { include: { product: true } },
-  //   },
-  // });
+  const orders = await db.order.findMany({
+    include: {
+      user: true,
+      orderProducts: { include: { product: true } },
+    },
+  });
+
+  const OrderFull: OrderFull[] = orders.map((order) => ({
+    id: order.id,
+    orderProducts: order.orderProducts,
+    price: {
+      itemsPrice: order.itemsPrice,
+      taxPrice: order.taxPrice,
+      shippingPrice: order.shippingPrice,
+      totalPrice: order.totalPrice,
+    },
+    paymentMethod: order.paymentMethod,
+    isPaid: order.isPaid,
+    paidAt: order.paidAt,
+    isDelivered: order.isDelivered,
+    deliveredAt: order.deliveredAt,
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt,
+    user: {
+      id: order.user.id,
+      name: order.user.name,
+      email: order.user.email,
+      isAdmin: order.user.isAdmin,
+    },
+    shipping: {
+      address: order.address,
+      city: order.city,
+      postalCode: order.postalCode,
+    },
+  }));
+
+  return OrderFull;
 };
