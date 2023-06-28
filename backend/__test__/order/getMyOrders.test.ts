@@ -1,10 +1,16 @@
 import request, { SuperAgentTest } from "supertest";
 import { app } from "../../index";
-import { clearDatabase, createUser, loginUserAndGetToken } from "../test-utils";
+import {
+  clearDatabase,
+  createProductAndOrder,
+  createUser,
+  loginUserAndGetToken,
+} from "../test-utils";
 
 describe("GET /api/orders/mine", () => {
   let agent: SuperAgentTest;
   let token: string;
+  let order: any;
 
   beforeEach(async () => {
     agent = request.agent(app);
@@ -16,6 +22,8 @@ describe("GET /api/orders/mine", () => {
     await createUser(email, password);
 
     token = await loginUserAndGetToken(agent, email, password);
+    order = await createProductAndOrder("testuser@example.com");
+    await createProductAndOrder("testuser@example.com");
   });
 
   it("should return the user's orders", async () => {
@@ -24,6 +32,6 @@ describe("GET /api/orders/mine", () => {
       .set("Cookie", `jwt=${token}`);
 
     expect(response.status).toBe(200);
-    // Todo - check the response body
+    expect(response.body.length).toBe(2);
   });
 });

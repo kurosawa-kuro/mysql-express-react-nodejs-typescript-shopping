@@ -42,23 +42,12 @@ export const addOrderItems = asyncHandler(
 
 const getMyOrders = asyncHandler(
   async (req: UserRequest, res: Response, next: NextFunction) => {
-    console.log("hit getMyOrders");
+    console.log("hit cont getMyOrders");
     if (req.user && req.user.id) {
       const userId = Number(req.user.id);
       const orders = await getUserOrdersFromDB(userId);
-      console.log("getMyOrders orders", orders);
 
-      // res.json(
-      //   orders.map((order) => ({
-      //     ...order,
-      //     price: {
-      //       itemsPrice: order.itemsPrice,
-      //       shippingPrice: order.shippingPrice,
-      //       taxPrice: order.taxPrice,
-      //       totalPrice: order.totalPrice,
-      //     },
-      //   }))
-      // );
+      res.json(orders);
     }
   }
 );

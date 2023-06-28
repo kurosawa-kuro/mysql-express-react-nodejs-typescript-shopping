@@ -35,7 +35,6 @@ export const createOrder = async (
     },
   });
 
-  console.log("createdOrder", order);
   const OrderFull: OrderFull = {
     id: order.id,
     orderProducts: order.orderProducts,
@@ -64,7 +63,7 @@ export const createOrder = async (
       postalCode: order.postalCode,
     },
   };
-  console.log({ OrderFull });
+
   return OrderFull;
 };
 
@@ -82,10 +81,42 @@ export const getUserOrdersFromDB = async (
   const ordersData = await db.order.findMany({
     where: { userId },
     include: {
-      orderProducts: { include: { product: true } },
+      orderProducts: {
+        include: { product: true },
+      },
+      user: true,
     },
   });
-  console.log("getUserOrdersFromDB ordersData", ordersData);
+
+  const OrderFullList: OrderFull[] = ordersData.map((order) => ({
+    id: order.id,
+    orderProducts: order.orderProducts,
+    price: {
+      itemsPrice: order.itemsPrice,
+      taxPrice: order.taxPrice,
+      shippingPrice: order.shippingPrice,
+      totalPrice: order.totalPrice,
+    },
+    paymentMethod: order.paymentMethod,
+    isPaid: order.isPaid,
+    paidAt: order.paidAt,
+    isDelivered: order.isDelivered,
+    deliveredAt: order.deliveredAt,
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt,
+    user: {
+      id: order.user.id,
+      name: order.user.name,
+      email: order.user.email,
+      isAdmin: order.user.isAdmin,
+    },
+    shipping: {
+      address: order.address,
+      city: order.city,
+      postalCode: order.postalCode,
+    },
+  }));
+
   // const orders = {
   //   id:ordersData.order.createdOrder.id
   //   paymentMethod:
@@ -96,18 +127,16 @@ export const getUserOrdersFromDB = async (
   //   createdAt:
   //   updatedAt:
   // }
-  return null;
+  return OrderFullList;
 };
 
 export const getOrderByIdFromDB = async (
   orderId: number
 ): Promise<OrderFull | null> => {
-  console.log("getOrderByIdFromDB");
   const order = await db.order.findUnique({
     where: { id: orderId },
     include: { user: true, orderProducts: { include: { product: true } } },
   });
-  console.log("getOrderByIdFromDB order", order);
   if (!order) {
     return null;
   }
