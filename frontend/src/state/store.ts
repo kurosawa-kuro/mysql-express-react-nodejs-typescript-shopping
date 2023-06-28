@@ -6,7 +6,7 @@ import {
   CartState,
   CartActions,
   Cart,
-  OrderShipping,
+  Shipping,
 } from "../../../backend/interfaces";
 
 export const useAuthStore = create<UserAuth>((set) => {
@@ -76,7 +76,7 @@ export const useCartStore = create<CartStore>((set) => ({
       };
     });
   },
-  saveOrderShipping: (address: OrderShipping) => {
+  saveShipping: (address: Shipping) => {
     set((state) => {
       localStorage.setItem("shippingAddress", JSON.stringify(address));
       return {

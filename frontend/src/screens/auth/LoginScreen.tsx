@@ -12,12 +12,12 @@ import { loginUserApi } from "../../services/api";
 import { useAuthStore } from "../../state/store";
 import {
   UserAuth,
-  UserCredentials,
+  UserLoginCredentials,
   UserInformation,
 } from "../../../../backend/interfaces";
 
 export const LoginScreen = () => {
-  const [credentials, setCredentials] = useState<UserCredentials>({
+  const [credentials, setCredentials] = useState<UserLoginCredentials>({
     email: "",
     password: "",
   });
