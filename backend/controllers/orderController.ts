@@ -74,10 +74,10 @@ const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
     id: order.id,
     orderProducts: order.orderProducts,
     price: {
-      itemsPrice: order.itemsPrice,
-      taxPrice: order.taxPrice,
-      shippingPrice: order.shippingPrice,
-      totalPrice: order.totalPrice,
+      itemsPrice: order.price.itemsPrice,
+      taxPrice: order.price.taxPrice,
+      shippingPrice: order.price.shippingPrice,
+      totalPrice: order.price.totalPrice,
     },
     paymentMethod: order.paymentMethod,
     isPaid: order.isPaid,
@@ -87,15 +87,15 @@ const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
     createdAt: order.createdAt,
     updatedAt: order.updatedAt,
     user: {
-      id: order.user?.id,
-      name: order.user?.name,
-      email: order.user?.email,
-      isAdmin: order.user?.isAdmin,
+      id: order.user.id,
+      name: order.user.name,
+      email: order.user.email,
+      isAdmin: order.user.isAdmin,
     },
     shipping: {
-      address: order.address,
-      city: order.city,
-      postalCode: order.postalCode,
+      address: order.shipping.address,
+      city: order.shipping.city,
+      postalCode: order.shipping.postalCode,
     },
   };
   console.log({ OrderFull });

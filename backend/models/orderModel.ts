@@ -99,14 +99,48 @@ export const getUserOrdersFromDB = async (
   return null;
 };
 
-export const getOrderByIdFromDB = async (orderId: number) => {
+export const getOrderByIdFromDB = async (
+  orderId: number
+): Promise<OrderFull | null> => {
   console.log("getOrderByIdFromDB");
   const order = await db.order.findUnique({
     where: { id: orderId },
     include: { user: true, orderProducts: { include: { product: true } } },
   });
   console.log("getOrderByIdFromDB order", order);
-  return order;
+  if (!order) {
+    return null;
+  }
+
+  const OrderFull: OrderFull = {
+    id: order.id,
+    orderProducts: order.orderProducts,
+    price: {
+      itemsPrice: order.itemsPrice,
+      taxPrice: order.taxPrice,
+      shippingPrice: order.shippingPrice,
+      totalPrice: order.totalPrice,
+    },
+    paymentMethod: order.paymentMethod,
+    isPaid: order.isPaid,
+    paidAt: order.paidAt,
+    isDelivered: order.isDelivered,
+    deliveredAt: order.deliveredAt,
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt,
+    user: {
+      id: order.user.id,
+      name: order.user.name,
+      email: order.user.email,
+      isAdmin: order.user.isAdmin,
+    },
+    shipping: {
+      address: order.address,
+      city: order.city,
+      postalCode: order.postalCode,
+    },
+  };
+  return OrderFull;
 };
 
 export const updateOrderToPaidInDB = async (
