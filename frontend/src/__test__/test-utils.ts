@@ -94,9 +94,13 @@ export function createServer() {
 
       orderList[orderIndex] = {
         ...orderList[orderIndex],
-        isPaid: true,
-        paidAt: new Date().toISOString(),
+        status: {
+          ...orderList[orderIndex].status,
+          isPaid: true,
+          paidAt: new Date(),
+        },
       };
+
       return res(ctx.status(200), ctx.json(orderList[orderIndex]));
     }),
     rest.put(`${API_BASE_URL}/orders/:id/deliver`, (req, res, ctx) => {
@@ -105,8 +109,11 @@ export function createServer() {
 
       orderList[orderIndex] = {
         ...orderList[orderIndex],
-        isDelivered: true,
-        deliveredAt: new Date().toISOString(),
+        status: {
+          ...orderList[orderIndex].status,
+          isDelivered: true,
+          deliveredAt: new Date(),
+        },
       };
       return res(ctx.status(200), ctx.json(orderList[orderIndex]));
     })

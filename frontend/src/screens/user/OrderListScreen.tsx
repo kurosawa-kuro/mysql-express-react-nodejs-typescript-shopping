@@ -6,18 +6,20 @@ import { FaTimes } from "react-icons/fa";
 import { Message } from "../../components/common/Message";
 import { Loader } from "../../components/common/Loader";
 import { getOrdersApi } from "../../services/api";
-import { Order } from "../../../../backend/interfaces";
+import { OrderFull } from "../../../../backend/interfaces";
 import { toast } from "react-toastify";
 
 export const OrderListScreen: React.FC = () => {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<OrderFull[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchOrders = async () => {
+      console.log("hit fetchOrders");
       try {
         const data = await getOrdersApi();
+        console.log("fetchOrders data", data);
         setOrders(data);
         setLoading(false);
       } catch (err: unknown) {
@@ -65,7 +67,7 @@ export const OrderListScreen: React.FC = () => {
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
             {orders &&
-              orders.map((order: Order) => (
+              orders.map((order: OrderFull) => (
                 <tr key={order.id}>
                   <td className="whitespace-nowrap px-6 py-4">{order.id}</td>
                   <td className="whitespace-nowrap px-6 py-4">
@@ -78,15 +80,15 @@ export const OrderListScreen: React.FC = () => {
                     ${order.price.totalPrice.toFixed(2)}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    {order.isPaid ? (
-                      order.paidAt?.toISOString().substring(0, 10)
+                    {order.status.isPaid ? (
+                      order.status.paidAt?.toISOString().substring(0, 10)
                     ) : (
                       <FaTimes className="text-red-500" />
                     )}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    {order.isDelivered ? (
-                      order.deliveredAt?.toISOString().substring(0, 10)
+                    {order.status.isDelivered ? (
+                      order.status.deliveredAt?.toISOString().substring(0, 10)
                     ) : (
                       <FaTimes className="text-red-500" />
                     )}

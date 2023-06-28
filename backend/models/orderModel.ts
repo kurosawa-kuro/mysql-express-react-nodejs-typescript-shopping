@@ -2,11 +2,9 @@
 
 import { db } from "../database/prisma/prismaClient";
 import { Order, OrderProduct, User } from "@prisma/client";
-import { Cart, OrderFull } from "../interfaces";
+import { Cart, OrderFull, OrderFullProduct } from "../interfaces";
 
-const createOrderFullFromOrder = (
-  order: Order & { orderProducts: OrderProduct[]; user: User }
-): OrderFull => {
+const createOrderFullFromOrder = (order: any): OrderFull => {
   return {
     id: order.id,
     orderProducts: order.orderProducts,

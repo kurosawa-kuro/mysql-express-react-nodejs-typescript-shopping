@@ -23,6 +23,7 @@ const findOrderById = async (id: number) => {
 
 export const addOrderItems = asyncHandler(
   async (req: UserRequest, res: Response, next: NextFunction) => {
+    console.log("hit addOrderItems");
     const { cart, ...orderData } = req.body;
     if (!cart || cart.length === 0) {
       res.status(400);
@@ -53,6 +54,7 @@ const getMyOrders = asyncHandler(
 
 const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
   const order = await getOrderByIdFromDB(Number(req.params.id));
+
   if (!order) {
     res.status(404);
     throw new Error("Order not found");

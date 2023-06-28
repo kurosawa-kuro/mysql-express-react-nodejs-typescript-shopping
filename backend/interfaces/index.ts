@@ -103,9 +103,16 @@ export interface Shipping {
 // Order related interfaces
 export interface Order extends OrderType {}
 
+export interface OrderFullProduct {
+  orderId: number;
+  productId: number;
+  qty: number;
+  product: Product;
+}
+
 export interface OrderFull
   extends Pick<OrderType, "id" | "paymentMethod" | "createdAt" | "updatedAt"> {
-  orderProducts: OrderProduct[];
+  orderProducts: OrderFullProduct[];
   user: UserBase;
   status: {
     isPaid: boolean;

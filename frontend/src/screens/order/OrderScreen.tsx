@@ -13,14 +13,14 @@ import {
 } from "../../services/api";
 import { Loader } from "../../components/common/Loader";
 import { Message } from "../../components/common/Message";
-import { Order } from "../../../../backend/interfaces";
+import { OrderFull } from "../../../../backend/interfaces";
 import { useAuthStore } from "../../state/store";
 
 export const OrderScreen = () => {
   const { id: orderId } = useParams();
   const { userInformation } = useAuthStore();
 
-  const [order, setOrder] = useState<Order | null>(null);
+  const [order, setOrder] = useState<OrderFull | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,7 +37,7 @@ export const OrderScreen = () => {
     if (!isNaN(orderIdNumber)) {
       try {
         setLoading(true);
-        const data: Order = await getOrderFullApi(orderIdNumber);
+        const data: OrderFull = await getOrderFullApi(orderIdNumber);
         setOrder(data);
       } catch (err) {
         handleError(err);
@@ -108,12 +108,13 @@ export const OrderScreen = () => {
               </p>
               <p>
                 <span className="font-bold">Address:</span>
-                {order.postalCode} {order.city} {order.address}
+                {order.shipping.postalCode} {order.shipping.city}{" "}
+                {order.shipping.address}
               </p>
-              {order.isDelivered ? (
+              {order.status.isDelivered ? (
                 <Message variant="success">
                   Delivered on{" "}
-                  {new Date(order.deliveredAt || "").toDateString()}
+                  {new Date(order.status.deliveredAt || "").toDateString()}
                 </Message>
               ) : (
                 <Message variant="danger">Not Delivered</Message>
@@ -126,9 +127,9 @@ export const OrderScreen = () => {
               <p>
                 <span className="font-bold">Method:</span> {order.paymentMethod}
               </p>
-              {order.isPaid ? (
+              {order.status.isPaid ? (
                 <Message variant="success">
-                  Paid on {new Date(order.paidAt || "").toDateString()}
+                  Paid on {new Date(order.status.paidAt || "").toDateString()}
                 </Message>
               ) : (
                 <Message variant="danger">Not Paid</Message>
@@ -146,6 +147,7 @@ export const OrderScreen = () => {
                     <div className="w-1/5">
                       <img
                         className="w-full rounded"
+                        // src={item.product.image}
                         src={item.product.image}
                         alt={item.product.name}
                       />

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
-import { Order, UserAuth } from "../../../../../backend/interfaces";
+import { OrderFull, UserAuth } from "../../../../../backend/interfaces";
 import { getMyOrdersApi, getOrdersApi } from "../../../services/api";
 import { useAuthStore } from "../../../state/store";
 import { Loader } from "../../../components/common/Loader";
@@ -11,16 +11,18 @@ import { Message } from "../../../components/common/Message";
 
 export const OrderListScreen: React.FC = () => {
   const { userInformation } = useAuthStore() as UserAuth;
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<OrderFull[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchOrders = async () => {
+      console.log("admin fetchOrders");
       try {
         const data = userInformation?.isAdmin
           ? await getOrdersApi()
           : await getMyOrdersApi();
+        console.log("admin orders", data);
         setOrders(data);
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : "An error occurred.");
@@ -68,7 +70,7 @@ export const OrderListScreen: React.FC = () => {
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
             {orders &&
-              orders.map((order: Order) => (
+              orders.map((order: OrderFull) => (
                 <tr key={order.id}>
                   <td className="whitespace-nowrap px-6 py-4">{order.id}</td>
                   {userInformation?.isAdmin && (
@@ -85,8 +87,8 @@ export const OrderListScreen: React.FC = () => {
                     ${order.price.totalPrice}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    {order.isPaid ? (
-                      new Date(order.paidAt || "")
+                    {order.status.isPaid ? (
+                      new Date(order.status.paidAt || "")
                         .toISOString()
                         .substring(0, 10)
                     ) : (
@@ -94,8 +96,8 @@ export const OrderListScreen: React.FC = () => {
                     )}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    {order.isDelivered ? (
-                      new Date(order.deliveredAt || "")
+                    {order.status.isDelivered ? (
+                      new Date(order.status.deliveredAt || "")
                         .toISOString()
                         .substring(0, 10)
                     ) : (

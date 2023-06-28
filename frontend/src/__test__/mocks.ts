@@ -1,3 +1,5 @@
+import { OrderFull } from "../../../backend/interfaces";
+
 export const product = {
   id: 1,
   userId: 1,
@@ -30,41 +32,33 @@ export const postProductData = {
   updatedAt: new Date().toISOString(),
 };
 
-export const order = {
+export const order: OrderFull = {
   id: 28,
-  userId: 2,
-  address: "大通り公園",
-  city: "0600061",
-  postalCode: "札幌",
+  shipping: {
+    address: "大通り公園",
+    city: "0600061",
+    postalCode: "札幌",
+  },
   paymentMethod: "PayPal",
-  paymentResultId: null,
-  paymentResultStatus: null,
-  paymentResultUpdateTime: null,
-  paymentResultEmail: null,
   price: {
     itemsPrice: 89.99,
     taxPrice: 13.5,
     shippingPrice: 10,
     totalPrice: 113.49,
   },
-  itemsPrice: 89.99,
-  taxPrice: 13.5,
-  shippingPrice: 10,
-  totalPrice: 113.49,
-  isPaid: false,
-  paidAt: "",
-  isDelivered: false,
-  deliveredAt: "",
-  createdAt: new Date().toISOString(),
-  updatedAt: new Date().toISOString(),
+  status: {
+    isPaid: false,
+    paidAt: null,
+    isDelivered: false,
+    deliveredAt: null,
+  },
+  createdAt: new Date(),
+  updatedAt: new Date(),
   user: {
     id: 2,
     name: "john",
     email: "john@email.com",
-    password: "$2a$10$eRfvYeJFQKph.3IVWhT5u.Ae7a74KF8DlWxvSKFrp3VqlVBb0k13m",
     isAdmin: false,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
   },
   orderProducts: [
     {
@@ -74,18 +68,17 @@ export const order = {
       product: {
         id: 1,
         userId: 1,
-        name: "Airpods Wireless Bluetooth Headphones",
-        image: "/images/airpods.jpg",
-        brand: "Apple",
-        category: "Electronics",
-        description:
-          "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while wor",
+        name: "Product 1",
+        image: "https://example.com/product-1.jpg",
+        description: "Description: This is product 1",
+        brand: "Brand 1",
+        category: "Category 1",
+        price: 19.99,
+        countInStock: 10,
         rating: 4.5,
         numReviews: 12,
-        price: 89.99,
-        countInStock: 10,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     },
   ],
