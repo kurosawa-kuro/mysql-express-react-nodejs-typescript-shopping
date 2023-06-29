@@ -10,10 +10,10 @@ import { UserRequest, OrderInfo, OrderData } from "../interfaces";
 import {
   createOrderInDB,
   getOrderByIdFromDB,
-  getUserOrdersFromDB,
+  readUserOrdersFromDB,
   updateOrderAsPaidInDB,
   updateOrderAsDeliveredInDB,
-  getAllOrdersFromDB,
+  readAllOrdersFromDB,
 } from "../models/orderModel";
 
 const findOrderById = async (id: number) => {
@@ -46,7 +46,7 @@ const getMyOrders = asyncHandler(
   async (req: UserRequest, res: Response, next: NextFunction) => {
     if (req.user && req.user.id) {
       const userId = Number(req.user.id);
-      const orders = await getUserOrdersFromDB(userId);
+      const orders = await readUserOrdersFromDB(userId);
 
       res.json(orders);
     }
@@ -122,7 +122,7 @@ const updateOrderToDelivered = asyncHandler(
 );
 
 const getOrders = asyncHandler(async (req: Request, res: Response) => {
-  const orders = await getAllOrdersFromDB();
+  const orders = await readAllOrdersFromDB();
   res.json(orders);
 });
 

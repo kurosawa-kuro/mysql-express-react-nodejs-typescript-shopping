@@ -14,7 +14,7 @@ export const createProductInDB = async (
   return product;
 };
 
-export const getProductsFromDB = async (
+export const readProductsFromDB = async (
   page: number,
   keywordFilter: Prisma.ProductWhereInput
 ): Promise<Product[]> => {
@@ -49,7 +49,7 @@ export const deleteProductInDB = async (id: number): Promise<void> => {
   });
 };
 
-export const getTopProductsFromDB = async (): Promise<Product[]> => {
+export const readTopProductsFromDB = async (): Promise<Product[]> => {
   const products: Product[] = await db.product.findMany({
     orderBy: { rating: "desc" },
     take: 3,

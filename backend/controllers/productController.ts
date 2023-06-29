@@ -10,11 +10,11 @@ import { Prisma, Product } from "@prisma/client";
 import { UserRequest } from "../interfaces";
 import {
   createProductInDB,
-  getProductsFromDB,
+  readProductsFromDB,
   countProductsFromDB,
   updateProductInDB,
   deleteProductInDB,
-  getTopProductsFromDB,
+  readTopProductsFromDB,
   pageSize,
 } from "../models/productModel";
 
@@ -37,7 +37,7 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
     req.query.keyword as string | undefined
   );
 
-  const products: Product[] = await getProductsFromDB(page, keywordFilter);
+  const products: Product[] = await readProductsFromDB(page, keywordFilter);
   const count: number = await countProductsFromDB(keywordFilter);
 
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
@@ -110,7 +110,7 @@ const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const getTopProducts = asyncHandler(async (req: Request, res: Response) => {
-  const products = await getTopProductsFromDB();
+  const products = await readTopProductsFromDB();
   res.json(products);
 });
 

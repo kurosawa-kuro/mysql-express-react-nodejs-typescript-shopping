@@ -84,7 +84,7 @@ export const getOrderByIdFromDB = async (
   return _createOrderInfoFromOrder(order);
 };
 
-export const getUserOrdersFromDB = async (
+export const readUserOrdersFromDB = async (
   userId: number
 ): Promise<OrderInfo[] | null> => {
   const orders = await db.order.findMany({
@@ -128,7 +128,7 @@ export const updateOrderAsDeliveredInDB = async (
   return updatedOrder;
 };
 
-export const getAllOrdersFromDB = async () => {
+export const readAllOrdersFromDB = async () => {
   const orders = await db.order.findMany({
     include: {
       user: true,
