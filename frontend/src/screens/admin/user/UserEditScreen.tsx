@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { User } from "../../../../../backend/interfaces";
+import { User } from "@prisma/client";
 import { Loader } from "../../../components/common/Loader";
 import { toast } from "react-toastify";
 import { readUserByIdApi, updateUserApi } from "../../../services/api"; // Import the api functions

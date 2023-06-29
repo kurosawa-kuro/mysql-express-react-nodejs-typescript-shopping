@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { deleteUserApi, readAllUsersApi } from "../../../services/api";
 import { useAuthStore } from "../../../state/store";
 import { UserAuth } from "../../../../../backend/interfaces";
-import { User } from "../../../../../backend/interfaces";
+import { User } from "@prisma/client";
 import { Message } from "../../../components/common/Message";
 
 export const UserListScreen: React.FC = () => {

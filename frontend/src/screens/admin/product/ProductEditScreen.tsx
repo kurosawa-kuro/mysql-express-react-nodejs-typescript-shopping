@@ -67,6 +67,8 @@ export const ProductEditScreen: React.FC = () => {
         description,
         price: Number(price),
         countInStock: Number(countInStock),
+        rating: 0,
+        numReviews: 0,
       });
       toast.success("Product updated");
       navigate("/admin/products/");
