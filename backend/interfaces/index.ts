@@ -12,18 +12,6 @@ export interface UserInfo extends Partial<User> {
 
 export interface UserData extends Pick<User, "name" | "email" | "password"> {}
 
-// export interface UserBase
-//   extends Pick<User, "id" | "name" | "email" | "isAdmin"> {}
-
-// export interface UserUpdate
-//   extends Pick<User, "id" | "name" | "email" | "password" | "isAdmin"> {}
-
-// export interface UserUpdateByAdmin
-//   extends Pick<User, "id" | "name" | "email" | "isAdmin"> {}
-
-// export interface UserLoginCredentials
-//   extends Pick<User, "email" | "password"> {}
-
 export interface UserAuth {
   userInfo: UserInfo | null;
   setUserInfo: (userInfo: UserInfo) => void;

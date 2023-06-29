@@ -43,28 +43,27 @@ export const PlaceOrderScreen: FC = () => {
   const placeOrderHandler = async () => {
     setLoading(true);
     try {
-      if (!userInfo) {
-        throw new Error("You must be logged in to place an order");
+      if (userInfo && userInfo.id) {
+        const order: OrderData = {
+          userId: userInfo.id,
+          cart: cartItems,
+          shipping: {
+            address: shipping.address,
+            postalCode: shipping.city,
+            city: shipping.postalCode,
+          },
+          paymentMethod: paymentMethod,
+          price: {
+            itemsPrice,
+            taxPrice,
+            shippingPrice,
+            totalPrice,
+          },
+        };
+        const res = await createOrderApi(order);
+        deleteCartItems();
+        navigate(`/orders/${res.id}`);
       }
-      const order: OrderData = {
-        userId: userInfo.id,
-        cart: cartItems,
-        shipping: {
-          address: shipping.address,
-          postalCode: shipping.city,
-          city: shipping.postalCode,
-        },
-        paymentMethod: paymentMethod,
-        price: {
-          itemsPrice,
-          taxPrice,
-          shippingPrice,
-          totalPrice,
-        },
-      };
-      const res = await createOrderApi(order);
-      deleteCartItems();
-      navigate(`/orders/${res.id}`);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);

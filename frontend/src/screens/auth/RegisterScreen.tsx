@@ -7,10 +7,10 @@ import { FormContainer } from "../../components/forms/FormContainer";
 import { Loader } from "../../components/common/Loader";
 import { registerUserApi } from "../../services/api";
 import { useAuthStore } from "../../state/store";
-import { UserInfo, UserData, UserAuth } from "../../../../backend/interfaces";
+import { UserInfo, UserAuth } from "../../../../backend/interfaces";
 
 export const RegisterScreen = () => {
-  const [credentials, setCredentials] = useState<UserData>({
+  const [credentials, setCredentials] = useState<UserInfo>({
     name: "",
     email: "",
     password: "",
@@ -33,14 +33,17 @@ export const RegisterScreen = () => {
     }
     setLoading(true);
     try {
-      const user: UserInfo = await registerUserApi({
-        name: credentials.name,
-        email: credentials.email,
-        password: credentials.password,
-      });
-      setUserInfo(user);
-      toast.success("Registration successful");
-      navigate("/");
+      if (credentials.name && credentials.email && credentials.password) {
+        const user: UserInfo = await registerUserApi({
+          name: credentials.name,
+          email: credentials.email,
+          password: credentials.password,
+        });
+
+        setUserInfo(user);
+        toast.success("Registration successful");
+        navigate("/");
+      }
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(err.message);

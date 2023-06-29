@@ -134,7 +134,9 @@ export async function simulateLogin(isAdmin: boolean = false) {
     result.current.setUserInfo(userInfo);
   });
 
-  await screen.findByText(userInfo.name, {
-    selector: '[data-testid="user-info-name"]',
-  });
+  if (userInfo.name) {
+    await screen.findByText(userInfo.name, {
+      selector: '[data-testid="user-info-name"]',
+    });
+  }
 }

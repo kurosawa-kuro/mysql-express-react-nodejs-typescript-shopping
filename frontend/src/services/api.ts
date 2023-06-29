@@ -4,13 +4,11 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 
 import { getApiClient } from "./apiClient";
 import {
-  UserUpdate,
-  UserLoginCredentials,
+  UserInfo,
   UserData,
   ProductSearch,
   ErrorMessage,
   ProductData,
-  UserUpdateByAdmin,
   OrderData,
 } from "../../../backend/interfaces";
 import { Product } from "@prisma/client";
@@ -40,7 +38,7 @@ const performRequest = async (request: Promise<AxiosResponse<any>>) => {
 export const registerUserApi = (user: UserData) =>
   performRequest(apiClient.post("/api/users/register", user));
 
-export const loginUserApi = (credentials: UserLoginCredentials) =>
+export const loginUserApi = (credentials: UserInfo) =>
   performRequest(apiClient.post("/api/users/login", credentials));
 
 export const readUserProfileApi = () =>
@@ -52,10 +50,10 @@ export const readAllUsersApi = () =>
 export const readUserByIdApi = (userId: number) =>
   performRequest(apiClient.get(`/api/users/${userId}`));
 
-export const updateUserProfileApi = (user: UserUpdate) =>
+export const updateUserProfileApi = (user: UserInfo) =>
   performRequest(apiClient.put("/api/users/profile", user));
 
-export const updateUserApi = (user: UserUpdateByAdmin) =>
+export const updateUserApi = (user: UserInfo) =>
   performRequest(apiClient.put(`/api/users/${user.id}`, user));
 
 export const deleteUserApi = (id: number) =>

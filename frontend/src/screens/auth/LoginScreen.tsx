@@ -10,14 +10,10 @@ import { FormContainer } from "../../components/forms/FormContainer";
 import { Loader } from "../../components/common/Loader";
 import { loginUserApi } from "../../services/api";
 import { useAuthStore } from "../../state/store";
-import {
-  UserAuth,
-  UserLoginCredentials,
-  UserInfo,
-} from "../../../../backend/interfaces";
+import { UserAuth, UserInfo } from "../../../../backend/interfaces";
 
 export const LoginScreen = () => {
-  const [credentials, setCredentials] = useState<UserLoginCredentials>({
+  const [credentials, setCredentials] = useState<UserInfo>({
     email: "",
     password: "",
   });

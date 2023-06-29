@@ -17,10 +17,10 @@ export const ProfileScreen: React.FC = () => {
   const { userInfo, setUserInfo } = useAuthStore();
 
   useEffect(() => {
-    if (!userInfo) return;
-
-    setName(userInfo.name);
-    setEmail(userInfo.email);
+    if (userInfo && userInfo.name && userInfo.email) {
+      setName(userInfo.name);
+      setEmail(userInfo.email);
+    }
   }, [userInfo]);
 
   const submitHandler = async (e: FormEvent) => {
