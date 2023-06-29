@@ -22,19 +22,7 @@ const sanitizeUser = (user: any): UserBase => {
   return UserBase;
 };
 
-const loginUser = asyncHandler(async (req: UserRequest, res: Response) => {
-  const { email, password } = req.body;
-  const user = await readUserByEmailInDB(email);
-
-  if (user && (await comparePassword(password, user.password))) {
-    generateToken(res, user.id);
-    res.json(sanitizeUser(user));
-  } else {
-    res.status(401);
-    throw new Error("Invalid email or password");
-  }
-});
-
+// CREATE
 const registerUser = asyncHandler(async (req: UserRequest, res: Response) => {
   const { name, email, password } = req.body;
 
@@ -67,21 +55,46 @@ const registerUser = asyncHandler(async (req: UserRequest, res: Response) => {
   }
 });
 
-const logoutUser = (req: UserRequest, res: Response) => {
-  res.cookie("jwt", "", {
-    httpOnly: true,
-    expires: new Date(0),
-  });
-  res.status(200).json({ message: "Logged out successfully" });
-};
+// READ
+const loginUser = asyncHandler(async (req: UserRequest, res: Response) => {
+  const { email, password } = req.body;
+  const user = await readUserByEmailInDB(email);
 
-const getUserProfile = asyncHandler(async (req: UserRequest, res: Response) => {
-  if (!req.user || !req.user.id) {
+  if (user && (await comparePassword(password, user.password))) {
+    generateToken(res, user.id);
+    res.json(sanitizeUser(user));
+  } else {
     res.status(401);
-    throw new Error("Not authorized");
+    throw new Error("Invalid email or password");
   }
+});
 
-  const id = req.user.id;
+const readUserProfile = asyncHandler(
+  async (req: UserRequest, res: Response) => {
+    if (!req.user || !req.user.id) {
+      res.status(401);
+      throw new Error("Not authorized");
+    }
+
+    const id = req.user.id;
+    const user = await readUserByIdInDB(id);
+
+    if (user) {
+      res.json(sanitizeUser(user));
+    } else {
+      res.status(404);
+      throw new Error("User not found");
+    }
+  }
+);
+
+const readAllUsers = asyncHandler(async (req: UserRequest, res: Response) => {
+  const users = await readAllUsersFromDB();
+  res.json(users.map((user) => sanitizeUser(user)));
+});
+
+const readUserById = asyncHandler(async (req: UserRequest, res: Response) => {
+  const id = Number(req.params.id);
   const user = await readUserByIdInDB(id);
 
   if (user) {
@@ -92,6 +105,7 @@ const getUserProfile = asyncHandler(async (req: UserRequest, res: Response) => {
   }
 });
 
+// UPDATE
 const updateUserProfile = asyncHandler(
   async (req: UserRequest, res: Response) => {
     if (!req.user || !req.user.id) {
@@ -119,10 +133,32 @@ const updateUserProfile = asyncHandler(
   }
 );
 
-const getUsers = asyncHandler(async (req: UserRequest, res: Response) => {
-  const users = await readAllUsersFromDB();
-  res.json(users.map((user) => sanitizeUser(user)));
+const updateUser = asyncHandler(async (req: UserRequest, res: Response) => {
+  const id = Number(req.params.id);
+  const user = await readUserByIdInDB(id);
+
+  if (user) {
+    const updatedUser = await updateUserByIdInDB(id, {
+      name: req.body.name || user.name,
+      email: req.body.email || user.email,
+      isAdmin: Boolean(req.body.isAdmin),
+    });
+
+    res.json(sanitizeUser(updatedUser));
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
 });
+
+// DELETE
+const logoutUser = (req: UserRequest, res: Response) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: "Logged out successfully" });
+};
 
 const deleteUser = asyncHandler(async (req: UserRequest, res: Response) => {
   const id = Number(req.params.id);
@@ -142,44 +178,14 @@ const deleteUser = asyncHandler(async (req: UserRequest, res: Response) => {
   }
 });
 
-const getUserById = asyncHandler(async (req: UserRequest, res: Response) => {
-  const id = Number(req.params.id);
-  const user = await readUserByIdInDB(id);
-
-  if (user) {
-    res.json(sanitizeUser(user));
-  } else {
-    res.status(404);
-    throw new Error("User not found");
-  }
-});
-
-const updateUser = asyncHandler(async (req: UserRequest, res: Response) => {
-  const id = Number(req.params.id);
-  const user = await readUserByIdInDB(id);
-
-  if (user) {
-    const updatedUser = await updateUserByIdInDB(id, {
-      name: req.body.name || user.name,
-      email: req.body.email || user.email,
-      isAdmin: Boolean(req.body.isAdmin),
-    });
-
-    res.json(sanitizeUser(updatedUser));
-  } else {
-    res.status(404);
-    throw new Error("User not found");
-  }
-});
-
 export {
-  loginUser,
   registerUser,
-  logoutUser,
-  getUserProfile,
+  loginUser,
+  readUserProfile,
+  readAllUsers,
+  readUserById,
   updateUserProfile,
-  getUsers,
-  deleteUser,
-  getUserById,
   updateUser,
+  logoutUser,
+  deleteUser,
 };
