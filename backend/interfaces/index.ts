@@ -4,7 +4,6 @@ import {
   User as UserType,
   Product as ProductType,
   Order as OrderType,
-  OrderProduct,
 } from "@prisma/client";
 
 // --------------------------
