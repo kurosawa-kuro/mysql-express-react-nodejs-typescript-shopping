@@ -1,8 +1,8 @@
 // backend\models\orderModel.ts
 
 import { db } from "../database/prisma/prismaClient";
-import { Order, OrderProduct, User } from "@prisma/client";
-import { Cart, OrderData, OrderInfo, OrderProductInfo } from "../interfaces";
+import { Order } from "@prisma/client";
+import { OrderData, OrderInfo } from "../interfaces";
 
 const _createOrderInfoFromOrder = (order: any): OrderInfo => {
   return {
