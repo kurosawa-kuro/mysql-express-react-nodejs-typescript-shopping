@@ -12,6 +12,7 @@ import { createOrder } from "../../services/api";
 import { useCartStore, CartStore } from "../../state/store";
 import { useAuthStore } from "../../state/store";
 import { OrderData } from "../../../../backend/interfaces";
+import { FormContainer } from "../../components/forms/FormContainer";
 
 export const PlaceOrderScreen: FC = () => {
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ export const PlaceOrderScreen: FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4">
+    <FormContainer>
       <CheckoutSteps step1 step2 step3 step4 />
       {loading && <Loader />}
       {error && <Message variant="danger">{error}</Message>}
@@ -156,6 +157,6 @@ export const PlaceOrderScreen: FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </FormContainer>
   );
 };
