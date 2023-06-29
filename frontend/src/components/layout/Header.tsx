@@ -149,20 +149,22 @@ export const Header: React.FC = () => {
               className="relative inline-block text-left"
               ref={adminDropdownRef}
             >
-              <button
-                type="button"
-                onClick={() => setAdminIsOpen(!adminIsOpen)}
-                className="flex items-center space-x-2 px-4 py-2 text-custom-blue-light hover:bg-custom-blue-lighter"
-              >
-                <span className="text-custom-blue-lightest hover:text-custom-blue-extra-darkest">
-                  Admin Function
-                </span>
-                {adminIsOpen ? (
-                  <FaChevronUp className="h-5 w-5 text-custom-blue-lightest" />
-                ) : (
-                  <FaChevronDown className="h-5 w-5 text-custom-blue-lightest" />
-                )}
-              </button>
+              <div className="group">
+                <button
+                  type="button"
+                  onClick={() => setAdminIsOpen(!adminIsOpen)}
+                  className="flex items-center space-x-2 px-4 py-2 text-custom-blue-light group-hover:text-custom-blue-extra-darkest hover:bg-custom-blue-lighter"
+                >
+                  <span className="text-custom-blue-lightest group-hover:text-custom-blue-extra-darkest">
+                    Admin Function
+                  </span>
+                  {adminIsOpen ? (
+                    <FaChevronUp className="h-5 w-5 text-custom-blue-lightest group-hover:text-custom-blue-extra-darkest" />
+                  ) : (
+                    <FaChevronDown className="h-5 w-5 text-custom-blue-lightest group-hover:text-custom-blue-extra-darkest" />
+                  )}
+                </button>
+              </div>
 
               {adminIsOpen && (
                 <div className="absolute  right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-custom-blue-darker shadow-lg ring-1 ring-custom-blue-darker">

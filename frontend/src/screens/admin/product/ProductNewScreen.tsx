@@ -81,39 +81,33 @@ export const ProductNewScreen: React.FC = () => {
           <input type="hidden" name="remember" value="true" />
           <div className="-space-y-px rounded-md shadow-sm">
             <div>
-              <label htmlFor="name" className="sr-only">
-                Name
-              </label>
+              <label htmlFor="name">Name</label>
               <input
                 id="name"
                 name="name"
                 type="name"
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="mb-4 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Enter name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="price" className="sr-only">
-                Price
-              </label>
+              <label htmlFor="price">Price</label>
               <input
                 id="price"
                 name="price"
                 type="number"
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="mb-4 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Enter price"
                 value={price}
                 onChange={(e) => setPrice(Number(e.target.value))}
               />
             </div>
             <div>
-              <label htmlFor="image-file" className="sr-only">
-                Image File
-              </label>
+              <label htmlFor="image-file">Image File</label>
               {image && (
                 <img
                   className="w-40"
@@ -128,7 +122,7 @@ export const ProductNewScreen: React.FC = () => {
                 name="image"
                 type="text"
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Enter image url"
                 value={image
                   .replace(/\\/g, "/")
@@ -139,65 +133,57 @@ export const ProductNewScreen: React.FC = () => {
                 id="image-file"
                 name="image-file"
                 type="file"
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="mb-4 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 onChange={uploadFileHandler}
               />
             </div>
             <div>
-              <label htmlFor="brand" className="sr-only">
-                Brand
-              </label>
+              <label htmlFor="brand">Brand</label>
               <input
                 id="brand"
                 name="brand"
                 type="text"
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="mb-4 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Enter brand"
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="countInStock" className="sr-only">
-                Count In Stock
-              </label>
+              <label htmlFor="countInStock">Count In Stock</label>
               <input
                 id="countInStock"
                 name="countInStock"
                 type="number"
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="mb-4 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Enter countInStock"
                 value={countInStock}
                 onChange={(e) => setCountInStock(Number(e.target.value))}
               />
             </div>
             <div>
-              <label htmlFor="category" className="sr-only">
-                Category
-              </label>
+              <label htmlFor="category">Category</label>
               <input
                 id="category"
                 name="category"
                 type="text"
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="mb-4 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Enter category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="description" className="sr-only">
-                Description
-              </label>
+              <label htmlFor="description">Description</label>
               <input
                 id="description"
                 name="description"
                 type="text"
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="mb-4 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Enter description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
