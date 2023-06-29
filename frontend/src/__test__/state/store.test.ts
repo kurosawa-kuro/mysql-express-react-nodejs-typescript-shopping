@@ -64,7 +64,7 @@ describe("useCartStore", () => {
     };
 
     act(() => {
-      result.current.addToCart(testProduct);
+      result.current.createCartItem(testProduct);
     });
 
     const storedCartItems = JSON.parse(
@@ -74,7 +74,7 @@ describe("useCartStore", () => {
     expect(result.current.cartItems).toEqual([testProduct]);
 
     act(() => {
-      result.current.removeFromCart(testProduct.product.id);
+      result.current.deleteCartItem(testProduct.product.id);
     });
 
     expect(localStorage.getItem("cartItems")).toEqual("[]");

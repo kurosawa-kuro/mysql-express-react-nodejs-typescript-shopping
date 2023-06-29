@@ -42,7 +42,7 @@ export const useCartStore = create<CartStore>((set) => ({
   paymentMethod: localStorage.getItem("paymentMethod")
     ? JSON.parse(localStorage.getItem("paymentMethod") || '"PayPal"')
     : "PayPal",
-  addToCart: (item: Cart) => {
+  createCartItem: (item: Cart) => {
     set((state) => {
       const existItem = state.cartItems.find(
         (x) => x.product.id === item.product.id
@@ -64,7 +64,7 @@ export const useCartStore = create<CartStore>((set) => ({
       };
     });
   },
-  removeFromCart: (id: number) => {
+  deleteCartItem: (id: number) => {
     set((state) => {
       const newCartItems = state.cartItems.filter((x) => x.product.id !== id);
       localStorage.setItem("cartItems", JSON.stringify(newCartItems));
@@ -74,7 +74,7 @@ export const useCartStore = create<CartStore>((set) => ({
       };
     });
   },
-  saveShipping: (address: Shipping) => {
+  createShipping: (address: Shipping) => {
     set((state) => {
       localStorage.setItem("shippingAddress", JSON.stringify(address));
       return {
@@ -83,7 +83,7 @@ export const useCartStore = create<CartStore>((set) => ({
       };
     });
   },
-  savePaymentMethod: (method: string) => {
+  createPaymentMethod: (method: string) => {
     set((state) => {
       localStorage.setItem("paymentMethod", JSON.stringify(method));
       return {
@@ -92,7 +92,7 @@ export const useCartStore = create<CartStore>((set) => ({
       };
     });
   },
-  clearCartItems: () => {
+  deleteCartItems: () => {
     set((state) => {
       localStorage.setItem("cartItems", JSON.stringify([]));
       return {

@@ -17,7 +17,7 @@ interface OrderShipping {
 
 export const ShippingScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { shippingAddress, saveShipping } = useCartStore();
+  const { shippingAddress, createShipping } = useCartStore();
   const {
     address: savedAddress,
     city: savedCity,
@@ -30,7 +30,7 @@ export const ShippingScreen: React.FC = () => {
 
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
-    saveShipping({ address, city, postalCode } as OrderShipping);
+    createShipping({ address, city, postalCode } as OrderShipping);
     navigate("/payment");
   };
 

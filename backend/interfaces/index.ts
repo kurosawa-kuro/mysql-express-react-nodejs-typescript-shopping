@@ -147,11 +147,11 @@ export interface CartState {
 }
 
 export interface CartActions {
-  addToCart: (item: Cart) => void;
-  removeFromCart: (id: number) => void;
-  saveShipping: (address: Shipping) => void;
-  savePaymentMethod: (method: string) => void;
-  clearCartItems: () => void;
+  createCartItem: (item: Cart) => void;
+  deleteCartItem: (id: number) => void;
+  createShipping: (address: Shipping) => void;
+  createPaymentMethod: (method: string) => void;
+  deleteCartItems: () => void;
 }
 
 // --------------------------

@@ -16,7 +16,7 @@ import { Rating } from "../../components/features/Rating";
 
 export const ProductScreen: React.FC = () => {
   const { id: productId = 0 } = useParams();
-  const { addToCart } = useCartStore();
+  const { createCartItem } = useCartStore();
   const navigate = useNavigate();
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -46,7 +46,7 @@ export const ProductScreen: React.FC = () => {
 
   const addToCartHandler = () => {
     if (product && product.id !== undefined) {
-      addToCart({
+      createCartItem({
         product: { ...product },
         qty,
       });

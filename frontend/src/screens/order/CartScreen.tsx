@@ -11,15 +11,15 @@ import { useCartStore } from "../../state/store";
 import { Cart } from "../../../../backend/interfaces";
 
 export const CartScreen: React.FC = () => {
-  const { cartItems, addToCart, removeFromCart } = useCartStore();
+  const { cartItems, createCartItem, deleteCartItem } = useCartStore();
   const navigate = useNavigate();
 
   const handleQtyChange = (product: Cart, qty: number) => {
-    addToCart({ ...product, qty });
+    createCartItem({ ...product, qty });
   };
 
   const handleRemoveItem = (id: number) => {
-    removeFromCart(id);
+    deleteCartItem(id);
   };
 
   const handleCheckout = () => {

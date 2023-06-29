@@ -15,7 +15,7 @@ import { OrderData } from "../../../../backend/interfaces";
 
 export const PlaceOrderScreen: FC = () => {
   const navigate = useNavigate();
-  const { cartItems, shippingAddress, paymentMethod, clearCartItems } =
+  const { cartItems, shippingAddress, paymentMethod, deleteCartItems } =
     useCartStore() as CartStore;
   const { userInfo } = useAuthStore();
   const [loading, setLoading] = useState<boolean>(false);
@@ -63,7 +63,7 @@ export const PlaceOrderScreen: FC = () => {
         },
       };
       const res = await createOrderApi(order);
-      clearCartItems();
+      deleteCartItems();
       navigate(`/orders/${res.id}`);
     } catch (err: unknown) {
       if (err instanceof Error) {

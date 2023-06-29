@@ -11,7 +11,7 @@ import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
 
 export const PaymentScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { shippingAddress, savePaymentMethod } = useCartStore();
+  const { shippingAddress, createPaymentMethod } = useCartStore();
 
   useEffect(() => {
     if (!shippingAddress.address) {
@@ -23,7 +23,7 @@ export const PaymentScreen: React.FC = () => {
 
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
-    savePaymentMethod(paymentMethod);
+    createPaymentMethod(paymentMethod);
     navigate("/place-order");
   };
 
