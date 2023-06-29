@@ -5,25 +5,24 @@ import { User, Product, Order } from "@prisma/client";
 // --------------------------
 // User related interfaces
 
-export interface UserBase
-  extends Pick<User, "id" | "name" | "email" | "isAdmin"> {}
-
-export interface UserUpdate
-  extends Pick<User, "id" | "name" | "email" | "password" | "isAdmin"> {}
-
-export interface UserUpdateByAdmin
-  extends Pick<User, "id" | "name" | "email" | "isAdmin"> {}
-
-export interface UserLoginCredentials
-  extends Pick<User, "email" | "password"> {}
-
-export interface UserData extends Pick<User, "name" | "email" | "password"> {
+export interface UserInfo extends Partial<User> {
   confirmPassword?: string;
+  token?: string;
 }
 
-export interface UserInfo extends UserBase {
-  token: string;
-}
+export interface UserData extends Pick<User, "name" | "email" | "password"> {}
+
+// export interface UserBase
+//   extends Pick<User, "id" | "name" | "email" | "isAdmin"> {}
+
+// export interface UserUpdate
+//   extends Pick<User, "id" | "name" | "email" | "password" | "isAdmin"> {}
+
+// export interface UserUpdateByAdmin
+//   extends Pick<User, "id" | "name" | "email" | "isAdmin"> {}
+
+// export interface UserLoginCredentials
+//   extends Pick<User, "email" | "password"> {}
 
 export interface UserAuth {
   userInfo: UserInfo | null;
@@ -39,7 +38,7 @@ export interface UserDecodedJwtPayload extends JwtPayload {
 }
 
 export interface UserRequest extends Request {
-  user?: UserBase;
+  user?: UserInfo;
 }
 
 // --------------------------
@@ -94,7 +93,7 @@ export interface OrderProductInfo {
 export interface OrderInfo
   extends Pick<Order, "id" | "paymentMethod" | "createdAt" | "updatedAt"> {
   orderProducts: OrderProductInfo[];
-  user: UserBase;
+  user: UserInfo;
   status: {
     isPaid: boolean;
     paidAt: Date | null;

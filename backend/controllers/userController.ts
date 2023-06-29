@@ -15,9 +15,9 @@ import {
   deleteUserByIdInDB,
   comparePassword,
 } from "../models/userModel";
-import { UserRequest, UserBase, UserData } from "../interfaces";
+import { UserRequest, UserInfo, UserData } from "../interfaces";
 
-const sanitizeUser = (user: any): UserBase => {
+const sanitizeUser = (user: any): UserInfo => {
   const { password, ...UserBase } = user;
   return UserBase;
 };

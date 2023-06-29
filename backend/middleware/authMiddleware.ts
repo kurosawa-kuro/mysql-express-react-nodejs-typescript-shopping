@@ -9,7 +9,7 @@ import { db } from "../database/prisma/prismaClient";
 import {
   UserDecodedJwtPayload,
   UserRequest,
-  UserBase,
+  UserInfo,
 } from "../interfaces/index";
 
 export const protect = asyncHandler(
@@ -35,7 +35,7 @@ export const protect = asyncHandler(
         req.user = {
           ...UserBase,
           id: Number(decoded.userId),
-        } as UserBase;
+        } as UserInfo;
       }
 
       next();
