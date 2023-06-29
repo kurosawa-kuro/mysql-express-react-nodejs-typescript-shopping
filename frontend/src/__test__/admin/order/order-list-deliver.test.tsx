@@ -17,6 +17,7 @@ import {
   TEST_ADMIN_USER,
 } from "../../test-utils";
 import { rest } from "msw";
+import { OrderFull } from "../../../../../backend/interfaces";
 
 const server = createServer();
 
@@ -66,82 +67,71 @@ describe("Admin Product Management", () => {
         await screen.findByRole("heading", { name: /Orders/i });
         expect(await screen.findByText("$113.49")).toBeInTheDocument();
 
-        // postデータの形式から見直し
+        // // postデータの形式から見直し
+        const OrderFull: OrderFull = {
+          id: 28,
+          orderProducts: [
+            {
+              orderId: 28,
+              productId: 1,
+              qty: 1,
+              product: {
+                id: 1,
+                userId: 1,
+                name: "Airpods Wireless Bluetooth Headphones",
+                image: "/images/airpods.jpg",
+                brand: "Apple",
+                category: "Electronics",
+                description:
+                  "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while wor",
+                rating: 4.5,
+                numReviews: 12,
+                price: 89.99,
+                countInStock: 10,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              },
+            },
+          ],
+          user: {
+            id: 2,
+            name: "john",
+            email: "",
+            isAdmin: false,
+          },
+          status: {
+            isPaid: true,
+            paidAt: new Date(),
+            isDelivered: false,
+            deliveredAt: null,
+          },
+          price: {
+            itemsPrice: 0,
+            taxPrice: 0,
+            shippingPrice: 0,
+            totalPrice: 0,
+          },
+          shipping: {
+            address: "",
+            city: "",
+            postalCode: "",
+          },
+          paymentMethod: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
+
         server.use(
           rest.get(`${API_BASE_URL}/orders/28`, (_req, res, ctx) => {
-            return res(
-              ctx.status(200),
-              ctx.json({
-                id: 28,
-                userId: 2,
-                address: "大通り公園",
-                city: "0600061",
-                postalCode: "札幌",
-                paymentMethod: "PayPal",
-                paymentResultId: null,
-                paymentResultStatus: null,
-                paymentResultUpdateTime: null,
-                paymentResultEmail: null,
-                price: {
-                  itemsPrice: 89.99,
-                  taxPrice: 13.5,
-                  shippingPrice: 10,
-                  totalPrice: 113.49,
-                },
-                itemsPrice: 89.99,
-                taxPrice: 13.5,
-                shippingPrice: 10,
-                totalPrice: 113.49,
-                isPaid: true,
-                paidAt: "2023-06-14T21:07:17.666Z",
-                isDelivered: false,
-                deliveredAt: null,
-                createdAt: "2023-06-21T06:39:11.497Z",
-                updatedAt: "2023-06-21T06:39:11.497Z",
-                user: {
-                  id: 2,
-                  name: "john",
-                  email: "john@email.com",
-                  password:
-                    "$2a$10$eRfvYeJFQKph.3IVWhT5u.Ae7a74KF8DlWxvSKFrp3VqlVBb0k13m",
-                  isAdmin: false,
-                  createdAt: "2023-06-14T21:07:17.601Z",
-                  updatedAt: "2023-06-14T21:07:17.601Z",
-                },
-                orderProducts: [
-                  {
-                    orderId: 28,
-                    productId: 1,
-                    qty: 1,
-                    product: {
-                      id: 1,
-                      userId: 1,
-                      name: "Airpods Wireless Bluetooth Headphones",
-                      image: "/images/airpods.jpg",
-                      brand: "Apple",
-                      category: "Electronics",
-                      description:
-                        "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while wor",
-                      rating: 4.5,
-                      numReviews: 12,
-                      price: 89.99,
-                      countInStock: 10,
-                      createdAt: "2023-06-14T21:07:17.666Z",
-                      updatedAt: "2023-06-14T21:07:17.666Z",
-                    },
-                  },
-                ],
-              })
-            );
+            return res(ctx.status(200), ctx.json(OrderFull));
           })
         );
 
         const detailsLink = await screen.findByText("Details");
         fireEvent.click(detailsLink);
 
-        printDOM();
         expect(await screen.findByText("Order 28")).toBeInTheDocument();
-
+        printDOM();
         const markAsDeliveredButton = await screen.findByText(
           "Mark As Delivered"
         );
