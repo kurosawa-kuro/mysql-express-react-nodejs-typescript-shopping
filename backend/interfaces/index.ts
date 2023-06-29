@@ -101,6 +101,7 @@ export interface OrderInfo
 }
 
 export interface OrderData extends Pick<Order, "userId" | "paymentMethod"> {
+  id?: number;
   cart: Cart[];
   price: {
     itemsPrice: number;
