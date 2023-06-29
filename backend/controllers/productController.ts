@@ -11,10 +11,10 @@ import { UserRequest } from "../interfaces";
 import {
   createProductInDB,
   readProductsFromDB,
+  readTopProductsFromDB,
   countProductsFromDB,
   updateProductInDB,
   deleteProductInDB,
-  readTopProductsFromDB,
   pageSize,
 } from "../models/productModel";
 

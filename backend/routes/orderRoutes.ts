@@ -11,7 +11,7 @@ import {
   createOrder,
   readMyOrders,
   readAllOrders,
-  getOrderById,
+  readOrderById,
   updateOrderToDelivered,
   updateOrderToPaid,
 } from "../controllers/orderController";
@@ -24,7 +24,7 @@ router.route("/").post(protect, createOrder).get(protect, admin, readAllOrders);
 
 router.route("/mine").get(protect, readMyOrders);
 
-router.route("/:id").get(protect, getOrderById);
+router.route("/:id").get(protect, readOrderById);
 
 router.route("/:id/pay").put(protect, updateOrderToPaid);
 

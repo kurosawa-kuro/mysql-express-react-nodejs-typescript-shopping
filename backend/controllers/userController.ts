@@ -7,11 +7,11 @@ import asyncHandler from "express-async-handler";
 // Internal Imports
 import { generateToken, hashPassword } from "../utils";
 import {
+  createUserInDB,
+  readAllUsersFromDB,
   readUserByEmailInDB,
   readUserByIdInDB,
-  createUserInDB,
   updateUserByIdInDB,
-  readAllUsersFromDB,
   deleteUserByIdInDB,
   comparePassword,
 } from "../models/userModel";

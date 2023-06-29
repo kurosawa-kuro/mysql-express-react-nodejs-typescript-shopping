@@ -25,8 +25,9 @@ const createOrder = asyncHandler(
     }
 
     if (req.user && req.user.id) {
+      const userId = Number(req.user.id);
       const orderData: OrderData = {
-        userId: Number(req.user.id),
+        userId,
         shipping,
         paymentMethod,
         price,
@@ -54,44 +55,15 @@ const readAllOrders = asyncHandler(async (req: Request, res: Response) => {
   res.json(orders);
 });
 
-const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
+const readOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
   const order = await readOrderByIdFromDB(Number(req.params.id));
 
   if (!order) {
     res.status(404);
     throw new Error("Order not found");
   }
-  const OrderInfo: OrderInfo = {
-    id: order.id,
-    orderProducts: order.orderProducts,
-    price: {
-      itemsPrice: order.price.itemsPrice,
-      taxPrice: order.price.taxPrice,
-      shippingPrice: order.price.shippingPrice,
-      totalPrice: order.price.totalPrice,
-    },
-    paymentMethod: order.paymentMethod,
-    status: {
-      isPaid: order.status.isPaid,
-      paidAt: order.status.paidAt,
-      isDelivered: order.status.isDelivered,
-      deliveredAt: order.status.deliveredAt,
-    },
-    createdAt: order.createdAt,
-    updatedAt: order.updatedAt,
-    user: {
-      id: order.user.id,
-      name: order.user.name,
-      email: order.user.email,
-      isAdmin: order.user.isAdmin,
-    },
-    shipping: {
-      address: order.shipping.address,
-      city: order.shipping.city,
-      postalCode: order.shipping.postalCode,
-    },
-  };
-  res.json(OrderInfo);
+
+  res.json(order);
 });
 
 const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
@@ -126,7 +98,7 @@ export {
   createOrder,
   readMyOrders,
   readAllOrders,
-  getOrderById,
+  readOrderById,
   updateOrderToPaid,
   updateOrderToDelivered,
 };
