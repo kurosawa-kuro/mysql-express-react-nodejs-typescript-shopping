@@ -10,7 +10,7 @@ import { Message } from "../../components/common/Message";
 import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
 import { createOrderApi } from "../../services/api";
 import { useCartStore, CartStore } from "../../state/store";
-import { Order } from "../../../../backend/interfaces";
+import { OrderRequest } from "../../../../backend/interfaces";
 
 export const PlaceOrderScreen: FC = () => {
   const navigate = useNavigate();
@@ -41,11 +41,13 @@ export const PlaceOrderScreen: FC = () => {
   const placeOrderHandler = async () => {
     setLoading(true);
     try {
-      const order: Order = {
-        orderProducts: cartItems,
-        address: shippingAddress.address,
-        postalCode: shippingAddress.city,
-        city: shippingAddress.postalCode,
+      const order: OrderRequest = {
+        cart: cartItems,
+        shipping: {
+          address: shippingAddress.address,
+          postalCode: shippingAddress.city,
+          city: shippingAddress.postalCode,
+        },
         paymentMethod: paymentMethod,
         price: {
           itemsPrice,
@@ -53,11 +55,6 @@ export const PlaceOrderScreen: FC = () => {
           shippingPrice,
           totalPrice,
         },
-        isPaid: false,
-        paidAt: null,
-        isDelivered: false,
-        deliveredAt: null,
-        createdAt: new Date(),
       };
       const res = await createOrderApi(order);
       clearCartItems();

@@ -12,7 +12,7 @@ import {
   ProductBase,
   UserUpdateByAdmin,
   Product,
-  OrderFull,
+  OrderRequest,
 } from "../../../backend/interfaces";
 
 const apiClient = getApiClient();
@@ -85,7 +85,7 @@ export const deleteProductApi = async (productId: number) =>
   performRequest(apiClient.delete(`/api/products/${productId}`));
 
 // Order related APIs
-export const createOrderApi = (order: OrderFull) =>
+export const createOrderApi = (order: OrderRequest) =>
   performRequest(apiClient.post("/api/orders", order));
 
 export const getOrderFullApi = (id: number) =>
