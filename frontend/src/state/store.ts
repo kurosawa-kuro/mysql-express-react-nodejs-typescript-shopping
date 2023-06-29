@@ -33,8 +33,8 @@ export const useAuthStore = create<UserAuth>((set) => {
 export type CartStore = CartState & CartActions;
 
 export const useCartStore = create<CartStore>((set) => ({
-  cartItems: localStorage.getItem("cartItems")
-    ? JSON.parse(localStorage.getItem("cartItems") || "[]")
+  cartItems: localStorage.getItem("cart")
+    ? JSON.parse(localStorage.getItem("cart") || "[]")
     : [],
   shipping: localStorage.getItem("shipping")
     ? JSON.parse(localStorage.getItem("shipping") || "{}")
@@ -56,7 +56,7 @@ export const useCartStore = create<CartStore>((set) => ({
         newCartItems = [...state.cartItems, cart];
       }
 
-      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+      localStorage.setItem("cart", JSON.stringify(newCartItems));
 
       return {
         ...state,
@@ -67,7 +67,7 @@ export const useCartStore = create<CartStore>((set) => ({
   deleteCartItem: (id: number) => {
     set((state) => {
       const newCartItems = state.cartItems.filter((x) => x.product.id !== id);
-      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+      localStorage.setItem("cart", JSON.stringify(newCartItems));
       return {
         ...state,
         cartItems: newCartItems,
@@ -94,7 +94,7 @@ export const useCartStore = create<CartStore>((set) => ({
   },
   deleteCartItems: () => {
     set((state) => {
-      localStorage.setItem("cartItems", JSON.stringify([]));
+      localStorage.setItem("cart", JSON.stringify([]));
       return {
         ...state,
         cartItems: [],

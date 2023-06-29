@@ -67,9 +67,7 @@ describe("useCartStore", () => {
       result.current.createCartItem(testProduct);
     });
 
-    const storedCartItems = JSON.parse(
-      localStorage.getItem("cartItems") || "[]"
-    );
+    const storedCartItems = JSON.parse(localStorage.getItem("cart") || "[]");
     expect(storedCartItems).toEqual([testProduct]);
     expect(result.current.cartItems).toEqual([testProduct]);
 
@@ -77,7 +75,7 @@ describe("useCartStore", () => {
       result.current.deleteCartItem(testProduct.product.id);
     });
 
-    expect(localStorage.getItem("cartItems")).toEqual("[]");
+    expect(localStorage.getItem("cart")).toEqual("[]");
     expect(result.current.cartItems).toEqual([]);
   });
 });
