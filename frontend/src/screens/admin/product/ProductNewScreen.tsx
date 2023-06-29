@@ -32,6 +32,8 @@ export const ProductNewScreen: React.FC = () => {
         brand,
         category,
         description,
+        rating: 0,
+        numReviews: 0,
         price: Number(price),
         countInStock: Number(countInStock),
       });
