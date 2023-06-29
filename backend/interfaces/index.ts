@@ -142,7 +142,7 @@ export interface PaymentDetails {
 
 export interface CartState {
   cartItems: Cart[];
-  shippingAddress: Shipping;
+  shipping: Shipping;
   paymentMethod: string;
 }
 

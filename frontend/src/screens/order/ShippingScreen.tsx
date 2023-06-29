@@ -17,12 +17,12 @@ interface OrderShipping {
 
 export const ShippingScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { shippingAddress, createShipping } = useCartStore();
+  const { shipping, createShipping } = useCartStore();
   const {
     address: savedAddress,
     city: savedCity,
     postalCode: savedPostalCode,
-  } = shippingAddress;
+  } = shipping;
 
   const [address, setAddress] = useState<string>(savedAddress || "");
   const [city, setCity] = useState<string>(savedCity || "");

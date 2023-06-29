@@ -11,13 +11,13 @@ import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
 
 export const PaymentScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { shippingAddress, createPaymentMethod } = useCartStore();
+  const { shipping, createPaymentMethod } = useCartStore();
 
   useEffect(() => {
-    if (!shippingAddress.address) {
+    if (!shipping.address) {
       navigate("/shipping");
     }
-  }, [navigate, shippingAddress]);
+  }, [navigate, shipping]);
 
   const [paymentMethod, setPaymentMethod] = useState("PayPal");
 

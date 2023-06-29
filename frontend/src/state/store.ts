@@ -36,8 +36,8 @@ export const useCartStore = create<CartStore>((set) => ({
   cartItems: localStorage.getItem("cartItems")
     ? JSON.parse(localStorage.getItem("cartItems") || "[]")
     : [],
-  shippingAddress: localStorage.getItem("shippingAddress")
-    ? JSON.parse(localStorage.getItem("shippingAddress") || "{}")
+  shipping: localStorage.getItem("shipping")
+    ? JSON.parse(localStorage.getItem("shipping") || "{}")
     : {},
   paymentMethod: localStorage.getItem("paymentMethod")
     ? JSON.parse(localStorage.getItem("paymentMethod") || '"PayPal"')
@@ -76,10 +76,10 @@ export const useCartStore = create<CartStore>((set) => ({
   },
   createShipping: (address: Shipping) => {
     set((state) => {
-      localStorage.setItem("shippingAddress", JSON.stringify(address));
+      localStorage.setItem("shipping", JSON.stringify(address));
       return {
         ...state,
-        shippingAddress: address,
+        shipping: address,
       };
     });
   },

@@ -15,7 +15,7 @@ import { OrderData } from "../../../../backend/interfaces";
 
 export const PlaceOrderScreen: FC = () => {
   const navigate = useNavigate();
-  const { cartItems, shippingAddress, paymentMethod, deleteCartItems } =
+  const { cartItems, shipping, paymentMethod, deleteCartItems } =
     useCartStore() as CartStore;
   const { userInfo } = useAuthStore();
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,12 +33,12 @@ export const PlaceOrderScreen: FC = () => {
   const totalPrice: number = itemsPrice + shippingPrice + taxPrice;
 
   useEffect(() => {
-    if (!shippingAddress.address) {
+    if (!shipping.address) {
       navigate("/shipping");
     } else if (!paymentMethod) {
       navigate("/payment");
     }
-  }, [paymentMethod, shippingAddress.address, navigate]);
+  }, [paymentMethod, shipping.address, navigate]);
 
   const placeOrderHandler = async () => {
     setLoading(true);
@@ -50,9 +50,9 @@ export const PlaceOrderScreen: FC = () => {
         userId: userInfo.id,
         cart: cartItems,
         shipping: {
-          address: shippingAddress.address,
-          postalCode: shippingAddress.city,
-          city: shippingAddress.postalCode,
+          address: shipping.address,
+          postalCode: shipping.city,
+          city: shipping.postalCode,
         },
         paymentMethod: paymentMethod,
         price: {
@@ -86,8 +86,7 @@ export const PlaceOrderScreen: FC = () => {
             <h2 className="mb-2 text-2xl font-bold">Shipping</h2>
             <p>
               <strong>Address:</strong>
-              {shippingAddress.address}, {shippingAddress.city}{" "}
-              {shippingAddress.postalCode}
+              {shipping.address}, {shipping.city} {shipping.postalCode}
             </p>
 
             <h2 className="mb-2 mt-4 text-2xl font-bold">Payment Method</h2>
