@@ -12,7 +12,7 @@ import { OrderScreen } from "../../../screens/order/OrderScreen";
 import {
   createServer,
   inputField,
-  printDOM,
+  // printDOM,
   TEST_ADMIN_USER,
 } from "../../test-utils";
 
@@ -63,7 +63,7 @@ describe("Admin Product Management", () => {
 
         fireEvent.click(detailsLink);
         expect(await screen.findByText("Order 28")).toBeInTheDocument();
-        printDOM();
+
         const testPayButton = await screen.findByText("Test Pay");
         fireEvent.click(testPayButton);
         expect(await screen.findByText("Order is paid")).toBeInTheDocument();
