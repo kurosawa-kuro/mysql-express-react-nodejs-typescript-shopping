@@ -69,14 +69,12 @@ describe("useCartStore", () => {
 
     let storedCartItems = JSON.parse(localStorage.getItem("cart") || "[]");
 
-    // Map over each item in the array and convert the createdAt and updatedAt strings to Date objects
     storedCartItems = storedCartItems.map((item: any) => {
       item.product.createdAt = new Date(item.product.createdAt);
       item.product.updatedAt = new Date(item.product.updatedAt);
       return item;
     });
 
-    console.dir(storedCartItems, { depth: null });
     expect(storedCartItems).toEqual([testProduct]);
     expect(result.current.cartItems).toEqual([testProduct]);
 

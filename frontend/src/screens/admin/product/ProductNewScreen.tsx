@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { uploadProductImageApi, createProductApi } from "../../../services/api";
 import { Loader } from "../../../components/common/Loader";
 import { Message } from "../../../components/common/Message";
+import { ProductData } from "../../../../../backend/interfaces";
 
 export const ProductNewScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export const ProductNewScreen: React.FC = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      await createProductApi({
+      const data: ProductData = {
         name,
         image,
         brand,
@@ -32,9 +33,10 @@ export const ProductNewScreen: React.FC = () => {
         description,
         rating: 0,
         numReviews: 0,
-        price: Number(price),
-        countInStock: Number(countInStock),
-      });
+        price,
+        countInStock,
+      };
+      await createProductApi(data);
       toast.success("Product created");
       navigate("/admin/products/");
     } catch (err: unknown) {
