@@ -8,7 +8,7 @@ import {
   createUser,
 } from "../test-utils";
 import { db } from "../../database/prisma/prismaClient";
-import { OrderFull } from "../../interfaces";
+import { OrderInfo } from "../../interfaces";
 import { OrderProduct } from "@prisma/client";
 
 describe("GET /api/orders", () => {
@@ -39,7 +39,7 @@ describe("GET /api/orders", () => {
 
     expect(Array.isArray(res.body)).toBe(true);
 
-    res.body.forEach((order: OrderFull) => {
+    res.body.forEach((order: OrderInfo) => {
       expect(order).toHaveProperty("id");
       expect(order).toHaveProperty("user.id");
       expect(order).toHaveProperty("shipping.address");

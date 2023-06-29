@@ -6,13 +6,13 @@ import { getApiClient } from "./apiClient";
 import {
   UserUpdate,
   UserLoginCredentials,
-  UserRegisterCredentials,
+  UserData,
   ProductSearch,
   ErrorMessage,
-  ProductBase,
+  ProductData,
   UserUpdateByAdmin,
   Product,
-  OrderRequest,
+  OrderData,
 } from "../../../backend/interfaces";
 
 const apiClient = getApiClient();
@@ -37,7 +37,7 @@ const performRequest = async (request: Promise<AxiosResponse<any>>) => {
 };
 
 // User related APIs
-export const registerUserApi = (user: UserRegisterCredentials) =>
+export const registerUserApi = (user: UserData) =>
   performRequest(apiClient.post("/api/users/register", user));
 
 export const loginUserApi = (credentials: UserLoginCredentials) =>
@@ -72,10 +72,10 @@ export const getProductsApi = ({ keyword, pageNumber }: ProductSearch) =>
 export const getProductFullsApi = (productId: number) =>
   performRequest(apiClient.get(`/api/products/${productId}`));
 
-export const createProductApi = (product: ProductBase | null) =>
+export const createProductApi = (product: ProductData | null) =>
   performRequest(apiClient.post("/api/products", product));
 
-export const updateProductApi = (product: ProductBase) =>
+export const updateProductApi = (product: ProductData) =>
   performRequest(apiClient.put(`/api/products/${product.id}`, product));
 
 export const uploadProductImageApi = async (imageData: FormData) =>
@@ -85,10 +85,10 @@ export const deleteProductApi = async (productId: number) =>
   performRequest(apiClient.delete(`/api/products/${productId}`));
 
 // Order related APIs
-export const createOrderApi = (order: OrderRequest) =>
+export const createOrderApi = (order: OrderData) =>
   performRequest(apiClient.post("/api/orders", order));
 
-export const getOrderFullApi = (id: number) =>
+export const getOrderInfoApi = (id: number) =>
   performRequest(apiClient.get(`/api/orders/${id}`));
 
 export const payOrderApi = (orderId: number, details: any) =>

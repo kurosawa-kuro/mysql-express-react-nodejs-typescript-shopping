@@ -8,19 +8,19 @@ import { toast } from "react-toastify";
 // Internal Imports
 import {
   deliverOrderApi,
-  getOrderFullApi,
+  getOrderInfoApi,
   payOrderApi,
 } from "../../services/api";
 import { Loader } from "../../components/common/Loader";
 import { Message } from "../../components/common/Message";
-import { OrderFull } from "../../../../backend/interfaces";
+import { OrderInfo } from "../../../../backend/interfaces";
 import { useAuthStore } from "../../state/store";
 
 export const OrderScreen = () => {
   const { id: orderId } = useParams();
-  const { userInformation } = useAuthStore();
+  const { userInfo } = useAuthStore();
 
-  const [order, setOrder] = useState<OrderFull | null>(null);
+  const [order, setOrder] = useState<OrderInfo | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,7 +37,7 @@ export const OrderScreen = () => {
     if (!isNaN(orderIdNumber)) {
       try {
         setLoading(true);
-        const data: OrderFull = await getOrderFullApi(orderIdNumber);
+        const data: OrderInfo = await getOrderInfoApi(orderIdNumber);
         setOrder(data);
       } catch (err) {
         handleError(err);
@@ -199,7 +199,7 @@ export const OrderScreen = () => {
             {!order.status.isPaid && (
               <div className="mb-4">
                 {loading && <Loader />}
-                {!userInformation ? (
+                {!userInfo ? (
                   <Message>
                     Please <Link to="/login">Log in</Link> to pay
                   </Message>
@@ -217,8 +217,8 @@ export const OrderScreen = () => {
             )}
 
             {loading && <Loader />}
-            {userInformation &&
-              userInformation.isAdmin &&
+            {userInfo &&
+              userInfo.isAdmin &&
               order.status.isPaid &&
               !order.status.isDelivered && (
                 <button

@@ -2,7 +2,7 @@
 
 import { Link } from "react-router-dom";
 import { Rating } from "./Rating";
-import { ProductBase as ProductType } from "../../../../backend/interfaces";
+import { ProductData as ProductType } from "../../../../backend/interfaces";
 
 interface ProductProps {
   product: ProductType;

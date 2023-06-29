@@ -10,7 +10,7 @@ import { ShippingScreen } from "../../screens/order/ShippingScreen";
 import { PaymentScreen } from "../../screens/order/PaymentScreen";
 import { PlaceOrderScreen } from "../../screens/order/PlaceOrderScreen";
 import { OrderScreen } from "../../screens/order/OrderScreen";
-import { OrderFull } from "../../../../backend/interfaces";
+import { OrderInfo } from "../../../../backend/interfaces";
 
 const product: Product = {
   id: 1,
@@ -28,7 +28,7 @@ const product: Product = {
   updatedAt: new Date(),
 };
 
-const orderFull: OrderFull = {
+const orderFull: OrderInfo = {
   id: 28,
   orderProducts: [
     {

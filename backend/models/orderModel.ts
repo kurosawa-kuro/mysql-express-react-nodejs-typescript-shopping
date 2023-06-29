@@ -2,9 +2,9 @@
 
 import { db } from "../database/prisma/prismaClient";
 import { Order, OrderProduct, User } from "@prisma/client";
-import { Cart, OrderFull, OrderFullProduct } from "../interfaces";
+import { Cart, OrderInfo, OrderInfoProduct } from "../interfaces";
 
-const createOrderFullFromOrder = (order: any): OrderFull => {
+const createOrderInfoFromOrder = (order: any): OrderInfo => {
   return {
     id: order.id,
     orderProducts: order.orderProducts,
@@ -41,7 +41,7 @@ export const createOrder = async (
   userId: number,
   orderData: any,
   cart: Cart[]
-): Promise<OrderFull | null> => {
+): Promise<OrderInfo | null> => {
   const { shipping, paymentMethod, price } = orderData;
 
   const order = await db.order.create({
@@ -68,12 +68,12 @@ export const createOrder = async (
     },
   });
 
-  return createOrderFullFromOrder(order);
+  return createOrderInfoFromOrder(order);
 };
 
 export const findOrderByIdInDB = async (
   id: number
-): Promise<OrderFull | null> => {
+): Promise<OrderInfo | null> => {
   const order = await db.order.findUnique({
     where: { id },
     include: { user: true, orderProducts: { include: { product: true } } },
@@ -83,12 +83,12 @@ export const findOrderByIdInDB = async (
     return null;
   }
 
-  return createOrderFullFromOrder(order);
+  return createOrderInfoFromOrder(order);
 };
 
 export const getUserOrdersFromDB = async (
   userId: number
-): Promise<OrderFull[] | null> => {
+): Promise<OrderInfo[] | null> => {
   const orders = await db.order.findMany({
     where: { userId },
     include: {
@@ -99,12 +99,12 @@ export const getUserOrdersFromDB = async (
     },
   });
 
-  return orders.map(createOrderFullFromOrder);
+  return orders.map(createOrderInfoFromOrder);
 };
 
 export const getOrderByIdFromDB = async (
   orderId: number
-): Promise<OrderFull | null> => {
+): Promise<OrderInfo | null> => {
   const order = await db.order.findUnique({
     where: { id: orderId },
     include: { user: true, orderProducts: { include: { product: true } } },
@@ -113,7 +113,7 @@ export const getOrderByIdFromDB = async (
     return null;
   }
 
-  return createOrderFullFromOrder(order);
+  return createOrderInfoFromOrder(order);
 };
 
 export const updateOrderToPaidInDB = async (
@@ -152,5 +152,5 @@ export const getAllOrders = async () => {
     },
   });
 
-  return orders.map(createOrderFullFromOrder);
+  return orders.map(createOrderInfoFromOrder);
 };

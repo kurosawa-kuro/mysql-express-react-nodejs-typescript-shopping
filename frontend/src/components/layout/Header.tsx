@@ -22,7 +22,7 @@ export const Header: React.FC = () => {
   const [adminIsOpen, setAdminIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const adminDropdownRef = useRef<HTMLDivElement | null>(null);
-  const { userInformation, logout } = useAuthStore();
+  const { userInfo, logout } = useAuthStore();
   const { cartItems } = useCartStore();
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export const Header: React.FC = () => {
         </div>
         <div className={`space-x-8 ${isOpen ? "block" : "hidden"} sm:flex`}>
           <SearchBox />
-          {!userInformation?.isAdmin && (
+          {!userInfo?.isAdmin && (
             <Link to="/cart" className="flex items-center space-x-2">
               <FaShoppingCart className="h-5 w-5" />
               <span>Cart</span>
@@ -72,7 +72,7 @@ export const Header: React.FC = () => {
             </Link>
           )}
 
-          {userInformation ? (
+          {userInfo ? (
             <div className="relative inline-block text-left" ref={dropdownRef}>
               <div>
                 <button
@@ -85,7 +85,7 @@ export const Header: React.FC = () => {
                     data-testid="user-info-name"
                     className="text-custom-blue-lightest hover:text-custom-blue-extra-darkest"
                   >
-                    {userInformation.name}
+                    {userInfo.name}
                   </span>
                   {isOpen ? (
                     <FaChevronUp className="h-5 w-5 text-custom-blue-lightest" />
@@ -103,7 +103,7 @@ export const Header: React.FC = () => {
                     aria-orientation="vertical"
                     aria-labelledby="options-menu"
                   >
-                    {!userInformation.isAdmin && (
+                    {!userInfo.isAdmin && (
                       <Link
                         to="/orders"
                         className="block px-4 py-2 text-sm text-custom-blue-lighter hover:bg-custom-blue-darkest"
@@ -144,7 +144,7 @@ export const Header: React.FC = () => {
               <span className="text-custom-blue-lightest">Sign In</span>
             </Link>
           )}
-          {userInformation && userInformation.isAdmin && (
+          {userInfo && userInfo.isAdmin && (
             <div
               className="relative inline-block text-left"
               ref={adminDropdownRef}

@@ -5,8 +5,8 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuthStore } from "../../state/store";
 
 export const AdminRoute: React.FC = () => {
-  const { userInformation } = useAuthStore();
-  return userInformation && userInformation.isAdmin ? (
+  const { userInfo } = useAuthStore();
+  return userInfo && userInfo.isAdmin ? (
     <Outlet />
   ) : (
     <Navigate to="/login" replace />

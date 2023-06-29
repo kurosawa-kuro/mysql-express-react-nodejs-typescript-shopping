@@ -15,7 +15,7 @@ import {
   deleteUserById,
   comparePassword,
 } from "../models/userModel";
-import { UserRequest, UserBase, UserRegisterCredentials } from "../interfaces";
+import { UserRequest, UserBase, UserData } from "../interfaces";
 
 const sanitizeUser = (user: any): UserBase => {
   const { password, ...UserBase } = user;
@@ -51,7 +51,7 @@ const registerUser = asyncHandler(async (req: UserRequest, res: Response) => {
   }
 
   const hashedPassword = await hashPassword(password);
-  const user: UserRegisterCredentials = {
+  const user: UserData = {
     name,
     email,
     password: hashedPassword,

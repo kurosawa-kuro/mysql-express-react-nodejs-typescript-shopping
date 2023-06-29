@@ -15,7 +15,7 @@ export const UserListScreen: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { userInformation } = useAuthStore() as UserAuth;
+  const { userInfo } = useAuthStore() as UserAuth;
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -94,7 +94,7 @@ export const UserListScreen: React.FC = () => {
                 )}
               </td>
               <td>
-                {userInformation && userInformation.isAdmin && (
+                {userInfo && userInfo.isAdmin && (
                   <>
                     <Link
                       to={`/admin/users/${user.id}/edit`}

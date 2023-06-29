@@ -8,7 +8,7 @@ import {
   createProductAndOrder,
 } from "../test-utils";
 import { Product, User } from "@prisma/client";
-import { OrderFull, OrderRequest } from "../../interfaces";
+import { OrderInfo, OrderData } from "../../interfaces";
 
 let token: string;
 let user: User;

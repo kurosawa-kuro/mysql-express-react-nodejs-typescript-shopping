@@ -17,7 +17,7 @@ import {
   TEST_ADMIN_USER,
 } from "../../test-utils";
 import { rest } from "msw";
-import { OrderFull } from "../../../../../backend/interfaces";
+import { OrderInfo } from "../../../../../backend/interfaces";
 
 const server = createServer();
 
@@ -68,7 +68,7 @@ describe("Admin Product Management", () => {
         expect(await screen.findByText("$113.49")).toBeInTheDocument();
 
         // // postデータの形式から見直し
-        const OrderFull: OrderFull = {
+        const OrderInfo: OrderInfo = {
           id: 28,
           orderProducts: [
             {
@@ -123,7 +123,7 @@ describe("Admin Product Management", () => {
 
         server.use(
           rest.get(`${API_BASE_URL}/orders/28`, (_req, res, ctx) => {
-            return res(ctx.status(200), ctx.json(OrderFull));
+            return res(ctx.status(200), ctx.json(OrderInfo));
           })
         );
 

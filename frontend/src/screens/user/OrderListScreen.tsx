@@ -6,11 +6,11 @@ import { FaTimes } from "react-icons/fa";
 import { Message } from "../../components/common/Message";
 import { Loader } from "../../components/common/Loader";
 import { getOrdersApi } from "../../services/api";
-import { OrderFull } from "../../../../backend/interfaces";
+import { OrderInfo } from "../../../../backend/interfaces";
 import { toast } from "react-toastify";
 
 export const OrderListScreen: React.FC = () => {
-  const [orders, setOrders] = useState<OrderFull[]>([]);
+  const [orders, setOrders] = useState<OrderInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -67,7 +67,7 @@ export const OrderListScreen: React.FC = () => {
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
             {orders &&
-              orders.map((order: OrderFull) => (
+              orders.map((order: OrderInfo) => (
                 <tr key={order.id}>
                   <td className="whitespace-nowrap px-6 py-4">{order.id}</td>
                   <td className="whitespace-nowrap px-6 py-4">

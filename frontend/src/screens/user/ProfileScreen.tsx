@@ -14,18 +14,18 @@ export const ProfileScreen: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { userInformation, setUserInformation } = useAuthStore();
+  const { userInfo, setUserInfo } = useAuthStore();
 
   useEffect(() => {
-    if (!userInformation) return;
+    if (!userInfo) return;
 
-    setName(userInformation.name);
-    setEmail(userInformation.email);
-  }, [userInformation]);
+    setName(userInfo.name);
+    setEmail(userInfo.email);
+  }, [userInfo]);
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
-    if (!userInformation) {
+    if (!userInfo) {
       toast.error("User info is not available");
       setError("User info is not available");
       return;
@@ -40,13 +40,13 @@ export const ProfileScreen: React.FC = () => {
     setLoading(true);
     try {
       const res = await updateUserProfileApi({
-        id: userInformation.id,
+        id: userInfo.id,
         name,
         email,
         password,
-        isAdmin: userInformation.isAdmin || false,
+        isAdmin: userInfo.isAdmin || false,
       });
-      setUserInformation({ ...res });
+      setUserInfo({ ...res });
       toast.success("Profile updated successfully");
     } catch (err: unknown) {
       if (err instanceof Error) {

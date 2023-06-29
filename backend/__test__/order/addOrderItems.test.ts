@@ -7,7 +7,7 @@ import {
   createProduct,
 } from "../test-utils";
 import { Product, User } from "@prisma/client";
-import { OrderRequest } from "../../interfaces";
+import { OrderData } from "../../interfaces";
 
 let token: string;
 let product: Product;
@@ -28,7 +28,7 @@ beforeAll(async () => {
 
 describe("Order Controller", () => {
   test("POST /api/orders/ - Should create a new order", async () => {
-    const orderRequest: OrderRequest = {
+    const orderRequest: OrderData = {
       cart: [
         {
           product,

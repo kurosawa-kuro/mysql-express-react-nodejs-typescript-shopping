@@ -2,7 +2,7 @@
 
 import { db } from "../database/prisma/prismaClient";
 import bcrypt from "bcryptjs";
-import { UserRegisterCredentials } from "../interfaces/index";
+import { UserData } from "../interfaces/index";
 
 export const findUserByEmail = async (email: string) => {
   return await db.user.findUnique({ where: { email } });
@@ -12,7 +12,7 @@ export const findUserById = async (id: number) => {
   return await db.user.findUnique({ where: { id } });
 };
 
-export const createUser = async (user: UserRegisterCredentials) => {
+export const createUser = async (user: UserData) => {
   return await db.user.create({
     data: {
       name: user.name,

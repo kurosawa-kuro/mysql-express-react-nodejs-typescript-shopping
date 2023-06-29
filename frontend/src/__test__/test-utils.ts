@@ -13,7 +13,7 @@ import { setupServer } from "msw/node";
 
 import { order, product } from "./mocks";
 import { useAuthStore } from "../state/store";
-import { UserInformation } from "../../../backend/interfaces";
+import { UserInfo } from "../../../backend/interfaces";
 
 export const printDOM = (length: number = 50000) =>
   console.log(prettyDOM(document.body, length));
@@ -124,14 +124,14 @@ export const inputField = (label: Matcher, value: any) =>
   fireEvent.change(screen.getByLabelText(label), { target: { value } });
 
 export async function simulateLogin(isAdmin: boolean = false) {
-  let userInfo: UserInformation = isAdmin
+  let userInfo: UserInfo = isAdmin
     ? { ...TEST_ADMIN_USER, id: 1, token: "aaaaaaaa" }
     : { ...TEST_USER, id: 1, token: "aaaaaaaa" };
 
   const { result } = renderHook(() => useAuthStore());
 
   act(() => {
-    result.current.setUserInformation(userInfo);
+    result.current.setUserInfo(userInfo);
   });
 
   await screen.findByText(userInfo.name, {

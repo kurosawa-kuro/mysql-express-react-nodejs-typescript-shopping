@@ -3,22 +3,22 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
-import { OrderFull, UserAuth } from "../../../../../backend/interfaces";
+import { OrderInfo, UserAuth } from "../../../../../backend/interfaces";
 import { getMyOrdersApi, getOrdersApi } from "../../../services/api";
 import { useAuthStore } from "../../../state/store";
 import { Loader } from "../../../components/common/Loader";
 import { Message } from "../../../components/common/Message";
 
 export const OrderListScreen: React.FC = () => {
-  const { userInformation } = useAuthStore() as UserAuth;
-  const [orders, setOrders] = useState<OrderFull[]>([]);
+  const { userInfo } = useAuthStore() as UserAuth;
+  const [orders, setOrders] = useState<OrderInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const data = userInformation?.isAdmin
+        const data = userInfo?.isAdmin
           ? await getOrdersApi()
           : await getMyOrdersApi();
         setOrders(data);
@@ -30,7 +30,7 @@ export const OrderListScreen: React.FC = () => {
     };
 
     fetchOrders();
-  }, [userInformation?.isAdmin]);
+  }, [userInfo?.isAdmin]);
 
   return (
     <>
@@ -45,7 +45,7 @@ export const OrderListScreen: React.FC = () => {
                 ID
               </th>
 
-              {userInformation?.isAdmin && (
+              {userInfo?.isAdmin && (
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   USER
                 </th>
@@ -68,10 +68,10 @@ export const OrderListScreen: React.FC = () => {
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
             {orders &&
-              orders.map((order: OrderFull) => (
+              orders.map((order: OrderInfo) => (
                 <tr key={order.id}>
                   <td className="whitespace-nowrap px-6 py-4">{order.id}</td>
-                  {userInformation?.isAdmin && (
+                  {userInfo?.isAdmin && (
                     <td className="whitespace-nowrap px-6 py-4">
                       {order.user && order.user.name}
                     </td>

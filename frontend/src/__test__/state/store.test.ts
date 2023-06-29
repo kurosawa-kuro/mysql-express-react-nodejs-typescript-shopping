@@ -17,7 +17,7 @@ describe("useAuthStore", () => {
     const { result } = renderHook(() => useAuthStore());
 
     act(() => {
-      result.current.setUserInformation({
+      result.current.setUserInfo({
         id: 1,
         name: "Test User",
         email: "test@example.com",
@@ -26,17 +26,15 @@ describe("useAuthStore", () => {
       });
     });
 
-    const storedUserInformation = JSON.parse(
-      localStorage.getItem("userInformation") || ""
-    );
-    expect(storedUserInformation).toEqual({
+    const storedUserInfo = JSON.parse(localStorage.getItem("userInfo") || "");
+    expect(storedUserInfo).toEqual({
       id: 1,
       name: "Test User",
       email: "test@example.com",
       isAdmin: false,
       token: "testToken",
     });
-    expect(result.current.userInformation).toEqual({
+    expect(result.current.userInfo).toEqual({
       id: 1,
       name: "Test User",
       email: "test@example.com",
@@ -48,8 +46,8 @@ describe("useAuthStore", () => {
       result.current.logout();
     });
 
-    expect(localStorage.getItem("userInformation")).toBeNull();
-    expect(result.current.userInformation).toBeNull();
+    expect(localStorage.getItem("userInfo")).toBeNull();
+    expect(result.current.userInfo).toBeNull();
   });
 });
 

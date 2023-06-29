@@ -6,6 +6,10 @@ import {
   Order as OrderType,
 } from "@prisma/client";
 
+// UserData 、UserInfo
+// ProductData 、ProductInfo
+// OrderData 、OrderInfo
+
 // --------------------------
 // JWT and Request related interfaces
 
@@ -33,18 +37,18 @@ export interface UserUpdateByAdmin
 export interface UserLoginCredentials
   extends Pick<UserType, "email" | "password"> {}
 
-export interface UserRegisterCredentials
+export interface UserData
   extends Pick<UserType, "name" | "email" | "password"> {
   confirmPassword?: string;
 }
 
-export interface UserInformation extends UserBase {
+export interface UserInfo extends UserBase {
   token: string;
 }
 
 export interface UserAuth {
-  userInformation: UserInformation | null;
-  setUserInformation: (userInformation: UserInformation) => void;
+  userInfo: UserInfo | null;
+  setUserInfo: (userInfo: UserInfo) => void;
   logout: () => void;
 }
 
@@ -52,7 +56,7 @@ export interface UserAuth {
 // Product related interfaces
 export interface Product extends ProductType {}
 
-export interface ProductBase
+export interface ProductData
   extends Pick<
     ProductType,
     | "id"
@@ -68,7 +72,7 @@ export interface ProductBase
   > {}
 
 export interface Cart {
-  product: ProductBase;
+  product: ProductData;
   qty: number;
 }
 
@@ -98,16 +102,16 @@ export interface Shipping {
 // Order related interfaces
 export interface Order extends OrderType {}
 
-export interface OrderFullProduct {
+export interface OrderInfoProduct {
   orderId: number;
   productId: number;
   qty: number;
   product: Product;
 }
 
-export interface OrderFull
+export interface OrderInfo
   extends Pick<OrderType, "id" | "paymentMethod" | "createdAt" | "updatedAt"> {
-  orderProducts: OrderFullProduct[];
+  orderProducts: OrderInfoProduct[];
   user: UserBase;
   status: {
     isPaid: boolean;
@@ -124,7 +128,7 @@ export interface OrderFull
   shipping: Shipping;
 }
 
-export interface OrderRequest extends Pick<OrderType, "paymentMethod"> {
+export interface OrderData extends Pick<OrderType, "paymentMethod"> {
   cart: Cart[];
   price: {
     itemsPrice: number;

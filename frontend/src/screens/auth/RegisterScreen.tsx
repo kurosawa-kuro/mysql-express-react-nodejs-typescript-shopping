@@ -7,14 +7,10 @@ import { FormContainer } from "../../components/forms/FormContainer";
 import { Loader } from "../../components/common/Loader";
 import { registerUserApi } from "../../services/api";
 import { useAuthStore } from "../../state/store";
-import {
-  UserInformation,
-  UserRegisterCredentials,
-  UserAuth,
-} from "../../../../backend/interfaces";
+import { UserInfo, UserData, UserAuth } from "../../../../backend/interfaces";
 
 export const RegisterScreen = () => {
-  const [credentials, setCredentials] = useState<UserRegisterCredentials>({
+  const [credentials, setCredentials] = useState<UserData>({
     name: "",
     email: "",
     password: "",
@@ -23,9 +19,7 @@ export const RegisterScreen = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const setUserInformation = useAuthStore(
-    (state: UserAuth) => state.setUserInformation
-  );
+  const setUserInfo = useAuthStore((state: UserAuth) => state.setUserInfo);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -39,12 +33,12 @@ export const RegisterScreen = () => {
     }
     setLoading(true);
     try {
-      const user: UserInformation = await registerUserApi({
+      const user: UserInfo = await registerUserApi({
         name: credentials.name,
         email: credentials.email,
         password: credentials.password,
       });
-      setUserInformation(user);
+      setUserInfo(user);
       toast.success("Registration successful");
       navigate("/");
     } catch (err: unknown) {

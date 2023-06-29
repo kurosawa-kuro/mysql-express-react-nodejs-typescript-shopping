@@ -10,24 +10,22 @@ import {
 } from "../../../backend/interfaces";
 
 export const useAuthStore = create<UserAuth>((set) => {
-  const storedUserInformation = localStorage.getItem("userInformation");
+  const storedUserInfo = localStorage.getItem("userInfo");
 
   return {
-    userInformation: storedUserInformation
-      ? JSON.parse(storedUserInformation)
-      : null,
-    setUserInformation: (userInformation) => {
-      localStorage.setItem("userInformation", JSON.stringify(userInformation));
+    userInfo: storedUserInfo ? JSON.parse(storedUserInfo) : null,
+    setUserInfo: (userInfo) => {
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
       const expirationTime = new Date().getTime() + 30 * 24 * 60 * 60 * 1000; // 30 days
       localStorage.setItem("expirationTime", expirationTime.toString());
 
-      set({ userInformation });
+      set({ userInfo });
     },
     logout: () => {
-      localStorage.removeItem("userInformation");
+      localStorage.removeItem("userInfo");
       localStorage.removeItem("expirationTime");
 
-      set({ userInformation: null });
+      set({ userInfo: null });
     },
   };
 });

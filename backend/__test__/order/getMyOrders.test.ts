@@ -31,9 +31,6 @@ describe("GET /api/orders/mine", () => {
       .get("/api/orders/mine")
       .set("Cookie", `jwt=${token}`);
 
-    // console.log("response.body", response.body);
-    console.dir(response.body, { depth: null });
-
     expect(response.status).toBe(200);
     expect(response.body.length).toBe(2);
   });

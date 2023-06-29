@@ -6,7 +6,7 @@ import { Request, NextFunction, Response } from "express";
 
 // Internal Imports
 import { Order } from "@prisma/client";
-import { UserRequest, OrderFull } from "../interfaces";
+import { UserRequest, OrderInfo } from "../interfaces";
 import {
   createOrder,
   findOrderByIdInDB,
@@ -58,7 +58,7 @@ const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
     res.status(404);
     throw new Error("Order not found");
   }
-  const OrderFull: OrderFull = {
+  const OrderInfo: OrderInfo = {
     id: order.id,
     orderProducts: order.orderProducts,
     price: {
@@ -88,7 +88,7 @@ const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
       postalCode: order.shipping.postalCode,
     },
   };
-  res.json(OrderFull);
+  res.json(OrderInfo);
 });
 
 const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {

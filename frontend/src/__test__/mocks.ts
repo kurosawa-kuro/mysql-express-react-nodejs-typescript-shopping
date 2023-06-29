@@ -1,4 +1,4 @@
-import { OrderFull } from "../../../backend/interfaces";
+import { OrderInfo } from "../../../backend/interfaces";
 
 export const product = {
   id: 1,
@@ -32,7 +32,7 @@ export const postProductData = {
   updatedAt: new Date().toISOString(),
 };
 
-export const order: OrderFull = {
+export const order: OrderInfo = {
   id: 28,
   shipping: {
     address: "大通り公園",
