@@ -8,9 +8,9 @@ import { protect, admin } from "../middleware/authMiddleware";
 
 // Controller Imports
 import {
-  addOrderItems,
-  getMyOrders,
-  getOrders,
+  createOrder,
+  readMyOrders,
+  readAllOrders,
   getOrderById,
   updateOrderToDelivered,
   updateOrderToPaid,
@@ -20,9 +20,9 @@ import {
 export const router = express.Router();
 
 // Order Routes
-router.route("/").post(protect, addOrderItems).get(protect, admin, getOrders);
+router.route("/").post(protect, createOrder).get(protect, admin, readAllOrders);
 
-router.route("/mine").get(protect, getMyOrders);
+router.route("/mine").get(protect, readMyOrders);
 
 router.route("/:id").get(protect, getOrderById);
 

@@ -69,7 +69,7 @@ export const createOrderInDB = async (
   return _createOrderInfoFromOrder(order);
 };
 
-export const getOrderByIdFromDB = async (
+export const readOrderByIdFromDB = async (
   id: number
 ): Promise<OrderInfo | null> => {
   const order = await db.order.findUnique({

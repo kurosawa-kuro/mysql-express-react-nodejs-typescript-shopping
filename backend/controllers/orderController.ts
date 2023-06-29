@@ -9,18 +9,14 @@ import { Order } from "@prisma/client";
 import { UserRequest, OrderInfo, OrderData } from "../interfaces";
 import {
   createOrderInDB,
-  getOrderByIdFromDB,
+  readOrderByIdFromDB,
   readUserOrdersFromDB,
+  readAllOrdersFromDB,
   updateOrderAsPaidInDB,
   updateOrderAsDeliveredInDB,
-  readAllOrdersFromDB,
 } from "../models/orderModel";
 
-const findOrderById = async (id: number) => {
-  return getOrderByIdFromDB(id);
-};
-
-export const addOrderItems = asyncHandler(
+const createOrder = asyncHandler(
   async (req: UserRequest, res: Response, next: NextFunction) => {
     const { shipping, paymentMethod, price, cart } = req.body;
     if (!cart || cart.length === 0) {
@@ -42,7 +38,7 @@ export const addOrderItems = asyncHandler(
   }
 );
 
-const getMyOrders = asyncHandler(
+const readMyOrders = asyncHandler(
   async (req: UserRequest, res: Response, next: NextFunction) => {
     if (req.user && req.user.id) {
       const userId = Number(req.user.id);
@@ -53,8 +49,13 @@ const getMyOrders = asyncHandler(
   }
 );
 
+const readAllOrders = asyncHandler(async (req: Request, res: Response) => {
+  const orders = await readAllOrdersFromDB();
+  res.json(orders);
+});
+
 const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
-  const order = await getOrderByIdFromDB(Number(req.params.id));
+  const order = await readOrderByIdFromDB(Number(req.params.id));
 
   if (!order) {
     res.status(404);
@@ -94,7 +95,7 @@ const getOrderById = asyncHandler(async (req: UserRequest, res: Response) => {
 });
 
 const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
-  const order = await findOrderById(Number(req.params.id));
+  const order = await readOrderByIdFromDB(Number(req.params.id));
 
   if (!order) {
     res.status(404);
@@ -108,7 +109,7 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
 
 const updateOrderToDelivered = asyncHandler(
   async (req: Request, res: Response) => {
-    const order = await findOrderById(Number(req.params.id));
+    const order = await readOrderByIdFromDB(Number(req.params.id));
 
     if (!order) {
       res.status(404);
@@ -121,15 +122,11 @@ const updateOrderToDelivered = asyncHandler(
   }
 );
 
-const getOrders = asyncHandler(async (req: Request, res: Response) => {
-  const orders = await readAllOrdersFromDB();
-  res.json(orders);
-});
-
 export {
-  getMyOrders,
+  createOrder,
+  readMyOrders,
+  readAllOrders,
   getOrderById,
   updateOrderToPaid,
   updateOrderToDelivered,
-  getOrders,
 };

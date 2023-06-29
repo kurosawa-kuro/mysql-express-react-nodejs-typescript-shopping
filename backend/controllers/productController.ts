@@ -31,26 +31,6 @@ const handleNotFoundProduct = (product: Product | null, res: Response) => {
   return product;
 };
 
-const getProducts = asyncHandler(async (req: Request, res: Response) => {
-  const page: number = Number(req.query.pageNumber) || 1;
-  const keywordFilter: Prisma.ProductWhereInput = getKeywordFilter(
-    req.query.keyword as string | undefined
-  );
-
-  const products: Product[] = await readProductsFromDB(page, keywordFilter);
-  const count: number = await countProductsFromDB(keywordFilter);
-
-  res.json({ products, page, pages: Math.ceil(count / pageSize) });
-});
-
-const getProductById = asyncHandler(async (req: Request, res: Response) => {
-  const id: number = Number(req.params.id);
-  const product: Product | null = await db.product.findUnique({
-    where: { id },
-  });
-  res.json(handleNotFoundProduct(product, res));
-});
-
 const createProduct = asyncHandler(async (req: UserRequest, res: Response) => {
   req.body.image = req.body.image
     .replace(/\\/g, "/")
@@ -89,6 +69,31 @@ const createProduct = asyncHandler(async (req: UserRequest, res: Response) => {
   res.status(201).json(product);
 });
 
+const readProducts = asyncHandler(async (req: Request, res: Response) => {
+  const page: number = Number(req.query.pageNumber) || 1;
+  const keywordFilter: Prisma.ProductWhereInput = getKeywordFilter(
+    req.query.keyword as string | undefined
+  );
+
+  const products: Product[] = await readProductsFromDB(page, keywordFilter);
+  const count: number = await countProductsFromDB(keywordFilter);
+
+  res.json({ products, page, pages: Math.ceil(count / pageSize) });
+});
+
+const readProductById = asyncHandler(async (req: Request, res: Response) => {
+  const id: number = Number(req.params.id);
+  const product: Product | null = await db.product.findUnique({
+    where: { id },
+  });
+  res.json(handleNotFoundProduct(product, res));
+});
+
+const readTopProducts = asyncHandler(async (req: Request, res: Response) => {
+  const products = await readTopProductsFromDB();
+  res.json(products);
+});
+
 const updateProduct = asyncHandler(async (req: Request, res: Response) => {
   const id: number = Number(req.params.id);
   req.body.image = req.body.image
@@ -109,16 +114,11 @@ const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
   res.json({ message: "Product removed" });
 });
 
-const getTopProducts = asyncHandler(async (req: Request, res: Response) => {
-  const products = await readTopProductsFromDB();
-  res.json(products);
-});
-
 export {
-  getProducts,
-  getProductById,
   createProduct,
+  readProducts,
+  readProductById,
+  readTopProducts,
   updateProduct,
   deleteProduct,
-  getTopProducts,
 };

@@ -10,9 +10,9 @@ import { protect, admin } from "../middleware/authMiddleware";
 import {
   createProduct,
   deleteProduct,
-  getProductById,
-  getProducts,
-  getTopProducts,
+  readProductById,
+  readProducts,
+  readTopProducts,
   updateProduct,
 } from "../controllers/productController";
 
@@ -20,13 +20,13 @@ import {
 export const router = express.Router();
 
 // Top Products Route
-router.get("/top", getTopProducts);
+router.get("/top", readTopProducts);
 
 // Product Routes
-router.route("/").get(getProducts).post(protect, admin, createProduct);
+router.route("/").get(readProducts).post(protect, admin, createProduct);
 
 router
   .route("/:id")
-  .get(getProductById)
+  .get(readProductById)
   .put(protect, admin, updateProduct)
   .delete(protect, admin, deleteProduct);
