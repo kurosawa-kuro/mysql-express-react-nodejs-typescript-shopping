@@ -45,7 +45,7 @@ export const useCartStore = create<CartStore>((set) => ({
   createCartItem: (item: Cart) => {
     set((state) => {
       const existItem = state.cartItems.find(
-        (x) => x.product.id === item.product.id
+        (cartItem) => cartItem.product.id === item.product.id
       );
       let newCartItems;
       if (existItem) {
