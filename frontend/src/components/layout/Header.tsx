@@ -74,23 +74,23 @@ export const Header: React.FC = () => {
 
           {userInfo ? (
             <div className="relative inline-block text-left" ref={dropdownRef}>
-              <div>
+              <div className="group">
                 <button
                   type="button"
                   onClick={() => setIsOpen(!isOpen)}
                   className="flex items-center space-x-2 px-4 py-2 text-custom-blue-light hover:bg-custom-blue-lighter hover:text-custom-blue-extra-darkest"
                 >
-                  <FaUser className="h-5 w-5 text-custom-blue-lightest" />
+                  <FaUser className="h-5 w-5 text-custom-blue-lightest group-hover:text-custom-blue-extra-darkest" />
                   <span
                     data-testid="user-info-name"
-                    className="text-custom-blue-lightest hover:text-custom-blue-extra-darkest"
+                    className="text-custom-blue-lightest group-hover:text-custom-blue-extra-darkest"
                   >
                     {userInfo.name}
                   </span>
                   {isOpen ? (
-                    <FaChevronUp className="h-5 w-5 text-custom-blue-lightest" />
+                    <FaChevronUp className="h-5 w-5 text-custom-blue-lightest group-hover:text-custom-blue-extra-darkest" />
                   ) : (
-                    <FaChevronDown className="h-5 w-5 text-custom-blue-lightest" />
+                    <FaChevronDown className="h-5 w-5 text-custom-blue-lightest group-hover:text-custom-blue-extra-darkest" />
                   )}
                 </button>
               </div>
