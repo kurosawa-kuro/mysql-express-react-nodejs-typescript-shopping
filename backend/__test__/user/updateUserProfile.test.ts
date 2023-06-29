@@ -2,7 +2,11 @@
 
 import request, { SuperAgentTest } from "supertest";
 import { app } from "../../index";
-import { clearDatabase, createUser, loginUserAndGetToken } from "../test-utils";
+import {
+  clearDatabase,
+  createUserInDB,
+  loginUserAndGetToken,
+} from "../test-utils";
 
 describe("PUT /api/users/profile", () => {
   let agent: SuperAgentTest;
@@ -17,7 +21,7 @@ describe("PUT /api/users/profile", () => {
   });
 
   it("updates a user profile", async () => {
-    await createUser("john@email.com", "123456");
+    await createUserInDB("john@email.com", "123456");
     const token = await loginUserAndGetToken(agent, "john@email.com", "123456");
 
     expect(token).toBeTruthy();
@@ -40,7 +44,7 @@ describe("PUT /api/users/profile", () => {
   });
 
   it("updates a user profile even if email is missing", async () => {
-    await createUser("john@email.com", "123456");
+    await createUserInDB("john@email.com", "123456");
     const token = await loginUserAndGetToken(agent, "john@email.com", "123456");
 
     expect(token).toBeTruthy();

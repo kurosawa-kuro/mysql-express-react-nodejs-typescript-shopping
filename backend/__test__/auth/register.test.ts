@@ -2,7 +2,7 @@
 
 import request, { SuperAgentTest } from "supertest";
 import { app } from "../../index";
-import { clearDatabase, createUser } from "../test-utils";
+import { clearDatabase, createUserInDB } from "../test-utils";
 
 describe("POST /api/users/register", () => {
   let agent: SuperAgentTest;
@@ -27,7 +27,7 @@ describe("POST /api/users/register", () => {
   });
 
   it("rejects registration with existing email", async () => {
-    await createUser("john@email.com", "123456");
+    await createUserInDB("john@email.com", "123456");
 
     const registerResponse = await agent
       .post("/api/users/register")

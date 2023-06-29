@@ -7,12 +7,12 @@ import asyncHandler from "express-async-handler";
 // Internal Imports
 import { generateToken, hashPassword } from "../utils";
 import {
-  findUserByEmail,
-  findUserById,
-  createUser,
-  updateUserById,
-  findAllUsers,
-  deleteUserById,
+  getUserByEmailFromDB,
+  getUserByIdFromDB,
+  createUserInDB,
+  updateUserByIdInDB,
+  getAllUsersFromDB,
+  deleteUserByIdInDB,
   comparePassword,
 } from "../models/userModel";
 import { UserRequest, UserBase, UserData } from "../interfaces";
@@ -24,7 +24,7 @@ const sanitizeUser = (user: any): UserBase => {
 
 const loginUser = asyncHandler(async (req: UserRequest, res: Response) => {
   const { email, password } = req.body;
-  const user = await findUserByEmail(email);
+  const user = await getUserByEmailFromDB(email);
 
   if (user && (await comparePassword(password, user.password))) {
     generateToken(res, user.id);
@@ -43,7 +43,7 @@ const registerUser = asyncHandler(async (req: UserRequest, res: Response) => {
     throw new Error("Invalid user data");
   }
 
-  const userExists = await findUserByEmail(email);
+  const userExists = await getUserByEmailFromDB(email);
 
   if (userExists) {
     res.status(400);
@@ -56,7 +56,7 @@ const registerUser = asyncHandler(async (req: UserRequest, res: Response) => {
     email,
     password: hashedPassword,
   };
-  const createdUser = await createUser(user);
+  const createdUser = await createUserInDB(user);
 
   if (createdUser) {
     generateToken(res, createdUser.id);
@@ -82,7 +82,7 @@ const getUserProfile = asyncHandler(async (req: UserRequest, res: Response) => {
   }
 
   const id = req.user.id;
-  const user = await findUserById(id);
+  const user = await getUserByIdFromDB(id);
 
   if (user) {
     res.json(sanitizeUser(user));
@@ -100,10 +100,10 @@ const updateUserProfile = asyncHandler(
     }
 
     const id = req.user.id;
-    const user = await findUserById(id);
+    const user = await getUserByIdFromDB(id);
 
     if (user) {
-      const updatedUser = await updateUserById(id, {
+      const updatedUser = await updateUserByIdInDB(id, {
         name: req.body.name || user.name,
         email: req.body.email || user.email,
         password: req.body.password
@@ -120,13 +120,13 @@ const updateUserProfile = asyncHandler(
 );
 
 const getUsers = asyncHandler(async (req: UserRequest, res: Response) => {
-  const users = await findAllUsers();
+  const users = await getAllUsersFromDB();
   res.json(users.map((user) => sanitizeUser(user)));
 });
 
 const deleteUser = asyncHandler(async (req: UserRequest, res: Response) => {
   const id = Number(req.params.id);
-  const user = await findUserById(id);
+  const user = await getUserByIdFromDB(id);
 
   if (user) {
     if (user.isAdmin) {
@@ -134,7 +134,7 @@ const deleteUser = asyncHandler(async (req: UserRequest, res: Response) => {
       throw new Error("Can not delete admin user");
     }
 
-    await deleteUserById(id);
+    await deleteUserByIdInDB(id);
     res.json({ message: "User removed" });
   } else {
     res.status(404);
@@ -144,7 +144,7 @@ const deleteUser = asyncHandler(async (req: UserRequest, res: Response) => {
 
 const getUserById = asyncHandler(async (req: UserRequest, res: Response) => {
   const id = Number(req.params.id);
-  const user = await findUserById(id);
+  const user = await getUserByIdFromDB(id);
 
   if (user) {
     res.json(sanitizeUser(user));
@@ -156,10 +156,10 @@ const getUserById = asyncHandler(async (req: UserRequest, res: Response) => {
 
 const updateUser = asyncHandler(async (req: UserRequest, res: Response) => {
   const id = Number(req.params.id);
-  const user = await findUserById(id);
+  const user = await getUserByIdFromDB(id);
 
   if (user) {
-    const updatedUser = await updateUserById(id, {
+    const updatedUser = await updateUserByIdInDB(id, {
       name: req.body.name || user.name,
       email: req.body.email || user.email,
       isAdmin: Boolean(req.body.isAdmin),

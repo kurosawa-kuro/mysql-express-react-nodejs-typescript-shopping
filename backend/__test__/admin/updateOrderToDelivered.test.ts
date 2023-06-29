@@ -6,7 +6,7 @@ import {
   createAdminUser,
   loginUserAndGetToken,
   createProduct,
-  createUser,
+  createUserInDB,
   createProductAndOrder,
 } from "../test-utils";
 import { db } from "../../database/prisma/prismaClient";
@@ -19,7 +19,7 @@ describe("Order Controller", () => {
 
   beforeAll(async () => {
     await clearDatabase();
-    user = await createUser("testuser@example.com", "TestUserPassword123");
+    user = await createUserInDB("testuser@example.com", "TestUserPassword123");
     order = await createProductAndOrder("testuser@example.com");
 
     const adminUser = await createAdminUser("admin@test.com", "admin123");

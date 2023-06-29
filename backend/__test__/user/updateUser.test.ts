@@ -4,7 +4,7 @@ import request, { SuperAgentTest } from "supertest";
 import { app } from "../../index";
 import {
   clearDatabase,
-  createUser,
+  createUserInDB,
   loginUserAndGetToken,
   createAdminUser,
 } from "../test-utils";
@@ -27,7 +27,7 @@ describe("User management endpoints", () => {
   });
 
   it("allows admin to update a user", async () => {
-    const user = await createUser("doe@email.com", "123456");
+    const user = await createUserInDB("doe@email.com", "123456");
 
     const updateResponse = await agent
       .put(`/api/users/${user.id}`)

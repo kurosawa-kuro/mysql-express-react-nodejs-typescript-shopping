@@ -3,7 +3,7 @@ import { app } from "../../index";
 import {
   clearDatabase,
   loginUserAndGetToken,
-  createUser,
+  createUserInDB,
   createProduct,
   createProductAndOrder,
 } from "../test-utils";
@@ -17,7 +17,7 @@ let order: any;
 beforeAll(async () => {
   await clearDatabase();
   // create normal user
-  user = await createUser("testuser@example.com", "TestUserPassword123");
+  user = await createUserInDB("testuser@example.com", "TestUserPassword123");
 
   const agent = request.agent(app);
   token = await loginUserAndGetToken(

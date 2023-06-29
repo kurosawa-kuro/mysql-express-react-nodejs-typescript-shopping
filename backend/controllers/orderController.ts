@@ -9,16 +9,15 @@ import { Order } from "@prisma/client";
 import { UserRequest, OrderInfo, OrderData } from "../interfaces";
 import {
   createOrder,
-  findOrderByIdInDB,
-  getUserOrdersFromDB,
   getOrderByIdFromDB,
-  updateOrderToPaidInDB,
-  updateOrderDeliveredStatus,
-  getAllOrders,
+  getUserOrdersFromDB,
+  updateOrderAsPaidInDB,
+  updateOrderAsDeliveredInDB,
+  getAllOrdersFromDB,
 } from "../models/orderModel";
 
 const findOrderById = async (id: number) => {
-  return findOrderByIdInDB(id);
+  return getOrderByIdFromDB(id);
 };
 
 export const addOrderItems = asyncHandler(
@@ -102,7 +101,7 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
     throw new Error("Order not found");
   }
 
-  const updatedOrder = await updateOrderToPaidInDB(order.id);
+  const updatedOrder = await updateOrderAsPaidInDB(order.id);
 
   res.json(updatedOrder);
 });
@@ -116,14 +115,14 @@ const updateOrderToDelivered = asyncHandler(
       throw new Error("Order not found");
     }
 
-    const updatedOrder: Order = await updateOrderDeliveredStatus(order.id);
+    const updatedOrder: Order = await updateOrderAsDeliveredInDB(order.id);
 
     res.json(updatedOrder);
   }
 );
 
 const getOrders = asyncHandler(async (req: Request, res: Response) => {
-  const orders = await getAllOrders();
+  const orders = await getAllOrdersFromDB();
   res.json(orders);
 });
 

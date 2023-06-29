@@ -2,7 +2,11 @@
 
 import request, { SuperAgentTest } from "supertest";
 import { app } from "../../index";
-import { clearDatabase, createUser, loginUserAndGetToken } from "../test-utils";
+import {
+  clearDatabase,
+  createUserInDB,
+  loginUserAndGetToken,
+} from "../test-utils";
 
 describe("POST /api/login", () => {
   let agent: SuperAgentTest;
@@ -11,7 +15,7 @@ describe("POST /api/login", () => {
     await clearDatabase();
     agent = request.agent(app);
 
-    await createUser("john@email.com", "123456");
+    await createUserInDB("john@email.com", "123456");
   });
 
   it("logs in a user with correct credentials", async () => {

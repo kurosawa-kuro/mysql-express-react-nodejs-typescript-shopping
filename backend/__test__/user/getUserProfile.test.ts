@@ -2,7 +2,11 @@
 
 import request, { SuperAgentTest } from "supertest";
 import { app } from "../../index";
-import { clearDatabase, createUser, loginUserAndGetToken } from "../test-utils";
+import {
+  clearDatabase,
+  createUserInDB,
+  loginUserAndGetToken,
+} from "../test-utils";
 
 describe("GET /api/users/profile", () => {
   let agent: SuperAgentTest;
@@ -17,7 +21,7 @@ describe("GET /api/users/profile", () => {
   });
 
   it("gets a user profile", async () => {
-    await createUser("john@email.com", "123456");
+    await createUserInDB("john@email.com", "123456");
     const token = await loginUserAndGetToken(agent, "john@email.com", "123456");
 
     expect(token).toBeTruthy();

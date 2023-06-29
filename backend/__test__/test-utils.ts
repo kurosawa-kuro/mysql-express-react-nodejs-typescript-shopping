@@ -83,7 +83,7 @@ const createUserWithRole = async (
   }
 };
 
-export const createUser = (email: string, password: string) =>
+export const createUserInDB = (email: string, password: string) =>
   createUserWithRole(email, password, false);
 export const createAdminUser = (email: string, password: string) =>
   createUserWithRole(email, password, true);

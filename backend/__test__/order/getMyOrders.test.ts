@@ -3,7 +3,7 @@ import { app } from "../../index";
 import {
   clearDatabase,
   createProductAndOrder,
-  createUser,
+  createUserInDB,
   loginUserAndGetToken,
 } from "../test-utils";
 
@@ -19,7 +19,7 @@ describe("GET /api/orders/mine", () => {
 
     const email = "testuser@example.com";
     const password = "testpassword";
-    await createUser(email, password);
+    await createUserInDB(email, password);
 
     token = await loginUserAndGetToken(agent, email, password);
     order = await createProductAndOrder("testuser@example.com");

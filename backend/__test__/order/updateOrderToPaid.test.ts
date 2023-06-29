@@ -2,7 +2,7 @@ import request, { SuperAgentTest } from "supertest";
 import { app } from "../../index";
 import {
   clearDatabase,
-  createUser,
+  createUserInDB,
   loginUserAndGetToken,
   createProduct,
   createProductAndOrder,
@@ -19,7 +19,7 @@ describe("updateOrderToPaid", () => {
   beforeAll(async () => {
     agent = request.agent(app);
     await clearDatabase();
-    user = await createUser("test@test.com", "testpassword");
+    user = await createUserInDB("test@test.com", "testpassword");
     token = await loginUserAndGetToken(agent, "test@test.com", "testpassword");
     order = await createProductAndOrder("test@test.com");
   });

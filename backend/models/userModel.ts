@@ -4,15 +4,15 @@ import { db } from "../database/prisma/prismaClient";
 import bcrypt from "bcryptjs";
 import { UserData } from "../interfaces/index";
 
-export const findUserByEmail = async (email: string) => {
+export const getUserByEmailFromDB = async (email: string) => {
   return await db.user.findUnique({ where: { email } });
 };
 
-export const findUserById = async (id: number) => {
+export const getUserByIdFromDB = async (id: number) => {
   return await db.user.findUnique({ where: { id } });
 };
 
-export const createUser = async (user: UserData) => {
+export const createUserInDB = async (user: UserData) => {
   return await db.user.create({
     data: {
       name: user.name,
@@ -23,15 +23,15 @@ export const createUser = async (user: UserData) => {
   });
 };
 
-export const updateUserById = async (id: number, data: any) => {
+export const updateUserByIdInDB = async (id: number, data: any) => {
   return await db.user.update({ where: { id }, data });
 };
 
-export const findAllUsers = async () => {
+export const getAllUsersFromDB = async () => {
   return await db.user.findMany();
 };
 
-export const deleteUserById = async (id: number) => {
+export const deleteUserByIdInDB = async (id: number) => {
   return await db.user.delete({ where: { id } });
 };
 

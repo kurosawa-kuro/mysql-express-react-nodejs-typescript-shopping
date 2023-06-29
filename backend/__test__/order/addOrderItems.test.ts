@@ -3,7 +3,7 @@ import { app } from "../../index";
 import {
   clearDatabase,
   loginUserAndGetToken,
-  createUser,
+  createUserInDB,
   createProduct,
 } from "../test-utils";
 import { Product, User } from "@prisma/client";
@@ -15,7 +15,7 @@ let user: User;
 
 beforeAll(async () => {
   await clearDatabase();
-  user = await createUser("testuser@example.com", "TestUserPassword123");
+  user = await createUserInDB("testuser@example.com", "TestUserPassword123");
   product = await createProduct();
 
   const agent = request.agent(app);

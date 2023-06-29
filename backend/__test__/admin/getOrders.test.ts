@@ -5,7 +5,7 @@ import {
   createAdminUser,
   loginUserAndGetToken,
   createProductAndOrder,
-  createUser,
+  createUserInDB,
 } from "../test-utils";
 import { db } from "../../database/prisma/prismaClient";
 import { OrderInfo } from "../../interfaces";
@@ -17,7 +17,7 @@ describe("GET /api/orders", () => {
 
   beforeAll(async () => {
     await clearDatabase();
-    await createUser(`user@test.com`, "123456");
+    await createUserInDB(`user@test.com`, "123456");
     await createAdminUser(adminEmail, "123456");
     const agent = request.agent(app);
     token = await loginUserAndGetToken(agent, adminEmail, "123456");

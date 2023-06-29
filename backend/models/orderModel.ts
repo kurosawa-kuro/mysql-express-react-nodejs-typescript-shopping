@@ -4,7 +4,7 @@ import { db } from "../database/prisma/prismaClient";
 import { Order, OrderProduct, User } from "@prisma/client";
 import { Cart, OrderData, OrderInfo, OrderProductInfo } from "../interfaces";
 
-const createOrderInfoFromOrder = (order: any): OrderInfo => {
+const _createOrderInfoFromOrder = (order: any): OrderInfo => {
   return {
     id: order.id,
     orderProducts: order.orderProducts,
@@ -66,10 +66,10 @@ export const createOrder = async (
     },
   });
 
-  return createOrderInfoFromOrder(order);
+  return _createOrderInfoFromOrder(order);
 };
 
-export const findOrderByIdInDB = async (
+export const getOrderByIdFromDB = async (
   id: number
 ): Promise<OrderInfo | null> => {
   const order = await db.order.findUnique({
@@ -81,7 +81,7 @@ export const findOrderByIdInDB = async (
     return null;
   }
 
-  return createOrderInfoFromOrder(order);
+  return _createOrderInfoFromOrder(order);
 };
 
 export const getUserOrdersFromDB = async (
@@ -97,24 +97,10 @@ export const getUserOrdersFromDB = async (
     },
   });
 
-  return orders.map(createOrderInfoFromOrder);
+  return orders.map(_createOrderInfoFromOrder);
 };
 
-export const getOrderByIdFromDB = async (
-  orderId: number
-): Promise<OrderInfo | null> => {
-  const order = await db.order.findUnique({
-    where: { id: orderId },
-    include: { user: true, orderProducts: { include: { product: true } } },
-  });
-  if (!order) {
-    return null;
-  }
-
-  return createOrderInfoFromOrder(order);
-};
-
-export const updateOrderToPaidInDB = async (
+export const updateOrderAsPaidInDB = async (
   orderId: number
 ): Promise<Order> => {
   const updatedOrder: Order = await db.order.update({
@@ -128,7 +114,7 @@ export const updateOrderToPaidInDB = async (
   return updatedOrder;
 };
 
-export const updateOrderDeliveredStatus = async (
+export const updateOrderAsDeliveredInDB = async (
   orderId: number
 ): Promise<Order> => {
   const updatedOrder: Order = await db.order.update({
@@ -142,7 +128,7 @@ export const updateOrderDeliveredStatus = async (
   return updatedOrder;
 };
 
-export const getAllOrders = async () => {
+export const getAllOrdersFromDB = async () => {
   const orders = await db.order.findMany({
     include: {
       user: true,
@@ -150,5 +136,5 @@ export const getAllOrders = async () => {
     },
   });
 
-  return orders.map(createOrderInfoFromOrder);
+  return orders.map(_createOrderInfoFromOrder);
 };
