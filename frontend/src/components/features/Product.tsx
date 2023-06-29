@@ -2,10 +2,10 @@
 
 import { Link } from "react-router-dom";
 import { Rating } from "./Rating";
-import { ProductData as ProductType } from "../../../../backend/interfaces";
+import { ProductData } from "../../../../backend/interfaces";
 
 interface ProductProps {
-  product: ProductType;
+  product: ProductData;
 }
 
 export const Product: React.FC<ProductProps> = ({ product }) => {
