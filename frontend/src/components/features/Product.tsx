@@ -2,10 +2,10 @@
 
 import { Link } from "react-router-dom";
 import { Rating } from "./Rating";
-import { ProductData } from "../../../../backend/interfaces";
+import { Product as ProductType } from "@prisma/client";
 
 interface ProductProps {
-  product: ProductData;
+  product: ProductType;
 }
 
 export const Product: React.FC<ProductProps> = ({ product }) => {

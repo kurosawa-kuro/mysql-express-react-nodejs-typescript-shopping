@@ -8,6 +8,7 @@ import { Loader } from "../../components/common/Loader";
 import { registerUserApi } from "../../services/api";
 import { useAuthStore } from "../../state/store";
 import { UserInfo, UserAuth } from "../../../../backend/interfaces";
+import { User } from "@prisma/client";
 
 export const RegisterScreen = () => {
   const [credentials, setCredentials] = useState<UserInfo>({
@@ -34,12 +35,11 @@ export const RegisterScreen = () => {
     setLoading(true);
     try {
       if (credentials.name && credentials.email && credentials.password) {
-        const user: UserInfo = await registerUserApi({
+        const user: User = await registerUserApi({
           name: credentials.name,
           email: credentials.email,
           password: credentials.password,
         });
-
         setUserInfo(user);
         toast.success("Registration successful");
         navigate("/");

@@ -1,6 +1,10 @@
+import { Product } from "@prisma/client";
 import { OrderInfo } from "../../../backend/interfaces";
 
-export const product = {
+// const testDate = new Date("2023-06-29T14:23:38.957Z");
+// const testDateISOString = "2023-06-29T14:23:38.957Z";
+
+export const product: Product = {
   id: 1,
   userId: 1,
   name: "Product 1",
@@ -12,11 +16,11 @@ export const product = {
   countInStock: 10,
   rating: 4.5,
   numReviews: 12,
-  createdAt: new Date().toISOString(),
-  updatedAt: new Date().toISOString(),
+  createdAt: new Date(),
+  updatedAt: new Date(),
 };
 
-export const postProductData = {
+export const postProductData: Product = {
   id: 2,
   userId: 1,
   name: "Product 2",
@@ -28,8 +32,8 @@ export const postProductData = {
   countInStock: 10,
   rating: 4.5,
   numReviews: 12,
-  createdAt: new Date().toISOString(),
-  updatedAt: new Date().toISOString(),
+  createdAt: new Date(),
+  updatedAt: new Date(),
 };
 
 export const order: OrderInfo = {

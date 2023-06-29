@@ -74,7 +74,7 @@ export const getProductsApi = ({ keyword, pageNumber }: ProductSearch) =>
 export const readProductByIdApi = (productId: number) =>
   performRequest(apiClient.get(`/api/products/${productId}`));
 
-export const updateProductApi = (product: ProductData) =>
+export const updateProductApi = (product: any) =>
   performRequest(apiClient.put(`/api/products/${product.id}`, product));
 
 export const deleteProductApi = async (productId: number) =>

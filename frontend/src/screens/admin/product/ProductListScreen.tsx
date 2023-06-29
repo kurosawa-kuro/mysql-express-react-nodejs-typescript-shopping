@@ -92,8 +92,8 @@ export const ProductListScreen: React.FC = () => {
             </thead>
             <tbody className="divide-y bg-white">
               {productsData &&
-                productsData.products.map((product: Product) => (
-                  <tr key={product.id} className="text-gray-700">
+                productsData.products.map((product: Product, index: number) => (
+                  <tr key={index} className="text-gray-700">
                     <td className="px-4 py-3">
                       <Link
                         to={`/admin/products/${product.id}/edit`}

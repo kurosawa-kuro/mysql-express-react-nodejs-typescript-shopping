@@ -35,7 +35,6 @@ export interface UserRequest extends Request {
 export interface ProductData
   extends Pick<
     Product,
-    | "id"
     | "name"
     | "image"
     | "brand"
@@ -64,7 +63,7 @@ export interface ProductReview {
 }
 
 export interface Cart {
-  product: ProductData;
+  product: Product;
   qty: number;
 }
 
