@@ -7,7 +7,7 @@ import { User, Product, Order } from "@prisma/client";
 import path from "path";
 import { hashPassword } from "../utils";
 import { OrderData } from "../interfaces";
-import { createOrder } from "../models/orderModel";
+import { createOrderInDB } from "../models/orderModel";
 
 /**
  * Database Operations
@@ -165,7 +165,7 @@ export async function createProductAndOrder(userEmail: string) {
   };
   const { cart, ...orderData } = orderRequest;
   if (user) {
-    const createdOrder = await createOrder(orderRequest);
+    const createdOrder = await createOrderInDB(orderRequest);
     return createdOrder;
   }
 }

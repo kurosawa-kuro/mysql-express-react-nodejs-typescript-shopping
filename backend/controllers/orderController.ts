@@ -8,7 +8,7 @@ import { Request, NextFunction, Response } from "express";
 import { Order } from "@prisma/client";
 import { UserRequest, OrderInfo, OrderData } from "../interfaces";
 import {
-  createOrder,
+  createOrderInDB,
   getOrderByIdFromDB,
   getUserOrdersFromDB,
   updateOrderAsPaidInDB,
@@ -36,7 +36,7 @@ export const addOrderItems = asyncHandler(
         price,
         cart,
       };
-      const createdOrder = await createOrder(orderData);
+      const createdOrder = await createOrderInDB(orderData);
       res.status(201).json(createdOrder);
     }
   }

@@ -37,7 +37,7 @@ const _createOrderInfoFromOrder = (order: any): OrderInfo => {
   };
 };
 
-export const createOrder = async (
+export const createOrderInDB = async (
   orderData: OrderData
 ): Promise<OrderInfo | null> => {
   const { userId, shipping, paymentMethod, price, cart } = orderData;
