@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 import { Loader } from "../../../components/common/Loader";
 import { toast } from "react-toastify";
-import { deleteUserApi, getUsersApi } from "../../../services/api";
+import { deleteUserApi, readAllUsersApi } from "../../../services/api";
 import { useAuthStore } from "../../../state/store";
 import { UserAuth } from "../../../../../backend/interfaces";
 import { User } from "../../../../../backend/interfaces";
@@ -21,7 +21,7 @@ export const UserListScreen: React.FC = () => {
     const fetchUsers = async () => {
       setLoading(true);
       try {
-        const data = await getUsersApi();
+        const data = await readAllUsersApi();
         setUsers(data);
       } catch (err: unknown) {
         if (err instanceof Error) {

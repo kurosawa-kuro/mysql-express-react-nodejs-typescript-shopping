@@ -2,7 +2,7 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import {
-  getProductFullsApi,
+  readProductByIdApi,
   loginUserApi,
   registerUserApi,
 } from "../../services/api";
@@ -67,8 +67,8 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-test("getProductFullsApi returns product data", async () => {
-  const data = await getProductFullsApi(product.id);
+test("readProductByIdApi returns product data", async () => {
+  const data = await readProductByIdApi(product.id);
 
   expect(data).toEqual(product);
 });

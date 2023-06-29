@@ -43,59 +43,57 @@ export const registerUserApi = (user: UserData) =>
 export const loginUserApi = (credentials: UserLoginCredentials) =>
   performRequest(apiClient.post("/api/users/login", credentials));
 
-export const fetchUserProfileApi = () =>
+export const readUserProfileApi = () =>
   performRequest(apiClient.get("/api/users/profile"));
+
+export const readAllUsersApi = () =>
+  performRequest(apiClient.get("/api/users"));
+
+export const readUserByIdApi = (userId: number) =>
+  performRequest(apiClient.get(`/api/users/${userId}`));
 
 export const updateUserProfileApi = (user: UserUpdate) =>
   performRequest(apiClient.put("/api/users/profile", user));
 
-export const logoutUserApi = () =>
-  performRequest(apiClient.post("/api/users/logout"));
-
-export const getUsersApi = () => performRequest(apiClient.get("/api/users"));
+export const updateUserApi = (user: UserUpdateByAdmin) =>
+  performRequest(apiClient.put(`/api/users/${user.id}`, user));
 
 export const deleteUserApi = (id: number) =>
   performRequest(apiClient.delete(`/api/users/${id}`));
 
-export const getUserDetailsApi = (userId: number) =>
-  performRequest(apiClient.get(`/api/users/${userId}`));
-
-export const updateUserApi = (user: UserUpdateByAdmin) =>
-  performRequest(apiClient.put(`/api/users/${user.id}`, user));
+export const logoutUserApi = () =>
+  performRequest(apiClient.post("/api/users/logout"));
 
 // Product related APIs
+export const createProductApi = (product: ProductData | null) =>
+  performRequest(apiClient.post("/api/products", product));
+
 export const getProductsApi = ({ keyword, pageNumber }: ProductSearch) =>
   performRequest(
     apiClient.get("/api/products", { params: { keyword, pageNumber } })
   );
 
-export const getProductFullsApi = (productId: number) =>
+export const readProductByIdApi = (productId: number) =>
   performRequest(apiClient.get(`/api/products/${productId}`));
-
-export const createProductApi = (product: ProductData | null) =>
-  performRequest(apiClient.post("/api/products", product));
 
 export const updateProductApi = (product: ProductData) =>
   performRequest(apiClient.put(`/api/products/${product.id}`, product));
 
-export const uploadProductImageApi = async (imageData: FormData) =>
-  performRequest(apiClient.post("/api/upload", imageData));
-
 export const deleteProductApi = async (productId: number) =>
   performRequest(apiClient.delete(`/api/products/${productId}`));
+
+export const getTopProductsApi = async (): Promise<Product[]> =>
+  performRequest(apiClient.get("/api/products/top"));
+
+export const uploadProductImageApi = async (imageData: FormData) =>
+  performRequest(apiClient.post("/api/upload", imageData));
 
 // Order related APIs
 export const createOrderApi = (order: OrderData) =>
   performRequest(apiClient.post("/api/orders", order));
 
-export const getOrderInfoApi = (id: number) =>
+export const readOrderByIdApi = (id: number) =>
   performRequest(apiClient.get(`/api/orders/${id}`));
-
-export const payOrderApi = (orderId: number, details: any) =>
-  performRequest(apiClient.put(`/api/orders/${orderId}/pay`, details));
-
-export const deliverOrderApi = (orderId: number) =>
-  performRequest(apiClient.put(`/api/orders/${orderId}/deliver`));
 
 export const getMyOrdersApi = () =>
   performRequest(apiClient.get("/api/orders/mine"));
@@ -103,5 +101,8 @@ export const getMyOrdersApi = () =>
 export const getOrdersApi = async () =>
   performRequest(apiClient.get("/api/orders"));
 
-export const getTopProductsApi = async (): Promise<Product[]> =>
-  performRequest(apiClient.get("/api/products/top"));
+export const updateOrderToPaidApi = (orderId: number, details: any) =>
+  performRequest(apiClient.put(`/api/orders/${orderId}/pay`, details));
+
+export const updateOrderToDeliveredApi = (orderId: number) =>
+  performRequest(apiClient.put(`/api/orders/${orderId}/deliver`));

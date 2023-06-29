@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { Loader } from "../../components/common/Loader";
 import { Message } from "../../components/common/Message";
 import { useCartStore } from "../../state/store";
-import { getProductFullsApi } from "../../services/api";
+import { readProductByIdApi } from "../../services/api";
 import { Product } from "@prisma/client";
 import { Rating } from "../../components/features/Rating";
 // import Meta from "../../components/helpers/Meta";
@@ -28,7 +28,7 @@ export const ProductScreen: React.FC = () => {
     setLoading(true);
     try {
       const product = productId
-        ? await getProductFullsApi(Number(productId))
+        ? await readProductByIdApi(Number(productId))
         : null;
       setProduct(product);
     } catch (err: unknown) {

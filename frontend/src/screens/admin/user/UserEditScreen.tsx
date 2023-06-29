@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { User } from "../../../../../backend/interfaces";
 import { Loader } from "../../../components/common/Loader";
 import { toast } from "react-toastify";
-import { getUserDetailsApi, updateUserApi } from "../../../services/api"; // Import the api functions
+import { readUserByIdApi, updateUserApi } from "../../../services/api"; // Import the api functions
 import { Message } from "../../../components/common/Message";
 
 export const UserEditScreen: React.FC = () => {
@@ -23,7 +23,7 @@ export const UserEditScreen: React.FC = () => {
     const fetchUser = async () => {
       setLoading(true);
       try {
-        const user: User = await getUserDetailsApi(userId);
+        const user: User = await readUserByIdApi(userId);
         setName(user.name);
         setEmail(user.email);
         setIsAdmin(user.isAdmin);

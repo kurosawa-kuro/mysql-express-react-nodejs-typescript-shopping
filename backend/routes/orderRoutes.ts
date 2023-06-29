@@ -1,4 +1,4 @@
-// backend/routes/orderRoutes.js
+// backend/routes/orderRoutes.ts
 
 // External Imports
 import express from "express";
