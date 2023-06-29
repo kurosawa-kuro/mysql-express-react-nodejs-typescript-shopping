@@ -10,6 +10,7 @@ import {
 } from "../../../services/api";
 import { Loader } from "../../../components/common/Loader";
 import { Message } from "../../../components/common/Message";
+import { ProductData } from "../../../../../backend/interfaces";
 
 export const ProductEditScreen: React.FC = () => {
   const { id: productId } = useParams();
@@ -58,7 +59,7 @@ export const ProductEditScreen: React.FC = () => {
   const submitHandler = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      await updateProductApi({
+      const data: ProductData = {
         id: Number(productId),
         name,
         image,
@@ -69,7 +70,8 @@ export const ProductEditScreen: React.FC = () => {
         countInStock: Number(countInStock),
         rating: 0,
         numReviews: 0,
-      });
+      };
+      await updateProductApi(data);
       toast.success("Product updated");
       navigate("/admin/products/");
     } catch (err: unknown) {

@@ -10,7 +10,9 @@ export interface UserInfo extends Partial<User> {
   token?: string;
 }
 
-export interface UserData extends Pick<User, "name" | "email" | "password"> {}
+export interface UserData extends Pick<User, "name" | "email" | "password"> {
+  id?: number;
+}
 
 export interface UserAuth {
   userInfo: UserInfo | null;
@@ -44,7 +46,9 @@ export interface ProductData
     | "numReviews"
     | "price"
     | "countInStock"
-  > {}
+  > {
+  id?: number;
+}
 
 export interface ProductSearch {
   keyword: string;
