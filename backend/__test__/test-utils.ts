@@ -19,23 +19,18 @@ export const clearDatabase = async (): Promise<void> => {
   await db.user.deleteMany();
 };
 
+export const ensureAdminExists = async (): Promise<User> => {
+  const isAdmin = await db.user.findFirst({ where: { isAdmin: true } });
+  if (isAdmin) {
+    return isAdmin;
+  }
+  return await createUserWithRole("admine@mail.com", "adminpw", true);
+};
+
 export const createProduct = async (): Promise<Product> => {
   try {
-    // Adminが居るかを確認する
-    const isAdmin = await db.user.findFirst({
-      where: {
-        isAdmin: true,
-      },
-    });
-    // Adminがなければ作る
-    let admin;
-    if (!isAdmin) {
-      admin = await createUserWithRole("admine@mail.com", "adminpw", true);
-    } else {
-      admin = isAdmin;
-    }
-
-    const product = await db.product.create({
+    const admin = await ensureAdminExists();
+    return await db.product.create({
       data: {
         userId: admin.id,
         name: "Test Product",
@@ -48,8 +43,6 @@ export const createProduct = async (): Promise<Product> => {
         description: "Test Description",
       },
     });
-
-    return product;
   } catch (error) {
     throw new Error(`An error occurred while creating the product: ${error}`);
   }
