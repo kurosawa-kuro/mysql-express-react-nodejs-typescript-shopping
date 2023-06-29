@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { Routes, Route, MemoryRouter } from "react-router-dom";
@@ -11,6 +11,7 @@ import { PaymentScreen } from "../../screens/order/PaymentScreen";
 import { PlaceOrderScreen } from "../../screens/order/PlaceOrderScreen";
 import { OrderScreen } from "../../screens/order/OrderScreen";
 import { OrderInfo } from "../../../../backend/interfaces";
+import { simulateLogin } from "../test-utils";
 
 const product: Product = {
   id: 1,
@@ -60,7 +61,7 @@ const OrderInfo: OrderInfo = {
     isAdmin: false,
   },
   status: {
-    isPaid: true,
+    isPaid: false,
     paidAt: new Date(),
     isDelivered: false,
     deliveredAt: null,
@@ -113,6 +114,8 @@ test("renders ProductScreen with product", async () => {
     </MemoryRouter>
   );
 
+  await simulateLogin();
+
   expect(await screen.findByText(product.name)).toBeInTheDocument();
   expect(
     await screen.findByText(`Price: $${product.price}`)
@@ -163,8 +166,10 @@ test("renders ProductScreen with product", async () => {
   fireEvent.click(screen.getByRole("button", { name: /Place Order/i }));
 
   // await Test Pay
-  // expect(await screen.findByText("Order 28")).toBeInTheDocument();
-  // await waitFor(() => screen.getByText("Test Pay"));
-  // expect(await screen.findByText(`Test Pay`)).toBeInTheDocument();
+  expect(await screen.findByText("Order 28")).toBeInTheDocument();
+
+  await waitFor(() => screen.getByText("Test Pay"));
+
+  expect(await screen.findByText(`Test Pay`)).toBeInTheDocument();
   // screen.debug();
 });
