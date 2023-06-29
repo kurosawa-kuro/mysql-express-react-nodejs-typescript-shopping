@@ -42,18 +42,18 @@ export const useCartStore = create<CartStore>((set) => ({
   paymentMethod: localStorage.getItem("paymentMethod")
     ? JSON.parse(localStorage.getItem("paymentMethod") || '"PayPal"')
     : "PayPal",
-  createCartItem: (item: Cart) => {
+  createCartItem: (cart: Cart) => {
     set((state) => {
       const existItem = state.cartItems.find(
-        (cartItem) => cartItem.product.id === item.product.id
+        (cartItem) => cartItem.product.id === cart.product.id
       );
       let newCartItems;
       if (existItem) {
         newCartItems = state.cartItems.map((cartItem) =>
-          cartItem.product.id === existItem.product.id ? item : cartItem
+          cartItem.product.id === existItem.product.id ? cart : cartItem
         );
       } else {
-        newCartItems = [...state.cartItems, item];
+        newCartItems = [...state.cartItems, cart];
       }
 
       localStorage.setItem("cartItems", JSON.stringify(newCartItems));
