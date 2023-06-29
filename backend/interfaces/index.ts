@@ -1,10 +1,6 @@
 import { Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
-import {
-  User as UserType,
-  Product as ProductType,
-  Order as OrderType,
-} from "@prisma/client";
+import { User, Product, Order } from "@prisma/client";
 
 // UserData 、UserInfo
 // ProductData 、ProductInfo
@@ -24,21 +20,20 @@ export interface UserRequest extends Request {
 // --------------------------
 // User related interfaces
 
-export interface User extends UserType {}
+// export interface User extends User {}
 export interface UserBase
-  extends Pick<UserType, "id" | "name" | "email" | "isAdmin"> {}
+  extends Pick<User, "id" | "name" | "email" | "isAdmin"> {}
 
 export interface UserUpdate
-  extends Pick<UserType, "id" | "name" | "email" | "password" | "isAdmin"> {}
+  extends Pick<User, "id" | "name" | "email" | "password" | "isAdmin"> {}
 
 export interface UserUpdateByAdmin
-  extends Pick<UserType, "id" | "name" | "email" | "isAdmin"> {}
+  extends Pick<User, "id" | "name" | "email" | "isAdmin"> {}
 
 export interface UserLoginCredentials
-  extends Pick<UserType, "email" | "password"> {}
+  extends Pick<User, "email" | "password"> {}
 
-export interface UserData
-  extends Pick<UserType, "name" | "email" | "password"> {
+export interface UserData extends Pick<User, "name" | "email" | "password"> {
   confirmPassword?: string;
 }
 
@@ -54,11 +49,10 @@ export interface UserAuth {
 
 // --------------------------
 // Product related interfaces
-export interface Product extends ProductType {}
 
 export interface ProductData
   extends Pick<
-    ProductType,
+    Product,
     | "id"
     | "name"
     | "image"
@@ -100,7 +94,6 @@ export interface Shipping {
 
 // --------------------------
 // Order related interfaces
-export interface Order extends OrderType {}
 
 export interface OrderInfoProduct {
   orderId: number;
@@ -110,7 +103,7 @@ export interface OrderInfoProduct {
 }
 
 export interface OrderInfo
-  extends Pick<OrderType, "id" | "paymentMethod" | "createdAt" | "updatedAt"> {
+  extends Pick<Order, "id" | "paymentMethod" | "createdAt" | "updatedAt"> {
   orderProducts: OrderInfoProduct[];
   user: UserBase;
   status: {
@@ -128,7 +121,7 @@ export interface OrderInfo
   shipping: Shipping;
 }
 
-export interface OrderData extends Pick<OrderType, "paymentMethod"> {
+export interface OrderData extends Pick<Order, "paymentMethod"> {
   cart: Cart[];
   price: {
     itemsPrice: number;

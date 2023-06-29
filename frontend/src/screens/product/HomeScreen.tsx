@@ -11,10 +11,8 @@ import { Message } from "../../components/common/Message";
 import { Paginate } from "../../components/utils/Paginate";
 import { Product } from "../../components/features/Product";
 import { getProductsApi } from "../../services/api";
-import {
-  Product as ProductType,
-  ProductList,
-} from "../../../../backend/interfaces";
+import { ProductList } from "../../../../backend/interfaces";
+import { Product as ProductType } from "@prisma/client";
 import { ProductCarousel } from "../../components/features/ProductCarousel";
 
 interface ProductsFetchParams {

@@ -11,9 +11,9 @@ import {
   ErrorMessage,
   ProductData,
   UserUpdateByAdmin,
-  Product,
   OrderData,
 } from "../../../backend/interfaces";
+import { Product } from "@prisma/client";
 
 const apiClient = getApiClient();
 

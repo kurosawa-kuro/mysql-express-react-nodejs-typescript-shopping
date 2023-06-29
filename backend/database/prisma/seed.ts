@@ -8,7 +8,7 @@ interface UserType {
   isAdmin: boolean;
 }
 
-interface ProductType {
+interface Product {
   name: string;
   image: string;
   description: string;
@@ -74,7 +74,7 @@ async function createUsers() {
 async function createProducts() {
   console.log("seed.js createProducts()");
 
-  const products: ProductType[] = [
+  const products: Product[] = [
     {
       name: "Airpods Wireless Bluetooth Headphones",
       image: "/images/airpods.jpg",
@@ -178,7 +178,7 @@ async function createProducts() {
     });
   }
 
-  const createdProducts: ProductType[] = await db.product.findMany();
+  const createdProducts: Product[] = await db.product.findMany();
   console.log("seed.js createProducts() createdProducts:", createdProducts);
 }
 

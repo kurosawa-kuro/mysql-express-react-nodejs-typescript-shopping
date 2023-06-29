@@ -3,7 +3,7 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { Routes, Route, MemoryRouter } from "react-router-dom";
 import { ProductScreen } from "../../screens/product/ProductScreen";
-import { Product } from "../../../../backend/interfaces";
+import { Product } from "@prisma/client";
 import { App } from "../../App";
 import { CartScreen } from "../../screens/order/CartScreen";
 import { ShippingScreen } from "../../screens/order/ShippingScreen";

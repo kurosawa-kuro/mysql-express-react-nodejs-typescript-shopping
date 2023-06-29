@@ -10,7 +10,7 @@ import { Loader } from "../../components/common/Loader";
 import { Message } from "../../components/common/Message";
 import { useCartStore } from "../../state/store";
 import { getProductFullsApi } from "../../services/api";
-import { Product } from "../../../../backend/interfaces";
+import { Product } from "@prisma/client";
 import { Rating } from "../../components/features/Rating";
 // import Meta from "../../components/helpers/Meta";
 

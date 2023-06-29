@@ -7,7 +7,8 @@ import { Message } from "../../../components/common/Message";
 import { Loader } from "../../../components/common/Loader";
 import { Paginate } from "../../../components/utils/Paginate";
 import { getProductsApi, deleteProductApi } from "../../../services/api";
-import { ProductList, Product } from "../../../../../backend/interfaces";
+import { ProductList } from "../../../../../backend/interfaces";
+import { Product } from "@prisma/client";
 import { toast } from "react-toastify";
 
 export const ProductListScreen: React.FC = () => {

@@ -7,7 +7,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Message } from "../common/Message";
 import { getTopProductsApi } from "../../services/api";
 import { toast } from "react-toastify";
-import { Product } from "../../../../backend/interfaces";
+import { Product } from "@prisma/client";
 
 export const ProductCarousel: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
