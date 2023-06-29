@@ -110,7 +110,7 @@ export interface OrderInfo
   shipping: Shipping;
 }
 
-export interface OrderData extends Pick<Order, "paymentMethod"> {
+export interface OrderData extends Pick<Order, "userId" | "paymentMethod"> {
   cart: Cart[];
   price: {
     itemsPrice: number;

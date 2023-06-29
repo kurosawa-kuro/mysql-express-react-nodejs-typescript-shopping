@@ -10,12 +10,14 @@ import { Message } from "../../components/common/Message";
 import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
 import { createOrderApi } from "../../services/api";
 import { useCartStore, CartStore } from "../../state/store";
+import { useAuthStore } from "../../state/store";
 import { OrderData } from "../../../../backend/interfaces";
 
 export const PlaceOrderScreen: FC = () => {
   const navigate = useNavigate();
   const { cartItems, shippingAddress, paymentMethod, clearCartItems } =
     useCartStore() as CartStore;
+  const { userInfo } = useAuthStore();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,7 +43,11 @@ export const PlaceOrderScreen: FC = () => {
   const placeOrderHandler = async () => {
     setLoading(true);
     try {
+      if (!userInfo) {
+        throw new Error("You must be logged in to place an order");
+      }
       const order: OrderData = {
+        userId: userInfo.id,
         cart: cartItems,
         shipping: {
           address: shippingAddress.address,

@@ -2,7 +2,7 @@
 
 import { db } from "../database/prisma/prismaClient";
 import { Order, OrderProduct, User } from "@prisma/client";
-import { Cart, OrderInfo, OrderProductInfo } from "../interfaces";
+import { Cart, OrderData, OrderInfo, OrderProductInfo } from "../interfaces";
 
 const createOrderInfoFromOrder = (order: any): OrderInfo => {
   return {
@@ -38,11 +38,9 @@ const createOrderInfoFromOrder = (order: any): OrderInfo => {
 };
 
 export const createOrder = async (
-  userId: number,
-  orderData: any,
-  cart: Cart[]
+  orderData: OrderData
 ): Promise<OrderInfo | null> => {
-  const { shipping, paymentMethod, price } = orderData;
+  const { userId, shipping, paymentMethod, price, cart } = orderData;
 
   const order = await db.order.create({
     data: {
@@ -51,14 +49,14 @@ export const createOrder = async (
       city: shipping.city,
       postalCode: shipping.postalCode,
       paymentMethod,
-      itemsPrice: parseFloat(price.itemsPrice),
-      taxPrice: parseFloat(price.taxPrice),
-      shippingPrice: parseFloat(price.shippingPrice),
-      totalPrice: parseFloat(price.totalPrice),
+      itemsPrice: price.itemsPrice,
+      taxPrice: price.taxPrice,
+      shippingPrice: price.shippingPrice,
+      totalPrice: price.totalPrice,
       orderProducts: {
-        create: cart.map((orderProduct) => ({
-          productId: orderProduct.product.id,
-          qty: orderProduct.qty,
+        create: cart.map((cartItem) => ({
+          productId: cartItem.product.id,
+          qty: cartItem.qty,
         })),
       },
     },

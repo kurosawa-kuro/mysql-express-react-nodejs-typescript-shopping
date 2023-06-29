@@ -139,7 +139,11 @@ export async function createProductAndOrder(userEmail: string) {
   });
 
   const product: Product = await createProduct();
+  if (!user) {
+    throw new Error(`No user found with email`);
+  }
   const orderRequest: OrderData = {
+    userId: Number(user.id),
     cart: [
       {
         product,
@@ -161,7 +165,7 @@ export async function createProductAndOrder(userEmail: string) {
   };
   const { cart, ...orderData } = orderRequest;
   if (user) {
-    const createdOrder = await createOrder(Number(user.id), orderData, cart);
+    const createdOrder = await createOrder(orderRequest);
     return createdOrder;
   }
 }

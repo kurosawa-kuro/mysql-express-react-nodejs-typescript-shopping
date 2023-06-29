@@ -29,6 +29,7 @@ beforeAll(async () => {
 describe("Order Controller", () => {
   test("POST /api/orders/ - Should create a new order", async () => {
     const orderRequest: OrderData = {
+      userId: user.id,
       cart: [
         {
           product,

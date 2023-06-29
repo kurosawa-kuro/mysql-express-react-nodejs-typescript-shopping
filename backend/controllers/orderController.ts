@@ -6,7 +6,7 @@ import { Request, NextFunction, Response } from "express";
 
 // Internal Imports
 import { Order } from "@prisma/client";
-import { UserRequest, OrderInfo } from "../interfaces";
+import { UserRequest, OrderInfo, OrderData } from "../interfaces";
 import {
   createOrder,
   findOrderByIdInDB,
@@ -23,18 +23,21 @@ const findOrderById = async (id: number) => {
 
 export const addOrderItems = asyncHandler(
   async (req: UserRequest, res: Response, next: NextFunction) => {
-    const { cart, ...orderData } = req.body;
+    const { shipping, paymentMethod, price, cart } = req.body;
     if (!cart || cart.length === 0) {
       res.status(400);
       throw new Error("No order items");
     }
 
     if (req.user && req.user.id) {
-      const createdOrder = await createOrder(
-        Number(req.user.id),
-        orderData,
-        cart
-      );
+      const orderData: OrderData = {
+        userId: Number(req.user.id),
+        shipping,
+        paymentMethod,
+        price,
+        cart,
+      };
+      const createdOrder = await createOrder(orderData);
       res.status(201).json(createdOrder);
     }
   }
