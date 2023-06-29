@@ -5,15 +5,15 @@ import express from "express";
 
 // Internal Imports
 import {
-  deleteUser,
+  registerUser,
   readUserById,
   readUserProfile,
   readAllUsers,
   loginUser,
-  logoutUser,
-  registerUser,
   updateUser,
   updateUserProfile,
+  logoutUser,
+  deleteUser,
 } from "../controllers/userController";
 import { admin, protect } from "../middleware/authMiddleware";
 

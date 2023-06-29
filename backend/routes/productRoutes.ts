@@ -9,11 +9,11 @@ import { protect, admin } from "../middleware/authMiddleware";
 // Controller Imports
 import {
   createProduct,
-  deleteProduct,
   readProductById,
   readProducts,
   readTopProducts,
   updateProduct,
+  deleteProduct,
 } from "../controllers/productController";
 
 // Router Initialization
