@@ -2,25 +2,9 @@ import { Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { User, Product, Order } from "@prisma/client";
 
-// UserData 、UserInfo
-// ProductData 、ProductInfo
-// OrderData 、OrderInfo
-
-// --------------------------
-// JWT and Request related interfaces
-
-export interface UserDecodedJwtPayload extends JwtPayload {
-  userId: string;
-}
-
-export interface UserRequest extends Request {
-  user?: UserBase;
-}
-
 // --------------------------
 // User related interfaces
 
-// export interface User extends User {}
 export interface UserBase
   extends Pick<User, "id" | "name" | "email" | "isAdmin"> {}
 
@@ -48,6 +32,17 @@ export interface UserAuth {
 }
 
 // --------------------------
+// JWT and Request related interfaces
+
+export interface UserDecodedJwtPayload extends JwtPayload {
+  userId: string;
+}
+
+export interface UserRequest extends Request {
+  user?: UserBase;
+}
+
+// --------------------------
 // Product related interfaces
 
 export interface ProductData
@@ -65,11 +60,6 @@ export interface ProductData
     | "countInStock"
   > {}
 
-export interface Cart {
-  product: ProductData;
-  qty: number;
-}
-
 export interface ProductSearch {
   keyword: string;
   pageNumber: number;
@@ -86,10 +76,9 @@ export interface ProductReview {
   comment: string;
 }
 
-export interface Shipping {
-  address: string;
-  city: string;
-  postalCode: string;
+export interface Cart {
+  product: ProductData;
+  qty: number;
 }
 
 // --------------------------
@@ -130,6 +119,15 @@ export interface OrderData extends Pick<Order, "paymentMethod"> {
     totalPrice: number;
   };
   shipping: Shipping;
+}
+
+// --------------------------
+// Shipping interface
+
+export interface Shipping {
+  address: string;
+  city: string;
+  postalCode: string;
 }
 
 // --------------------------
