@@ -37,16 +37,27 @@ export const PaymentScreen: React.FC = () => {
             Select Method
           </label>
           <div className="mt-2">
-            <label className="inline-flex items-center">
+            <label className="inline-flex items-center mr-2">
               <input
                 type="radio"
                 className="form-radio text-blue-500"
                 name="paymentMethod"
                 value="PayPal"
-                checked
+                checked={paymentMethod === "PayPal"}
                 onChange={(e) => setPaymentMethod(e.target.value)}
               />
               <span className="ml-2">PayPal or Credit Card</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                className="form-radio text-blue-500"
+                name="paymentMethod"
+                value="Bank"
+                checked={paymentMethod === "Bank"}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+              <span className="ml-2">Bank</span>
             </label>
           </div>
         </div>

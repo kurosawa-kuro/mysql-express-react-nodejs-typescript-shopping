@@ -139,10 +139,10 @@ export interface CartState {
 
 export interface CartActions {
   createCartItem: (item: Cart) => void;
+  deleteCartItems: () => void;
   deleteCartItem: (id: number) => void;
   createShipping: (address: Shipping) => void;
   createPaymentMethod: (method: string) => void;
-  deleteCartItems: () => void;
 }
 
 // --------------------------
