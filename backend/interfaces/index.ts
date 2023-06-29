@@ -84,7 +84,7 @@ export interface Cart {
 // --------------------------
 // Order related interfaces
 
-export interface OrderInfoProduct {
+export interface OrderProductInfo {
   orderId: number;
   productId: number;
   qty: number;
@@ -93,7 +93,7 @@ export interface OrderInfoProduct {
 
 export interface OrderInfo
   extends Pick<Order, "id" | "paymentMethod" | "createdAt" | "updatedAt"> {
-  orderProducts: OrderInfoProduct[];
+  orderProducts: OrderProductInfo[];
   user: UserBase;
   status: {
     isPaid: boolean;

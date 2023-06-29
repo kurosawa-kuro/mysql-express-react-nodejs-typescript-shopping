@@ -2,7 +2,7 @@
 
 import { db } from "../database/prisma/prismaClient";
 import { Order, OrderProduct, User } from "@prisma/client";
-import { Cart, OrderInfo, OrderInfoProduct } from "../interfaces";
+import { Cart, OrderInfo, OrderProductInfo } from "../interfaces";
 
 const createOrderInfoFromOrder = (order: any): OrderInfo => {
   return {
