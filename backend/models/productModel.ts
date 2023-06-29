@@ -34,11 +34,11 @@ export const countProductsFromDB = async (
 
 export const updateProductInDB = async (
   id: number,
-  updatedProductData: Prisma.ProductUpdateInput
+  data: Prisma.ProductUpdateInput
 ): Promise<Product | null> => {
   const updatedProduct: Product | null = await db.product.update({
     where: { id },
-    data: updatedProductData,
+    data,
   });
   return updatedProduct;
 };
