@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { User } from "@prisma/client";
 import { Loader } from "../../../components/common/Loader";
 import { toast } from "react-toastify";
-import { readUserByIdApi, updateUserApi } from "../../../services/api"; // Import the api functions
+import { readUserById, updateUser } from "../../../services/api"; // Import the api functions
 import { Message } from "../../../components/common/Message";
 
 export const UserEditScreen: React.FC = () => {
@@ -23,7 +23,7 @@ export const UserEditScreen: React.FC = () => {
     const fetchUser = async () => {
       setLoading(true);
       try {
-        const user: User = await readUserByIdApi(userId);
+        const user: User = await readUserById(userId);
         setName(user.name);
         setEmail(user.email);
         setIsAdmin(user.isAdmin);
@@ -44,7 +44,7 @@ export const UserEditScreen: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await updateUserApi({ id: userId, name, email, isAdmin });
+      await updateUser({ id: userId, name, email, isAdmin });
       toast.success("User updated successfully");
       navigate("/admin/users");
     } catch (err: unknown) {

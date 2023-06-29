@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Loader } from "../../components/common/Loader";
 import { Message } from "../../components/common/Message";
 import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
-import { createOrderApi } from "../../services/api";
+import { createOrder } from "../../services/api";
 import { useCartStore, CartStore } from "../../state/store";
 import { useAuthStore } from "../../state/store";
 import { OrderData } from "../../../../backend/interfaces";
@@ -60,7 +60,7 @@ export const PlaceOrderScreen: FC = () => {
             totalPrice,
           },
         };
-        const res = await createOrderApi(order);
+        const res = await createOrder(order);
         deleteCartItems();
         navigate(`/orders/${res.id}`);
       }

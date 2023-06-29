@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { uploadProductImageApi, createProductApi } from "../../../services/api";
+import { uploadProductImage, createProduct } from "../../../services/api";
 import { Loader } from "../../../components/common/Loader";
 import { Message } from "../../../components/common/Message";
 import { ProductData } from "../../../../../backend/interfaces";
@@ -36,7 +36,7 @@ export const ProductNewScreen: React.FC = () => {
         price,
         countInStock,
       };
-      await createProductApi(data);
+      await createProduct(data);
       toast.success("Product created");
       navigate("/admin/products/");
     } catch (err: unknown) {
@@ -56,7 +56,7 @@ export const ProductNewScreen: React.FC = () => {
     const formData = new FormData();
     formData.append("image", file);
     try {
-      const res = await uploadProductImageApi(formData);
+      const res = await uploadProductImage(formData);
       toast.success(res.message);
       setImage(res.image);
     } catch (err: unknown) {

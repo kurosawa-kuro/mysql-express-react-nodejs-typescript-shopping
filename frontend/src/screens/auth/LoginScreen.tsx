@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 // Internal Imports
 import { FormContainer } from "../../components/forms/FormContainer";
 import { Loader } from "../../components/common/Loader";
-import { loginUserApi } from "../../services/api";
+import { loginUser } from "../../services/api";
 import { useAuthStore } from "../../state/store";
 import { UserAuth, UserInfo } from "../../../../backend/interfaces";
 
@@ -31,7 +31,7 @@ export const LoginScreen = () => {
     setLoading(true);
 
     try {
-      const user: UserInfo = await loginUserApi(credentials);
+      const user: UserInfo = await loginUser(credentials);
       setUserInfo(user);
       toast.success("Successfully logged in");
       navigate("/");

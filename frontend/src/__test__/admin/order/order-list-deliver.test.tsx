@@ -36,7 +36,10 @@ const LABELS = {
 describe("Admin Product Management", () => {
   beforeAll(() => server.listen());
   afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
+  afterEach(() => {
+    server.resetHandlers();
+    server.close();
+  });
 
   describe("Order list", () => {
     describe("admin can move order list for Deliver", () => {

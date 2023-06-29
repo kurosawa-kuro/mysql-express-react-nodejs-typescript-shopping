@@ -4,9 +4,9 @@ import { useState, useEffect, ChangeEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-  readProductByIdApi,
-  updateProductApi,
-  uploadProductImageApi,
+  readProductById,
+  updateProduct,
+  uploadProductImage,
 } from "../../../services/api";
 import { Loader } from "../../../components/common/Loader";
 import { Message } from "../../../components/common/Message";
@@ -37,7 +37,7 @@ export const ProductEditScreen: React.FC = () => {
     try {
       if (productId) {
         setLoading(true);
-        const data = await readProductByIdApi(Number(productId));
+        const data = await readProductById(Number(productId));
         setName(data.name);
         setPrice(data.price);
         setImage(data.image);
@@ -71,7 +71,7 @@ export const ProductEditScreen: React.FC = () => {
         rating: 0,
         numReviews: 0,
       };
-      await updateProductApi(data);
+      await updateProduct(data);
       toast.success("Product updated");
       navigate("/admin/products/");
     } catch (err: unknown) {
@@ -87,7 +87,7 @@ export const ProductEditScreen: React.FC = () => {
     const formData = new FormData();
     formData.append("image", file);
     try {
-      const res = await uploadProductImageApi(formData);
+      const res = await uploadProductImage(formData);
       toast.success(res.message);
       setImage(res.image);
     } catch (err: unknown) {

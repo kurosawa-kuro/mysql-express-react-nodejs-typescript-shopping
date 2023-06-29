@@ -13,7 +13,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import { useAuthStore, useCartStore } from "../../state/store";
-import { logoutUserApi } from "../../services/api";
+import { logoutUser } from "../../services/api";
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -122,7 +122,7 @@ export const Header: React.FC = () => {
                     </Link>
                     <button
                       onClick={async () => {
-                        await logoutUserApi();
+                        await logoutUser();
                         logout();
                         navigate("/login");
                       }}

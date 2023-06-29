@@ -3,7 +3,7 @@
 import React, { useEffect, useState, FormEvent } from "react";
 import { toast } from "react-toastify";
 import { Loader } from "../../components/common/Loader";
-import { updateUserProfileApi } from "../../services/api"; // Import the api functions
+import { updateUserProfile } from "../../services/api"; // Import the api functions
 import { useAuthStore } from "../../state/store";
 import { Message } from "../../components/common/Message";
 export const ProfileScreen: React.FC = () => {
@@ -39,7 +39,7 @@ export const ProfileScreen: React.FC = () => {
 
     setLoading(true);
     try {
-      const res = await updateUserProfileApi({
+      const res = await updateUserProfile({
         id: userInfo.id,
         name,
         email,

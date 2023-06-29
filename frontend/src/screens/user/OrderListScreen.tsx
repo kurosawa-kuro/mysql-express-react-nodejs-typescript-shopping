@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 import { Message } from "../../components/common/Message";
 import { Loader } from "../../components/common/Loader";
-import { getOrdersApi } from "../../services/api";
+import { getOrders } from "../../services/api";
 import { OrderInfo } from "../../../../backend/interfaces";
 import { toast } from "react-toastify";
 
@@ -18,7 +18,7 @@ export const OrderListScreen: React.FC = () => {
     const fetchOrders = async () => {
       console.log("hit fetchOrders");
       try {
-        const data = await getOrdersApi();
+        const data = await getOrders();
         console.log("fetchOrders data", data);
         setOrders(data);
         setLoading(false);

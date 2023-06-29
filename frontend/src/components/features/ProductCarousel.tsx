@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Message } from "../common/Message";
-import { getTopProductsApi } from "../../services/api";
+import { getTopProducts } from "../../services/api";
 import { toast } from "react-toastify";
 import { Product } from "@prisma/client";
 
@@ -18,7 +18,7 @@ export const ProductCarousel: React.FC = () => {
     const fetchTopProducts = async () => {
       setLoading(true);
       try {
-        const data: Product[] = await getTopProductsApi();
+        const data: Product[] = await getTopProducts();
         if (data) {
           setProducts(data);
         }

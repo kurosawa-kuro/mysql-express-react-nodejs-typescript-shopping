@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 import { Loader } from "../../../components/common/Loader";
 import { toast } from "react-toastify";
-import { deleteUserApi, readAllUsersApi } from "../../../services/api";
+import { deleteUser, readAllUsers } from "../../../services/api";
 import { useAuthStore } from "../../../state/store";
 import { UserAuth } from "../../../../../backend/interfaces";
 import { User } from "@prisma/client";
@@ -21,7 +21,7 @@ export const UserListScreen: React.FC = () => {
     const fetchUsers = async () => {
       setLoading(true);
       try {
-        const data = await readAllUsersApi();
+        const data = await readAllUsers();
         setUsers(data);
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -39,7 +39,7 @@ export const UserListScreen: React.FC = () => {
   const deleteHandler = async (id: number) => {
     if (window.confirm("Are you sure")) {
       try {
-        await deleteUserApi(id);
+        await deleteUser(id);
         setUsers(users.filter((user) => user.id !== id));
         toast.success("User deleted successfully");
       } catch (err: unknown) {

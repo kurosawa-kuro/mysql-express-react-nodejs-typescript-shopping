@@ -35,72 +35,71 @@ const performRequest = async (request: Promise<AxiosResponse<any>>) => {
 };
 
 // User related APIs
-export const registerUserApi = (user: UserData) =>
+export const registerUser = (user: UserData) =>
   performRequest(apiClient.post("/api/users/register", user));
 
-export const loginUserApi = (credentials: UserInfo) =>
+export const loginUser = (credentials: UserInfo) =>
   performRequest(apiClient.post("/api/users/login", credentials));
 
-export const readUserProfileApi = () =>
+export const readUserProfile = () =>
   performRequest(apiClient.get("/api/users/profile"));
 
-export const readAllUsersApi = () =>
-  performRequest(apiClient.get("/api/users"));
+export const readAllUsers = () => performRequest(apiClient.get("/api/users"));
 
-export const readUserByIdApi = (userId: number) =>
+export const readUserById = (userId: number) =>
   performRequest(apiClient.get(`/api/users/${userId}`));
 
-export const updateUserProfileApi = (user: UserInfo) =>
+export const updateUserProfile = (user: UserInfo) =>
   performRequest(apiClient.put("/api/users/profile", user));
 
-export const updateUserApi = (user: UserInfo) =>
+export const updateUser = (user: UserInfo) =>
   performRequest(apiClient.put(`/api/users/${user.id}`, user));
 
-export const deleteUserApi = (id: number) =>
+export const deleteUser = (id: number) =>
   performRequest(apiClient.delete(`/api/users/${id}`));
 
-export const logoutUserApi = () =>
+export const logoutUser = () =>
   performRequest(apiClient.post("/api/users/logout"));
 
 // Product related APIs
-export const createProductApi = (product: ProductData | null) =>
+export const createProduct = (product: ProductData | null) =>
   performRequest(apiClient.post("/api/products", product));
 
-export const getProductsApi = ({ keyword, pageNumber }: ProductSearch) =>
+export const getProducts = ({ keyword, pageNumber }: ProductSearch) =>
   performRequest(
     apiClient.get("/api/products", { params: { keyword, pageNumber } })
   );
 
-export const readProductByIdApi = (productId: number) =>
+export const readProductById = (productId: number) =>
   performRequest(apiClient.get(`/api/products/${productId}`));
 
-export const updateProductApi = (product: ProductData) =>
+export const updateProduct = (product: ProductData) =>
   performRequest(apiClient.put(`/api/products/${product.id}`, product));
 
-export const deleteProductApi = async (productId: number) =>
+export const deleteProduct = async (productId: number) =>
   performRequest(apiClient.delete(`/api/products/${productId}`));
 
-export const getTopProductsApi = async (): Promise<Product[]> =>
+export const getTopProducts = async (): Promise<Product[]> =>
   performRequest(apiClient.get("/api/products/top"));
 
-export const uploadProductImageApi = async (imageData: FormData) =>
+export const uploadProductImage = async (imageData: FormData) =>
   performRequest(apiClient.post("/api/upload", imageData));
 
 // Order related APIs
-export const createOrderApi = (order: OrderData) =>
+export const createOrder = (order: OrderData) =>
   performRequest(apiClient.post("/api/orders", order));
 
-export const readOrderByIdApi = (id: number) =>
+export const readOrderById = (id: number) =>
   performRequest(apiClient.get(`/api/orders/${id}`));
 
-export const getMyOrdersApi = () =>
+export const getMyOrders = () =>
   performRequest(apiClient.get("/api/orders/mine"));
 
-export const getOrdersApi = async () =>
+export const getOrders = async () =>
   performRequest(apiClient.get("/api/orders"));
 
-export const updateOrderToPaidApi = (orderId: number, details: any) =>
+export const updateOrderToPaid = (orderId: number, details: any) =>
   performRequest(apiClient.put(`/api/orders/${orderId}/pay`, details));
 
-export const updateOrderToDeliveredApi = (orderId: number) =>
+export const updateOrderToDelivered = (orderId: number) =>
   performRequest(apiClient.put(`/api/orders/${orderId}/deliver`));

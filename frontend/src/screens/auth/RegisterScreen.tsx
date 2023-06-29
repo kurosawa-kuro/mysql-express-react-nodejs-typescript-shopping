@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FormContainer } from "../../components/forms/FormContainer";
 import { Loader } from "../../components/common/Loader";
-import { registerUserApi } from "../../services/api";
+import { registerUser } from "../../services/api";
 import { useAuthStore } from "../../state/store";
 import { UserInfo, UserAuth } from "../../../../backend/interfaces";
 import { User } from "@prisma/client";
@@ -35,7 +35,7 @@ export const RegisterScreen = () => {
     setLoading(true);
     try {
       if (credentials.name && credentials.email && credentials.password) {
-        const user: User = await registerUserApi({
+        const user: User = await registerUser({
           name: credentials.name,
           email: credentials.email,
           password: credentials.password,

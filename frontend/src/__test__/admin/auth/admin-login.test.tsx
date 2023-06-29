@@ -24,7 +24,10 @@ const LABELS = {
 describe("Admin Product Management", () => {
   beforeAll(() => server.listen());
   afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
+  afterEach(() => {
+    server.resetHandlers();
+    server.close();
+  });
 
   describe("Login process", () => {
     it("renders login and admin can login", async () => {

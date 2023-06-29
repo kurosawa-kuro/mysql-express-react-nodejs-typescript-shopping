@@ -7,9 +7,9 @@ import { toast } from "react-toastify";
 
 // Internal Imports
 import {
-  updateOrderToDeliveredApi,
-  readOrderByIdApi,
-  updateOrderToPaidApi,
+  updateOrderToDelivered,
+  readOrderById,
+  updateOrderToPaid,
 } from "../../services/api";
 import { Loader } from "../../components/common/Loader";
 import { Message } from "../../components/common/Message";
@@ -37,7 +37,7 @@ export const OrderScreen = () => {
     if (!isNaN(orderIdNumber)) {
       try {
         setLoading(true);
-        const data: OrderInfo = await readOrderByIdApi(orderIdNumber);
+        const data: OrderInfo = await readOrderById(orderIdNumber);
         setOrder(data);
       } catch (err) {
         handleError(err);
@@ -50,7 +50,7 @@ export const OrderScreen = () => {
   const onApproveTest = async () => {
     try {
       setLoading(true);
-      await updateOrderToPaidApi(orderIdNumber, { payer: {} });
+      await updateOrderToPaid(orderIdNumber, { payer: {} });
       toast.success("Order is paid");
       fetchOrder();
     } catch (err) {
@@ -63,7 +63,7 @@ export const OrderScreen = () => {
   const deliverHandler = async () => {
     try {
       setLoading(true);
-      await updateOrderToDeliveredApi(orderIdNumber);
+      await updateOrderToDelivered(orderIdNumber);
       toast.success("Order is delivered");
       fetchOrder();
     } catch (err) {

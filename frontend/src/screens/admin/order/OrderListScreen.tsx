@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
 import { OrderInfo, UserAuth } from "../../../../../backend/interfaces";
-import { getMyOrdersApi, getOrdersApi } from "../../../services/api";
+import { getMyOrders, getOrders } from "../../../services/api";
 import { useAuthStore } from "../../../state/store";
 import { Loader } from "../../../components/common/Loader";
 import { Message } from "../../../components/common/Message";
@@ -19,8 +19,8 @@ export const OrderListScreen: React.FC = () => {
     const fetchOrders = async () => {
       try {
         const data = userInfo?.isAdmin
-          ? await getOrdersApi()
-          : await getMyOrdersApi();
+          ? await getOrders()
+          : await getMyOrders();
         setOrders(data);
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : "An error occurred.");

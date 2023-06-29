@@ -1,11 +1,7 @@
 // frontend\src\services\__tests__\api.test.js
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import {
-  readProductByIdApi,
-  loginUserApi,
-  registerUserApi,
-} from "../../services/api";
+import { readProductById, loginUser, registerUser } from "../../services/api";
 
 interface ReqBody {
   email?: string;
@@ -67,14 +63,14 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-test("readProductByIdApi returns product data", async () => {
-  const data = await readProductByIdApi(product.id);
+test("readProductById returns product data", async () => {
+  const data = await readProductById(product.id);
 
   expect(data).toEqual(product);
 });
 
-test("loginUserApi logs in a user", async () => {
-  const data = await loginUserApi({
+test("loginUser logs in a user", async () => {
+  const data = await loginUser({
     email: user.email,
     password: user.password,
   });
@@ -82,8 +78,8 @@ test("loginUserApi logs in a user", async () => {
   expect(data).toEqual(user);
 });
 
-test("registerUserApi registers a user", async () => {
-  const data = await registerUserApi({
+test("registerUser registers a user", async () => {
+  const data = await registerUser({
     name: user.name,
     email: user.email,
     password: user.password,

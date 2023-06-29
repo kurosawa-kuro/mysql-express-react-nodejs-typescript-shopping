@@ -19,7 +19,7 @@ import {
 
 jest.mock("../../../services/api", () => ({
   ...jest.requireActual("../../../services/api"),
-  uploadProductImageApi: jest.fn(() =>
+  uploadProductImage: jest.fn(() =>
     Promise.resolve({
       image: "url-to-your-image",
       message: "Image uploaded successfully",
@@ -94,9 +94,9 @@ describe("Admin Product Management", () => {
   });
 
   describe("Create new product", () => {
-    const { uploadProductImageApi } = require("../../../services/api");
-    const mockUpload = uploadProductImageApi as jest.MockedFunction<
-      typeof uploadProductImageApi
+    const { uploadProductImage } = require("../../../services/api");
+    const mockUpload = uploadProductImage as jest.MockedFunction<
+      typeof uploadProductImage
     >;
 
     it("admin can create a new product", async () => {
