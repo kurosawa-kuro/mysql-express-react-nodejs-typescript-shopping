@@ -22,6 +22,9 @@ export const readProductsFromDB = async (
     where: keywordFilter,
     take: pageSize,
     skip: pageSize * (page - 1),
+    orderBy: {
+      createdAt: "desc",
+    },
   });
   return products;
 };

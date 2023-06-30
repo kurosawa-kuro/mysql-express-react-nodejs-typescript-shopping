@@ -95,6 +95,23 @@ export const readUserOrdersFromDB = async (
       },
       user: true,
     },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return orders.map(_createOrderInfoFromOrder);
+};
+
+export const readAllOrdersFromDB = async () => {
+  const orders = await db.order.findMany({
+    include: {
+      user: true,
+      orderProducts: { include: { product: true } },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   return orders.map(_createOrderInfoFromOrder);
@@ -126,15 +143,4 @@ export const updateOrderAsDeliveredInDB = async (
   });
 
   return updatedOrder;
-};
-
-export const readAllOrdersFromDB = async () => {
-  const orders = await db.order.findMany({
-    include: {
-      user: true,
-      orderProducts: { include: { product: true } },
-    },
-  });
-
-  return orders.map(_createOrderInfoFromOrder);
 };
