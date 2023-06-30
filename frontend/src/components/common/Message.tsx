@@ -1,5 +1,3 @@
-// frontend\src\components\common\Message.tsx
-
 import React, { ReactNode } from "react";
 
 type Variant = "danger" | "success" | "info";
@@ -14,16 +12,20 @@ export const Message: React.FC<Props> = ({ variant = "info", children }) => {
 
   switch (variant) {
     case "danger":
-      classes = "bg-red-100 border-red-500 text-red-700";
+      classes =
+        "bg-custom-red-lightest border-custom-red-light text-custom-red-dark";
       break;
     case "success":
-      classes = "bg-green-100 border-green-500 text-green-700";
+      classes =
+        "bg-custom-green-lightest border-custom-green-light text-custom-green-dark";
       break;
     case "info":
-      classes = "bg-blue-100 border-blue-500 text-blue-700";
+      classes =
+        "bg-custom-blue-lightest border-custom-blue-light text-custom-blue-dark";
       break;
     default:
-      classes = "bg-blue-100 border-blue-500 text-blue-700";
+      classes =
+        "bg-custom-blue-lightest border-custom-blue-light text-custom-blue-dark";
   }
 
   return (

@@ -223,7 +223,7 @@ export const OrderScreen = () => {
               !order.status.isDelivered && (
                 <button
                   type="button"
-                  className="w-full rounded-lg bg-green-500 px-4 py-2 font-semibold text-white shadow-md hover:bg-green-700 focus:outline-none"
+                  className="w-full rounded-lg bg-custom-green-light px-4 py-2 font-semibold text-white shadow-md hover:bg-custom-green-dark focus:outline-none"
                   onClick={deliverHandler}
                 >
                   Mark As Delivered

@@ -30,7 +30,7 @@ export const SearchBox: React.FC = () => {
       />
       <button
         type="submit"
-        className="mx-2 h-10 rounded bg-green-500 p-2 text-white hover:bg-green-600"
+        className="mx-2 h-10 rounded bg-custom-green-light p-2 text-white hover:bg-custom-green-dark"
       >
         Search
       </button>
