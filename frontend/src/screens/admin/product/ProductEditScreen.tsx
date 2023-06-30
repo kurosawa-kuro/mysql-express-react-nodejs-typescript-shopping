@@ -38,6 +38,10 @@ export const ProductEditScreen: React.FC = () => {
       if (productId) {
         setLoading(true);
         const data = await readProductById(Number(productId));
+        if (!data) {
+          navigate("/admin/products");
+          return;
+        }
         setName(data.name);
         setPrice(data.price);
         setImage(data.image);
