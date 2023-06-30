@@ -47,10 +47,10 @@ export const Header: React.FC = () => {
 
   return (
     <header className="bg-custom-blue-dark py-3 text-custom-blue-lighter">
-      <div className="container mx-auto flex items-center justify-between px-4">
+      <div className="container mx-auto flex items-center justify-between ">
         <Link to="/" className="flex items-center space-x-2">
           <span className="text-xl font-semibold text-custom-blue-lightest">
-            Shop
+            TypeScriptShop
           </span>
         </Link>
         <div className="sm:hidden">
@@ -153,7 +153,7 @@ export const Header: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setAdminIsOpen(!adminIsOpen)}
-                  className="flex items-center space-x-2 px-4 py-2 text-custom-blue-light group-hover:text-custom-blue-extra-darkest hover:bg-custom-blue-lighter"
+                  className="flex items-center space-x-2 px-4 py-2 text-custom-blue-light hover:bg-custom-blue-lighter group-hover:text-custom-blue-extra-darkest"
                 >
                   <span className="text-custom-blue-lightest group-hover:text-custom-blue-extra-darkest">
                     Admin Function
