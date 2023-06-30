@@ -206,11 +206,11 @@ export const OrderScreen = () => {
                 ) : (
                   <button
                     onClick={onApproveTest}
-                    className="w-full rounded-lg bg-blue-500 px-4 py-2 font-semibold text-white shadow-md hover:bg-blue-700 focus:outline-none"
+                    className="mt-4 w-full rounded bg-custom-green-light hover:bg-custom-green-dark py-2 text-white"
                     type="button"
                     disabled={order.orderProducts.length === 0}
                   >
-                    Test Pay
+                    Pay
                   </button>
                 )}
               </div>

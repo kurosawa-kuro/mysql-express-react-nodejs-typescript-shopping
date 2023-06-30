@@ -119,18 +119,18 @@ export const ProductListScreen: React.FC = () => {
                       <div className="flex items-center space-x-4 text-sm">
                         <Link
                           to={`/admin/products/${product.id}/edit`}
-                          className="rounded bg-custom-blue-dark px-2 py-1 text-white hover:bg-custom-blue-darker hover:text-custom-blue-lightest"
+                          className="mr-2 inline-flex items-center rounded bg-custom-blue-dark px-2 py-1 text-white hover:bg-custom-blue-darkest"
                         >
-                          <FaEdit className="text-custom-blue-lightest" />
+                          <FaEdit size={18} className="mr-1" />
+                          Edit
                         </Link>
                         <button
                           data-testid="delete-button"
-                          onClick={() =>
-                            product.id && deleteHandler(product.id)
-                          }
-                          className="rounded bg-red-500 px-2 py-1 text-white hover:bg-red-600"
+                          className="inline-flex items-center rounded bg-custom-red-light px-2 py-1 text-white hover:bg-custom-red-dark"
+                          onClick={() => deleteHandler(product.id)}
                         >
-                          <FaTrash className="text-custom-blue-lightest" />
+                          <FaTrash size={18} className="mr-1" />
+                          Delete
                         </button>
                       </div>
                     </td>

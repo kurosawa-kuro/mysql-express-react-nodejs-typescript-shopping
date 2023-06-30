@@ -168,8 +168,8 @@ test("renders ProductScreen with product", async () => {
   // await Test Pay
   expect(await screen.findByText("Order 28")).toBeInTheDocument();
 
-  await waitFor(() => screen.getByText("Test Pay"));
+  await waitFor(() => screen.getByText("Pay"));
 
-  expect(await screen.findByText(`Test Pay`)).toBeInTheDocument();
+  expect(await screen.findByText(`Pay`)).toBeInTheDocument();
   // screen.debug();
 });

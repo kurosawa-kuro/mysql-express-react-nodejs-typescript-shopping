@@ -147,7 +147,7 @@ export const PlaceOrderScreen: FC = () => {
               </div>
               <button
                 type="button"
-                className="mt-4 w-full rounded bg-black py-2 text-white"
+                className="mt-4 w-full rounded bg-custom-green-light hover:bg-custom-green-dark py-2 text-white"
                 onClick={placeOrderHandler}
                 disabled={cartItems.length === 0}
               >

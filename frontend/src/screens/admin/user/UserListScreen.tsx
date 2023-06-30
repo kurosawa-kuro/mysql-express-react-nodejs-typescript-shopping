@@ -81,16 +81,16 @@ export const UserListScreen: React.FC = () => {
               <td className="whitespace-nowrap px-6 py-4">
                 <a
                   href={`mailto:${user.email}`}
-                  className="text-indigo-600 hover:text-indigo-900"
+                  className="text-custom-blue-dark hover:text-custom-blue-darker"
                 >
                   {user.email}
                 </a>
               </td>
               <td className="whitespace-nowrap px-6 py-4">
                 {user.isAdmin ? (
-                  <FaCheck className="text-green-500" />
+                  <FaCheck className="text-custom-green-light" />
                 ) : (
-                  <FaTimes className="text-red-500" />
+                  <FaTimes className="text-custom-red-light" />
                 )}
               </td>
               <td>
@@ -98,13 +98,13 @@ export const UserListScreen: React.FC = () => {
                   <>
                     <Link
                       to={`/admin/users/${user.id}/edit`}
-                      className="mr-2 inline-flex items-center rounded bg-gray-200 px-4 py-2 font-bold text-gray-800 hover:bg-gray-300"
+                      className="mr-2 inline-flex items-center rounded bg-custom-blue-dark px-2 py-1 text-white hover:bg-custom-blue-darkest"
                     >
                       <FaEdit size={18} className="mr-1" />
                       Edit
                     </Link>
                     <button
-                      className="inline-flex items-center rounded bg-red-600 px-2 py-1 text-white hover:bg-red-700"
+                      className="inline-flex items-center rounded bg-custom-red-light px-2 py-1 text-white hover:bg-custom-red-dark"
                       onClick={() => deleteHandler(user.id)}
                     >
                       <FaTrash size={18} className="mr-1" />

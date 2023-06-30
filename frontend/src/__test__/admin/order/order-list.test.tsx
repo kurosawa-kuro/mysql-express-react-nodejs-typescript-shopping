@@ -64,7 +64,7 @@ describe("Admin Product Management", () => {
         fireEvent.click(detailsLink);
         expect(await screen.findByText("Order 28")).toBeInTheDocument();
 
-        const testPayButton = await screen.findByText("Test Pay");
+        const testPayButton = await screen.findByText("Pay");
         fireEvent.click(testPayButton);
         expect(await screen.findByText("Order is paid")).toBeInTheDocument();
       });
