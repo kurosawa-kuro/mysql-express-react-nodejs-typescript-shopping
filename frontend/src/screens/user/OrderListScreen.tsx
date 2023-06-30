@@ -37,66 +37,70 @@ export const OrderListScreen: React.FC = () => {
 
   return (
     <>
-      <h1 className="mb-4 text-2xl font-semibold">Orders</h1>
+      <h1 className="mb-4 text-2xl font-semibold text-custom-blue-dark">
+        Orders
+      </h1>
       {loading && <Loader />}
       {error && <Message variant="danger">{error}</Message>}
       <div className="overflow-x-auto">
-        <table className="w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+        <table className="w-full divide-y divide-custom-blue-light">
+          <thead className="bg-custom-blue-lightest">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-darker">
                 ID
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-darker">
                 USER
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-darker">
                 DATE
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-darker">
                 TOTAL
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-darker">
                 PAID
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-darker">
                 DELIVERED
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"></th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-darker"></th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 bg-white">
+          <tbody className="divide-y divide-custom-blue-light bg-custom-blue-lightest">
             {orders &&
               orders.map((order: OrderInfo) => (
                 <tr key={order.id}>
-                  <td className="whitespace-nowrap px-6 py-4">{order.id}</td>
-                  <td className="whitespace-nowrap px-6 py-4">
+                  <td className="whitespace-nowrap px-6 py-4 text-custom-blue-dark">
+                    {order.id}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-4 text-custom-blue-dark">
                     {order.user && order.user.name}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4">
+                  <td className="whitespace-nowrap px-6 py-4 text-custom-blue-dark">
                     {order.createdAt?.toISOString().substring(0, 10)}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4">
+                  <td className="whitespace-nowrap px-6 py-4 text-custom-blue-dark">
                     ${order.price.totalPrice.toFixed(2)}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4">
+                  <td className="whitespace-nowrap px-6 py-4 text-custom-blue-dark">
                     {order.status.isPaid ? (
                       order.status.paidAt?.toISOString().substring(0, 10)
                     ) : (
-                      <FaTimes className="text-red-500" />
+                      <FaTimes className="text-custom-red-dark" />
                     )}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4">
+                  <td className="whitespace-nowrap px-6 py-4 text-custom-blue-dark">
                     {order.status.isDelivered ? (
                       order.status.deliveredAt?.toISOString().substring(0, 10)
                     ) : (
-                      <FaTimes className="text-red-500" />
+                      <FaTimes className="text-custom-red-dark" />
                     )}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                     <Link
                       to={`/orders/${order.id}`}
-                      className="text-indigo-600 hover:text-indigo-900"
+                      className="text-custom-blue-dark hover:text-custom-blue-darker"
                     >
                       Details
                     </Link>

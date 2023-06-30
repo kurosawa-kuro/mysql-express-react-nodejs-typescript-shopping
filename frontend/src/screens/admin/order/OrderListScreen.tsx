@@ -34,39 +34,41 @@ export const OrderListScreen: React.FC = () => {
 
   return (
     <>
-      <h1 className="mb-4 text-2xl font-semibold">Orders</h1>
+      <h1 className="mb-4 text-2xl font-semibold text-custom-blue-dark">
+        Orders
+      </h1>
       {loading && <Loader />}
-      {error && <Message variant="danger">{error}</Message>}
+      {error && <Message>{error}</Message>}
       <div className="overflow-x-auto">
-        <table className="w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+        <table className="w-full divide-y divide-custom-blue-light">
+          <thead className="bg-custom-blue-lightest">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
                 ID
               </th>
 
               {userInfo?.isAdmin && (
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
                   USER
                 </th>
               )}
 
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
                 DATE
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
                 TOTAL
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
                 PAID
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
                 DELIVERED
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"></th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark"></th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 bg-white">
+          <tbody className="divide-y divide-custom-blue-light ">
             {orders &&
               orders.map((order: OrderInfo) => (
                 <tr key={order.id}>
@@ -90,7 +92,7 @@ export const OrderListScreen: React.FC = () => {
                         .toISOString()
                         .substring(0, 10)
                     ) : (
-                      <FaTimes className="text-red-500" />
+                      <FaTimes className="text-custom-red-dark" />
                     )}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
@@ -99,13 +101,13 @@ export const OrderListScreen: React.FC = () => {
                         .toISOString()
                         .substring(0, 10)
                     ) : (
-                      <FaTimes className="text-red-500" />
+                      <FaTimes className="text-custom-red-dark" />
                     )}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                     <Link
                       to={`/orders/${order.id}`}
-                      className="text-indigo-600 hover:text-indigo-900"
+                      className="text-custom-blue-darkest hover:text-custom-blue-dark"
                     >
                       Details
                     </Link>

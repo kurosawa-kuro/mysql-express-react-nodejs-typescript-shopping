@@ -52,32 +52,38 @@ export const UserListScreen: React.FC = () => {
 
   return (
     <>
-      <h1 className="mb-4 text-3xl font-bold">Users</h1>
+      <h1 className="mb-4 text-3xl font-bold text-custom-blue-darkest">
+        Users
+      </h1>
       {loading && <Loader />}
       {error && <Message variant="danger">{error}</Message>}
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+      <table className="min-w-full divide-y divide-custom-blue-dark">
+        <thead className="bg-custom-blue-lightest">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
               ID
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
               NAME
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
               EMAIL
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
               ADMIN
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"></th>
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark"></th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-200 bg-white">
+        <tbody className="divide-y divide-custom-blue-light ">
           {users.map((user) => (
             <tr key={user.id}>
-              <td className="whitespace-nowrap px-6 py-4">{user.id}</td>
-              <td className="whitespace-nowrap px-6 py-4">{user.name}</td>
+              <td className="whitespace-nowrap px-6 py-4 text-custom-blue-darkest">
+                {user.id}
+              </td>
+              <td className="whitespace-nowrap px-6 py-4 text-custom-blue-darkest">
+                {user.name}
+              </td>
               <td className="whitespace-nowrap px-6 py-4">
                 <a
                   href={`mailto:${user.email}`}
@@ -90,7 +96,7 @@ export const UserListScreen: React.FC = () => {
                 {user.isAdmin ? (
                   <FaCheck className="text-custom-green-light" />
                 ) : (
-                  <FaTimes className="text-custom-red-light" />
+                  <FaTimes className="text-custom-red-light " />
                 )}
               </td>
               <td>
@@ -98,7 +104,7 @@ export const UserListScreen: React.FC = () => {
                   <>
                     <Link
                       to={`/admin/users/${user.id}/edit`}
-                      className="mr-2 inline-flex items-center rounded bg-custom-blue-dark px-2 py-1 text-white hover:bg-custom-blue-darkest"
+                      className="mr-2 inline-flex items-center rounded bg-custom-blue-darker px-2 py-1 text-white hover:bg-custom-blue-darkest"
                     >
                       <FaEdit size={18} className="mr-1" />
                       Edit

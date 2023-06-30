@@ -65,12 +65,14 @@ export const ProductListScreen: React.FC = () => {
   return (
     <>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-custom-blue-dark">Products</h1>
+        <h1 className="mt-2 text-3xl font-bold text-custom-blue-dark">
+          Products
+        </h1>
         {loading && <Loader />}
         {error && <Message variant="danger">{error}</Message>}
         <button
           onClick={createProductHandler}
-          className="rounded-md bg-custom-blue-dark p-2 text-white transition duration-150 hover:bg-custom-blue-darker hover:text-custom-blue-lightest"
+          className="rounded-md bg-custom-green-light p-2 text-white transition duration-150 hover:bg-custom-green-dark hover:text-custom-blue-lightest"
         >
           <FaPlus className="inline text-custom-blue-lightest" /> Create Product
         </button>
@@ -78,16 +80,28 @@ export const ProductListScreen: React.FC = () => {
 
       <>
         <div className="overflow-x-auto">
-          <table className="w-full whitespace-nowrap">
-            <thead>
-              <tr className="border-b bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                <th className="px-4 py-3">ID</th>
-                <th className="px-4 py-3">NAME</th>
-                <th className="px-4 py-3 ">IMAGE</th>
-                <th className="px-4 py-3">PRICE</th>
-                <th className="px-4 py-3">CATEGORY</th>
-                <th className="px-4 py-3">BRAND</th>
-                <th className="px-4 py-3"></th>
+          <table className="min-w-full divide-y divide-custom-blue-dark">
+            <thead className="bg-custom-blue-lightest">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
+                  ID
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
+                  NAME
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
+                  IMAGE
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
+                  PRICE
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
+                  CATEGORY
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark">
+                  BRAND
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-custom-blue-dark"></th>
               </tr>
             </thead>
             <tbody className="divide-y bg-white">
@@ -119,7 +133,7 @@ export const ProductListScreen: React.FC = () => {
                       <div className="flex items-center space-x-4 text-sm">
                         <Link
                           to={`/admin/products/${product.id}/edit`}
-                          className="mr-2 inline-flex items-center rounded bg-custom-blue-dark px-2 py-1 text-white hover:bg-custom-blue-darkest"
+                          className="mr-2 inline-flex items-center rounded bg-custom-blue-darker px-2 py-1 text-white hover:bg-custom-blue-darkest"
                         >
                           <FaEdit size={18} className="mr-1" />
                           Edit
