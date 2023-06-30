@@ -65,12 +65,12 @@ export const logoutUser = () =>
 export const createProduct = (product: ProductData | null) =>
   performRequest(apiClient.post("/api/products", product));
 
-export const getProducts = ({ keyword, pageNumber }: ProductSearch) =>
+export const readProducts = ({ keyword, pageNumber }: ProductSearch) =>
   performRequest(
     apiClient.get("/api/products", { params: { keyword, pageNumber } })
   );
 
-export const readProductById = (productId: number) =>
+export const readProductById = (productId: number): Promise<Product | null> =>
   performRequest(apiClient.get(`/api/products/${productId}`));
 
 export const updateProduct = (product: ProductData) =>

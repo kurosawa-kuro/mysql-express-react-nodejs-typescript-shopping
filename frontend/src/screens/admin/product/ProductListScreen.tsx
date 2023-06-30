@@ -6,7 +6,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { Message } from "../../../components/common/Message";
 import { Loader } from "../../../components/common/Loader";
 import { Paginate } from "../../../components/utils/Paginate";
-import { getProducts, deleteProduct } from "../../../services/api";
+import { readProducts, deleteProduct } from "../../../services/api";
 import { ProductList } from "../../../../../backend/interfaces";
 import { Product } from "@prisma/client";
 import { toast } from "react-toastify";
@@ -23,7 +23,7 @@ export const ProductListScreen: React.FC = () => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const data = await getProducts({
+        const data = await readProducts({
           pageNumber: Number(pageNumber),
           keyword: "",
         });
@@ -45,7 +45,7 @@ export const ProductListScreen: React.FC = () => {
     if (window.confirm("Are you sure")) {
       try {
         await deleteProduct(id);
-        const newProductsData = await getProducts({
+        const newProductsData = await readProducts({
           pageNumber: Number(pageNumber),
           keyword: "",
         });

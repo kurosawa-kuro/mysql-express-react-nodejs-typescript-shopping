@@ -10,7 +10,7 @@ import { Loader } from "../../components/common/Loader";
 import { Message } from "../../components/common/Message";
 import { Paginate } from "../../components/utils/Paginate";
 import { Product } from "../../components/features/Product";
-import { getProducts } from "../../services/api";
+import { readProducts } from "../../services/api";
 import { ProductList } from "../../../../backend/interfaces";
 import { Product as ProductType } from "@prisma/client";
 import { ProductCarousel } from "../../components/features/ProductCarousel";
@@ -25,7 +25,7 @@ const fetchProducts = async ({
   pageNumber,
 }: ProductsFetchParams): Promise<ProductList | null> => {
   try {
-    const data = await getProducts({ keyword, pageNumber });
+    const data = await readProducts({ keyword, pageNumber });
     return data;
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "An error occurred.";
