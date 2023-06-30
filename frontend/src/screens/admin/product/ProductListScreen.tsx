@@ -65,14 +65,14 @@ export const ProductListScreen: React.FC = () => {
   return (
     <>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Products</h1>
+        <h1 className="text-3xl font-bold text-custom-blue-dark">Products</h1>
         {loading && <Loader />}
         {error && <Message variant="danger">{error}</Message>}
         <button
           onClick={createProductHandler}
-          className="rounded-md bg-indigo-600 p-2 text-white transition duration-150 hover:bg-indigo-500"
+          className="rounded-md bg-custom-blue-dark p-2 text-white transition duration-150 hover:bg-custom-blue-darker hover:text-custom-blue-lightest"
         >
-          <FaPlus className="inline" /> Create Product
+          <FaPlus className="inline text-custom-blue-lightest" /> Create Product
         </button>
       </div>
 
@@ -97,7 +97,7 @@ export const ProductListScreen: React.FC = () => {
                     <td className="px-4 py-3">
                       <Link
                         to={`/admin/products/${product.id}/edit`}
-                        className="text-indigo-600 hover:text-indigo-900"
+                        className="text-custom-blue-dark hover:text-custom-blue-darker"
                       >
                         {product.id}
                       </Link>
@@ -110,16 +110,18 @@ export const ProductListScreen: React.FC = () => {
                         alt={product.name}
                       />
                     </td>
-                    <td className="px-4 py-3">${product.price}</td>
+                    <td className="px-4 py-3 text-custom-blue-dark">
+                      ${product.price}
+                    </td>
                     <td className="px-4 py-3">{product.category}</td>
                     <td className="px-4 py-3">{product.brand}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center space-x-4 text-sm">
                         <Link
                           to={`/admin/products/${product.id}/edit`}
-                          className="rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
+                          className="rounded bg-custom-blue-dark px-2 py-1 text-white hover:bg-custom-blue-darker hover:text-custom-blue-lightest"
                         >
-                          <FaEdit />
+                          <FaEdit className="text-custom-blue-lightest" />
                         </Link>
                         <button
                           data-testid="delete-button"
@@ -128,7 +130,7 @@ export const ProductListScreen: React.FC = () => {
                           }
                           className="rounded bg-red-500 px-2 py-1 text-white hover:bg-red-600"
                         >
-                          <FaTrash />
+                          <FaTrash className="text-custom-blue-lightest" />
                         </button>
                       </div>
                     </td>

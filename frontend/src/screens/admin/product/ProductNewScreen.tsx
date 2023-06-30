@@ -72,7 +72,7 @@ export const ProductNewScreen: React.FC = () => {
         Go Back
       </Link>
       <div className="mx-auto mt-4 w-full max-w-md">
-        <h1 className="mb-4 text-center text-2xl font-semibold">
+        <h1 className="mb-4 text-center text-2xl font-semibold text-custom-blue-dark">
           Create Product
         </h1>
         {loading && <Loader />}
@@ -81,33 +81,39 @@ export const ProductNewScreen: React.FC = () => {
           <input type="hidden" name="remember" value="true" />
           <div className="-space-y-px rounded-md shadow-sm">
             <div>
-              <label htmlFor="name">Name</label>
+              <label htmlFor="name" className="text-custom-blue-dark">
+                Name
+              </label>
               <input
                 id="name"
                 name="name"
                 type="name"
                 required
-                className="mb-4 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="mt-2 mb-4 relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 placeholder="Enter name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="price">Price</label>
+              <label htmlFor="price" className="text-custom-blue-dark">
+                Price
+              </label>
               <input
                 id="price"
                 name="price"
                 type="number"
                 required
-                className="mb-4 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="mt-2 mb-4 relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 placeholder="Enter price"
                 value={price}
                 onChange={(e) => setPrice(Number(e.target.value))}
               />
             </div>
             <div>
-              <label htmlFor="image-file">Image File</label>
+              <label htmlFor="image-file" className="text-custom-blue-dark">
+                Image File
+              </label>
               {image && (
                 <img
                   className="w-40"
@@ -122,7 +128,7 @@ export const ProductNewScreen: React.FC = () => {
                 name="image"
                 type="text"
                 required
-                className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 placeholder="Enter image url"
                 value={image
                   .replace(/\\/g, "/")
@@ -133,68 +139,75 @@ export const ProductNewScreen: React.FC = () => {
                 id="image-file"
                 name="image-file"
                 type="file"
-                className="mb-4 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className=" mb-4 relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 onChange={uploadFileHandler}
               />
             </div>
             <div>
-              <label htmlFor="brand">Brand</label>
+              <label htmlFor="brand" className="text-custom-blue-dark">
+                Brand
+              </label>
               <input
                 id="brand"
                 name="brand"
                 type="text"
                 required
-                className="mb-4 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="mt-2 mb-4 relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 placeholder="Enter brand"
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="countInStock">Count In Stock</label>
+              <label htmlFor="countInStock" className="text-custom-blue-dark">
+                Count In Stock
+              </label>
               <input
                 id="countInStock"
                 name="countInStock"
                 type="number"
                 required
-                className="mb-4 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="mt-2 mb-4 relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 placeholder="Enter countInStock"
                 value={countInStock}
                 onChange={(e) => setCountInStock(Number(e.target.value))}
               />
             </div>
             <div>
-              <label htmlFor="category">Category</label>
+              <label htmlFor="category" className="text-custom-blue-dark">
+                Category
+              </label>
               <input
                 id="category"
                 name="category"
                 type="text"
                 required
-                className="mb-4 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="mt-2 mb-4 relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 placeholder="Enter category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="description">Description</label>
+              <label htmlFor="description" className="text-custom-blue-dark">
+                Description
+              </label>
               <input
                 id="description"
                 name="description"
                 type="text"
                 required
-                className="mb-4 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="mt-2 mb-4 relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 placeholder="Enter description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
           </div>
-
           <div>
             <button
               type="submit"
-              className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-custom-blue-dark hover:bg-custom-blue-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-blue-dark"
             >
               Create
             </button>
