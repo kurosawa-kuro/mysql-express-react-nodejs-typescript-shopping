@@ -89,7 +89,7 @@ export const ProductNewScreen: React.FC = () => {
                 name="name"
                 type="name"
                 required
-                className="mt-2 mb-4 relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
+                className="relative mb-4 mt-2 block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 placeholder="Enter name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -104,7 +104,7 @@ export const ProductNewScreen: React.FC = () => {
                 name="price"
                 type="number"
                 required
-                className="mt-2 mb-4 relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
+                className="relative mb-4 mt-2 block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 placeholder="Enter price"
                 value={price}
                 onChange={(e) => setPrice(Number(e.target.value))}
@@ -139,7 +139,7 @@ export const ProductNewScreen: React.FC = () => {
                 id="image-file"
                 name="image-file"
                 type="file"
-                className=" mb-4 relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
+                className=" relative mb-4 block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 onChange={uploadFileHandler}
               />
             </div>
@@ -152,7 +152,7 @@ export const ProductNewScreen: React.FC = () => {
                 name="brand"
                 type="text"
                 required
-                className="mt-2 mb-4 relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
+                className="relative mb-4 mt-2 block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 placeholder="Enter brand"
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
@@ -167,7 +167,7 @@ export const ProductNewScreen: React.FC = () => {
                 name="countInStock"
                 type="number"
                 required
-                className="mt-2 mb-4 relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
+                className="relative mb-4 mt-2 block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 placeholder="Enter countInStock"
                 value={countInStock}
                 onChange={(e) => setCountInStock(Number(e.target.value))}
@@ -182,7 +182,7 @@ export const ProductNewScreen: React.FC = () => {
                 name="category"
                 type="text"
                 required
-                className="mt-2 mb-4 relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
+                className="relative mb-4 mt-2 block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 placeholder="Enter category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
@@ -197,7 +197,7 @@ export const ProductNewScreen: React.FC = () => {
                 name="description"
                 type="text"
                 required
-                className="mt-2 mb-4 relative block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
+                className="relative mb-4 mt-2 block w-full appearance-none rounded-none border border-custom-blue-light px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-custom-blue-dark focus:outline-none focus:ring-custom-blue-dark sm:text-sm"
                 placeholder="Enter description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -207,7 +207,7 @@ export const ProductNewScreen: React.FC = () => {
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-custom-blue-dark hover:bg-custom-blue-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-blue-dark"
+              className="group relative flex w-full justify-center rounded-md border border-transparent bg-custom-blue-dark px-4 py-2 text-sm font-medium text-white hover:bg-custom-blue-darkest focus:outline-none focus:ring-2 focus:ring-custom-blue-dark focus:ring-offset-2"
             >
               Create
             </button>

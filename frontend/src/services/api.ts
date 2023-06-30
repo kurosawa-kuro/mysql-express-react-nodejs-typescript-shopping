@@ -92,10 +92,10 @@ export const createOrder = (order: OrderData) =>
 export const readOrderById = (id: number) =>
   performRequest(apiClient.get(`/api/orders/${id}`));
 
-export const getMyOrders = () =>
+export const readMyOrders = () =>
   performRequest(apiClient.get("/api/orders/mine"));
 
-export const getOrders = async () =>
+export const readAllOrders = async () =>
   performRequest(apiClient.get("/api/orders"));
 
 export const updateOrderToPaid = (orderId: number, details: any) =>
