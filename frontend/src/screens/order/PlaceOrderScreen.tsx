@@ -21,7 +21,6 @@ export const PlaceOrderScreen: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Calculate prices
   const itemsPrice = cartItems.reduce(
     (acc: number, item: { product: { price: number }; qty: number }) => {
       return acc + item.product.price * item.qty;
