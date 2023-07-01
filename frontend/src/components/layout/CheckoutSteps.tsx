@@ -21,10 +21,10 @@ export const CheckoutSteps: React.FC<CheckoutStepsProps> = ({
       <div>
         {step1 ? (
           <Link to="/login" className="text-blue-500">
-            Sign In
+            Login In
           </Link>
         ) : (
-          <span className="text-gray-500">Sign In</span>
+          <span className="text-gray-500">Login In</span>
         )}
       </div>
 
