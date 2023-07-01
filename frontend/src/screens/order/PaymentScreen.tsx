@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 // Internal Imports
 import { useCartStore } from "../../state/store";
-import { FormContainer } from "../../components/forms/FormContainer";
+import { FormContainer } from "../../components/layout/FormContainer";
 import { CheckoutSteps } from "../../components/layout/CheckoutSteps";
 
 export const PaymentScreen: React.FC = () => {

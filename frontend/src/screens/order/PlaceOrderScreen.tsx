@@ -12,7 +12,7 @@ import { createOrder } from "../../services/api";
 import { useCartStore, CartStore } from "../../state/store";
 import { useAuthStore } from "../../state/store";
 import { OrderData } from "../../../../backend/interfaces";
-import { FormContainer } from "../../components/forms/FormContainer";
+import { FormContainer } from "../../components/layout/FormContainer";
 
 export const PlaceOrderScreen: FC = () => {
   const navigate = useNavigate();

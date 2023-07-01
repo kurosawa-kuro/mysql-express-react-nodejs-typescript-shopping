@@ -7,7 +7,7 @@ import { uploadProductImage, createProduct } from "../../../services/api";
 import { Loader } from "../../../components/common/Loader";
 import { Message } from "../../../components/common/Message";
 import { ProductData } from "../../../../../backend/interfaces";
-import { FormContainer } from "../../../components/forms/FormContainer";
+import { FormContainer } from "../../../components/layout/FormContainer";
 
 export const ProductNewScreen: React.FC = () => {
   const navigate = useNavigate();

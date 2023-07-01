@@ -12,6 +12,7 @@ import { useCartStore } from "../../state/store";
 import { readProductById } from "../../services/api";
 import { Product } from "@prisma/client";
 import { Rating } from "../../components/features/Rating";
+import { Container } from "../../components/layout/Container";
 // import Meta from "../../components/helpers/Meta";
 
 export const ProductScreen: React.FC = () => {
@@ -59,7 +60,7 @@ export const ProductScreen: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto ">
+    <Container>
       <Link className="my-3 text-blue-500" to="/">
         Go Back
       </Link>
@@ -134,6 +135,6 @@ export const ProductScreen: React.FC = () => {
           </div>
         </div>
       </>
-    </div>
+    </Container>
   );
 };

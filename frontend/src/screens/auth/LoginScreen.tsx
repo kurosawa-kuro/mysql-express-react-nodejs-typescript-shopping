@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // Internal Imports
-import { FormContainer } from "../../components/forms/FormContainer";
+import { FormContainer } from "../../components/layout/FormContainer";
 import { Loader } from "../../components/common/Loader";
 import { loginUser } from "../../services/api";
 import { useAuthStore } from "../../state/store";

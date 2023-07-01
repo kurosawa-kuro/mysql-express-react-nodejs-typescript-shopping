@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { FormContainer } from "../../components/forms/FormContainer";
+import { FormContainer } from "../../components/layout/FormContainer";
 import { Loader } from "../../components/common/Loader";
 import { registerUser } from "../../services/api";
 import { useAuthStore } from "../../state/store";
