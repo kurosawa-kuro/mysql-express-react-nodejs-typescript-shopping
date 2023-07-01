@@ -6,6 +6,7 @@ import { Loader } from "../../components/common/Loader";
 import { updateUserProfile } from "../../services/api"; // Import the api functions
 import { useAuthStore } from "../../state/store";
 import { Message } from "../../components/common/Message";
+
 export const ProfileScreen: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -59,7 +60,7 @@ export const ProfileScreen: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4">
+    <>
       <div className="mx-auto w-full px-2 md:w-1/3">
         <h1 className="mb-2 mt-2 text-center  text-3xl font-bold text-custom-blue-dark">
           User Profile
@@ -148,6 +149,6 @@ export const ProfileScreen: React.FC = () => {
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 };

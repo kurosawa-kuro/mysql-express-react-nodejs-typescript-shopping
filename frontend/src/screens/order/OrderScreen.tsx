@@ -82,7 +82,7 @@ export const OrderScreen = () => {
   }
 
   return (
-    <div className="py-6">
+    <>
       <h1 className="mb-2 mt-2 text-center  text-3xl font-bold text-custom-blue-dark">
         Order {order.id}
       </h1>
@@ -234,6 +234,6 @@ export const OrderScreen = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

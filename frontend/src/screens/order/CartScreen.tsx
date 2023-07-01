@@ -39,7 +39,7 @@ export const CartScreen: React.FC = () => {
     .toFixed(2);
 
   return (
-    <div>
+    <>
       <Link className="my-3 text-blue-500" to="/">
         Go Back
       </Link>
@@ -117,6 +117,6 @@ export const CartScreen: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

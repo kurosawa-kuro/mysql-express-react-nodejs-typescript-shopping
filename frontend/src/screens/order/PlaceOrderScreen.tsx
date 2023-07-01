@@ -12,7 +12,6 @@ import { createOrder } from "../../services/api";
 import { useCartStore, CartStore } from "../../state/store";
 import { useAuthStore } from "../../state/store";
 import { OrderData } from "../../../../backend/interfaces";
-import { FormContainer } from "../../components/layout/FormContainer";
 
 export const PlaceOrderScreen: FC = () => {
   const navigate = useNavigate();
@@ -75,13 +74,14 @@ export const PlaceOrderScreen: FC = () => {
   };
 
   return (
-    <FormContainer>
+    <div>
       <CheckoutSteps step1 step2 step3 step4 />
-      {loading && <Loader />}
-      {error && <Message variant="danger">{error}</Message>}
+
       <h1 className="mb-2 mt-2 text-center  text-3xl font-bold text-custom-blue-dark">
         Place Order
       </h1>
+      {loading && <Loader />}
+      {error && <Message variant="danger">{error}</Message>}
       <div className="-mx-2 flex flex-wrap">
         <div className="mb-4 w-full px-2 md:w-2/3">
           <div className="rounded-lg bg-white p-4 shadow-md">
@@ -159,6 +159,6 @@ export const PlaceOrderScreen: FC = () => {
           </div>
         </div>
       </div>
-    </FormContainer>
+    </div>
   );
 };

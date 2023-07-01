@@ -10,9 +10,9 @@ export const FormContainer: React.FC<FormContainerProps> = ({
   children,
 }: FormContainerProps) => {
   return (
-    <div className="container mx-auto px-4">
+    <div className="mx-auto px-4">
       <div className="mt-4 flex justify-center">
-        <div className="w-full bg-custom-blue-lightest p-4 md:w-1/2   ">
+        <div className="w-full bg-custom-blue-lightest p-4 md:w-1/2">
           {children}
         </div>
       </div>

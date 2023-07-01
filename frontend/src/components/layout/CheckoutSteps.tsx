@@ -17,7 +17,7 @@ export const CheckoutSteps: React.FC<CheckoutStepsProps> = ({
   step4,
 }) => {
   return (
-    <div className="mb-4 flex justify-center space-x-4">
+    <div className="my-4 flex justify-center space-x-4">
       <div>
         {step1 ? (
           <Link to="/login" className="text-blue-500">
