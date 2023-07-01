@@ -40,7 +40,12 @@ export const CartScreen: React.FC = () => {
 
   return (
     <div>
-      <h2 className="mb-4 text-2xl font-bold">Shopping Cart</h2>
+      <Link className="my-3 text-blue-500" to="/">
+        Go Back
+      </Link>
+      <h1 className="mb-2 mt-2 text-center  text-3xl font-bold text-custom-blue-dark">
+        Shopping Cart
+      </h1>
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-2/3">
           {cartItems.length === 0 ? (

@@ -52,7 +52,7 @@ export const UserListScreen: React.FC = () => {
 
   return (
     <>
-      <h1 className="mb-4 text-3xl font-bold text-custom-blue-darkest">
+      <h1 className="mb-2 mt-2 text-center  text-3xl font-bold text-custom-blue-dark">
         Users
       </h1>
       {loading && <Loader />}

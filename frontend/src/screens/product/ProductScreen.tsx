@@ -59,13 +59,16 @@ export const ProductScreen: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto ">
       <Link className="my-3 text-blue-500" to="/">
         Go Back
       </Link>
 
       <>
         {/* <Meta title={product.name} description={product.description} /> */}
+        <h1 className="mb-2 mt-2 text-center  text-3xl font-bold text-custom-blue-dark">
+          Product
+        </h1>
         <div className="-mx-2 flex flex-wrap">
           {loading && <Loader />}
           {error && <Message variant="danger">{error}</Message>}

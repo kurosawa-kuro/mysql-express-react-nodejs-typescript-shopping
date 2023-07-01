@@ -109,7 +109,7 @@ export const ProductEditScreen: React.FC = () => {
         Go Back
       </Link>
       <div className="mx-auto mt-4 w-full max-w-md">
-        <h1 className="mb-4 text-center text-2xl font-semibold">
+        <h1 className="mb-2 mt-2 text-center  text-3xl font-bold text-custom-blue-dark">
           Edit Product
         </h1>
         {loading && <Loader />}

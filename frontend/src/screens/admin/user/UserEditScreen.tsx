@@ -65,7 +65,9 @@ export const UserEditScreen: React.FC = () => {
         Go Back
       </Link>
       <div className="mx-auto w-full max-w-xs">
-        <h1 className="mb-3 text-2xl font-bold">Edit User</h1>
+        <h1 className="mb-2 mt-2 text-center  text-3xl font-bold text-custom-blue-dark">
+          Edit User
+        </h1>
         {loading && <Loader />}
         {error && <Message variant="danger">{error}</Message>}
         <form

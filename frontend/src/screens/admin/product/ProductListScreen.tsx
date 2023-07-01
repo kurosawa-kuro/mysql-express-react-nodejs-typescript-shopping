@@ -64,20 +64,19 @@ export const ProductListScreen: React.FC = () => {
 
   return (
     <>
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="mt-2 text-3xl font-bold text-custom-blue-dark">
+      <>
+        <h1 className="mb-2 mt-2 text-center text-3xl font-bold text-custom-blue-dark">
           Products
         </h1>
         {loading && <Loader />}
         {error && <Message variant="danger">{error}</Message>}
-        <button
-          onClick={createProductHandler}
-          className="rounded-md bg-custom-green-light p-2 text-white transition duration-150 hover:bg-custom-green-dark hover:text-custom-blue-lightest"
-        >
-          <FaPlus className="inline text-custom-blue-lightest" /> Create Product
-        </button>
-      </div>
-
+      </>
+      <button
+        onClick={createProductHandler}
+        className="mb-2 rounded-md bg-custom-green-light p-2 text-white transition duration-150 hover:bg-custom-green-dark hover:text-custom-blue-lightest"
+      >
+        <FaPlus className="inline text-custom-blue-lightest" /> Create Product
+      </button>
       <>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-custom-blue-dark">

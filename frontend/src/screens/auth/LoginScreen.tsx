@@ -48,7 +48,9 @@ export const LoginScreen = () => {
 
   return (
     <FormContainer>
-      <h1 className="mb-6 text-3xl font-bold text-custom-blue-dark">Log in</h1>
+      <h1 className="mb-2 mt-2 text-center  text-3xl font-bold text-custom-blue-dark">
+        Log in
+      </h1>
       {loading && <Loader />}
       <form onSubmit={submitHandler}>
         {fields.map((field, index) => (

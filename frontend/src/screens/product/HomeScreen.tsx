@@ -61,7 +61,7 @@ export const HomeScreen: React.FC = () => {
         </Link>
       )}
 
-      <h1 className="mt-4 text-2xl font-semibold text-gray-700">
+      <h1 className="mb-2 mt-2 text-center  text-3xl font-bold text-custom-blue-dark">
         Latest Products
       </h1>
 

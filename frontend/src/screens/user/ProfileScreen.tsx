@@ -61,7 +61,9 @@ export const ProfileScreen: React.FC = () => {
   return (
     <div className="container mx-auto px-4">
       <div className="mx-auto w-full px-2 md:w-1/3">
-        <h2 className="mb-4 text-2xl font-bold">User Profile</h2>
+        <h1 className="mb-2 mt-2 text-center  text-3xl font-bold text-custom-blue-dark">
+          User Profile
+        </h1>
         {loading && <Loader />}
         {error && <Message variant="danger">{error}</Message>}
         <form

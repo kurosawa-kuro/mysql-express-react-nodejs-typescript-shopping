@@ -37,7 +37,9 @@ export const ShippingScreen: React.FC = () => {
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 />
-      <h1 className="mb-4 text-3xl">Shipping</h1>
+      <h1 className="mb-2 mt-2 text-center  text-3xl font-bold text-custom-blue-dark">
+        Shipping
+      </h1>
       <form onSubmit={submitHandler}>
         <div className="mb-4" id="address">
           <label className="mb-2 block text-sm font-bold text-gray-700">

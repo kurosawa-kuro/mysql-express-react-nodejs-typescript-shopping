@@ -34,7 +34,7 @@ export const OrderListScreen: React.FC = () => {
 
   return (
     <>
-      <h1 className="mb-4 text-2xl font-semibold text-custom-blue-dark">
+      <h1 className="mb-2 mt-2 text-center  text-3xl font-bold text-custom-blue-dark">
         Orders
       </h1>
       {loading && <Loader />}

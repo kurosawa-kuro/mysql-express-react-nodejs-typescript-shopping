@@ -83,7 +83,9 @@ export const OrderScreen = () => {
 
   return (
     <div className="py-6">
-      <h1 className="mb-6 text-3xl font-bold">Order {order.id}</h1>
+      <h1 className="mb-2 mt-2 text-center  text-3xl font-bold text-custom-blue-dark">
+        Order {order.id}
+      </h1>
       {loading && <Loader />}
       {error && <Message variant="danger">{error}</Message>}
       <div className="-mx-4 flex flex-wrap">
@@ -206,7 +208,7 @@ export const OrderScreen = () => {
                 ) : (
                   <button
                     onClick={onApproveTest}
-                    className="mt-4 w-full rounded bg-custom-green-light hover:bg-custom-green-dark py-2 text-white"
+                    className="mt-4 w-full rounded bg-custom-green-light py-2 text-white hover:bg-custom-green-dark"
                     type="button"
                     disabled={order.orderProducts.length === 0}
                   >
