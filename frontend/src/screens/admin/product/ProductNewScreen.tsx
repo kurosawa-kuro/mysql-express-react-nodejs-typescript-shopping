@@ -136,6 +136,7 @@ export const ProductNewScreen: React.FC = () => {
                     .replace(/\\/g, "/")
                     .replace("/frontend/public", "")}
                   onChange={(e) => setImage(e.target.value)}
+                  style={{ display: "none" }}
                 />
                 <input
                   id="image-file"
