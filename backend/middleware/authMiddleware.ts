@@ -34,7 +34,7 @@ export const protect = asyncHandler(
         const { password, ...UserBase } = user;
         req.user = {
           ...UserBase,
-          id: Number(decoded.userId),
+          id,
         } as UserInfo;
       }
 
