@@ -75,3 +75,8 @@ PS C:\Users\kuros\local_dev\full-stack-basic\shopping\mysql-express-react-nodejs
 ```
 PS C:\Users\kuros\local_dev\full-stack-basic\shopping\mysql-express-react-nodejs-typescript-shopping> npm test ./backend/__test__
 ```
+
+```
+PS C:\Users\kuros\local_dev\full-stack-basic\shopping\mysql-express-react-nodejs-typescript-shopping> npm run test
+PS C:\Users\kuros\local_dev\full-stack-basic\shopping\mysql-express-react-nodejs-typescript-shopping> npm run test:client
+```
