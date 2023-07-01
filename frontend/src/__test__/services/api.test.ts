@@ -1,4 +1,4 @@
-// frontend\src\services\__tests__\api.test.js
+// frontend\src\services\__tests__\api.test.ts
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { readProductById, loginUser, registerUser } from "../../services/api";
