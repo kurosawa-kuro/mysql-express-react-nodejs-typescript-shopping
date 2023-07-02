@@ -141,7 +141,7 @@ export const Header: React.FC = () => {
               className="flex items-center space-x-2 text-custom-blue-lighter"
             >
               <FaUser className="h-5 w-5 text-custom-blue-lightest" />
-              <span className="text-custom-blue-lightest">Sign In</span>
+              <span className="text-custom-blue-lightest">Log In</span>
             </Link>
           )}
           {userInfo && userInfo.isAdmin && (
